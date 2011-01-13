@@ -10,6 +10,18 @@ if ( !class_exists( 'dealertrend_api') ) {
 
     public $plugin_meta_data = array();
 
+    # Primary Orange API URL.
+    public $orange_api = array(
+      'production' => 'http://api.dealertrend.com',
+      'beta' => 'http://api.beta.dealertrend.com'
+    );
+
+    # Primary ADS (Auto Data Solutions) API URL
+    public $ads_api = array(
+      'production' => 'http://ads.dealertrend.com',
+      'beta' => 'http://ads.beta.dealertrend.com'
+    );
+
     # PHP 4 Constructor
     function dealertrend_api() {
 
@@ -34,7 +46,6 @@ if ( !class_exists( 'dealertrend_api') ) {
       $this->plugin_meta_data[ 'BaseURL' ] = WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) );
 
     } 
-
 
   } # End class definition.
 
