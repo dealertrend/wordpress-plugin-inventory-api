@@ -185,7 +185,6 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       return $data_array;
 
-      $company_info = json_decode(cached_include($this->orange_api.'/api/companies/'.$this->company_id, true));
     }
 
   } # End class definition.
