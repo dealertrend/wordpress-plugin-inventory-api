@@ -12,6 +12,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     # This will store all the WordPress meta information related to this plugin file.
     public $plugin_meta_data = array();
 
+    public $status = array(
+      'inventory_json' => false,
+      'company_information' => false
+    );
+
     # Primary Orange API URLs.
     public $orange_api = array(
       'production' => 'http://api.dealertrend.com',
@@ -32,8 +37,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     public $options = array(
       'company_information' =>
         array(
-          'id' => 0,
-          'country' => 'US'
+          'id' => 0
         )
     );
 
@@ -89,6 +93,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function initialize_admin_hooks() {
 
       add_menu_page( 'Dealertrend API Settings' , 'Dealertrend API' , 'manage_options' , 'dealertrend_api' , array( &$this , 'create_options_page' ) , 'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png' );
+      wp_register_style( 'dealertrend_api_admin', $this->plugin_meta_data['BaseURL'] . '/css/admin.css');
+      wp_enqueue_style( 'dealertrend_api_admin' );
+
 
     } # End initialize_admin_hooks()
 
@@ -132,6 +139,54 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       include( dirname( __FILE__ ) . '/admin/options.php' );
 
     } # End create_options_page()
+
+    function get_inventory() {
+
+      # Check to see if the data is cached.
+      $data_array = wp_cache_get( 'inventory_json', 'dealertrend_api' );
+
+      # If it's not cached, then let's pull a new one from Orange.
+      if ( $data_array == false ) { 
+        $data_json = wp_remote_get( $this->orange_api['production'] . '/' . $this->options['company_information']['id'] . '/inventory/vehicles.json?photo_view=0' );
+
+        # Storing the value this way because if you check the data 'inline' it can cause an error with WP_Error.
+        # E.G. Fatal error: Cannot use object of type WP_Error as array in dealertrend-api.php on line 153
+        # Related: http://wordpress.org/support/topic/cannot-use-object-of-type-wp_error-as-array-trying-to-import-wordpress-xml
+        $body = $data_json[ 'body' ];
+
+        # If we get a 200 back AND it's not empty.
+        if( $data_json[ 'headers' ][ 'status' ] == '200 OK' && trim( $body ) != '[]' ) {
+          $data_array = json_decode( $data_json[ 'body' ] );
+          wp_cache_add( 'inventory_json' , $data_array , 'dealertrend_api' , 0 );
+          $this->status[ 'inventory_json' ] = true;
+        }
+      }   
+
+      return $data_array;
+      
+    }
+
+    function get_company_information() {
+
+      # Check to see if the data is cached.
+      $data_array = wp_cache_get( 'company_information', 'dealertrend_api' );
+
+      # If it's not cached, then let's pull a new one from Orange.
+      if ( $data_array == false ) { 
+        $data_json = wp_remote_get( $this->orange_api['production'] . '/api/companies/' . $this->options['company_information']['id'] );
+
+        # If we get a 200 back AND it's not empty.
+        if( $data_json[ 'headers' ][ 'status' ] == '200 OK' && trim( $data_json[ 'body' ] ) != '[]' ) {
+          $data_array = json_decode( $data_json[ 'body' ] );
+          wp_cache_add( 'company_information' , $data_array , 'dealertrend_api' , 0 );
+          $this->status[ 'company_information' ] = true;
+        }
+      }   
+
+      return $data_array;
+
+      $company_info = json_decode(cached_include($this->orange_api.'/api/companies/'.$this->company_id, true));
+    }
 
   } # End class definition.
 
