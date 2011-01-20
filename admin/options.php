@@ -10,22 +10,30 @@
     }   
   }
 
-  $inventory_data = $dealertrend_api->get_inventory();
+  $start_feed_timer = timer_stop();
   $company_information = $dealertrend_api->get_company_information();
+  $stop_feed_timer = timer_stop();
+  $company_feed_timer_results = $stop_feed_timer - $start_feed_timer;
 
+  $start_feed_timer = timer_stop();
+  $inventory_data = $dealertrend_api->get_inventory();
+  $stop_feed_timer = timer_stop();
+  $inventory_feed_timer_results = $stop_feed_timer - $start_feed_timer;
+  
 ?>
 <div class="wrap">
   <div id="icon-dealertrend" class="icon32"><br /></div>
   <h2><?php echo $this->plugin_meta_data[ 'Name' ]; ?> Settings</h2>
-
-  <table>
-  </table>
 
   <table width="450">
     <caption><h3 class="alignleft">Inventory Information</h3></caption>
     <tr>
       <td width="125">Feed Status:</td>
       <td><?php echo ( $dealertrend_api->status[ 'inventory_json' ] === true ) ? '<span class="success">Loaded</span>' : '<span class="fail">Unavailable</span>' ?></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><small>Response time:<?php echo $inventory_feed_timer_results; ?> seconds</small></td>
     </tr>
   </table>
 
@@ -57,14 +65,18 @@
       <td><strong><?php echo $company_information->country_code; ?></strong></td>
     </tr>
     <?php endif; ?>
+    <tr>
+      <td>&nbsp;</td>
+      <td><small>Response time:<?php echo $company_feed_timer_results; ?> seconds</small></td>
+    </tr>
   </table>
 
   <form name="dealertrend_api_options_form" method="post" action="">
     <?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
-    <table class="form-table">
+    <table width="450">
       <caption><h3 class="title" align="left">Company Settings</h3></caption>
       <tr valign="top">
-        <th scope="row">Company ID:</th>
+        <td width="125">Company ID:</td>
         <td><input type="text" name="company_information[id]" value="<?php echo $dealertrend_api->options[ 'company_information' ][ 'id' ] ?>" /></td>
       </tr>
     </table>
