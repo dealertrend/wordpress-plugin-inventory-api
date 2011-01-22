@@ -1,3 +1,7 @@
-.success, .fail { font-weight:bold; }
+.success, .fail, .warning { font-weight:bold; }
 .success { color:green; }
 .fail { color:red; }
+.warning { color:red; }
+
+.long_input { width:200px; }
+small.status { font-weight:bold; }

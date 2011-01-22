@@ -4,6 +4,12 @@
  * Version: 1.0.0
  */
 
+# TODO: Create inventory template for displaying and navigating the inventory.
+# TODO: Allow for parameters to be passed back and forth.
+# TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
+# TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
+# TODO: DRY the WET code.
+
 # Sanity check.
 if ( !class_exists( 'dealertrend_api' ) ) {
 
@@ -12,32 +18,28 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     # This will store all the WordPress meta information related to this plugin file.
     public $plugin_meta_data = array();
 
+    # These are various default states for the plugin.
     public $status = array(
       'inventory_json' => false,
-      'company_information' => false
+      'inventory_json_request' => false,
+      'company_information' => false,
+      'company_information_request' => false
     );
-
-    # Primary Orange API URLs.
-    public $orange_api = array(
-      'production' => 'http://api.dealertrend.com',
-      'beta' => 'http://api.beta.dealertrend.com'
-    );
-
-    # Primary ADS (Auto Data Solutions) API URLs
-    public $ads_api = array(
-      'production' => 'http://ads.dealertrend.com',
-      'beta' => 'http://ads.beta.dealertrend.com'
-    );
+    
+    public $errors = array();
 
     # Default options:
     # These values are initially set when the plugin is activated on a new site instance.
     # If there are existing options for the site - it will use them instead.
-    # TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
-    # TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
     public $options = array(
       'company_information' =>
         array(
           'id' => 0
+        ),
+      'api' =>
+        array(
+          'vehicle_management_system' => NULL,
+          'vehicle_reference_system' => NULL
         )
     );
 
@@ -54,19 +56,96 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # Do we have options? If not, set the defaults - otherwise, load the existing options.
       if( !get_option( 'dealertrend_api_options' ) ) {
-        $this->notices[ 'admin' ][] = $this->plugin_data[ 'Name' ] . ' ' . $this->plugin_data[ 'Version' ] . ' Has Been Initialized';
+
         update_option( 'dealertrend_api_options' , $this->options );
+
+        $this->notices[ 'admin' ][] = '<span class="success">Sucess!</span> ' . $this->plugin_meta_data[ 'Name' ] . ' ' . $this->plugin_meta_data[ 'Version' ] . ' Has Been Installed!';
+        add_action( 'admin_notices' , array( &$this , 'display_admin_notices' ) );
+
       } else {
+
         $this->load_options();
+
       }
 
+      add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rule' ) , 1 );
+      add_action( 'init' , array( &$this , 'create_taxonomy' ) );
+      add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
+      add_action( 'template_redirect' , array( &$this , 'show_template' ) );
+
     } # End PHP 4 Constructor
+
+    function create_taxonomy() {
+
+      $labels = array(
+        'name' => _x( 'Inventory' , 'taxonomy general name' ),
+        'menu_name' => __( 'Inventory' ),
+      );
+
+      register_taxonomy(
+        'inventory',
+        array( 'page' ),
+        array(
+          'hierarchical' => true,
+          'labels' => $labels,
+          'show_ui' => false,
+          'query_var' => true,
+          'rewrite' => array( 'slug' => 'inventory' ),
+        )
+      );
+
+    } # End create_taxonomy()
+
+    function flush_rewrite_rules() {
+
+      global $wp_rewrite;
+
+      return $wp_rewrite->flush_rules();
+
+    } # End flush_rewrite_rules()
+
+    function add_rewrite_rule( $existing_rules ) {
+
+      $new_rule = array();
+
+      $new_rule[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+
+      return $new_rule + $existing_rules;
+
+    } # End add_rewrite_rule()
+
+    function show_template() {
+
+      global $wp_query;
+
+      $taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
+
+      if( $taxonomy == 'inventory' ) {
+
+        get_header();
+
+        $this->get_company_information();
+        $inventory = $this->get_inventory();
+        $this->display_inventory( $inventory );
+
+        get_footer();
+
+        exit;
+
+      }
+
+    } # End get_parameters()
 
     # Do we have any active notices our object needs to output?
     function display_admin_notices() {
 
+      if( !is_admin() )
+        return false;
+
       foreach( $this->notices[ 'admin' ] as $admin_notice ) {
+
         echo '<div id="message" class="updated"><p>' . $admin_notice . '</p></div>';
+
       }
 
     } # End display_admin_notices()
@@ -92,10 +171,12 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     # Load hooks that are needed for the admin screen.
     function initialize_admin_hooks() {
 
+      # Add a shortcut on the plugin management page, so that people can quickly get to the settings page of our plugin.
       add_menu_page( 'Dealertrend API Settings' , 'Dealertrend API' , 'manage_options' , 'dealertrend_api' , array( &$this , 'create_options_page' ) , 'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png' );
+      
+      # Load up the CSS for the adminstration screen.
       wp_register_style( 'dealertrend_api_admin', $this->plugin_meta_data['BaseURL'] . '/css/admin.css');
       wp_enqueue_style( 'dealertrend_api_admin' );
-
 
     } # End initialize_admin_hooks()
 
@@ -103,7 +184,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function add_plugin_settings_link( $links ) {
 
       $settings_link = '<a href="admin.php?page=dealertrend_api">Settings</a>'; 
+
       array_unshift( $links , $settings_link );
+
       return $links;
 
     } # End add_plugin_settings_link()
@@ -116,9 +199,6 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       $this->notices[ 'admin' ][] = 'Settings Saved';
 
       $this->load_options();
-
-      add_action( 'admin_notices' , array( &$this , 'display_admin_notices' ) );
-      do_action( 'admin_notices' );
 
     } # End save_options()
 
@@ -140,50 +220,104 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     } # End create_options_page()
 
+    function get_remote_file( $location , $option_key = NULL ) {
+
+      $data = NULL;
+
+      $response = wp_remote_get( $location );
+
+      if( is_wp_error( $response ) ) {
+
+        $this->errors[ $option_key] = $response->errors;
+        $this->status[ $option_key ] = false;
+
+      } else {
+
+        # We accessed the API.
+        $this->status[ $option_key ] = true;
+
+        # The API isn't happy with our parameters.
+        if( $response[ 'headers' ][ 'status' ] != '200 OK' )
+          return false;
+
+        $data = ( trim( $response[ 'body' ] ) != '[]' ) ? $response[ 'body' ] : false;
+
+      }
+
+      return $data;
+
+    } # End get_remote_file()
+
     function get_inventory() {
+
+      # Don't continue if we don't have the required company information.
+      if( !$this->status[ 'company_information' ] )
+        return false;
 
       # Check to see if the data is cached.
       $data_array = wp_cache_get( 'inventory_json', 'dealertrend_api' );
 
       # If it's not cached, then let's pull a new one from Orange.
-      if ( $data_array == false ) { 
-        $data_json = wp_remote_get( $this->orange_api['production'] . '/' . $this->options['company_information']['id'] . '/inventory/vehicles.json?photo_view=0' );
+      if ( $data_array == false ) {
 
-        # Storing the value this way because if you check the data 'inline' it can cause an error with WP_Error.
-        # E.G. Fatal error: Cannot use object of type WP_Error as array in dealertrend-api.php on line 153
-        # Related: http://wordpress.org/support/topic/cannot-use-object-of-type-wp_error-as-array-trying-to-import-wordpress-xml
-        $body = $data_json[ 'body' ];
+        # Get the file, store it's status in the given option key.
+        $data_json = $this->get_remote_file(
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?photo_view=0',
+          'inventory_json_request'
+        );
 
         # If we get a 200 back AND it's not empty.
-        if( $data_json[ 'headers' ][ 'status' ] == '200 OK' && trim( $body ) != '[]' ) {
-          $data_array = json_decode( $data_json[ 'body' ] );
+        if( $this->status[ 'inventory_json_request' ] && $data_json ) {
+          $data_array = json_decode( $data_json );
           wp_cache_add( 'inventory_json' , $data_array , 'dealertrend_api' , 0 );
           $this->status[ 'inventory_json' ] = true;
         }
+
       }   
 
       return $data_array;
-      
-    }
+
+    } # End get_inventory()
 
     function get_company_information() {
+
+      # Don't continue if we don't have the required API information.
+      if( !$this->options[ 'api' ][ 'vehicle_management_system' ] )
+        return false;
 
       # Check to see if the data is cached.
       $data_array = wp_cache_get( 'company_information', 'dealertrend_api' );
 
       # If it's not cached, then let's pull a new one from Orange.
-      if ( $data_array == false ) { 
-        $data_json = wp_remote_get( $this->orange_api['production'] . '/api/companies/' . $this->options['company_information']['id'] );
+      if ( $data_array == false ) {
 
-        # If we get a 200 back AND it's not empty.
-        if( $data_json[ 'headers' ][ 'status' ] == '200 OK' && trim( $data_json[ 'body' ] ) != '[]' ) {
-          $data_array = json_decode( $data_json[ 'body' ] );
+        # Get the file, store it's status in the given option key.
+        $data_json = $this->get_remote_file(
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ],
+          'company_information_request'
+        );
+
+        # If the result is false, then we were unable to retreive the file.
+        if( !$this->status[ 'company_information_request' ] ) {
+          $this->notices[ 'admin' ][] = '<span class="warning">Warning!</span> <strong>Unable to connect to provided address:</strong> ' . $this->errors[ 'company_information_request' ][ 'http_request_failed' ][ 0 ];
+          $this->display_admin_notices();
+        }
+
+        if( $this->status[ 'company_information_request' ] && $data_json ) {
+          $data_array = json_decode( $data_json );
           wp_cache_add( 'company_information' , $data_array , 'dealertrend_api' , 0 );
           $this->status[ 'company_information' ] = true;
         }
-      }   
+
+      }
 
       return $data_array;
+
+    } # End get_company_information()
+
+    function display_inventory( $inventory ) {
+
+      print_r( $inventory );
 
     }
 

@@ -6,6 +6,7 @@
     if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'dealertrend_api_options_update' ) ) die( 'Security check failed.' );
     if( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'update' ) {        
       $dealertrend_api->options[ 'company_information' ] = $_POST[ 'company_information' ];
+      $dealertrend_api->options[ 'api' ] = $_POST[ 'api' ];
       $dealertrend_api->save_options();
     }   
   }
@@ -73,6 +74,22 @@
 
   <form name="dealertrend_api_options_form" method="post" action="">
     <?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
+    <table width="450">
+      <caption><h3 class="title" align="left">Plugin Settings</h3></caption>
+      <tr>
+        <td colspan="2">
+          <p><strong>Note</strong>: The Inventory Feed and the Company Information Feed both depend on the Inventory API. They will not work without specifying one.</p>
+        </td>
+      </tr>
+      <tr valign="top">
+        <td width="200">Vehicle Management System:</td>
+        <td><input type="text" name="api[vehicle_management_system]" value="<?php echo $dealertrend_api->options[ 'api' ][ 'vehicle_management_system' ] ?>" class="long_input" /></td>
+      </tr>
+      <tr valign="top">
+        <td width="200">Vehicle Reference System:</td>
+        <td><input type="text" name="api[vehicle_reference_system]" value="<?php echo $dealertrend_api->options[ 'api' ][ 'vehicle_reference_system' ] ?>" class="long_input" /></td>
+      </tr>
+    </table>
     <table width="450">
       <caption><h3 class="title" align="left">Company Settings</h3></caption>
       <tr valign="top">
