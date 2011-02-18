@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: DealerTrend API Plugin
- * Version: 1.0.0
+ * Version: 3.0.0
  */
 
 # TODO: Create inventory template for displaying and navigating the inventory.
@@ -52,7 +52,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       add_action( 'admin_menu' , array( &$this , 'initialize_admin_hooks' ) );
 
       # Provide easy acess to the settings page.
-      add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ) , array( $this , 'add_plugin_settings_link' ) );
+      add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ) , array( $this , 'add_plugin_links' ) );
 
       # Do we have options? If not, set the defaults - otherwise, load the existing options.
       if( !get_option( 'dealertrend_api_options' ) ) {
@@ -133,31 +133,30 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         array_shift( $permalink_parameters );
         array_pop( $permalink_parameters );
 
-      # Defaults:
-      #
-      # /inventory/
-      #
-      # /inventory/(used|new|all)
-      # /inventory/(used|new|all)/
-      # /inventory/(used|new|all)/classification/
-      # /inventory/(used|new|all)/classification/make/
-      # /inventory/(used|new|all)/classification/make/model/
-      # /inventory/(used|new|all)/classification/make/model/city/
-      # /inventory/(used|new|all)/classification/make/model/city/state/
-      #
-      # /inventory/####/
-      # /inventory/####/make/
-      # /inventory/####/make/model/
-      # /inventory/####/make/model/vin/
-      # /inventory/####/make/model/vin/city/
-      # /inventory/####/make/model/vin/city/state/
-      # /inventory/####/make/model/city/
-      # /inventory/####/make/model/city/state/
-      #
-      # Questions:
-      #   -> VIN format?
-      #   -> Showcase format?
-
+        # Defaults:
+        #
+        # /inventory/
+        #
+        # /inventory/(used|new|all)
+        # /inventory/(used|new|all)/
+        # /inventory/(used|new|all)/classification/
+        # /inventory/(used|new|all)/classification/make/
+        # /inventory/(used|new|all)/classification/make/model/
+        # /inventory/(used|new|all)/classification/make/model/city/
+        # /inventory/(used|new|all)/classification/make/model/city/state/
+        #
+        # /inventory/####/
+        # /inventory/####/make/
+        # /inventory/####/make/model/
+        # /inventory/####/make/model/vin/
+        # /inventory/####/make/model/vin/city/
+        # /inventory/####/make/model/vin/city/state/
+        # /inventory/####/make/model/city/
+        # /inventory/####/make/model/city/state/
+        #
+        # Questions:
+        #   -> VIN format?
+        #   -> Showcase format?
 
         $this->display_inventory( $inventory );
 
@@ -213,12 +212,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     } # End initialize_admin_hooks()
 
-    # Add a shortcut to the settings page.
-    function add_plugin_settings_link( $links ) {
+    # Add a shortcut to the settings page and the readme file.
+    function add_plugin_links( $links ) {
 
       $settings_link = '<a href="admin.php?page=dealertrend_api">Settings</a>'; 
+      $readme_link = '<a href="' . $this->plugin_meta_data[ 'BaseURL' ] . '/readme.html">Documentation</a>'; 
 
       array_unshift( $links , $settings_link );
+      array_unshift( $links , $readme_link );
 
       return $links;
 
