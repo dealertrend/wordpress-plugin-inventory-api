@@ -125,7 +125,40 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_header();
 
         $this->get_company_information();
-        $inventory = $this->get_inventory();
+        $inventory = $this->get_inventory( array( 'year_from' => 2008, 'year_to' => 2008) );
+
+        $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $_SERVER[ 'REQUEST_URI' ] ) : array();
+        $server_parameters = isset( $_GET ) ? $_GET : NULL;
+
+        array_shift( $permalink_parameters );
+        array_pop( $permalink_parameters );
+
+      # Defaults:
+      #
+      # /inventory/
+      #
+      # /inventory/(used|new|all)
+      # /inventory/(used|new|all)/
+      # /inventory/(used|new|all)/classification/
+      # /inventory/(used|new|all)/classification/make/
+      # /inventory/(used|new|all)/classification/make/model/
+      # /inventory/(used|new|all)/classification/make/model/city/
+      # /inventory/(used|new|all)/classification/make/model/city/state/
+      #
+      # /inventory/####/
+      # /inventory/####/make/
+      # /inventory/####/make/model/
+      # /inventory/####/make/model/vin/
+      # /inventory/####/make/model/vin/city/
+      # /inventory/####/make/model/vin/city/state/
+      # /inventory/####/make/model/city/
+      # /inventory/####/make/model/city/state/
+      #
+      # Questions:
+      #   -> VIN format?
+      #   -> Showcase format?
+
+
         $this->display_inventory( $inventory );
 
         get_footer();
@@ -236,6 +269,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         # We accessed the API.
         $this->status[ $option_key ] = true;
 
+        if( !isset( $response ) )
+          return false;
+
         # The API isn't happy with our parameters.
         if( $response[ 'headers' ][ 'status' ] != '200 OK' )
           return false;
@@ -248,7 +284,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     } # End get_remote_file()
 
-    function get_inventory() {
+    function get_inventory( $parameters = array() ) {
+
+      $parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '0';
+
+      $parameter_string = http_build_query( $parameters , '' , ';' );
 
       # Don't continue if we don't have the required company information.
       if( !$this->status[ 'company_information' ] )
@@ -262,7 +302,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
-          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?photo_view=0',
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string,
           'inventory_json_request'
         );
 
@@ -316,6 +356,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     } # End get_company_information()
 
     function display_inventory( $inventory ) {
+
+      global $wp_rewrite;
 
       print_r( $inventory );
 
