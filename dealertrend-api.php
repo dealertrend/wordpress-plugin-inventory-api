@@ -1,14 +1,14 @@
 <?php
 /*
  * Plugin Name: DealerTrend API Plugin
+ * Description: Access to the Vehicle Management System and Vehicle Refrence System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
  * Version: 3.0.0
  */
 
 # TODO: Create inventory template for displaying and navigating the inventory.
-# TODO: Allow for parameters to be passed back and forth.
 # TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
 # TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
-# TODO: DRY the WET code.
+# TODO: Allow for custom permalink structures.
 
 # Sanity check.
 if ( !class_exists( 'dealertrend_api' ) ) {
