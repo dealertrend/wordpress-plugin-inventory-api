@@ -9,6 +9,7 @@
 # TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
 # TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
 # TODO: Allow for custom permalink structures.
+# TODO: Integrate showcase.
 
 # Sanity check.
 if ( !class_exists( 'dealertrend_api' ) ) {
@@ -40,7 +41,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         array(
           'vehicle_management_system' => NULL,
           'vehicle_reference_system' => NULL
-        )
+        ),
+      'template' => 'default'
     );
 
     # PHP 4 Constructor
@@ -50,6 +52,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       $this->load_plugin_meta_data();
 
       add_action( 'admin_menu' , array( &$this , 'initialize_admin_hooks' ) );
+      add_action( 'wp_print_styles' , array( &$this , 'initialize_front_hooks' ) );
 
       # Provide easy acess to the settings page.
       add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ) , array( $this , 'add_plugin_links' ) );
@@ -125,7 +128,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_header();
 
         $this->get_company_information();
-        $inventory = $this->get_inventory( array( 'year_from' => 2008, 'year_to' => 2008) );
+        $inventory = $this->get_inventory();
 
         $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $_SERVER[ 'REQUEST_URI' ] ) : array();
         $server_parameters = isset( $_GET ) ? $_GET : NULL;
@@ -148,15 +151,25 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         # /inventory/####/
         # /inventory/####/make/
         # /inventory/####/make/model/
+        # /inventory/####/make/model/city/
+        # /inventory/####/make/model/city/state/
+
         # /inventory/####/make/model/vin/
         # /inventory/####/make/model/vin/city/
         # /inventory/####/make/model/vin/city/state/
-        # /inventory/####/make/model/city/
-        # /inventory/####/make/model/city/state/
         #
         # Questions:
         #   -> VIN format?
         #   -> Showcase format?
+
+        # Post Meeting:
+        # 
+        # /inventory/(used|new|all|####)/
+        # /inventory/(used|new|all|####)/make/
+        # /inventory/(used|new|all|####)/make/model/
+        # /inventory/(used|new|all|####)/make/model/state/
+        # /inventory/(used|new|all|####)/make/model/state/city/
+        # /inventory/(used|new|all|####)/make/model/state/city/vin/
 
         $this->display_inventory( $inventory );
 
@@ -207,10 +220,18 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       add_menu_page( 'Dealertrend API Settings' , 'Dealertrend API' , 'manage_options' , 'dealertrend_api' , array( &$this , 'create_options_page' ) , 'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png' );
       
       # Load up the CSS for the adminstration screen.
-      wp_register_style( 'dealertrend_api_admin', $this->plugin_meta_data['BaseURL'] . '/css/admin.css');
+      wp_register_style( 'dealertrend_api_admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/css/admin.css' );
       wp_enqueue_style( 'dealertrend_api_admin' );
 
     } # End initialize_admin_hooks()
+
+    function initialize_front_hooks() {
+
+      $template_name = $this->options[ 'template' ];
+      wp_register_style( 'dealertrend_api_inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/templates/'. $template_name .'/style.css' );
+      wp_enqueue_style( 'dealertrend_api_inventory' );
+
+    } # End initialize_front_hooks()
 
     # Add a shortcut to the settings page and the readme file.
     function add_plugin_links( $links ) {
@@ -356,11 +377,29 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     } # End get_company_information()
 
+    function get_template( $template_name ) {
+
+
+    } # End get_templates()
+
     function display_inventory( $inventory ) {
 
       global $wp_rewrite;
 
-      print_r( $inventory );
+      $template_base_path = dirname( __FILE__ ) . '/templates';
+      $template_name = $this->options[ 'template' ];
+
+      if( $handle = opendir( $template_base_path ) ) {
+ 
+        while( false !== ( $file = readdir( $handle ) ) ) {
+          if( $file == $template_name ) {
+            include $template_base_path . '/' . $template_name . '/index.php';
+          }
+        }
+
+        closedir( $handle );
+ 
+      }
 
     }
 
