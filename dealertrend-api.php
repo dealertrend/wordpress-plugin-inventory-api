@@ -111,7 +111,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       $new_rule = array();
 
+      # Root: /inventory/
       $new_rule[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+      # Sale Class / Year: /inventory/(used|new|all|####)/
+      # Make: /inventory/(used|new|all|####)/make/
+      # Model: /inventory/(used|new|all|####)/make/model/
+      # State: /inventory/(used|new|all|####)/make/model/state/
+      # City: /inventory/(used|new|all|####)/make/model/state/city/
+      # VIN: /inventory/(used|new|all|####)/make/model/state/city/vin/
 
       return $new_rule + $existing_rules;
 
@@ -120,6 +127,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function show_template() {
 
       global $wp_query;
+      global $wp_rewrite;
 
       $taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
 
@@ -128,48 +136,60 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_header();
 
         $this->get_company_information();
-        $inventory = $this->get_inventory();
 
         $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $_SERVER[ 'REQUEST_URI' ] ) : array();
+
         $server_parameters = isset( $_GET ) ? $_GET : NULL;
 
         array_shift( $permalink_parameters );
         array_pop( $permalink_parameters );
 
-        # Defaults:
-        #
-        # /inventory/
-        #
-        # /inventory/(used|new|all)
-        # /inventory/(used|new|all)/
-        # /inventory/(used|new|all)/classification/
-        # /inventory/(used|new|all)/classification/make/
-        # /inventory/(used|new|all)/classification/make/model/
-        # /inventory/(used|new|all)/classification/make/model/city/
-        # /inventory/(used|new|all)/classification/make/model/city/state/
-        #
-        # /inventory/####/
-        # /inventory/####/make/
-        # /inventory/####/make/model/
-        # /inventory/####/make/model/city/
-        # /inventory/####/make/model/city/state/
+        $parameters = array();
 
-        # /inventory/####/make/model/vin/
-        # /inventory/####/make/model/vin/city/
-        # /inventory/####/make/model/vin/city/state/
-        #
-        # Questions:
-        #   -> VIN format?
-        #   -> Showcase format?
+        foreach( $permalink_parameters as $key => $value ) {
 
-        # Post Meeting:
-        # 
-        # /inventory/(used|new|all|####)/
-        # /inventory/(used|new|all|####)/make/
-        # /inventory/(used|new|all|####)/make/model/
-        # /inventory/(used|new|all|####)/make/model/state/
-        # /inventory/(used|new|all|####)/make/model/state/city/
-        # /inventory/(used|new|all|####)/make/model/state/city/vin/
+          switch( $key ) {
+
+            case 0:
+              $index = 'taxonomy';
+            case 1:
+              if( is_numeric( $value ) ) {
+                $index = 'year'; 
+              } else {
+                $index = 'saleclass';
+              }
+            case 2:
+              $index = 'make';
+            break;
+            case 3:
+              $index = 'model';
+            break;
+            case 4:
+              $index = 'state';
+            break;
+            case 5:
+              $index = 'city';
+            break;
+            case 6:
+              $index = 'vin';
+            break;
+            break;
+          }
+
+          $parameters[ $index ] = $value;
+
+        }
+
+        # Year hack.
+        # Because we have a parameter called "year" and WordPress tries to use it to pull post archives.
+        if( isset( $server_parameters[ 'vehicle_year' ] ) ) {
+          $server_parameters[ 'year' ] = $server_parameters[ 'vehicle_year' ];
+          unset( $server_parameters[ 'vehicle_year' ] );
+        }
+
+        $parameters = array_merge( $parameters , $server_parameters );
+
+        $inventory = $this->get_inventory( $parameters );
 
         $this->display_inventory( $inventory );
 
@@ -310,7 +330,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       $parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '0';
 
-      $parameter_string = http_build_query( $parameters , '' , ';' );
+      $parameter_string = http_build_query( $parameters , '' , '&' );
 
       # Don't continue if we don't have the required company information.
       if( !$this->status[ 'company_information' ] )
