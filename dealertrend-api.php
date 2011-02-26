@@ -5,7 +5,6 @@
  * Version: 3.0.0
  */
 
-# TODO: Create inventory template for displaying and navigating the inventory.
 # TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
 # TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
 # TODO: Allow for custom permalink structures.
@@ -152,12 +151,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
             case 0:
               $index = 'taxonomy';
+            break;
             case 1:
               if( is_numeric( $value ) ) {
                 $index = 'year'; 
               } else {
                 $index = 'saleclass';
               }
+            break;
             case 2:
               $index = 'make';
             break;
@@ -299,11 +300,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       $data = NULL;
 
-      $response = wp_remote_get( $location );
+      $response = wp_remote_get( $location , array( 'timeout' => 10 ) );
 
       if( is_wp_error( $response ) ) {
 
         $this->errors[ $option_key] = $response->errors;
+        $error_string = $response->errors[ 'http_request_failed' ][ 0 ];
+        error_log( get_bloginfo( 'url' ) . ': WARNING: ' . $error_string, 0 );
+        error_log( get_bloginfo( 'url' ) . ': REQUEST: ' . $location , 0 );
         $this->status[ $option_key ] = false;
 
       } else {
@@ -328,7 +332,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     function get_inventory( $parameters = array() ) {
 
-      $parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '0';
+      if( !isset( $parameters['vin'] )  ) {
+        $parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '1';
+      }
 
       $parameter_string = http_build_query( $parameters , '' , '&' );
 
