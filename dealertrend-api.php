@@ -125,6 +125,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     function show_template() {
 
+      global $wp;
       global $wp_query;
       global $wp_rewrite;
 
@@ -136,12 +137,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         $this->get_company_information();
 
-        $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $_SERVER[ 'REQUEST_URI' ] ) : array();
+        $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 
         $server_parameters = isset( $_GET ) ? $_GET : NULL;
-
-        array_shift( $permalink_parameters );
-        array_pop( $permalink_parameters );
 
         $parameters = array();
 
