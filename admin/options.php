@@ -20,6 +20,8 @@
   $inventory_data = $dealertrend_api->get_inventory();
   $stop_feed_timer = timer_stop();
   $inventory_feed_timer_results = $stop_feed_timer - $start_feed_timer;
+
+  $site_link = '<span style="white-space:nowrap;"><a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a></span>';
   
 ?>
 <div class="wrap">
@@ -76,18 +78,21 @@
     <?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
     <table width="450">
       <caption><h3 class="title" align="left">Plugin Settings</h3></caption>
-      <tr>
-        <td colspan="2">
-          <p><strong>Note</strong>: The Inventory Feed and the Company Information Feed both depend on the Inventory API. They will not work without specifying one.</p>
-        </td>
-      </tr>
       <tr valign="top">
         <td width="200">Vehicle Management System:</td>
         <td><input type="text" name="api[vehicle_management_system]" value="<?php echo $dealertrend_api->options[ 'api' ][ 'vehicle_management_system' ] ?>" class="long_input" /></td>
       </tr>
+      <tr valign="bottom">
+        <td width="200"><small>Provides inventory data.</small></td>
+        <td><small>Inventory will not be available without providing a valid VMS from <?php echo $site_link; ?></small></td>
+      </tr>
       <tr valign="top">
         <td width="200">Vehicle Reference System:</td>
         <td><input type="text" name="api[vehicle_reference_system]" value="<?php echo $dealertrend_api->options[ 'api' ][ 'vehicle_reference_system' ] ?>" class="long_input" /></td>
+      </tr>
+      <tr valign="bottom">
+        <td width="200"><small>Provides vehicle reference data.</small></td>
+        <td><small>Showcase and certain tools will not be available without providing a valid VRS from <?php echo $site_link; ?></a></small></td>
       </tr>
     </table>
     <table width="450">
@@ -95,6 +100,10 @@
       <tr valign="top">
         <td width="125">Company ID:</td>
         <td><input type="text" name="company_information[id]" value="<?php echo $dealertrend_api->options[ 'company_information' ][ 'id' ] ?>" /></td>
+      </tr>
+      <tr valign="bottom">
+        <td width="200"><small>Pulls inventory from a specific dealership.</small></td>
+        <td><small>Inventory will not be retreived without providing a valid company ID from <?php echo $site_link; ?></small></td>
       </tr>
     </table>
     <input type="hidden" name="action" value="update" />
