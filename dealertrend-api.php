@@ -247,7 +247,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function initialize_front_hooks() {
 
       $template_name = $this->options[ 'template' ];
-      wp_register_style( 'dealertrend_api_inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/templates/'. $template_name .'/style.css' );
+      wp_register_style( 'dealertrend_api_inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/views/inventory/'. $template_name .'_style.css' );
       wp_enqueue_style( 'dealertrend_api_inventory' );
 
     } # End initialize_front_hooks()
@@ -410,14 +410,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       global $wp_rewrite;
 
-      $template_base_path = dirname( __FILE__ ) . '/templates';
+      $template_base_path = dirname( __FILE__ ) . '/views/inventory';
       $template_name = $this->options[ 'template' ];
 
       if( $handle = opendir( $template_base_path ) ) {
  
         while( false !== ( $file = readdir( $handle ) ) ) {
-          if( $file == $template_name ) {
-            include $template_base_path . '/' . $template_name . '/index.php';
+          if( $file == $template_name . '_index.php' ) {
+            include( $template_base_path . '/' . $template_name . '_index.php' );
           }
         }
 
