@@ -1,16 +1,37 @@
-#inventory-listing { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px;  }
-.row { clear:both; }
-.cell { float:left; position:relative; }
-.cell.left,
-.cell.right { width:35%;  }
-.cell.right {  }
-.cell.photo { padding:5px; border:1px solid #1e1e1e; margin:0 10px 10px 0; background:white; z-index:9999; }
-.cell.headline { float:none; font-size:16px; text-transform:capitalize; background:#333; padding:5px; color:white; margin-bottom:5px; }
-.cell .year,
-.cell .make,
-.cell .model,
-.cell .trim,
-.cell .doors,
-.cell .body-style { margin-right:5px; font-size:14px; line-height:18px; color:#000; padding: 5px 0; }
-.cell .vin { font-weight:bold; font-size:14px; display:block; }
-.cell .stock-number { display:block;  }
+#inventory-listing { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; margin:10px 0; display:block; clear:both;  }
+#inventory-listing .item { background:#e1e1e1; padding:10px; margin:10px 0; height:160px; clear:both; border:2px solid #1e1e1e; color:#666; position:relative; }
+#inventory-listing .item:hover { background:#bbb; color:black; }
+#inventory-listing .item:hover .details { color:black; }
+#inventory-listing .photo { height:150px; float:left; margin-right:10px; padding:5px; background:#1e1e1e; }
+#inventory-listing .photo:hover { background:#e1e1e1; }
+#inventory-listing .left-column,
+#inventory-listing .middle-column,
+#inventory-listing .right-column { float:left; width:25%; }
+
+#inventory-listing .middle-column:hover { color:red; }
+
+#inventory-listing .headline a { display:block; font-size:16px; line-height:30px; background:#1e1e1e; color:white; text-transform:uppercase; margin-bottom:10px; text-decoration:none; }
+#inventory-listing .item:hover .headline a { font-weight:bold; }
+#inventory-listing .item:hover .headline:hover a:hover { color:red; }
+#inventory-listing .doors { display:none; }
+#inventory-listing .engine { display:block; float:left; margin-right:5px; }
+#inventory-listing .engine:after { content:' / '; }
+#inventory-listing .transmission,
+#inventory-listing .exterior-color,
+#inventory-listing .pricing { display:block; }
+
+#inventory-listing .body-style { display:block; text-transform:capitalize; }
+
+#inventory-listing .pricing { font-weight:bold; font-size:16px; line-height:24px; }
+
+#inventory-listing .details { text-decoration:none; color:#666; }
+#inventory-listing .item:hover .details:hover,
+#inventory-listing .details:hover { color:red; }
+
+#inventory-listing .vin,
+#inventory-listing .stock-number,
+#inventory-listing .odometer { display:block; }
+
+#inventory-listing .call-to-action { position:absolute; top:10px; right:20px; }
+#inventory-listing .call-to-action a { color:white; font-weight:bold; text-decoration:none; text-transform:lowercase; line-height:30px; display:block; height:30px; }
+#inventory-listing .call-to-action a:hover { color:red; }
