@@ -345,10 +345,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
+        #Check for trailing backslash on API URL
+        if (substr($this->options[ 'api' ][ 'vehicle_management_system' ], -1) != '/') {
+          $this->options[ 'api' ][ 'vehicle_management_system' ] .= '/';
+        }
 
-        # Get the file, store it's status in the given option key.
+        # Get the file, store it's status in the given option key. !!!EDIT
         $data_json = $this->get_remote_file(
-          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string,
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string,
           'inventory_json_request'
         );
 
@@ -376,10 +380,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
+        #Check for trailing backslash on API URL
+        if (substr($this->options[ 'api' ][ 'vehicle_management_system' ], -1) != '/') {
+          $this->options[ 'api' ][ 'vehicle_management_system' ] .= '/';
+        }
 
         # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
-          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ],
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . 'api/companies/' . $this->options[ 'company_information' ][ 'id' ],
           'company_information_request'
         );
 
