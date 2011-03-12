@@ -50,8 +50,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       # Retrieve information about the plugin - the WordPress way.
       $this->load_plugin_meta_data();
 
-      add_action( 'admin_menu' , array( &$this , 'initialize_admin_hooks' ) );
-      add_action( 'wp_print_styles' , array( &$this , 'initialize_front_hooks' ) );
+      add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 
       # Provide easy acess to the settings page.
       add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ) , array( $this , 'add_plugin_links' ) );
@@ -133,6 +132,12 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       if( $taxonomy == 'inventory' ) {
 
+	      add_action( 'wp_print_styles' , array( &$this , 'front_styles' ) );
+				add_action( 'wp_print_scripts', array( &$this , 'front_scripts' ) );
+
+				# We'll be using jQuery quite a bit hopefully.
+				wp_enqueue_script("jquery");
+
         get_header();
 
         $this->get_company_information();
@@ -146,10 +151,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         foreach( $permalink_parameters as $key => $value ) {
 
           switch( $key ) {
-
-            case 0:
-              $index = 'taxonomy';
-            break;
+            case 0: $index = 'taxonomy'; break;
             case 1:
               if( is_numeric( $value ) ) {
                 $index = 'year'; 
@@ -157,22 +159,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
                 $index = 'saleclass';
               }
             break;
-            case 2:
-              $index = 'make';
-            break;
-            case 3:
-              $index = 'model';
-            break;
-            case 4:
-              $index = 'state';
-            break;
-            case 5:
-              $index = 'city';
-            break;
-            case 6:
-              $index = 'vin';
-            break;
-            break;
+            case 2: $index = 'make'; break;
+            case 3: $index = 'model'; break;
+            case 4: $index = 'state'; break;
+            case 5: $index = 'city'; break;
+            case 6: $index = 'vin'; break;
           }
 
           $parameters[ $index ] = $value;
@@ -233,7 +224,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     } # End load_plugin_meta_data()
 
     # Load hooks that are needed for the admin screen.
-    function initialize_admin_hooks() {
+    function admin_styles() {
 
       # Add a shortcut on the plugin management page, so that people can quickly get to the settings page of our plugin.
       add_menu_page( 'Dealertrend API Settings' , 'Dealertrend API' , 'manage_options' , 'dealertrend_api' , array( &$this , 'create_options_page' ) , 'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png' );
@@ -242,15 +233,21 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       wp_register_style( 'dealertrend_api_admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/css/admin.css' );
       wp_enqueue_style( 'dealertrend_api_admin' );
 
-    } # End initialize_admin_hooks()
+    } # End admin_styles()
 
-    function initialize_front_hooks() {
+    function front_styles() {
 
       $template_name = $this->options[ 'template' ];
       wp_register_style( 'dealertrend_api_inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/views/inventory/'. $template_name .'_style.css' );
       wp_enqueue_style( 'dealertrend_api_inventory' );
 
-    } # End initialize_front_hooks()
+    } # End front_styles()
+
+		function front_scripts() {
+			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' );
+			wp_enqueue_script( 'dealertrend_api_inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/scripts/inventory.js' , array( 'jquery' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] );
+
+		} # End front_scripts()
 
     # Add a shortcut to the settings page and the readme file.
     function add_plugin_links( $links ) {
@@ -345,14 +342,10 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
-        #Check for trailing backslash on API URL
-        if (substr($this->options[ 'api' ][ 'vehicle_management_system' ], -1) != '/') {
-          $this->options[ 'api' ][ 'vehicle_management_system' ] .= '/';
-        }
 
-        # Get the file, store it's status in the given option key. !!!EDIT
+        # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
-          $this->options[ 'api' ][ 'vehicle_management_system' ] . '' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string,
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string,
           'inventory_json_request'
         );
 
@@ -380,14 +373,10 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
-        #Check for trailing backslash on API URL
-        if (substr($this->options[ 'api' ][ 'vehicle_management_system' ], -1) != '/') {
-          $this->options[ 'api' ][ 'vehicle_management_system' ] .= '/';
-        }
 
         # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
-          $this->options[ 'api' ][ 'vehicle_management_system' ] . 'api/companies/' . $this->options[ 'company_information' ][ 'id' ],
+          $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ],
           'company_information_request'
         );
 
