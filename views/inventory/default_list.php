@@ -16,7 +16,7 @@
 
 ?>
 
-<div class="inventory-table" id="inventory-listing">
+<div class="dealertrend inventory listing">
 
 <div>
   <?php echo "Results: " . count($inventory); ?>
