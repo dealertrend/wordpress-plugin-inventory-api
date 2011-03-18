@@ -3,34 +3,25 @@
   # TODO: Pagination
   # TODO: AIS Rebates
   # TODO: Quick Links
-  # TODO: Detail Pages
   # TODO: Return to Top links
   # TODO: jQuery UI? Click on inventory image and view large in light box.
   # TODO: Get Doors variable from Orange.
   # TODO: Anchors
   # TODO: Breadcrumbs
 
-  $company_information = wp_cache_get( 'company_information', 'dealertrend_api' );
-  $state = $company_information->state;
-  $city = $company_information->city;
-
 ?>
 
 <div class="dealertrend inventory listing">
-
-<div>
-  <?php echo "Results: " . count($inventory); ?>
-</div>
 
 <?php foreach( $inventory as $inventory_item ): ?>
 
 <?php
   $year = $inventory_item->year;
   $make = $inventory_item->make;
-  $model = $inventory_item->model_name;
+  $model = str_replace( ' ' , '%20' , $inventory_item->model_name );
   $vin = $inventory_item->vin;
-  $trim = $inventory_item->trim;
-  $body_style = $inventory_item->body_style;
+  $trim = str_replace( ' ' , '%20' , $inventory_item->trim );
+  $body_style = str_replace( ' ' , '%20' , $inventory_item->body_style );
   $engine = $inventory_item->engine;
   $transmission = $inventory_item->transmission;
   $exterior_color = $inventory_item->exterior_color;
@@ -39,12 +30,11 @@
   $odometer = $inventory_item->odometer;
   $icons = $inventory_item->icons;
   $headline = $inventory_item->headline;
-  $thumbnail = $inventory_item->photos[ 0 ]->small;
-  
+  $thumbnail = str_replace( '&' , '&amp;' , $inventory_item->photos[ 0 ]->small );
+
   $inventory_url = $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city  . '/'. $vin . '/';
 
   $generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
-
 ?>
 
 <div class="item">
@@ -79,7 +69,8 @@
   <div class="call-to-action">
     <a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">Click Here for More Details</a>
   </div>
+	<br class="clear" />
 </div>
-
 <?php endforeach;  ?>
+
 </div>

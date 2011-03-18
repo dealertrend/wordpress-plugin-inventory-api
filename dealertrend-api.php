@@ -27,7 +27,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     );
     
     public $errors = array();
-
+		public $report = array();
+		public $parameters = array();
+	
     # Default options:
     # These values are initially set when the plugin is activated on a new site instance.
     # If there are existing options for the site - it will use them instead.
@@ -60,7 +62,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         update_option( 'dealertrend_api_options' , $this->options );
 
-        $this->notices[ 'admin' ][] = '<span class="success">Sucess!</span> ' . $this->plugin_meta_data[ 'Name' ] . ' ' . $this->plugin_meta_data[ 'Version' ] . ' Has Been Installed!';
+        $this->notices[ 'admin' ][] = '<span class="success">Success!</span> ' . $this->plugin_meta_data[ 'Name' ] . ' ' . $this->plugin_meta_data[ 'Version' ] . ' Has Been Installed!';
         add_action( 'admin_notices' , array( &$this , 'display_admin_notices' ) );
 
       } else {
@@ -109,8 +111,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       $new_rule = array();
 
-      # Root: /inventory/
       $new_rule[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+      # Root: /inventory/
       # Sale Class / Year: /inventory/(used|new|all|####)/
       # Make: /inventory/(used|new|all|####)/make/
       # Model: /inventory/(used|new|all|####)/make/model/
@@ -132,15 +134,24 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       if( $taxonomy == 'inventory' ) {
 
+				# We'll be using jQuery quite a bit hopefully.
+				wp_enqueue_script( 'jquery' );
+				wp_enqueue_script( 'jquery-ui-core' );
+				wp_enqueue_script( 'jquery-ui-tabs' );
+				wp_enqueue_style( 'jquery-ui-tabs' );
+
 	      add_action( 'wp_print_styles' , array( &$this , 'front_styles' ) );
 				add_action( 'wp_print_scripts', array( &$this , 'front_scripts' ) );
 
-				# We'll be using jQuery quite a bit hopefully.
-				wp_enqueue_script("jquery");
-
+				flush();
         get_header();
+				flush();
 
+				$start_company_information_timer = timer_stop();
         $this->get_company_information();
+				$stop_company_information_timer = timer_stop();
+
+				$this->report[ 'company_information_download_time' ] = $stop_company_information_timer - $start_company_information_timer;
 
         $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 
@@ -177,13 +188,25 @@ if ( !class_exists( 'dealertrend_api' ) ) {
           unset( $server_parameters[ 'vehicle_year' ] );
         }
 
-        $parameters = array_merge( $parameters , $server_parameters );
+        $this->parameters = array_merge( $parameters , $server_parameters );
 
-        $inventory = $this->get_inventory( $parameters );
+				$start_inventory_timer = timer_stop();
+        $inventory = $this->get_inventory( $this->parameters );
+				$stop_inventory_timer = timer_stop();
+
 
         $this->display_inventory( $inventory );
+				$this->report[ 'inventory_download_time' ] = $stop_inventory_timer - $start_inventory_timer;
 
+				echo "<pre>";
+				print_r($this);
+				print_r($inventory);
+				print_r( wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' ) );
+				echo "</pre>";
+
+				flush();
         get_footer();
+				flush();
 
         exit;
 
@@ -230,22 +253,25 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       add_menu_page( 'Dealertrend API Settings' , 'Dealertrend API' , 'manage_options' , 'dealertrend_api' , array( &$this , 'create_options_page' ) , 'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png' );
       
       # Load up the CSS for the adminstration screen.
-      wp_register_style( 'dealertrend_api_admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/css/admin.css' );
-      wp_enqueue_style( 'dealertrend_api_admin' );
+      wp_register_style( 'dealertrend-api-admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/css/dealertrend-api-options.css' , false , $this->plugin_meta_data[ 'Version' ] );
+      wp_enqueue_style( 'dealertrend-api-admin' );
 
     } # End admin_styles()
 
     function front_styles() {
 
       $template_name = $this->options[ 'template' ];
-      wp_register_style( 'dealertrend_api_inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/views/inventory/'. $template_name .'_style.css' );
-      wp_enqueue_style( 'dealertrend_api_inventory' );
+      wp_register_style( 'dealertrend-api-inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/' . $template_name . '/style.css' , false , $this->plugin_meta_data[ 'Version' ] );
+      wp_enqueue_style( 'dealertrend-api-inventory' );
+
+			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/black-tie/jquery-ui.css', false , '1.8.1' );
+			wp_enqueue_style( 'jquery-ui-black-tie' );
 
     } # End front_styles()
 
 		function front_scripts() {
-			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' );
-			wp_enqueue_script( 'dealertrend_api_inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/scripts/inventory.js' , array( 'jquery' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] );
+			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
+			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/js/init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
 
 		} # End front_scripts()
 
@@ -253,7 +279,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function add_plugin_links( $links ) {
 
       $settings_link = '<a href="admin.php?page=dealertrend_api">Settings</a>'; 
-      $readme_link = '<a href="' . $this->plugin_meta_data[ 'BaseURL' ] . '/readme.html">Documentation</a>'; 
+      $readme_link = '<a href="' . $this->plugin_meta_data[ 'BaseURL' ] . '/library/readme.html">Documentation</a>'; 
 
       array_unshift( $links , $settings_link );
       array_unshift( $links , $readme_link );
@@ -287,7 +313,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     # Load our options page.
     function create_options_page() {
 
-      include( dirname( __FILE__ ) . '/admin/options.php' );
+      include( dirname( __FILE__ ) . '/library/wp-admin/options.php' );
 
     } # End create_options_page()
 
@@ -338,10 +364,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         return false;
 
       # Check to see if the data is cached.
-      $data_array = wp_cache_get( 'inventory_json', 'dealertrend_api' );
+      $data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string , 'dealertrend_api' );
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
+				$this->report[ 'inventory_cached' ] = false;
 
         # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
@@ -352,11 +379,15 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         # If we get a 200 back AND it's not empty.
         if( $this->status[ 'inventory_json_request' ] && $data_json ) {
           $data_array = json_decode( $data_json );
-          wp_cache_add( 'inventory_json' , $data_array , 'dealertrend_api' , 0 );
+					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
+          wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles.json?' . $parameter_string , $data_array , 'dealertrend_api' , 0 );
           $this->status[ 'inventory_json' ] = true;
         }
 
-      }   
+      } else {
+				$this->report[ 'inventory_cached' ] = true;
+				$this->status[ 'inventory_json' ] = true;
+			}   
 
       return $data_array;
 
@@ -369,10 +400,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         return false;
 
       # Check to see if the data is cached.
-      $data_array = wp_cache_get( 'company_information', 'dealertrend_api' );
+      $data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' );
 
       # If it's not cached, then let's pull a new one from Orange.
       if ( $data_array == false ) {
+				$this->report[ 'company_information_cached' ] = false;
 
         # Get the file, store it's status in the given option key.
         $data_json = $this->get_remote_file(
@@ -388,39 +420,44 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         if( $this->status[ 'company_information_request' ] && $data_json ) {
           $data_array = json_decode( $data_json );
-          wp_cache_add( 'company_information' , $data_array , 'dealertrend_api' , 0 );
+					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
+          wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , $data_array , 'dealertrend_api' , 0 );
           $this->status[ 'company_information' ] = true;
         }
 
-      }
+      } else {
+					# We have cached data.
+          $this->status[ 'company_information' ] = true;
+					$this->report[ 'company_information_cached' ] = true;
+			}
 
       return $data_array;
 
     } # End get_company_information()
 
-    function get_template( $template_name ) {
-
-
-    } # End get_templates()
-
     function display_inventory( $inventory ) {
 
       global $wp_rewrite;
 
-      $template_base_path = dirname( __FILE__ ) . '/views/inventory';
       $template_name = $this->options[ 'template' ];
+      $template_base_path = dirname( __FILE__ ) . '/library/templates/inventory/' . $template_name;
+
+			$start_template_timer = timer_stop();
 
       if( $handle = opendir( $template_base_path ) ) {
  
         while( false !== ( $file = readdir( $handle ) ) ) {
-          if( $file == $template_name . '_index.php' ) {
-            include( $template_base_path . '/' . $template_name . '_index.php' );
+          if( $file == 'index.php' ) {
+            include( $template_base_path . '/index.php' );
           }
         }
 
         closedir( $handle );
  
       }
+			$stop_template_timer = timer_stop();
+
+			$this->report[ 'template_render_time' ] = $stop_template_timer - $start_template_timer;
 
     }
 
