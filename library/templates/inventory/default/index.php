@@ -1,4 +1,4 @@
-<a name="inventory-top"></a>
+<br class="clear" id="inventory-top" />
 <?php
   $company_information = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' );
   $state = $company_information->state;

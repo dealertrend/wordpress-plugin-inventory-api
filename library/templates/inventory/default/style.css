@@ -1,10 +1,13 @@
+#inventory-top.clear,
 .dealertrend.inventory.listing .clear,
-.dealertrend.inventory.detail .clear { clear:both; display:block; width:100%; }
+.dealertrend.inventory.detail .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
 
 .breadcrumbs,
 .return-to-top { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-
+.breadcrumbs { margin:10px 0;  }
 .return-to-top { float:right; }
+
+.no-list { display:block; float:left; }
 
 /* Listing Page */
 
@@ -71,6 +74,14 @@
 .dealertrend.inventory.detail #dealer-options,
 .dealertrend.inventory.detail #dealer-equipment { clear:both; }
 .dealertrend.inventory.detail #dealer-options ul,
-.dealertrend.inventory.detail #dealer-equipment ul { float:left; display:block; padding:10px; background:#1e1e1e; color:white; text-transform:uppercase; font-size:10px; }
+.dealertrend.inventory.detail #dealer-equipment ul { float:left; display:block; width:46.9%; padding:10px; background:#1e1e1e; color:white; text-transform:uppercase; font-size:10px; margin:5px 0 5px 5px; }
 .dealertrend.inventory.detail #dealer-options li,
-.dealertrend.inventory.detail #dealer-equipment li { list-style: square inside; padding:5px 10px; height:14px; color:#e1e1e1; }
+.dealertrend.inventory.detail #dealer-equipment li { list-style: square inside; padding:5px 10px; color:#e1e1e1; line-height:14px; clear:both; }
+
+.dealertrend.inventory.detail .ui-tabs-panel p { margin:5px; }
+
+.dealertrend.inventory.detail h3 { line-height:20px; font-size:18px; padding:10px; width:100% display:block; background:#1e1e1e; color:white; margin:5px; }
+
+.dealertrend.inventory.detail #loan-calculator-bi-monthly-cost,
+.dealertrend.inventory.detail #loan-calculator-monthly-cost,
+.dealertrend.inventory.detail #loan-calculator-total-cost { font-weight:bold; height:20px; font-size:14px; display:block; padding:5px 0; }
