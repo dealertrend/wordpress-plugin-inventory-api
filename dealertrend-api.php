@@ -5,10 +5,16 @@
  * Version: 3.0.0
  */
 
-# TODO: Decide if the plugin should delete any saved settings if the plugin is deactivated.
-# TODO: Determine if their's a hook for "uninstall" or "delete" in relation to a plugin.
 # TODO: Allow for custom permalink structures.
 # TODO: Integrate showcase.
+# TODO: Pagination
+# TODO: AIS Rebates
+# TODO: Quick Links
+# TODO: Unable to get 'show_contact_info' data. <- Contact information from Company.
+# TODO: Allow people to specify privacy policy location.
+# TODO: Get Dealer Notes data
+# TODO: Doors
+# TODO: Make inventory forms work (need to find out what "inventory" param is.
 
 # Sanity check.
 if ( !class_exists( 'dealertrend_api' ) ) {
@@ -53,6 +59,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       $this->load_plugin_meta_data();
 
       add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
+      add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
 
       # Provide easy acess to the settings page.
       add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ) , array( $this , 'add_plugin_links' ) );
@@ -134,12 +141,6 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       if( $taxonomy == 'inventory' ) {
 
-				# We'll be using jQuery quite a bit hopefully.
-				wp_enqueue_script( 'jquery' );
-				wp_enqueue_script( 'jquery-ui-core' );
-				wp_enqueue_script( 'jquery-ui-tabs' );
-				wp_enqueue_style( 'jquery-ui-tabs' );
-
 	      add_action( 'wp_print_styles' , array( &$this , 'front_styles' ) );
 				add_action( 'wp_print_scripts', array( &$this , 'front_scripts' ) );
 
@@ -198,11 +199,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         $this->display_inventory( $inventory );
 				$this->report[ 'inventory_download_time' ] = $stop_inventory_timer - $start_inventory_timer;
 
-				echo "<pre>";
-				print_r($this);
-				print_r($inventory);
-				print_r( wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' ) );
-				echo "</pre>";
+				#echo "<pre>";
+				#print_r($this);
+				#print_r($inventory);
+				#print_r( wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' ) );
+				#echo "</pre>";
 
 				flush();
         get_footer();
@@ -240,9 +241,12 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         'Author' => 'Author',
       );
   
+			$plugin_file = pathinfo(__FILE__);
+
       # Use those headers and parse our plugins meta data.
       $this->plugin_meta_data = get_file_data( __FILE__ , $default_headers , 'plugin' );
-      $this->plugin_meta_data[ 'BaseURL' ] = WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) );
+      $this->plugin_meta_data[ 'BaseURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
+			$this->plugin_meta_data[ 'UninstallPath' ] = basename( $plugin_file[ 'dirname' ] ) . '/' . $plugin_file[ 'basename' ];
 
     } # End load_plugin_meta_data()
 
@@ -256,7 +260,18 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       wp_register_style( 'dealertrend-api-admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/css/dealertrend-api-options.css' , false , $this->plugin_meta_data[ 'Version' ] );
       wp_enqueue_style( 'dealertrend-api-admin' );
 
+			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/black-tie/jquery-ui.css', false , '1.8.1' );
+			wp_enqueue_style( 'jquery-ui-black-tie' );
+
     } # End admin_styles()
+
+		function admin_scripts() {
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-tabs' );
+			wp_enqueue_script( 'jquery-ui-dialog' );
+			wp_enqueue_script( 'dealertrend-api-options', $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/js/admin-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ) , $this->plugin_meta_data[ 'Version' ] , true );
+		} # End admin_scripts()
 
     function front_styles() {
 
@@ -270,6 +285,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     } # End front_styles()
 
 		function front_scripts() {
+
+			# We'll be using jQuery quite a bit hopefully.
+			wp_enqueue_script( 'jquery' );
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
 			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/js/init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
 

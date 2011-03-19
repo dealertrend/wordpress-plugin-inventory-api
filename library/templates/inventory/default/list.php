@@ -1,16 +1,3 @@
-<?php
-
-  # TODO: Pagination
-  # TODO: AIS Rebates
-  # TODO: Quick Links
-  # TODO: Return to Top links
-  # TODO: jQuery UI? Click on inventory image and view large in light box.
-  # TODO: Get Doors variable from Orange.
-  # TODO: Anchors
-  # TODO: Breadcrumbs
-
-?>
-
 <div class="dealertrend inventory listing">
 
 <?php foreach( $inventory as $inventory_item ): ?>
@@ -37,7 +24,7 @@
   $generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
 ?>
 
-<div class="item">
+<div class="item" id="<?php echo $vin; ?>">
   <div class="photo">
     <a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
       <img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />

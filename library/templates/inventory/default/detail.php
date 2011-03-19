@@ -1,8 +1,4 @@
 <?php
-	# TODO: Unable to get 'show_contact_info' data. <- Contact information from Company.
-	# TODO: Allow people to specify privacy policy location.
-	# TODO: Get Dealer Notes data.
-	# TODO: Doors
 
 	# Easy to use variables.
 	$headline = $inventory->headline;

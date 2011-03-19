@@ -1,5 +1,3 @@
-// TODO: Make fx customizable
-
 var dealertrend = jQuery.noConflict();
 
 /* Slideshow */
@@ -36,6 +34,7 @@ dealertrend('#inventory-tabs').tabs();
 //dealertrend('#inventory-tabs').tabs('select', index); // select the tab
 //dealertrend('#inventory-tabs').bind('tabsshow', function(event, ui){document.location = dealertrend(document).attr('location').pathname + '#' + ui.panel.id;}); // change the url anchor when we click on a tab
 
+/* Loan Calculator */
 function iCanHazMoney(amount) {
   value = amount.toString().replace(/\$|\,/g,'');
 
