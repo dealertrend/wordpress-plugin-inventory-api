@@ -9,4 +9,5 @@ dealertrend_admin(document).ready(function(){
 		});
 		return false;
 	});
+	dealertrend_admin('#option-tabs').tabs();
 });

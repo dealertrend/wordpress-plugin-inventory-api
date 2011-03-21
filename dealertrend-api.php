@@ -7,14 +7,7 @@
 
 # TODO: Allow for custom permalink structures.
 # TODO: Integrate showcase.
-# TODO: Pagination
 # TODO: AIS Rebates
-# TODO: Quick Links
-# TODO: Unable to get 'show_contact_info' data. <- Contact information from Company.
-# TODO: Allow people to specify privacy policy location.
-# TODO: Get Dealer Notes data
-# TODO: Doors
-# TODO: Make inventory forms work (need to find out what "inventory" param is.
 
 # Sanity check.
 if ( !class_exists( 'dealertrend_api' ) ) {
@@ -35,6 +28,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     public $errors = array();
 		public $report = array();
 		public $parameters = array();
+		public $notices = array();
 	
     # Default options:
     # These values are initially set when the plugin is activated on a new site instance.
@@ -58,6 +52,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       # Retrieve information about the plugin - the WordPress way.
       $this->load_plugin_meta_data();
 
+			$this->report[ 'inventory_download_time' ] = 0;
+			$this->report[ 'company_information_download_time' ] = 0;
+
       add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
       add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
 
@@ -66,16 +63,9 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
       # Do we have options? If not, set the defaults - otherwise, load the existing options.
       if( !get_option( 'dealertrend_api_options' ) ) {
-
-        update_option( 'dealertrend_api_options' , $this->options );
-
-        $this->notices[ 'admin' ][] = '<span class="success">Success!</span> ' . $this->plugin_meta_data[ 'Name' ] . ' ' . $this->plugin_meta_data[ 'Version' ] . ' Has Been Installed!';
-        add_action( 'admin_notices' , array( &$this , 'display_admin_notices' ) );
-
+      	update_option( 'dealertrend_api_options' , $this->options );
       } else {
-
         $this->load_options();
-
       }
 
       add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rule' ) , 1 );
@@ -148,11 +138,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_header();
 				flush();
 
-				$start_company_information_timer = timer_stop();
         $this->get_company_information();
-				$stop_company_information_timer = timer_stop();
-
-				$this->report[ 'company_information_download_time' ] = $stop_company_information_timer - $start_company_information_timer;
 
         $permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 
@@ -191,13 +177,12 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         $this->parameters = array_merge( $parameters , $server_parameters );
 
-				$start_inventory_timer = timer_stop();
         $inventory = $this->get_inventory( $this->parameters );
-				$stop_inventory_timer = timer_stop();
-
-
+				
+				$start_inventory_display_timer = timer_stop();
         $this->display_inventory( $inventory );
-				$this->report[ 'inventory_download_time' ] = $stop_inventory_timer - $start_inventory_timer;
+				$stop_inventory_display_timer = timer_stop();
+				$this->report[ 'inventory_display_time' ] = $stop_inventory_display_timer - $start_inventory_display_timer; + $this->report[ 'inventory_download_time' ];
 
 				#echo "<pre>";
 				#print_r($this);
@@ -260,7 +245,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       wp_register_style( 'dealertrend-api-admin' , $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/css/dealertrend-api-options.css' , false , $this->plugin_meta_data[ 'Version' ] );
       wp_enqueue_style( 'dealertrend-api-admin' );
 
-			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/black-tie/jquery-ui.css', false , '1.8.1' );
+			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css', false , '1.8.1' );
 			wp_enqueue_style( 'jquery-ui-black-tie' );
 
     } # End admin_styles()
@@ -270,7 +255,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-ui-dialog' );
-			wp_enqueue_script( 'dealertrend-api-options', $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/js/admin-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ) , $this->plugin_meta_data[ 'Version' ] , true );
+			wp_enqueue_script( 'dealertrend-api-options', $this->plugin_meta_data[ 'BaseURL' ] . '/library/wp-admin/js/dealertrend-api-admin-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ) , $this->plugin_meta_data[ 'Version' ] , true );
 		} # End admin_scripts()
 
     function front_styles() {
@@ -279,7 +264,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
       wp_register_style( 'dealertrend-api-inventory' , $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/' . $template_name . '/style.css' , false , $this->plugin_meta_data[ 'Version' ] );
       wp_enqueue_style( 'dealertrend-api-inventory' );
 
-			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/black-tie/jquery-ui.css', false , '1.8.1' );
+			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css', false , '1.8.1' );
 			wp_enqueue_style( 'jquery-ui-black-tie' );
 
     } # End front_styles()
@@ -291,7 +276,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
-			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/js/init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
+			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/js/dealertrend-api-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
 
 		} # End front_scripts()
 
@@ -337,41 +322,53 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
     } # End create_options_page()
 
+		# Just include the subdomain, domain and tld.
+		# subdomain.mydomain.com
     function get_remote_file( $location , $option_key = NULL ) {
 
       $data = NULL;
 
-      $response = wp_remote_get( $location , array( 'timeout' => 10 ) );
+      $response = wp_remote_get( 'http://' . $location , array( 'timeout' => 10 ) );
 
       if( is_wp_error( $response ) ) {
 
-        $this->errors[ $option_key] = $response->errors;
+        $this->errors[ $option_key ] = $response->errors;
         $error_string = $response->errors[ 'http_request_failed' ][ 0 ];
         error_log( get_bloginfo( 'url' ) . ': WARNING: ' . $error_string, 0 );
         error_log( get_bloginfo( 'url' ) . ': REQUEST: ' . $location , 0 );
         $this->status[ $option_key ] = false;
+				return false;
 
       } else {
-
-        # We accessed the API.
-        $this->status[ $option_key ] = true;
 
         if( !isset( $response ) )
           return false;
 
-        # The API isn't happy with our parameters.
-        if( $response[ 'headers' ][ 'status' ] != '200 OK' )
+				$status_header = isset( $response[ 'headers' ][ 'status' ] ) ? $response[ 'headers' ][ 'status' ] : false;
+
+        # The API isn't happy with our parameters or we were given a bad URL.
+				if( $status_header == '404 Not Found' ) {
+					$this->errors[ $option_key ][ 'http_request_failed' ][ 0 ] = '404 Not Found';
+					return false;
+				}
+
+        if( $status_header != '200 OK' )
           return false;
+
+        # We accessed the API.
+        $this->status[ $option_key ] = true;
 
         $data = ( trim( $response[ 'body' ] ) != '[]' ) ? $response[ 'body' ] : false;
 
-      }
+      	return $data;
 
-      return $data;
+      }
 
     } # End get_remote_file()
 
     function get_inventory( $parameters = array() ) {
+
+			$start_inventory_timer = timer_stop();
 
       if( !isset( $parameters['vin'] )  ) {
         $parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '1';
@@ -409,11 +406,16 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				$this->status[ 'inventory_json' ] = true;
 			}   
 
+			$stop_inventory_timer = timer_stop();
+			$this->report[ 'inventory_download_time' ] = $stop_inventory_timer - $start_inventory_timer;
+
       return $data_array;
 
     } # End get_inventory()
 
     function get_company_information() {
+
+			$start_company_information_timer = timer_stop();
 
       # Don't continue if we don't have the required API information.
       if( !$this->options[ 'api' ][ 'vehicle_management_system' ] )
@@ -434,8 +436,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
         # If the result is false, then we were unable to retreive the file.
         if( !$this->status[ 'company_information_request' ] ) {
-          $this->notices[ 'admin' ][] = '<span class="warning">Warning!</span> <strong>Unable to connect to provided address:</strong> ' . $this->errors[ 'company_information_request' ][ 'http_request_failed' ][ 0 ];
-          $this->display_admin_notices();
+          $this->notices[ 'admin' ][] = '<span class="warning">Warning!</span> <strong>Unable to retrieve company information:</strong> ' . $this->errors[ 'company_information_request' ][ 'http_request_failed' ][ 0 ];
         }
 
         if( $this->status[ 'company_information_request' ] && $data_json ) {
@@ -450,6 +451,10 @@ if ( !class_exists( 'dealertrend_api' ) ) {
           $this->status[ 'company_information' ] = true;
 					$this->report[ 'company_information_cached' ] = true;
 			}
+
+			$stop_company_information_timer = timer_stop();
+
+			$this->report[ 'company_information_download_time' ] = $stop_company_information_timer - $start_company_information_timer;
 
       return $data_array;
 
@@ -475,6 +480,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         closedir( $handle );
  
       }
+
 			$stop_template_timer = timer_stop();
 
 			$this->report[ 'template_render_time' ] = $stop_template_timer - $start_template_timer;

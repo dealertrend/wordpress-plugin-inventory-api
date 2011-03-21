@@ -22,6 +22,7 @@
   $inventory_url = $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city  . '/'. $vin . '/';
 
   $generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
+
 ?>
 
 <div class="item" id="<?php echo $vin; ?>">

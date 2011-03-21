@@ -1,3 +1,11 @@
+<?php
+	if(!$inventory) {
+		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
+		return false;
+	}
+?>
+
+
 <br class="clear" id="inventory-top" />
 <?php
   $company_information = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' );

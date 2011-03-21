@@ -13,7 +13,9 @@ dealertrend(document).ready(function() {
     } 
 	});
 
-	calculateLoan();
+	if(dealertrend('#loan-calculator').length){
+		calculateLoan();
+	}
 
 	dealertrend('#loan-calculator input').change(function(){
 		calculateLoan();
@@ -21,6 +23,7 @@ dealertrend(document).ready(function() {
 
 	dealertrend('#loan-calculator button').click(function(){
 		calculateLoan();
+		return false;
 	});
 
 });
