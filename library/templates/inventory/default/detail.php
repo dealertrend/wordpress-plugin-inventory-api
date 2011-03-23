@@ -35,6 +35,7 @@
 			<div class="navigation"></div><!-- .navigation -->
 		</div><!-- .slideshow -->
 	</div><!-- .left-column -->
+	<?php flush(); ?>
 	<div class="right-column">
 		<div class="details">
 			<div class="header">
@@ -49,6 +50,7 @@
 			<div class="row"><strong>Transmission:</strong> <?php echo $transmission; ?></div>
 			<div class="row"><strong>Drivetrain:</strong> <?php echo $drivetrain; ?></div>
 		</div><!-- .details -->
+		<?php flush(); ?>
 		<div class="form">
 			<div class="header">
 				<strong>Vehicle Inquirey</strong>
@@ -115,6 +117,7 @@
 			</form>
 		</div><!-- .form -->
 	</div><!-- right-column -->
+	<?php flush(); ?>
 	<div id="inventory-tabs" style="clear:both;">
 		<ul>
 			<li><a href="#dealer-notes">Dealer Notes</a></li>

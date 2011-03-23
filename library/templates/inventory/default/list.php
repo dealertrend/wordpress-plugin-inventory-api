@@ -59,6 +59,7 @@
   </div>
 	<br class="clear" />
 </div>
+<?php flush(); ?>
 <?php endforeach;  ?>
 
 </div>
