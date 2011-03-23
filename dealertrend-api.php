@@ -283,7 +283,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     # Add a shortcut to the settings page and the readme file.
     function add_plugin_links( $links ) {
 
-      $settings_link = '<a href="admin.php?page=dealertrend_api">Settings</a>'; 
+      $settings_link = '<a href="admin.php?page=dealertrend_api#settings">Settings</a>'; 
       $readme_link = '<a href="admin.php?page=dealertrend_api#help">Documentation</a>'; 
 
       array_unshift( $links , $settings_link );
