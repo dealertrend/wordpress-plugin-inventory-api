@@ -194,6 +194,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_footer();
 				flush();
 
+				error_log( 'DealerTrend API Report: ' . print_r( $this->report , true ) , 3 , dirname( __FILE__ ) . '/reporting.log' );
+
         exit;
 
       }
