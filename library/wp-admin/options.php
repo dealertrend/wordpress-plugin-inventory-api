@@ -53,6 +53,7 @@
 	<ul>
 		<li><a href="#feed">Feeds</a></li>
 		<li><a href="#settings">Settings</a></li>
+		<li><a href="#help">Help</a></li>
 	</ul>
 	<div id="feed">
   	<table width="450">
@@ -110,6 +111,11 @@
   	<form name="dealertrend_api_options_form" method="post" action="">
     	<?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
     	<table width="450">
+				<tr>
+					<td colspan="2">
+						<h3 class="title">API Settings</h3>
+					</td>
+				</tr>
       	<tr>
         	<td width="200"><label for="vehicle-management-system">Vehicle Management System:</label></td>
         	<td><input type="text" id="vehicle-management-system" name="api[vehicle_management_system]" value="<?php echo $dealertrend_api->options[ 'api' ][ 'vehicle_management_system' ] ?>" class="long_input" /></td>
@@ -152,5 +158,27 @@
 				</tr>
 			</table>
   	</form>
+	</div>
+	<div id="help">
+		<h3 class="title">Initial Setup</h3>
+		<p>To get the plugin started you'll need to specific a VMS and a valid Company ID.</p>
+		<p>Both of these will be provided to you upon purchasing a license with <?php echo $site_link; ?></p>
+		<p>After you've received a valid VMS and Company ID, you'll need to go to the <a id="settings-link" href="#settings" title="DealerTrend API Settings">settings page</a> and fill in their respective fields. Once you click "Save Changes" it will start pulling in your Inventory and Company Feeds.</p>
+
+		<h3 class="title">Viewing Inventory</h3>
+		<p>If the VMS and Company Feed are both loaded, you may view your inventory here: <a href="<?php bloginfo( 'url' ); ?>/inventory" target="_blank"><?php bloginfo( 'url' ); ?>/inventory</a></p>
+		<p>Please note that any pages or sub-pages that reside at this permalink will no longer be shown.</p>
+
+		<h3 class="title">Plugin Legend</h3>
+		<table width="450" cellspacing="20">
+			<tr>
+				<td><span class="fail">Unavailable</span></td>
+				<td>This means that the feed is currently not available. If this is showing, then that feed will not display information on your site.</td>
+			</tr>
+			<tr>
+				<td><span class="success">Loaded</a></td>
+				<td>If you see this, that means the feed is loaded and the information will be displayed on your website.</td>
+			</tr>
+		</table>
 	</div>
 </div>

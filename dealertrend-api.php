@@ -284,7 +284,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
     function add_plugin_links( $links ) {
 
       $settings_link = '<a href="admin.php?page=dealertrend_api">Settings</a>'; 
-      $readme_link = '<a href="' . $this->plugin_meta_data[ 'BaseURL' ] . '/library/readme.html">Documentation</a>'; 
+      $readme_link = '<a href="admin.php?page=dealertrend_api#help">Documentation</a>'; 
 
       array_unshift( $links , $settings_link );
       array_unshift( $links , $readme_link );

@@ -10,4 +10,8 @@ dealertrend_admin(document).ready(function(){
 		return false;
 	});
 	dealertrend_admin('#option-tabs').tabs();
+	dealertrend_admin('#settings-link').click(function() {
+    dealertrend_admin('#option-tabs').tabs('select', '#settings');
+    return false;
+	});
 });
