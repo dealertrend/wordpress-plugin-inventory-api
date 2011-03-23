@@ -188,12 +188,17 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_footer();
 				flush();
 
-				error_log( 'inventory_download_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'company_information_download_time ' . print_r( $this->report['company_information_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'company_information_cached ' . print_r( $this->report['company_information_cached'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'inventory_cached ' . print_r( $this->report['inventory_cached'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'template_render_time ' . print_r( $this->report['template_render_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'inventory_display_time ' . print_r( $this->report['inventory_display_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				$error_log_identifier = ' host: ' . $_SERVER[ 'HTTP_HOST' ] . ' dealer_id: ' . $this->options['company_information']['id'];
+
+				$this->report['company_information_cached'] = ($this->report['company_information_cached'] != false) ? $this->report['company_information_cached'] : 0;
+				$this->report['inventory_cached'] = ($this->report['inventory_cached'] != false) ? $this->report['inventory_cached'] : 0;
+
+				error_log( 'inventory_download_time: ' . print_r( $this->report['inventory_download_time'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_download_time: ' . print_r( $this->report['company_information_download_time'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_cached: ' . print_r( $this->report['company_information_cached'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_cached: ' . print_r( $this->report['inventory_cached'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'template_render_time: ' . print_r( $this->report['template_render_time'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_display_time: ' . print_r( $this->report['inventory_display_time'] , true ) . $error_log_identifier . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
 
         exit;
 
