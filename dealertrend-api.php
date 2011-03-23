@@ -194,7 +194,12 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_footer();
 				flush();
 
-				error_log( 'DealerTrend API Report: ' . print_r( $this->report , true ) , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_download_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_download_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_cached ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_cached ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'template_render_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_display_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
 
         exit;
 
