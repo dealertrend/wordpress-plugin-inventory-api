@@ -184,22 +184,16 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				$stop_inventory_display_timer = timer_stop();
 				$this->report[ 'inventory_display_time' ] = $stop_inventory_display_timer - $start_inventory_display_timer; + $this->report[ 'inventory_download_time' ];
 
-				#echo "<pre>";
-				#print_r($this);
-				#print_r($inventory);
-				#print_r( wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/api/companies/' . $this->options[ 'company_information' ][ 'id' ] , 'dealertrend_api' ) );
-				#echo "</pre>";
-
 				flush();
         get_footer();
 				flush();
 
 				error_log( 'inventory_download_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'company_information_download_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'company_information_cached ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'inventory_cached ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'template_render_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
-				error_log( 'inventory_display_time ' . print_r( $this->report['inventory_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_download_time ' . print_r( $this->report['company_information_download_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'company_information_cached ' . print_r( $this->report['company_information_cached'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_cached ' . print_r( $this->report['inventory_cached'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'template_render_time ' . print_r( $this->report['template_render_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
+				error_log( 'inventory_display_time ' . print_r( $this->report['inventory_display_time'] , true ) . "\n" , 3 , dirname( __FILE__ ) . '/reporting.log' );
 
         exit;
 
