@@ -5,7 +5,7 @@
 .breadcrumbs,
 .return-to-top { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .breadcrumbs { margin:10px 0;  }
-.return-to-top { float:right; }
+.return-to-top { float:right; text-transform:uppercase; }
 
 .no-list { display:block; float:left; }
 
