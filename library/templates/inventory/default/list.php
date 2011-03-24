@@ -19,7 +19,7 @@
   $headline = $inventory_item->headline;
   $thumbnail = str_replace( '&' , '&amp;' , $inventory_item->photos[ 0 ]->small );
 
-  $inventory_url = $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city  . '/'. $vin . '/';
+  $inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city  . '/'. $vin . '/';
 
   $generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
 
