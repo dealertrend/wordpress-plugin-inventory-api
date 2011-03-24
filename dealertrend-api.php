@@ -188,7 +188,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
         get_footer();
 				flush();
 
-				$error_log_identifier = ' host: ' . $_SERVER[ 'HTTP_HOST' ] . ' dealer_id: ' . $this->options['company_information']['id'];
+				$error_log_identifier = ' host: ' . $_SERVER[ 'HTTP_HOST' ] . ' dealer_id: ' . $this->options['company_information']['id'] . ' ' . date('l jS \of F Y h:i:s A');
 
 				$this->report['company_information_cached'] = ($this->report['company_information_cached'] != false) ? $this->report['company_information_cached'] : 0;
 				$this->report['inventory_cached'] = ($this->report['inventory_cached'] != false) ? $this->report['inventory_cached'] : 0;
