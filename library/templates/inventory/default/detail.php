@@ -44,7 +44,7 @@
 			<div class="row"><strong>Price:</strong> <?php echo $price; ?></div>
 			<div class="row"><strong>Stock:</strong> <?php echo $stock; ?></div>
 			<div class="row"><strong>VIN:</strong> <?php echo $vin; ?></div>
-			<div class="row"><strong>Odomter:</strong> <?php echo $odometer; ?></div>
+			<div class="row"><strong>Odometer:</strong> <?php echo $odometer; ?></div>
 			<div class="row"><strong>Exterior Color:</strong> <?php echo $exterior_color; ?></div>
 			<div class="row"><strong>Engine:</strong> <?php echo $engine; ?></div>
 			<div class="row"><strong>Transmission:</strong> <?php echo $transmission; ?></div>
@@ -53,7 +53,7 @@
 		<?php flush(); ?>
 		<div class="form">
 			<div class="header">
-				<strong>Vehicle Inquirey</strong>
+				<strong>Vehicle Inquiry</strong>
 			</div><!-- .header -->
 			<form action="<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
 				<input name="required_fields" type="hidden" value="name,email,privacy" />
