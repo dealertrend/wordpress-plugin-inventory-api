@@ -21,9 +21,4 @@ dealertrend_admin(document).ready(function(){
 		return false;
 	});
 
-	// If they update the settings...we want to show what happened to the feeds.
-	dealertrend_admin('#settings .button-primary').click(function() {
-		dealertrend_admin('#option-tabs').tabs('select', '#feeds');
-	});
-
 });

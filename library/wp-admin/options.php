@@ -108,7 +108,7 @@
 		</table>
 	</div>
 	<div id="settings">
-		<form name="dealertrend_api_options_form" method="post" action="">
+		<form name="dealertrend_api_options_form" method="post" action="#feeds">
 			<?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
 			<table width="450">
 				<tr>
