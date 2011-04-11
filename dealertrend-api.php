@@ -108,6 +108,11 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			return $new_rule + $existing_rules;
 		} # End add_rewrite_rule()
 
+		# Never trust the user.
+		function sanitize_inputs( $input ) {
+			return htmlentities( $input , ENT_QUOTES );
+		}
+
 		# Show our templates if the user is trying to access our taxonomy.
 		function show_template() {
 
@@ -131,7 +136,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
 				$permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 
-				$server_parameters = isset( $_GET ) ? $_GET : NULL;
+				# Sanitize potential user inputs.
+				$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
 
 				$parameters = array();
 
