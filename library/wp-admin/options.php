@@ -54,11 +54,11 @@
 <h2><?php echo $this->plugin_meta_data[ 'Name' ]; ?> Settings</h2>
 <div id="option-tabs" style="clear:both;">
 	<ul>
-		<li><a href="#feed">Feeds</a></li>
+		<li><a href="#feeds">Feeds</a></li>
 		<li><a href="#settings">Settings</a></li>
 		<li><a href="#help">Help</a></li>
 	</ul>
-	<div id="feed">
+	<div id="feeds">
   	<table width="450">
     	<tr>
 				<td colspan="2"><h3 class="title">Inventory Feed</h3></td>
