@@ -1,6 +1,7 @@
 <?php
 
   global $dealertrend_api;
+  global $wp_rewrite;
 
   if( $_POST ) { 
 		# Security check.
@@ -27,6 +28,8 @@
       $dealertrend_api->save_options();
     }   
   }
+
+  $inventory_link = !empty($wp_rewrite->rules) ? '/inventory/' : '?taxonomy=inventory';
 
   $company_information = $dealertrend_api->get_company_information();
 
@@ -166,7 +169,7 @@
 		<p>After you've received a valid VMS and Company ID, you'll need to go to the <a id="settings-link" href="#settings" title="DealerTrend API Settings">settings page</a> and fill in their respective fields. Once you click "Save Changes" it will start pulling in your Inventory and Company Feeds.</p>
 
 		<h3 class="title">Viewing Inventory</h3>
-		<p>If the VMS and Company Feed are both loaded, you may view your inventory here: <a href="<?php bloginfo( 'url' ); ?>/inventory" target="_blank"><?php bloginfo( 'url' ); ?>/inventory</a></p>
+		<p>If the VMS and Company Feed are both loaded, you may view your inventory here: <a href="<?php bloginfo( 'url' ); echo $inventory_link; ?>" target="_blank"><?php bloginfo( 'url' ); echo $inventory_link; ?></a></p>
 		<p>Please note that any pages or sub-pages that reside at this permalink will no longer be shown.</p>
 
 		<h3 class="title">Plugin Legend</h3>
