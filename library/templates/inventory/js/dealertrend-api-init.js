@@ -6,11 +6,11 @@ dealertrend(document).ready(function() {
 	dealertrend('.dealertrend.inventory.detail .slideshow .images')
 	.cycle({
 		slideExpr: 'img',
-  	fx: 'all',
+		fx: 'all',
 		pager: '.dealertrend.inventory.detail .slideshow .navigation',
-    pagerAnchorBuilder: function(idx, slide) { 
-        return '<a href="#"><img src="' + slide.src + '" width="50" height"25" /></a>'; 
-    } 
+		pagerAnchorBuilder: function(idx, slide) { 
+				return '<a href="#"><img src="' + slide.src + '" width="50" height"25" /></a>'; 
+		} 
 	});
 
 	if(dealertrend('#loan-calculator').length){
@@ -39,21 +39,21 @@ dealertrend('#inventory-tabs').tabs();
 
 /* Loan Calculator */
 function iCanHazMoney(amount) {
-  value = amount.toString().replace(/\$|\,/g,'');
+	value = amount.toString().replace(/\$|\,/g,'');
 
-  if(isNaN(amount)) value = "0";
+	if(isNaN(amount)) value = "0";
 
-  sign = (value == (value = Math.abs(value)));
-  value = Math.floor(value*100+0.50000000001);
-  cents = value%100;
-  value = Math.floor(value/100).toString();
+	sign = (value == (value = Math.abs(value)));
+	value = Math.floor(value*100+0.50000000001);
+	cents = value%100;
+	value = Math.floor(value/100).toString();
 
-  if(cents<10) cents = "0" + cents;
+	if(cents<10) cents = "0" + cents;
 
-  for (var i = 0; i < Math.floor((value.length-(1+i))/3); i++)
-   value = value.substring(0,value.length-(4*i+3))+','+value.substring(value.length-(4*i+3));
+	for (var i = 0; i < Math.floor((value.length-(1+i))/3); i++)
+	 value = value.substring(0,value.length-(4*i+3))+','+value.substring(value.length-(4*i+3));
 
-  return (((sign)?'':'-') + '$' + value + '.' + cents);
+	return (((sign)?'':'-') + '$' + value + '.' + cents);
 }
 
 function calculateLoan() {
