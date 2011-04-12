@@ -15,7 +15,7 @@
 <div class="breadcrumbs">
 	<?php
 		$company_name = strtoupper( $company_information->name );
-		$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . $company_name . '</a>';
+		$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . htmlentities( $company_name ) . '</a>';
 		$do_not_show = array( 'page' , 'per_page' );
 		if( count( $this->parameters > 1 ) ) {
 			$crumb_trail = null;
@@ -23,7 +23,7 @@
 				foreach( $this->parameters as $key => $value ) {
 					if( !in_array( $key ,$do_not_show ) ) {
 						$crumb_trail .= '/' . $value;
-						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( urldecode( $value ) ) . '</a>';
 					}
 				}
 			} else {
@@ -31,7 +31,7 @@
 				foreach( $this->parameters as $key => $value ) {
 					if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 						$crumb_trail .= '&amp;' . $key . '=' . $value;
-						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( urldecode( $value ) ) . '</a>';
 					}
 				}
 			}
