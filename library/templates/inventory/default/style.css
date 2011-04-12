@@ -3,9 +3,11 @@
 .dealertrend.inventory.detail .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
 
 .breadcrumbs,
-.return-to-top { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.breadcrumbs { margin:10px 0;  }
-.return-to-top { float:right; text-transform:uppercase; }
+.return-to-top,
+.pager { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+.breadcrumbs { float:left; height:26px; }
+.return-to-top,
+.pager { float:right; text-transform:uppercase; width:300px; text-align:right; }
 
 .no-list { display:block; float:left; }
 
@@ -15,7 +17,8 @@
 .dealertrend.inventory.listing .item { background:#e1e1e1; padding:10px; margin:10px 0; clear:both; border:2px solid #1e1e1e; color:#666; position:relative; }
 .dealertrend.inventory.listing .item:hover { background:#bbb; color:black; }
 .dealertrend.inventory.listing .item:hover .details { color:black; }
-.dealertrend.inventory.listing .photo { height:150px; float:left; margin-right:10px; padding:5px; background:#1e1e1e; }
+.dealertrend.inventory.listing .photo { height:150px; float:left; margin-right:10px; padding:5px; background:#1e1e1e; display:block; }
+.dealertrend.inventory.listing .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no_image.jpg') no-repeat center; }
 .dealertrend.inventory.listing .photo:hover { background:#e1e1e1; }
 .dealertrend.inventory.listing .left-column,
 .dealertrend.inventory.listing .middle-column,

@@ -52,6 +52,6 @@
 <div class="breadcrumbs">
 <?php
 	echo $breadcrumbs;
-	echo '<a href="#inventory-top" title="Return to Top" class="return-to-top">Return to Top</a>';
 ?>
 </div>
+<?php echo '<a href="#inventory-top" title="Return to Top" class="return-to-top">Return to Top</a>'; ?>

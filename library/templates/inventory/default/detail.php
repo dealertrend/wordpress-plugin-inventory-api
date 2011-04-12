@@ -2,7 +2,8 @@
 	# Easy to use variables.
 	$headline = $inventory->headline;
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	$price = $inventory->pricing;
+	setlocale(LC_MONETARY, 'en_US');
+	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
 	$vin = $inventory->vin;
 	$odometer = $inventory->odometer;
 	$stock = $inventory->stock_number;
@@ -17,6 +18,8 @@
 	$model = $inventory->model_name;
 	$trim = $inventory->trim;
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
+	$description = $inventory->description;
+
 ?>
 <div class="dealertrend inventory detail">
 	<div class="headline">
@@ -129,7 +132,7 @@
 		</ul>
 		<div id="dealer-notes">
 			<h3>Dealer Notes</h3>
-			<p>Orange doesn't want to share this with me! :( <?php # TODO: FIX ME! ?></p>
+			<p><?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?></p>
 		</div><!-- #dealer-notes -->
 		<div id="dealer-options">
 			<h3>Optional Equipment</h3>

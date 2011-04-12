@@ -15,7 +15,7 @@ $args = array(
 
 ?>
 
-<div id="pager">
+<div class="pager">
 	<?php echo paginate_links( $args ); ?>
 </div>
 <div class="dealertrend inventory listing">
@@ -31,7 +31,9 @@ $args = array(
 	$engine = $inventory_item->engine;
 	$transmission = $inventory_item->transmission;
 	$exterior_color = $inventory_item->exterior_color;
-	$pricing = $inventory_item->pricing;
+	setlocale(LC_MONETARY, 'en_US');
+	$prices = $inventory_item->prices;
+	$asking_price = money_format( '%(#0n', $prices->asking_price );
 	$stock_number = $inventory_item->stock_number;
 	$odometer = $inventory_item->odometer;
 	$icons = $inventory_item->icons;
@@ -54,7 +56,7 @@ $args = array(
 			<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 		</a>
 	</div>
-	<div class="headline"><a href="<?php echo $inventory_url; ?>" title="<?php echo $headline; ?>"><?php echo $headline; ?></a></div>
+	<div class="headline"><a href="<?php echo $inventory_url; ?>" title="<?php echo $headline; ?>"><?php echo $headline; ?>&nbsp;</a></div>
 	<div class="left-column">
 		<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
 			<span class="year"><?php echo $year; ?></span>
@@ -66,7 +68,7 @@ $args = array(
 			<span class="engine"><?php echo $engine; ?></span>
 			<span class="transmission"><?php echo $transmission; ?></span>
 			<span class="exterior-color">Color: <?php echo $exterior_color; ?></span>
-			<span class="pricing"><?php echo $pricing; ?></span>
+			<span class="pricing"><?php echo $asking_price; ?></span>
 		</a>
 	</div>
 	<div class="middle-column">
