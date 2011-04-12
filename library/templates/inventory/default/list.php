@@ -1,5 +1,4 @@
 <div class="dealertrend inventory listing">
-
 <?php foreach( $inventory as $inventory_item ): ?>
 
 <?php
@@ -19,7 +18,11 @@
 	$headline = $inventory_item->headline;
 	$thumbnail = str_replace( '&' , '&amp;' , $inventory_item->photos[ 0 ]->small );
 
-	$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city	. '/'. $vin . '/';
+	if( !empty( $wp_rewrite->rules ) ) {
+		$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city	. '/'. $vin . '/';
+	} else {
+		$inventory_url = '?taxonomy=inventory&amp;vehicle_year=' . $year . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
+	}
 
 	$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
 

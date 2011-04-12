@@ -161,13 +161,6 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 					$parameters[ $index ] = $value;
 				}
 
-				# Year hack.
-				# Because we have a parameter called "year" and WordPress tries to use it to pull post archives - we have to change it's name.
-				if( isset( $server_parameters[ 'vehicle_year' ] ) ) {
-					$server_parameters[ 'year' ] = $server_parameters[ 'vehicle_year' ];
-					unset( $server_parameters[ 'vehicle_year' ] );
-				}
-
 				$this->parameters = array_merge( $parameters , $server_parameters );
 
 				$inventory = $this->get_inventory( $this->parameters );
@@ -370,6 +363,13 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
 			if( !isset( $parameters['vin'] )	) {
 				$parameters['photo_view'] = isset( $parameters['photo_view'] ) ? $parameters['photo_view'] : '1';
+			}
+
+			# The actual parameter is 'year'. But we've renamed it as to not conflict with core WordPress functionality.
+			# We need to change it back when making the request.
+			if( isset( $parameters['vehicle_year'] ) ) {
+				$parameters[ 'year' ] = $parameters[ 'vehicle_year' ];
+				unset( $parameters[ 'vehicle_year' ] );
 			}
 
 			$parameter_string = http_build_query( $parameters , '' , '&' );

@@ -15,12 +15,21 @@
 <div class="breadcrumbs">
 	<?php
 		$company_name = strtoupper( $company_information->name );
-		$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . $company_name . '</a>'; 
+		$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . $company_name . '</a>';
 		if( count( $this->parameters > 1 ) ) {
 			$crumb_trail = null;
-			foreach( $this->parameters as $parameter ) {
-				$crumb_trail .= '/' . $parameter;
-				$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $parameter ) . '</a>';
+			if( !empty( $wp_rewrite->rules ) ) {
+				foreach( $this->parameters as $parameter ) {
+					$crumb_trail .= '/' . $parameter;
+					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $parameter ) . '</a>';
+				}
+			} else {
+				$crumb_trail = '?taxonomy=inventory';
+				foreach( $this->parameters as $key => $value ) {
+					if( $key != 'taxonomy' )
+						$crumb_trail .= '&amp;' . $key . '=' . $value;
+					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+				}
 			}
 		}
 		echo $breadcrumbs;
