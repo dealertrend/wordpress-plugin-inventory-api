@@ -1,3 +1,23 @@
+<?php
+
+$pager = $this->pagination( $inventory );
+
+$parameters = $this->parameters;
+$args = array(
+	'base' => @add_query_arg('page','%#%'),
+	'current' => $pager[ 'current_page' ],
+	'total' => $pager[ 'total_pages' ],
+	'next_text' => __( 'Next &raquo;' ),
+	'prev_text' => __( '&laquo; Previous' ),
+	'show_all' => true,
+	'type' => 'plain'
+);
+
+?>
+
+<div id="pager">
+	<?php echo paginate_links( $args ); ?>
+</div>
 <div class="dealertrend inventory listing">
 <?php foreach( $inventory as $inventory_item ): ?>
 
@@ -19,7 +39,7 @@
 	$thumbnail = str_replace( '&' , '&amp;' , $inventory_item->photos[ 0 ]->small );
 
 	if( !empty( $wp_rewrite->rules ) ) {
-		$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city	. '/'. $vin . '/';
+		$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 	} else {
 		$inventory_url = '?taxonomy=inventory&amp;vehicle_year=' . $year . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 	}
