@@ -164,7 +164,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				$this->parameters = array_merge( $parameters , $server_parameters );
 
 				$inventory = $this->get_inventory( $this->parameters );
-				
+
 				$start_inventory_display_timer = timer_stop();
 				$this->display_inventory( $inventory );
 				$stop_inventory_display_timer = timer_stop();
@@ -181,6 +181,16 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			}
 
 		} # End get_parameters()
+
+		function pagination( $inventory ) {
+			if( isset( $inventory[ 0 ]->pagination ) ) {
+				$per_page = $inventory[ 0 ]->pagination->per_page;
+				$total_pages = $inventory[ 0 ]->pagination->total;
+				$current_page = $inventory[ 0 ]->pagination->on_page;
+
+				return compact( 'per_page' , 'total_pages', 'current_page' );
+			}
+		}
 
 		# We want a way of seeing how our API is reporting and how it interacts with other servers. So let's create a report we can use to graph data against.
 		function submit_report() {
