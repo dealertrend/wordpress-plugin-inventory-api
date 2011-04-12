@@ -16,19 +16,23 @@
 	<?php
 		$company_name = strtoupper( $company_information->name );
 		$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . $company_name . '</a>';
+		$do_not_show = array( 'page' , 'per_page' );
 		if( count( $this->parameters > 1 ) ) {
 			$crumb_trail = null;
 			if( !empty( $wp_rewrite->rules ) ) {
-				foreach( $this->parameters as $parameter ) {
-					$crumb_trail .= '/' . $parameter;
-					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $parameter ) . '</a>';
+				foreach( $this->parameters as $key => $value ) {
+					if( !in_array( $key ,$do_not_show ) ) {
+						$crumb_trail .= '/' . $value;
+						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+					}
 				}
 			} else {
 				$crumb_trail = '?taxonomy=inventory';
 				foreach( $this->parameters as $key => $value ) {
-					if( $key != 'taxonomy' )
+					if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 						$crumb_trail .= '&amp;' . $key . '=' . $value;
-					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+						$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( $value ) . '</a>';
+					}
 				}
 			}
 		}
