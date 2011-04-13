@@ -11,8 +11,8 @@
 	$engine = $inventory->engine;
 	$transmission = $inventory->transmission;
 	$drivetrain = $inventory->drive_train;
-	$dealer_options = $inventory->dealer_options;
-	$equipment = $inventory->standard_equipment;
+	$optional_equipment = $inventory->dealer_options;
+	$standard_equipment = $inventory->standard_equipment;
 	$year = $inventory->year;
 	$make = $inventory->make;
 	$model = $inventory->model_name;
@@ -123,26 +123,26 @@ echo $breadcrumbs;
 	<?php flush(); ?>
 	<div id="inventory-tabs" style="clear:both;">
 		<ul>
-			<li><a href="#dealer-notes">Dealer Notes</a></li>
-			<li><a href="#dealer-options">Optional Equipment</a></li>
-			<li><a href="#dealer-equipment">Equipment</a></li>
+			<li><a href="#dealer-notes">Description</a></li>
+			<li><a href="#optional-equipment">Optional Equipment</a></li>
+			<li><a href="#standard-equipment">Standard Equipment</a></li>
 			<li><a href="#test-drive">Test Drive</a></li>
 			<li><a href="#trade-in">Trade In</a></li>
-			<li><a href="#tell-a-friend">Tell a Friend</a></li>
+			<li><a href="#tell-a-friend">Share</a></li>
 			<li><a href="#loan-calculator">Loan Calculator</a></li>
 		</ul>
 		<div id="dealer-notes">
 			<h3>Dealer Notes</h3>
 			<p><?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?></p>
 		</div><!-- #dealer-notes -->
-		<div id="dealer-options">
+		<div id="optional-equipment">
 			<h3>Optional Equipment</h3>
-			<?php if( !is_null( $dealer_options ) ): ?>
+			<?php if( !is_null( $optional_equipment ) ): ?>
 				<ul>
 					<?php
 						$counter = 0;
-						$split = count( $dealer_options ) / 2;
-						foreach( $dealer_options as $option ) {
+						$split = count( $optional_equipment ) / 2;
+						foreach( $optional_equipment as $option ) {
 							echo ( $counter > $split ) ? '</ul><ul>' : NULL;
 							$counter = ( $counter <= $split ) ? $counter + 1 : 0;
 							echo '<li>' . $option . '</li>';
@@ -153,14 +153,14 @@ echo $breadcrumbs;
 				<p>This information is currently not available.</p>
 			<?php endif ?>
 			<br class="clear" />
-		</div><!-- #dealer-options -->
-		<div id="dealer-equipment">
+		</div><!-- #optional-equipment -->
+		<div id="standard-equipment">
 			<h3>Standard Equipment</h3>
-			<?php if( !is_null( $equipment ) ): ?>
+			<?php if( !is_null( $standard_equipment ) ): ?>
 			<ul>
 				<?php
 					$previous = null;
-					foreach( $equipment as $item ) {
+					foreach( $standard_equipment as $item ) {
 						echo ( is_null( $previous ) ) ? '<li class="no-list"><strong>' . $item->group . '</strong></li>' : NULL;
 						$previous = ( is_null( $previous ) ) ? $item->group : $previous;
 						echo ( $previous != $item->group ) ? '</ul><ul><li class="no-list"><strong>' . $previous . '</strong></li>' : NULL;
@@ -173,7 +173,7 @@ echo $breadcrumbs;
 				<p>This information is currently not available.</p>
 			<?php endif; ?>
 			<br class="clear" />
-		</div><!-- #dealer-equipment -->
+		</div><!-- #standard-equipment -->
 		<div id="test-drive">
 			<h3>Test Drive</h3>
 			<div class="form">
