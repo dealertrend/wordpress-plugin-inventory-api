@@ -20,6 +20,7 @@
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
 
+echo $breadcrumbs;
 ?>
 <div class="dealertrend inventory detail">
 	<div class="headline">
