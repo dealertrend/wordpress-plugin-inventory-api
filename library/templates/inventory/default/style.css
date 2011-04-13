@@ -30,7 +30,6 @@
 
 .dealertrend.inventory.listing .headline a { display:block; font-size:16px; line-height:30px; background:#1e1e1e; color:white; text-transform:uppercase; margin-bottom:10px; text-decoration:none; }
 .dealertrend.inventory.listing .item:hover .headline a { font-weight:bold; }
-.dealertrend.inventory.listing .doors { display:none; }
 .dealertrend.inventory.listing .engine { display:block; float:left; margin-right:5px; }
 .dealertrend.inventory.listing .engine:after { content:' / '; }
 .dealertrend.inventory.listing .transmission,

@@ -19,13 +19,12 @@
 	$trim = $inventory->trim;
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
+	$doors = $inventory->doors;
 
 echo $breadcrumbs;
 ?>
 <div class="dealertrend inventory detail">
-	<div class="headline">
-		<h2><?php echo $headline; ?></h2>
-	</div><!-- .headline -->
+	<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
 	<div class="left-column">
 		<div class="slideshow">
 			<div class="images">
@@ -69,7 +68,7 @@ echo $breadcrumbs;
 				<input name="trim" type="hidden" value="<?php echo $trim; ?>" />
 				<input name="stock" type="hidden" value="<?php echo $stock; ?>" />
 				<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
-				<input name="inventory" type="hidden" value="<?php # TODO: What is this? 10725019 ... I can't submit forms without this... ?>" />
+				<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
 				<input name="price" type="hidden" value="<?php echo $price; ?>" />
 				<input name="name" type="hidden" value="" />
 				<table>
@@ -188,7 +187,7 @@ echo $breadcrumbs;
 					<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
 					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
 					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-					<input type="hidden" name="inventory" value="<?php #TODO: FIX THIS ?>"/>
+					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
 					<input type="hidden" name="price" value="<?php echo $price; ?>"/>
 					<table style="width:100%">
 						<tr>
@@ -252,7 +251,7 @@ echo $breadcrumbs;
 					<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
 					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
 					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-					<input type="hidden" name="inventory" value="<?php # TODO: FIX THIS ?>"/>
+					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
 					<input type="hidden" name="price" value="<?php echo $price; ?>"/>
 					<table style="width:100%">
 						<tr>

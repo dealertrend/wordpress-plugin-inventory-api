@@ -87,6 +87,7 @@ echo $breadcrumbs;
 				$icons = $inventory_item->icons;
 				$headline = $inventory_item->headline;
 				$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
+				$doors = $inventory_item->doors . 'D';
 				if( !empty( $wp_rewrite->rules ) ) {
 					$inventory_url = '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 				} else {
@@ -107,7 +108,7 @@ echo $breadcrumbs;
 				<span class="make"><?php echo $make; ?></span>
 				<span class="model"><?php echo $model; ?></span>
 				<span class="trim"><?php echo $trim; ?></span>
-				<span class="doors">[N/A]</span>
+				<span class="doors"><?php echo $doors; ?></span>
 				<span class="body-style"><?php echo $body_style; ?></span>
 				<span class="engine"><?php echo $engine; ?></span>
 				<span class="transmission"><?php echo $transmission; ?></span>
