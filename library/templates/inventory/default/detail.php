@@ -11,7 +11,7 @@
 	$engine = $inventory->engine;
 	$transmission = $inventory->transmission;
 	$drivetrain = $inventory->drive_train;
-	$optional_equipment = $inventory->dealer_options;
+	$dealer_options = $inventory->dealer_options;
 	$standard_equipment = $inventory->standard_equipment;
 	$year = $inventory->year;
 	$make = $inventory->make;
@@ -124,7 +124,7 @@ echo $breadcrumbs;
 	<div id="inventory-tabs" style="clear:both;">
 		<ul>
 			<li><a href="#dealer-notes">Description</a></li>
-			<li><a href="#optional-equipment">Optional Equipment</a></li>
+			<li><a href="#dealer-options">Dealer Options</a></li>
 			<li><a href="#standard-equipment">Standard Equipment</a></li>
 			<li><a href="#test-drive">Test Drive</a></li>
 			<li><a href="#trade-in">Trade In</a></li>
@@ -135,14 +135,14 @@ echo $breadcrumbs;
 			<h3>Dealer Notes</h3>
 			<p><?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?></p>
 		</div><!-- #dealer-notes -->
-		<div id="optional-equipment">
-			<h3>Optional Equipment</h3>
-			<?php if( !is_null( $optional_equipment ) ): ?>
+		<div id="dealer-options">
+			<h3>Dealer Options</h3>
+			<?php if( !is_null( $dealer_options ) ): ?>
 				<ul>
 					<?php
 						$counter = 0;
-						$split = count( $optional_equipment ) / 2;
-						foreach( $optional_equipment as $option ) {
+						$split = count( $dealer_options ) / 2;
+						foreach( $dealer_options as $option ) {
 							echo ( $counter > $split ) ? '</ul><ul>' : NULL;
 							$counter = ( $counter <= $split ) ? $counter + 1 : 0;
 							echo '<li>' . $option . '</li>';
@@ -153,7 +153,7 @@ echo $breadcrumbs;
 				<p>This information is currently not available.</p>
 			<?php endif ?>
 			<br class="clear" />
-		</div><!-- #optional-equipment -->
+		</div><!-- #dealer-options -->
 		<div id="standard-equipment">
 			<h3>Standard Equipment</h3>
 			<?php if( !is_null( $standard_equipment ) ): ?>

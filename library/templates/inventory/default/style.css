@@ -78,11 +78,11 @@
 .dealertrend.inventory.detail .form input { margin-bottom:5px; }
 .dealertrend.inventory.detail .form .submit { margin:5px auto; width:100px;  }
 
-.dealertrend.inventory.detail #optional-equipment,
+.dealertrend.inventory.detail #dealer-options,
 .dealertrend.inventory.detail #standard-equipment { clear:both; }
-.dealertrend.inventory.detail #optional-equipment ul,
+.dealertrend.inventory.detail #dealer-options ul,
 .dealertrend.inventory.detail #standard-equipment ul { float:left; display:block; width:46.9%; padding:10px; background:#1e1e1e; color:white; text-transform:uppercase; font-size:10px; margin:5px 0 5px 5px; }
-.dealertrend.inventory.detail #optional-equipment li,
+.dealertrend.inventory.detail #dealer-options li,
 .dealertrend.inventory.detail #standard-equipment li { list-style: square inside; padding:5px 10px; color:#e1e1e1; line-height:14px; clear:both; }
 
 .dealertrend.inventory.detail .ui-tabs-panel p { margin:5px; }
