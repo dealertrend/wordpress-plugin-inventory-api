@@ -20,7 +20,13 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 		# These are various default states for the plugin.
 		public $status = array(
 			'inventory_json' => false,
+			'makes_json' => false,
+			'models_json' => false,
+			'trims_json' => false,
 			'inventory_json_request' => false,
+			'makes_json_request' => false,
+			'models_json_request' => false,
+			'trims_json_request' => false,
 			'company_information' => false,
 			'company_information_request' => false
 		);
@@ -95,6 +101,125 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				)
 			);
 		} # End create_taxonomy()
+
+		function get_trims() {
+			$start_trims_timer = timer_stop();
+
+			# Don't continue if we don't have the required company information.
+			# Also - no point in trying to get a trim list without a make and model.
+			if( !$this->status[ 'company_information' ] || !isset( $this->parameters[ 'make' ] ) || !isset( $this->parameters[ 'model' ] ) )
+				return false;
+
+			# Check to see if the data is cached.
+			$data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/trims.json?make=' . urlencode( $this->parameters[ 'make' ] ) . '&amp;model=' . urlencode( $this->parameters[ 'model' ] ) , 'dealertrend_api' );
+
+			# If it's not cached, then let's pull a new one from Orange.
+			if ( $data_array == false ) { 
+				$this->report[ 'trims_cached' ] = false;
+
+				# Get the file, store it's status in the given option key.
+				$data_json = $this->get_remote_file(
+					$this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/trims.json?make=' . urlencode( $this->parameters[ 'make' ] ) . '&amp;model=' . urlencode( $this->parameters[ 'model'] ),
+					'trims_json_request'
+				);
+
+				# If we get a 200 back AND it's not empty.
+				if( $this->status[ 'trims_json_request' ] && $data_json ) { 
+					$data_array = json_decode( $data_json );
+					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
+					wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/trims.json?make=' . urlencode( $this->parameters[ 'make' ] ) . '&amp;model=' . urlencode( $this->parameters[ 'model' ] ) , $data_array , 'dealertrend_api' , 0 );
+					$this->status[ 'trims_json' ] = true;
+				}	 
+
+			} else {
+				$this->report[ 'trims_cached' ] = true;
+				$this->status[ 'trims_json' ] = true;
+			}	 
+
+			$stop_trims_timer = timer_stop();
+			$this->report[ 'trims_download_time' ] = $stop_trims_timer - $start_trims_timer;
+
+			return $data_array;
+		} # End get_trims()
+
+		function get_models() {
+			$start_models_timer = timer_stop();
+
+			# Don't continue if we don't have the required company information.
+			# Also - no point in trying to get a model list without a make.
+			if( !$this->status[ 'company_information' ] || !isset( $this->parameters[ 'make' ] ) )
+				return false;
+
+			# Check to see if the data is cached.
+			$data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/models.json?make=' . urlencode( $this->parameters[ 'make' ] ) , 'dealertrend_api' );
+
+			# If it's not cached, then let's pull a new one from Orange.
+			if ( $data_array == false ) { 
+				$this->report[ 'models_cached' ] = false;
+
+				# Get the file, store it's status in the given option key.
+				$data_json = $this->get_remote_file(
+					$this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/models.json?make=' . urlencode( $this->parameters[ 'make' ] ),
+					'models_json_request'
+				);
+
+				# If we get a 200 back AND it's not empty.
+				if( $this->status[ 'models_json_request' ] && $data_json ) { 
+					$data_array = json_decode( $data_json );
+					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
+					wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/models.json?make=' . urlencode( $this->parameters[ 'make' ] ) , $data_array , 'dealertrend_api' , 0 );
+					$this->status[ 'models_json' ] = true;
+				}	 
+
+			} else {
+				$this->report[ 'models_cached' ] = true;
+				$this->status[ 'models_json' ] = true;
+			}	 
+
+			$stop_models_timer = timer_stop();
+			$this->report[ 'models_download_time' ] = $stop_models_timer - $start_models_timer;
+
+			return $data_array;
+		} # End get_models()
+
+		function get_makes() {
+			$start_makes_timer = timer_stop();
+
+			# Don't continue if we don't have the required company information.
+			if( !$this->status[ 'company_information' ] )
+				return false;
+
+			# Check to see if the data is cached.
+			$data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' , 'dealertrend_api' );
+
+			# If it's not cached, then let's pull a new one from Orange.
+			if ( $data_array == false ) { 
+				$this->report[ 'makes_cached' ] = false;
+
+				# Get the file, store it's status in the given option key.
+				$data_json = $this->get_remote_file(
+					$this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json',
+					'makes_json_request'
+				);
+
+				# If we get a 200 back AND it's not empty.
+				if( $this->status[ 'makes_json_request' ] && $data_json ) { 
+					$data_array = json_decode( $data_json );
+					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
+					wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' , $data_array , 'dealertrend_api' , 0 );
+					$this->status[ 'makes_json' ] = true;
+				}	 
+
+			} else {
+				$this->report[ 'makes_cached' ] = true;
+				$this->status[ 'makes_json' ] = true;
+			}	 
+
+			$stop_makes_timer = timer_stop();
+			$this->report[ 'makes_download_time' ] = $stop_makes_timer - $start_makes_timer;
+
+			return $data_array;
+		} # End get_makes()
 
 		# Regenerate the rewrite rules and save them to the database.
 		function flush_rewrite_rules() {
@@ -495,7 +620,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				}
 				closedir( $handle );
 			} else {
-				echo  __FUNCTION__ . ' Could not open directory at: ' . $template_base_path;
+				echo __FUNCTION__ . ' Could not open directory at: ' . $template_base_path;
 				return false;
 			}
 
