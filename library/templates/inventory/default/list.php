@@ -1,5 +1,7 @@
 <?php
 
+# TODO: Clean this code up, it got pretty messy.
+
 $pager = $this->pagination( $inventory );
 
 $parameters = $this->parameters;
@@ -13,10 +15,9 @@ $args = array(
 	'type' => 'plain'
 );
 
-
 $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 
-$quick_links = null;
+$quick_links = $quick_links_end = null;
 
 if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
 	$makes = $this->get_makes();
@@ -29,6 +30,7 @@ if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
 	}
 } elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
 	$models = $this->get_models();
+	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 	foreach( $models as $model ) {
 		if( !empty( $wp_rewrite->rules ) ) {
 			$quick_links .= '<a href="/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</a>';
@@ -37,17 +39,23 @@ if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
 		}
 	}
 } elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
+
 	$trims = $this->get_trims();
+	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
+	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
 	foreach( $trims as $trim ) {
-		if( !empty( $wp_rewrite->rules ) ) {
-			$quick_links .= '<a href="/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $parameters[ 'model'] . '/' . $trim . '">' . $trim . '</a>';
-		} else {
-			$quick_links .= '<a href="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $parameters[ 'model'] . '&amp;trim=' . $trim . '">' . $trim . '</a>';
-		}
+		$quick_links .= '<a href="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</a>';
 	}
+} else {
+	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
+	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
+	$quick_links_end .= '<a href="' . @add_query_arg( array( 'trim' => 'All' ) ) . '">View All Trims</a>';
 }
 
-echo !empty( $quick_links ) ? '<div class="quick-links">' . $quick_links . '</div>' : NULL;
+echo '<div class="quick-links">';
+echo !empty($quick_links) ? $quick_links . '<br />' : NULL;
+echo !empty($quick_links_end) ? $quick_links_end : NULL;
+echo '</div>';
 echo $breadcrumbs;
 
 ?>
