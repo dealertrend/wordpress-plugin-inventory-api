@@ -24,10 +24,10 @@ $args = array(
 <?php
 	$year = $inventory_item->year;
 	$make = $inventory_item->make;
-	$model = str_replace( ' ' , '%20' , $inventory_item->model_name );
+	$model = urldecode( $inventory_item->model_name );
 	$vin = $inventory_item->vin;
-	$trim = str_replace( ' ' , '%20' , $inventory_item->trim );
-	$body_style = str_replace( ' ' , '%20' , $inventory_item->body_style );
+	$trim = urldecode( $inventory_item->trim );
+	$body_style = urldecode( $inventory_item->body_style );
 	$engine = $inventory_item->engine;
 	$transmission = $inventory_item->transmission;
 	$exterior_color = $inventory_item->exterior_color;
@@ -38,7 +38,7 @@ $args = array(
 	$odometer = $inventory_item->odometer;
 	$icons = $inventory_item->icons;
 	$headline = $inventory_item->headline;
-	$thumbnail = str_replace( '&' , '&amp;' , $inventory_item->photos[ 0 ]->small );
+	$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 
 	if( !empty( $wp_rewrite->rules ) ) {
 		$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
