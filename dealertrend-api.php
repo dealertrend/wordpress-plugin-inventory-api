@@ -110,7 +110,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
 		# Never trust the user.
 		function sanitize_inputs( $input ) {
-			return htmlentities( $input , ENT_QUOTES );
+			if( is_array( $input ) ) {
+				foreach( $input as $key => $value ) {
+					$input[ $key ] = is_scalar( $value ) ? wp_kses_data( $value, false , 'http' ) : array( &$this, 'sanitize_inputs' );
+				}
+			} else {
+				$input = wp_kses_data( $input , false, 'http' );
+			}
+			return( $input );
 		}
 
 		# Show our templates if the user is trying to access our taxonomy.
@@ -444,7 +451,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				);
 
 				# If the result is false, then we were unable to retreive the file.
-				if( !$this->status[ 'company_information_request' ] ) {
+				if( !isset( $this->status[ 'company_information_request' ] ) ) {
 					$this->notices[ 'admin' ][] = '<span class="warning">Warning!</span> <strong>Unable to retrieve company information:</strong> ' . $this->errors[ 'company_information_request' ][ 'http_request_failed' ][ 0 ];
 				}
 

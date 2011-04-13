@@ -7,7 +7,7 @@
 .pager { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .breadcrumbs { float:left; height:26px; }
 .return-to-top,
-.pager { float:right; text-transform:uppercase; width:300px; text-align:right; }
+.pager { float:right; text-transform:uppercase; text-align:right; }
 
 .no-list { display:block; float:left; }
 

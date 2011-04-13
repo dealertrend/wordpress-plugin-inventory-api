@@ -4,11 +4,14 @@
 	global $wp_rewrite;
 
 	if( $_POST ) {
+
 		# Security check.
 		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'dealertrend_api_options_update' ) ) die( 'Security check failed.' );
 
 		# Do they want to uninstall the plugin?
 		$uninstall = isset( $_POST[ 'uninstall' ][ 0 ] ) ? $_POST[ 'uninstall' ][ 0 ] : false;
+
+		$_POST = array_map( array( &$dealertrend_api , 'sanitize_inputs' ) , &$_POST );
 
 		# If they chose to uninstall, delete our options from the database, deactivate the plugin, and send them to the plugin page.
 		if( $uninstall == true ) {
@@ -20,6 +23,7 @@
 
 		# Did they want to save the data?
 		if( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'update' ) {
+
 			# Remove trailing slashes as well as https.
 			# This plugin should never need https and trailing slashes are ugly. ^_^
 			$_POST[ 'api' ][ 'vehicle_management_system' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'api' ][ 'vehicle_management_system' ] );
