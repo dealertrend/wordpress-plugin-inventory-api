@@ -32,6 +32,7 @@
 				$dealertrend_api->options[ 'api' ] = $_POST[ 'api' ];
 			} elseif( isset( $_POST[ 'template' ] ) ) {
 				$dealertrend_api->options[ 'template' ] = $_POST[ 'template' ];
+				$dealertrend_api->options[ 'per_page' ] = $_POST[ 'per_page' ];
 			}
 			$dealertrend_api->save_options();
 		}
@@ -134,7 +135,20 @@
 								$templates = $dealertrend_api->get_templates();
 								foreach( $templates as $key => $value  ) {
 									$selected = ( $value == $this->options[ 'template' ] ) ? 'selected' : NULL;
-									echo '<option ' . $selected . ' value="' . $value . '">' . $value . '</option>';
+									echo '<option ' . $selected . ' value="' . $value . '">' . $value .'</option>';
+								}
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width="125">Vehicles Per Page:</td>
+					<td>
+						<select name="per_page">
+							<?php
+								for( $i = 1; $i <= 50; $i ++ ) {
+									$selected = ( $i == $this->options[ 'per_page' ] ) ? 'selected' : NULL;
+									echo '<option ' . $selected . ' value="' . $i . '">'. $i .'</option>';
 								}
 							?>
 						</select>

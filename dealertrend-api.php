@@ -52,7 +52,8 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 					'vehicle_reference_system' => NULL
 				),
 			# All installs should start with the default template.
-			'template' => 'default'
+			'template' => 'default',
+			'per_page' => 20
 		);
 
 		# PHP 4 Constructor
@@ -282,6 +283,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 
 				# Sanitize potential user inputs.
 				$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
+				$server_parameters[ 'per_page' ] = $this->options[ 'per_page' ];
 
 				$parameters = array();
 
