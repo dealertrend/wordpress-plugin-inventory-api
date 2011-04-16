@@ -102,6 +102,18 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			);
 		} # End create_taxonomy()
 
+		function get_templates() {
+			$directories = scandir( dirname( __FILE__ ) . '/library/templates/inventory/');
+			$ignore = array( '.' , '..' , 'shared' );
+			foreach( $directories as $key => $value ) {
+				if( in_array( $value , $ignore ) ) {
+					unset( $directories[ $key ] );
+				}
+			}
+			$templates = array_values( $directories );
+			return $templates;
+		}
+
 		function get_trims() {
 			$start_trims_timer = timer_stop();
 
@@ -420,7 +432,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-cycle', 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
-			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/js/dealertrend-api-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
+			wp_enqueue_script( 'dealertrend-api-inventory', $this->plugin_meta_data[ 'BaseURL' ] . '/library/templates/inventory/shared/js/dealertrend-api-init.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ) , $this->plugin_meta_data[ 'Version' ] , true );
 
 		} # End front_scripts()
 

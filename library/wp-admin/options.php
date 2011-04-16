@@ -23,13 +23,16 @@
 
 		# Did they want to save the data?
 		if( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'update' ) {
-
 			# Remove trailing slashes as well as https.
 			# This plugin should never need https and trailing slashes are ugly. ^_^
-			$_POST[ 'api' ][ 'vehicle_management_system' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'api' ][ 'vehicle_management_system' ] );
-			$_POST[ 'api' ][ 'vehicle_reference_system' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'api' ][ 'vehicle_reference_system' ] );
-			$dealertrend_api->options[ 'company_information' ] = $_POST[ 'company_information' ];
-			$dealertrend_api->options[ 'api' ] = $_POST[ 'api' ];
+			if( isset( $_POST[ 'api' ] ) ) {
+				$dealertrend_api->options[ 'company_information' ] = $_POST[ 'company_information' ];
+				$_POST[ 'api' ][ 'vehicle_management_system' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'api' ][ 'vehicle_management_system' ] );
+				$_POST[ 'api' ][ 'vehicle_reference_system' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'api' ][ 'vehicle_reference_system' ] );
+				$dealertrend_api->options[ 'api' ] = $_POST[ 'api' ];
+			} elseif( isset( $_POST[ 'template' ] ) ) {
+				$dealertrend_api->options[ 'template' ] = $_POST[ 'template' ];
+			}
 			$dealertrend_api->save_options();
 		}
 	}
@@ -58,6 +61,7 @@
 <div id="option-tabs" style="clear:both;">
 	<ul>
 		<li><a href="#feeds">Feeds</a></li>
+		<li><a href="#themes">Themes</a></li>
 		<li><a href="#settings">Settings</a></li>
 		<li><a href="#help">Help</a></li>
 	</ul>
@@ -110,6 +114,42 @@
 			</tr>
 		<?php endif; ?>
 		</table>
+	</div>
+	<div id="themes">
+		<form name="dealertrend_api_options_form" method="post" action="#feeds">
+		<?php wp_nonce_field( 'dealertrend_api_options_update' ); ?>
+			<table width="450">
+				<tr>
+					<td colspan="2"><h3 class="title">Inventory Theme Settings</h3></td>
+				</tr>
+				<tr>
+					<td width="125">Current Theme:</td>
+					<td><strong><?php echo ucwords( $dealertrend_api->options[ 'template' ] ); ?></strong></td>
+				</tr>
+				<tr>
+					<td width="125">Change Theme:</td>
+					<td>
+						<select name="template">
+							<?php
+								$templates = $dealertrend_api->get_templates();
+								foreach( $templates as $key => $value  ) {
+									$selected = ( $value == $this->options[ 'template' ] ) ? 'selected' : NULL;
+									echo '<option ' . $selected . ' value="' . $value . '">' . $value . '</option>';
+								}
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="hidden" name="action" value="update" />
+						<p class="submit">
+							<input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" />
+						</p>
+					</td>
+				</tr>
+			</table>
+		</form>
 	</div>
 	<div id="settings">
 		<form name="dealertrend_api_options_form" method="post" action="#feeds">
