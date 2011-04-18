@@ -21,7 +21,7 @@
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li span { width:100%; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li.collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li.expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
-#dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul { list-style:none; padding:0; margin:0; display:none; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul { list-style:none; padding:0; margin:0; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul > li { margin:0; }
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
 #dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul > li > a:hover { color:red; }
@@ -47,7 +47,6 @@
 #dealertrend-wrapper #listing .item .year,
 #dealertrend-wrapper #listing .item .make,
 #dealertrend-wrapper #listing .item .model,
-#dealertrend-wrapper #listing .body-style, 
 #dealertrend-wrapper #listing .item .trim { color:red; font-size:20px; line-height:35px; font-weight:bold; text-transform:capitalize; }
 
 #dealertrend-wrapper #listing .exterior-color,
@@ -95,7 +94,7 @@
 #dealertrend-wrapper #detail #vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
 #dealertrend-wrapper #detail #vehicle-information  .header { margin-bottom:10px; }
 #dealertrend-wrapper #detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
-#dealertrend-wrapper #detail #request-form form { padding:5px; line-height:20px;  }
+#dealertrend-wrapper #detail #request-form form { padding:5px; line-height:20px; }
 #dealertrend-wrapper #detail #request-form form input,
 #dealertrend-wrapper #detail #request-form form textarea { width:95%; }
 #dealertrend-wrapper #detail #helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; }

@@ -1,10 +1,7 @@
 <?php
 
 # TODO: Search (do this last).
-# TODO: Car Count
-# TODO: Sorting Columns
-# TODO: Item list
-# TODO: Left Quick Links
+# TODO: Car Count - This needs to be fixed. Only produces round numbers - is not correct.
 
 $pager = $this->pagination( $inventory );
 $args = array(
@@ -29,21 +26,7 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 		<div id="search-list">
 			<h3>Refine Your Search</h3>
 			<ul>
-				<li class="collapsed">
-					<span>Make</span>
-					<ul>
-						<?php
-							foreach( $this->get_makes() as $make ) {
-								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li><a href="/inventory/' . $sale_class . '/' . $make . '/">' . $make . '</a></li>';
-								} else {
-									echo '<li><a href="' . @add_query_arg( array( 'make' => $make ) ) . '">' . $make . '</a></li>';
-								}
-							}
-						?>
-					</ul>
-				</li>
-				<li class="collapsed">
+				<li class="expanded">
 					<span>Body Style</span>
 					<ul>
 						<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' ) ); ?>">Car</a></li>
@@ -52,14 +35,18 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 						<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' ) ); ?>">Van</a></li>
 					</ul>
 				</li>
-				<li class="collapsed">
-					<span>Search By</span>
+				<li class="expanded">
+					<span>Make</span>
 					<ul>
-						<?php #TODO: Figure out what these are supposed to link to... ?>
-						<li><a href="">Year</a></li>
-						<li><a href="">Make</a></li>
-						<li><a href="">Model</a></li>
-						<li><a href="">Price</a></li>
+						<?php
+							foreach( $this->get_makes( $sale_class ) as $make ) {
+								if( !empty( $wp_rewrite->rules ) ) {
+									echo '<li><a href="/inventory/' . $sale_class . '/' . $make . '/">' . $make . '</a></li>';
+								} else {
+									echo '<li><a href="' . @add_query_arg( array( 'make' => $make ) ) . '">' . $make . '</a></li>';
+								}
+							}
+						?>
 					</ul>
 				</li>
 			</ul>
@@ -72,13 +59,13 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 				$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
 				$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
 				$sort_make = $sort != 'make_asc' ? 'make_asc' : 'make_desc';
-				$sort_model = $sort != 'model_asc' ? 'model_asc' : 'model_desc';
+				$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 				$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 			?>
 			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) ); ?>">Year</a></div>
-			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_make ) ); ?>">Make</a></div>
-			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_model ) ); ?>">Model</a></div>
-			<div class="last"><a href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
+			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
+			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
+			<div class="last"><a href="<?php echo @add_query_arg( array( 'sort' => $sort_make ) ); ?>">Make</a></div>
 		</div>
 		<?php
 			if( empty( $inventory ) ) {
@@ -90,7 +77,6 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 					$model = urldecode( $inventory_item->model_name );
 					$vin = $inventory_item->vin;
 					$trim = urldecode( $inventory_item->trim );
-					$body_style = urldecode( $inventory_item->body_style );
 					$engine = $inventory_item->engine;
 					$transmission = $inventory_item->transmission;
 					$exterior_color = $inventory_item->exterior_color;
@@ -121,7 +107,6 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 								<span class="make"><?php echo $make; ?></span>
 								<span class="model"><?php echo $model; ?></span>
 								<span class="trim"><?php echo $trim; ?></span>
-								<span class="body-style"><?php echo $body_style; ?></span>
 							</a>
 						</div>
 						<div class="details-left">

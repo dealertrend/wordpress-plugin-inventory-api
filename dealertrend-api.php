@@ -195,7 +195,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 			return $data_array;
 		} # End get_models()
 
-		function get_makes() {
+		function get_makes( $sale_class = 'all' ) {
 			$start_makes_timer = timer_stop();
 
 			# Don't continue if we don't have the required company information.
@@ -203,15 +203,14 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				return false;
 
 			# Check to see if the data is cached.
-			$data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' , 'dealertrend_api' );
-
+			$data_array = wp_cache_get( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' . '?saleclass=' . $sale_class , 'dealertrend_api' );
 			# If it's not cached, then let's pull a new one from Orange.
 			if ( $data_array == false ) { 
 				$this->report[ 'makes_cached' ] = false;
 
 				# Get the file, store it's status in the given option key.
 				$data_json = $this->get_remote_file(
-					$this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json',
+					$this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' . '?saleclass=' . $sale_class,
 					'makes_json_request'
 				);
 
@@ -219,7 +218,7 @@ if ( !class_exists( 'dealertrend_api' ) ) {
 				if( $this->status[ 'makes_json_request' ] && $data_json ) { 
 					$data_array = json_decode( $data_json );
 					# Give the cache name a useful name. Something that shows the company and the parameters as well as what system it's pulling from.
-					wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' , $data_array , 'dealertrend_api' , 0 );
+					wp_cache_add( $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ] . '/inventory/vehicles/makes.json' . '?saleclass=' . $sale_class , $data_array , 'dealertrend_api' , 0 );
 					$this->status[ 'makes_json' ] = true;
 				}	 
 

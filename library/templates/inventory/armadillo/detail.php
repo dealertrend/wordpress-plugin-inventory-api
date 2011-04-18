@@ -20,6 +20,7 @@
 	$description = $inventory->description;
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
+	$fuel_economy = $inventory->fuel_economy;
 
 ?>
 <div id="detail">
@@ -105,6 +106,7 @@
 			<a id="calculate" href="">Calculate Payments</a>
 		</div>
 		<div id="carfax">
+			<a href="">Carfax</a>
 		</div>
 		<br class="clear" />
 	</div>
@@ -122,6 +124,16 @@
 			<div class="price"><span>Price:</span> <?php echo $price; ?></div>
 		</div>
 		<div id="fuel-economy">
+			<?php
+				$fuel_city = !empty( $fuel_economy ) ? $fuel_economy->city : '-';
+				$fuel_highway = !empty( $fuel_economy ) ? $fuel_economy->highway : '-';
+			?>
+			<div id="fuel_city">
+				<?php echo $fuel_city; ?>
+			</div>
+			<div id="fuel_highway">
+				<?php echo $fuel_highway; ?>
+			</div>
 		</div>
 		<div id="icons">
 			<?php echo $icons; ?>
