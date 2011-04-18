@@ -11,6 +11,7 @@
 #dealertrend-wrapper .breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
 #dealertrend-wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB;  }
 
+/* Listing Page */
 #dealertrend-wrapper #listing #sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; margin-left:-1px; }
 #dealertrend-wrapper #listing #sidebar #count { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:red; font-weight:bold; text-align:center; }
 #dealertrend-wrapper #listing #sidebar #search-list { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
@@ -36,7 +37,6 @@
 
 #dealertrend-wrapper .no-list { display:block; float:left; }
 
-/* Listing Page */
 #dealertrend-wrapper #listing { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; margin:10px 0; display:block; clear:both;  }
 
 #dealertrend-wrapper #listing .item { background:white; padding-left:10px; clear:both; color:#666; position:relative; padding-bottom:5px; border-top:1px solid #a8a8a8; height:145px; }
@@ -68,4 +68,39 @@
 
 /* Detail Page */
 #dealertrend-wrapper #detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-#dealertrend-wrapper #detail .headline h2 { color:white; font-size:20px; line-height:20px; padding:10px;  }
+#dealertrend-wrapper #detail #main-line { border-bottom:1px solid #a8a8a8; height:60px; }
+#dealertrend-wrapper #detail #main-line h2 { color:black; font-size:20px; line-height:50px; padding:10px; float:left; }
+#dealertrend-wrapper #detail #icons { float:right; width:300px; line-height:40px; text-align:right; padding:10px; }
+#dealertrend-wrapper #detail #column-left,
+#dealertrend-wrapper #detail #column-middle,
+#dealertrend-wrapper #detail #column-right { float:left; width:300px; }
+
+#dealertrend-wrapper #detail .slideshow { width:320px; }
+#dealertrend-wrapper #detail .slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
+#dealertrend-wrapper #detail .slideshow .navigation { line-height:25px; display:block; margin:5px 0 0 5px; border:1px solid black; }
+#dealertrend-wrapper #detail .slideshow .navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 20px center; float:left; }
+#dealertrend-wrapper #detail .slideshow .navigation a img:hover { border:3px solid red; }
+#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img { background-color:teal; }
+#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img:hover { background-color:turquoise; }
+
+#dealertrend-wrapper #detail #request-form { background:#efefef; }
+#dealertrend-wrapper #detail #vehicle-information { background:white; }
+#dealertrend-wrapper #detail #vehicle-information .price span { color:black; }
+#dealertrend-wrapper #detail #vehicle-information .price { color:red; font-size:16px; margin:10px 0; font-weight:bold; }
+#dealertrend-wrapper #detail #request-form,
+#dealertrend-wrapper #detail #vehicle-information,
+#dealertrend-wrapper #detail #helpful-links { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
+#dealertrend-wrapper #detail #vehicle-information { font-size:10px; }
+#dealertrend-wrapper #detail #vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
+#dealertrend-wrapper #detail #vehicle-information  .header { margin-bottom:10px; }
+#dealertrend-wrapper #detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
+#dealertrend-wrapper #detail #request-form form { padding:5px; line-height:20px;  }
+#dealertrend-wrapper #detail #request-form form input,
+#dealertrend-wrapper #detail #request-form form textarea { width:95%; }
+#dealertrend-wrapper #detail #helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; }
+#dealertrend-wrapper #detail #helpful-links a#schedule { background: transparent url('images/button-schedule-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#trade { background: transparent url('images/button-trade-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#facebook { background: transparent url('images/button-facebook-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#approved { background: transparent url('images/button-approved-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#friend { background: transparent url('images/button-friend-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#calculate { background: transparent url('images/button-calculate-250x31.jpg') no-repeat; }

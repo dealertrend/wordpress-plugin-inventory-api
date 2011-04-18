@@ -31,15 +31,13 @@
 	if( count( $this->parameters > 1 ) ) {
 		$crumb_trail = null;
 		if( !empty( $wp_rewrite->rules ) ) {
-			$breadcrumbs .= '<a href="/inventory/" title="' . $company_name . ': Inventory"><span>></span>Inventory</a>';
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
-					$crumb_trail .= '/' . $value;
+					$crumb_trail .= '/inventory/' . $value;
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>></span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
 		} else {
-			$breadcrumbs .= '<a href="?taxonomy=inventory" title="' . $company_name . ': Inventory"><span>></span>Inventory</a>';
 			$crumb_trail = '?taxonomy=inventory';
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
@@ -73,6 +71,15 @@
 	var dealertrend = jQuery.noConflict();
 
 	dealertrend(document).ready(function() {
+		dealertrend('#dealertrend-wrapper #detail .slideshow .images')
+		.cycle({
+			slideExpr: 'img',
+			fx: 'fade',
+			pager: '#dealertrend-wrapper #detail .slideshow .navigation',
+			pagerAnchorBuilder: function(idx, slide) { 
+				return '<a href="#"><img src="' + slide.src + '" width="70" height"40" /></a>'; 
+			} 
+		});
 	});
 
 	dealertrend('#search-list > ul > li > span').click(function() {
