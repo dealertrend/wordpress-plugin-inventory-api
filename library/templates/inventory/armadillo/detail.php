@@ -25,9 +25,6 @@
 <div id="detail">
 	<div id="main-line">
 		<?php echo '<h2>' . $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $transmission . '</h2>'; ?>
-		<div id="icons">
-			<?php echo $icons; ?>
-		</div>
 	</div>
 	<div id="column-left">
 		<div id="request-form">
@@ -125,6 +122,9 @@
 			<div class="price"><span>Price:</span> <?php echo $price; ?></div>
 		</div>
 		<div id="fuel-economy">
+		</div>
+		<div id="icons">
+			<?php echo $icons; ?>
 		</div>
 		<div id="tabs">
 		</div>
