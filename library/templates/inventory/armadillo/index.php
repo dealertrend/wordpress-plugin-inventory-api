@@ -21,7 +21,7 @@
 	echo '<div id="dealertrend-wrapper">';
 
 	# We don't want these variables to show up in the breadcrumbs.
-	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort' );
+	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
 
 	# Let's build the breadcrumbs
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>></span>' . urldecode( $company_name ) . '</a>';
@@ -29,11 +29,11 @@
 	# Figoure out if we canuse clean URL structures or not.
 	# TODO: Use an actual image for the separator...
 	if( count( $this->parameters > 1 ) ) {
-		$crumb_trail = null;
+		$crumb_trail = '/inventory/';
 		if( !empty( $wp_rewrite->rules ) ) {
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
-					$crumb_trail .= '/inventory/' . $value;
+					$crumb_trail .=  $value . '/';
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>></span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
