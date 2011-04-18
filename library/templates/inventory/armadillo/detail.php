@@ -98,15 +98,12 @@
 			<div class="header">
 				Helpful Links
 			</div>
-			<a id="schedule" href="">Schedule Test Drive</a>
-			<a id="trade" href="">Trade Evaluation</a>
-			<a id="facebook" href="">Share on Facebook</a>
-			<a id="approved" href="">Get Approved Now</a>
-			<a id="friend" href="">Send to a Friend</a>
-			<a id="calculate" href="">Calculate Payments</a>
-		</div>
-		<div id="carfax">
-			<a href="">Carfax</a>
+			<a id="schedule" href="/schedule-test-drive/" target="_blank">Schedule Test Drive</a>
+			<a id="trade" href="/trade-evaluation/" target="_blank">Trade Evaluation</a>
+			<a id="facebook" href="http://www.addthis.com/bookmark.php?pub=dealertrend&amp;v=250&amp;source=tbx-250&amp;s=facebook&url=&amp;title=&amp;content=" target="_blank">Share on Facebook</a>
+			<a id="approved" href="#" target="_blank">Get Approved Now</a>
+			<a id="friend" href="#" target="_blank">Send to a Friend</a>
+			<a id="calculate" href="#" target="_blank">Calculate Payments</a>
 		</div>
 		<br class="clear" />
 	</div>
@@ -142,6 +139,10 @@
 			<?php echo $icons; ?>
 		</div>
 		<div id="tabs">
+			<div id="description">
+			</div>
+			<div id="equipment">
+			</div>
 		</div>
 		<br class="clear" />
 	</div>
@@ -154,6 +155,7 @@
 				}
 			?>
 			</div><!-- .images -->
+			<a href="#" id="video">Watch Video for this Vehicle</a>
 			<div class="navigation"></div><!-- .navigation -->
 		</div><!-- .slideshow -->
 		<br class="clear" />

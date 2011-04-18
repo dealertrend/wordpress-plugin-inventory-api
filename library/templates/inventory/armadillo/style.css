@@ -76,7 +76,7 @@
 
 #dealertrend-wrapper #detail .slideshow { width:320px; }
 #dealertrend-wrapper #detail .slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-#dealertrend-wrapper #detail .slideshow .navigation { line-height:25px; display:block; margin:5px 0 0 5px; border:1px solid black; }
+#dealertrend-wrapper #detail .slideshow .navigation { line-height:25px; display:block; margin:5px auto 0 auto; border:1px solid black; width:320px; }
 #dealertrend-wrapper #detail .slideshow .navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; float:left; height:50px; }
 #dealertrend-wrapper #detail .slideshow .navigation a img:hover { border:3px solid red; }
 #dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img { border-color:#55CCe6; }
@@ -114,3 +114,5 @@
 #dealertrend-wrapper #detail #fuel-economy #fuel-highway { float:right; }
 #dealertrend-wrapper #detail #fuel-economy p { margin-bottom:10px; }
 #dealertrend-wrapper #detail #fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
+
+#dealertrend-wrapper #detail #video { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
