@@ -58,14 +58,12 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 			<?php
 				$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
 				$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
-				$sort_make = $sort != 'make_asc' ? 'make_asc' : 'make_desc';
 				$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 				$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 			?>
 			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) ); ?>">Year</a></div>
 			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
-			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
-			<div class="last"><a href="<?php echo @add_query_arg( array( 'sort' => $sort_make ) ); ?>">Make</a></div>
+			<div class="last"><a href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
 		</div>
 		<?php
 			if( empty( $inventory ) ) {
