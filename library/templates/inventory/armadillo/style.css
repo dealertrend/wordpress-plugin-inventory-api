@@ -43,7 +43,7 @@
 #dealertrend-wrapper #listing .item:hover { border-left:10px solid red; padding-left:0; }
 #dealertrend-wrapper #listing .item a { text-decoration:none; }
 #dealertrend-wrapper #listing .item .photo { height:150px; float:left; display:block; margin-right:20px; }
-#dealertrend-wrapper #listing .item .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no_image.jpg') no-repeat center; }
+#dealertrend-wrapper #listing .item .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
 #dealertrend-wrapper #listing .item .year,
 #dealertrend-wrapper #listing .item .make,
 #dealertrend-wrapper #listing .item .model,
