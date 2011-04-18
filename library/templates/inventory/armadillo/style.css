@@ -30,7 +30,9 @@
 #dealertrend-wrapper #listing #items > h2 { display:block; line-height:20px; padding:10px; }
 
 #dealertrend-wrapper #listing #items #sort-by { height:50px; background: #eee; color:black; }
-#dealertrend-wrapper #listing #items #sort-by > div > a { color:black; text-decoration:none; }
+#dealertrend-wrapper #listing #items #sort-by > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
+#dealertrend-wrapper #listing #items #sort-by > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
+#dealertrend-wrapper #listing #items #sort-by > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
 #dealertrend-wrapper #listing #items #sort-by > div > a:hover { color:red; }
 #dealertrend-wrapper #listing #items #sort-by > div { float:left; width:185px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
 #dealertrend-wrapper #listing #items #sort-by > div.last { border-right:0; }
@@ -97,13 +99,14 @@
 #dealertrend-wrapper #detail #request-form form { padding:5px; line-height:20px; }
 #dealertrend-wrapper #detail #request-form form input,
 #dealertrend-wrapper #detail #request-form form textarea { width:95%; }
-#dealertrend-wrapper #detail #helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; }
-#dealertrend-wrapper #detail #helpful-links a#schedule { background: transparent url('images/button-schedule-250x31.jpg') no-repeat; }
-#dealertrend-wrapper #detail #helpful-links a#trade { background: transparent url('images/button-trade-250x31.jpg') no-repeat; }
-#dealertrend-wrapper #detail #helpful-links a#facebook { background: transparent url('images/button-facebook-250x31.jpg') no-repeat; }
-#dealertrend-wrapper #detail #helpful-links a#approved { background: transparent url('images/button-approved-250x31.jpg') no-repeat; }
-#dealertrend-wrapper #detail #helpful-links a#friend { background: transparent url('images/button-friend-250x31.jpg') no-repeat; }
-#dealertrend-wrapper #detail #helpful-links a#calculate { background: transparent url('images/button-calculate-250x31.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; background-position:top center;  }
+#dealertrend-wrapper #detail #helpful-links a#schedule { background: transparent url('images/button-sprite-schedule-test-drive-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#trade { background: transparent url('images/button-sprite-trade-evaluation-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#facebook { background: transparent url('images/button-sprite-facebook-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#approved { background: transparent url('images/button-sprite-get-approved-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#friend { background: transparent url('images/button-sprite-friend-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a#calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
+#dealertrend-wrapper #detail #helpful-links a:hover { background-position:bottom center !important; }
 
 #dealertrend-wrapper #detail #fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
 #dealertrend-wrapper #detail #fuel-economy #fuel-city,

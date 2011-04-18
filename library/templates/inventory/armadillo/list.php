@@ -57,13 +57,22 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 			<div>Sort by</div>
 			<?php
 				$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
+				switch( $sort ) {
+					case 'year_asc': $sort_year_class = 'asc'; break;
+					case 'year_desc': $sort_year_class = 'desc'; break;
+					case 'price_asc': $sort_price_class = 'asc'; break;
+					case 'price_desc': $sort_price_class = 'desc'; break;
+					case 'mileage_asc': $sort_mileage_class = 'asc'; break;
+					case 'mileage_desc': $sort_mileage_class = 'desc'; break;
+					default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
+				}
 				$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
 				$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 				$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 			?>
-			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) ); ?>">Year</a></div>
-			<div><a href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
-			<div class="last"><a href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
+			<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) ); ?>">Year</a></div>
+			<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
+			<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
 		</div>
 		<?php
 			if( empty( $inventory ) ) {
@@ -82,6 +91,7 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 					setlocale(LC_MONETARY, 'en_US');
 					$prices = $inventory_item->prices;
 					$asking_price = money_format( '%(#0n', $prices->asking_price );
+					$display_price = $prices->asking_price > 0 ? 'Price:' . $asking_price : $prices->default_price_text;
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
@@ -121,7 +131,7 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 							<?php echo $icons; ?>
 						</div>
 						<div class="price">
-							Price: <?php echo $asking_price; ?>
+							<?php echo $display_price; ?>
 							<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
 						</div>
 						<br class="clear" />
