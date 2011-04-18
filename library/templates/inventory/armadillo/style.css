@@ -77,10 +77,10 @@
 #dealertrend-wrapper #detail .slideshow { width:320px; }
 #dealertrend-wrapper #detail .slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
 #dealertrend-wrapper #detail .slideshow .navigation { line-height:25px; display:block; margin:5px 0 0 5px; border:1px solid black; }
-#dealertrend-wrapper #detail .slideshow .navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 20px center; float:left; height:50px; }
+#dealertrend-wrapper #detail .slideshow .navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; float:left; height:50px; }
 #dealertrend-wrapper #detail .slideshow .navigation a img:hover { border:3px solid red; }
-#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img { background-color:teal; }
-#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img:hover { background-color:turquoise; }
+#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img { border-color:#55CCe6; }
+#dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img:hover { border-color:red; }
 
 #dealertrend-wrapper #detail #request-form { background:#efefef; }
 #dealertrend-wrapper #detail #request-form .submit { background: url('images/button-submit-170x25.png') no-repeat top center; width:170px; height:25px; margin:auto; display:block; text-indent:-9999px; border:0; }
@@ -104,3 +104,12 @@
 #dealertrend-wrapper #detail #helpful-links a#approved { background: transparent url('images/button-approved-250x31.jpg') no-repeat; }
 #dealertrend-wrapper #detail #helpful-links a#friend { background: transparent url('images/button-friend-250x31.jpg') no-repeat; }
 #dealertrend-wrapper #detail #helpful-links a#calculate { background: transparent url('images/button-calculate-250x31.jpg') no-repeat; }
+
+#dealertrend-wrapper #detail #fuel-economy { background: white url('images/background-gas-pump-59x52.jpg') no-repeat center; width:95%; height:100px; }
+#dealertrend-wrapper #detail #fuel-economy #fuel-city,
+#dealertrend-wrapper #detail #fuel-economy #fuel-highway { color:black; width:50px; font-weight:bold; padding:25px; text-align:center; }
+#dealertrend-wrapper #detail #fuel-economy #fuel-city strong,
+#dealertrend-wrapper #detail #fuel-economy #fuel-highway strong { font-size:30px; }
+#dealertrend-wrapper #detail #fuel-economy #fuel-city { float:left; }
+#dealertrend-wrapper #detail #fuel-economy #fuel-highway { float:right; }
+#dealertrend-wrapper #detail #fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; }

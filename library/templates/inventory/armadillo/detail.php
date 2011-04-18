@@ -125,15 +125,18 @@
 		</div>
 		<div id="fuel-economy">
 			<?php
-				$fuel_city = !empty( $fuel_economy ) ? $fuel_economy->city : '-';
-				$fuel_highway = !empty( $fuel_economy ) ? $fuel_economy->highway : '-';
+				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : '-';
+				$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : '-';
 			?>
-			<div id="fuel_city">
-				<?php echo $fuel_city; ?>
+			<div id="fuel-city">
+				<p>City</p>
+				<p><strong><?php echo $fuel_city; ?></strong></p>
 			</div>
-			<div id="fuel_highway">
-				<?php echo $fuel_highway; ?>
+			<div id="fuel-highway">
+				<p>Highway</p>
+				<p><strong><?php echo $fuel_highway; ?></strong></p>
 			</div>
+			<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
 		</div>
 		<div id="icons">
 			<?php echo $icons; ?>
