@@ -1,0 +1,70 @@
+#dealertrend-wrapper { width:925px; margin:auto; position:relative; min-height:800px; }
+#dealertrend-wrapper .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
+
+#dealertrend-wrapper .breadcrumbs,
+#dealertrend-wrapper .pager,
+#dealertrend-wrapper .return-to-top { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+
+#dealertrend-wrapper .return-to-top { float:right; text-transform:uppercase; text-align:right; margin:10px; }
+#dealertrend-wrapper .pager { text-align:right; position:absolute; right:0; top:-20px; }
+#dealertrend-wrapper .breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:925px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
+#dealertrend-wrapper .breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
+#dealertrend-wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB;  }
+
+#dealertrend-wrapper #listing #sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; margin-left:-1px; }
+#dealertrend-wrapper #listing #sidebar #count { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:red; font-weight:bold; text-align:center; }
+#dealertrend-wrapper #listing #sidebar #search-list { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+#dealertrend-wrapper #listing #sidebar #search-list h3 { line-height:25px; height:25px; text-align:left; text-transform:uppercase; font-size:12px; font-weight:bold; background:#eee; margin-left:10px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul { list-style:none; padding:0; margin:0; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li { color: #006875; font-weight:bold; text-transform:uppercase; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li span { width:100%; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li.collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li.expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul { list-style:none; padding:0; margin:0; display:none; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
+#dealertrend-wrapper #listing #sidebar #search-list > ul > li > ul > li > a:hover { color:red; }
+
+#dealertrend-wrapper #listing #items { width:750px; margin-left:-1px; margin-right:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; }
+#dealertrend-wrapper #listing #items > h2 { display:block; line-height:20px; padding:10px; }
+
+#dealertrend-wrapper #listing #items #sort-by { height:50px; background: #eee; color:black; }
+#dealertrend-wrapper #listing #items #sort-by > div > a { color:black; text-decoration:none; }
+#dealertrend-wrapper #listing #items #sort-by > div > a:hover { color:red; }
+#dealertrend-wrapper #listing #items #sort-by > div { float:left; width:139px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
+#dealertrend-wrapper #listing #items #sort-by > div.last { border-right:0; }
+
+#dealertrend-wrapper .no-list { display:block; float:left; }
+
+/* Listing Page */
+#dealertrend-wrapper #listing { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; margin:10px 0; display:block; clear:both;  }
+
+#dealertrend-wrapper #listing .item { background:white; padding-left:10px; clear:both; color:#666; position:relative; padding-bottom:5px; border-top:1px solid #a8a8a8; height:145px; }
+#dealertrend-wrapper #listing .item:hover { border-left:10px solid red; padding-left:0; }
+#dealertrend-wrapper #listing .item a { text-decoration:none; }
+#dealertrend-wrapper #listing .item .photo { height:150px; float:left; display:block; margin-right:20px; }
+#dealertrend-wrapper #listing .item .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no_image.jpg') no-repeat center; }
+#dealertrend-wrapper #listing .item .year,
+#dealertrend-wrapper #listing .item .make,
+#dealertrend-wrapper #listing .item .model,
+#dealertrend-wrapper #listing .body-style, 
+#dealertrend-wrapper #listing .item .trim { color:red; font-size:20px; line-height:35px; font-weight:bold; text-transform:capitalize; }
+
+#dealertrend-wrapper #listing .exterior-color,
+#dealertrend-wrapper #listing .interior-color,
+#dealertrend-wrapper #listing .transmission,
+#dealertrend-wrapper #listing .stock-number,
+#dealertrend-wrapper #listing .odometer,
+#dealertrend-wrapper #listing .vin { display:block; }
+
+#dealertrend-wrapper #listing .details-left,
+#dealertrend-wrapper #listing .details-right { font-size:9px; overflow:hidden; }
+#dealertrend-wrapper #listing .details-left { float:left; padding-right:10px; border-right:1px solid #a8a8a8; width:145px; }
+#dealertrend-wrapper #listing .details-right { float:left; padding-left:10px; width:155px; }
+
+#dealertrend-wrapper #listing .icons { float:left; padding-left:20px; overflow:hidden; height:40px; }
+#dealertrend-wrapper #listing .price { float:left; width:500px; font-size:20px; font-weight:bold; line-height:60px; }
+#dealertrend-wrapper #listing .price a { background: transparent url( 'images/button-more-information-155x21.png' ) no-repeat center; display:block; height:60px; width:155px; float:right; text-indent:-9999px; }
+
+/* Detail Page */
+#dealertrend-wrapper #detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+#dealertrend-wrapper #detail .headline h2 { color:white; font-size:20px; line-height:20px; padding:10px;  }
