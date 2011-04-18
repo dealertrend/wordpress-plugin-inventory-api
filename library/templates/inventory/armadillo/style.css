@@ -84,6 +84,7 @@
 #dealertrend-wrapper #detail .slideshow .navigation a.activeSlide img:hover { background-color:turquoise; }
 
 #dealertrend-wrapper #detail #request-form { background:#efefef; }
+#dealertrend-wrapper #detail #request-form .submit { background: url('images/button-submit-170x25.png') no-repeat top center; width:170px; height:25px; margin:auto; display:block; text-indent:-9999px; border:0; }
 #dealertrend-wrapper #detail #vehicle-information { background:white; }
 #dealertrend-wrapper #detail #vehicle-information .price span { color:black; }
 #dealertrend-wrapper #detail #vehicle-information .price { color:red; font-size:16px; margin:10px 0; font-weight:bold; }

@@ -25,7 +25,7 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 
 <div id="listing">
 	<div id="sidebar">
-		<div id="count"><?php echo !empty( $inventory ) ? $inventory[0]->pagination->total : 0; ?> Cars Found</div>
+		<div id="count"><?php echo !empty( $inventory ) ? $inventory[0]->pagination->total * $inventory[0]->pagination->per_page : 0; ?> Cars Found</div>
 		<div id="search-list">
 			<h3>Refine Your Search</h3>
 			<ul>
