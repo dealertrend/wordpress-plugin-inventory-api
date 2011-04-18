@@ -105,11 +105,12 @@
 #dealertrend-wrapper #detail #helpful-links a#friend { background: transparent url('images/button-friend-250x31.jpg') no-repeat; }
 #dealertrend-wrapper #detail #helpful-links a#calculate { background: transparent url('images/button-calculate-250x31.jpg') no-repeat; }
 
-#dealertrend-wrapper #detail #fuel-economy { background: white url('images/background-gas-pump-59x52.jpg') no-repeat center; width:95%; height:100px; }
+#dealertrend-wrapper #detail #fuel-economy { background: white url('images/background-gas-pump-59x52.jpg') no-repeat center; width:95%; height:125px;  }
 #dealertrend-wrapper #detail #fuel-economy #fuel-city,
 #dealertrend-wrapper #detail #fuel-economy #fuel-highway { color:black; width:50px; font-weight:bold; padding:25px; text-align:center; }
 #dealertrend-wrapper #detail #fuel-economy #fuel-city strong,
 #dealertrend-wrapper #detail #fuel-economy #fuel-highway strong { font-size:30px; }
 #dealertrend-wrapper #detail #fuel-economy #fuel-city { float:left; }
 #dealertrend-wrapper #detail #fuel-economy #fuel-highway { float:right; }
+#dealertrend-wrapper #detail #fuel-economy p { margin-bottom:10px; }
 #dealertrend-wrapper #detail #fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; }
