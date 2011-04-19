@@ -32,7 +32,7 @@
 #dealertrend-wrapper #listing #items #sort-by { height:50px; background: #eee; color:black; }
 #dealertrend-wrapper #listing #items #sort-by > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
 #dealertrend-wrapper #listing #items #sort-by > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
-#dealertrend-wrapper #listing #items #sort-by > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
+#dealertrend-wrapper #listing #items #sort-by > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px; }
 #dealertrend-wrapper #listing #items #sort-by > div > a:hover { color:red; }
 #dealertrend-wrapper #listing #items #sort-by > div { float:left; width:185px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
 #dealertrend-wrapper #listing #items #sort-by > div.last { border-right:0; }
