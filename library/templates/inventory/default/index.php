@@ -21,7 +21,8 @@
 		$crumb_trail = null;
 		if( !empty( $wp_rewrite->rules ) ) {
 			$breadcrumbs .= ' > <a href="/inventory/" title="' . $company_name . ': Inventory">INVENTORY</a>';
-			foreach( $this->parameters as $key => $value ) {
+            $crumb_trail = '/inventory';
+            foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .= '/' . $value;
 					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( urldecode( $value ) ) . '</a>';
