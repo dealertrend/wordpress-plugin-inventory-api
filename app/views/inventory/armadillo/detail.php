@@ -1,7 +1,7 @@
 <?php
 
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	setlocale(LC_MONETARY, 'en_US');
+	setlocale( LC_MONETARY , 'en_US' );
 	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
 	$vin = $inventory->vin;
 	$odometer = empty( $inventory->odometer ) || $inventory->odometer <= 0 ? 'N/A' : $inventory->odometer;
@@ -40,7 +40,7 @@
 					<div class="header">
 						Make an Offer / Get Info
 					</div>
-					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
+					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
 						<input name="required_fields" type="hidden" value="name,email,privacy" />
 						<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
 						<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />

@@ -48,7 +48,6 @@
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>></span>' . urldecode( $company_name ) . '</a>';
 	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
 
-
 	if( count( $this->parameters > 1 ) ) {
 		$crumb_trail = '/inventory/';
 		if( !empty( $wp_rewrite->rules ) ) {

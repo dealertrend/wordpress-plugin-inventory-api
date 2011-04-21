@@ -5,7 +5,7 @@
 	$parameters = $this->parameters;
 
 	$args = array(
-		'base' => @add_query_arg('page','%#%'),
+		'base' => @add_query_arg( 'page' , '%#%' ),
 		'current' => $inventory[ 0 ]->pagination->on_page,
 		'total' => $inventory[ 0 ]->pagination->total,
 		'next_text' => __( 'Next &raquo;' ),
@@ -33,10 +33,10 @@
 					<li class="expanded">
 						<span>Body Style</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' ) ); ?>">Car</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'truck' ) ); ?>">Truck</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'suv' ) ); ?>">SUV</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' ) ); ?>">Van</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' , 'page=1' ) ); ?>">Car</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'truck' , 'page=1' ) ); ?>">Truck</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'suv' , 'page=1' ) ); ?>">SUV</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' , 'page=1' ) ); ?>">Van</a></li>
 						</ul>
 					</li>
 					<li class="expanded">
@@ -47,7 +47,7 @@
 									if( !empty( $wp_rewrite->rules ) ) {
 										echo '<li><a href="/inventory/' . $sale_class . '/' . $make . '/">' . $make . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'make' => $make ) ) . '">' . $make . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $make , 'page=1' ) ) . '">' . $make . '</a></li>';
 									}
 								}
 							?>
@@ -74,9 +74,9 @@
 					$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 					$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 				?>
-				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) ); ?>">Year</a></div>
-				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) ); ?>">Price</a></div>
-				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) ); ?>">Mileage</a></div>
+				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year , 'page=1' ) ); ?>">Year</a></div>
+				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price , 'page=1' ) ); ?>">Price</a></div>
+				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage , 'page=1' ) ); ?>">Mileage</a></div>
 			</div>
 			<div class="items">
 				<?php
