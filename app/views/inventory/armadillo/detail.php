@@ -24,6 +24,7 @@
 	$headline = $inventory->headline;
 
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
+	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 
 ?>
 
@@ -111,6 +112,11 @@
 				<a id="friend" href="#" target="_blank">Send to a Friend</a>
 				<a id="calculate" href="#" target="_blank">Calculate Payments</a>
 			</div>
+			<?php
+				if( $carfax ) {
+					echo '<a href="' . $carfax . '" class="carfax">Carfax</a>';
+				}
+			?>
 			<br class="clear" />
 		</div>
 		<div class="column-middle">
