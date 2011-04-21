@@ -4,8 +4,8 @@
 
 .dealertrend.inventory.wrapper .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
 
-.dealertrend.inventory.wrapper .return-to-top { float:right; text-transform:uppercase; text-align:right; margin:10px; }
-.dealertrend.inventory.wrapper .pager { text-align:right; position:absolute; right:0; line-height:25px; }
+.dealertrend.inventory.wrapper .return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
+.dealertrend.inventory.wrapper .pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
 .dealertrend.inventory.wrapper .breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:925px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
 .dealertrend.inventory.wrapper .breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
 .dealertrend.inventory.wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB;  }

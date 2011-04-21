@@ -1,4 +1,9 @@
 <?php
+
+echo '<pre>';
+print_r( $inventory );
+echo '</pre>';
+
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	setlocale(LC_MONETARY, 'en_US');
 	$price = money_format( '%(#0n' , $inventory->prices->asking_price );

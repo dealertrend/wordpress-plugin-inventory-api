@@ -149,5 +149,8 @@
 		</div>
 	</div>
 	<?php echo $breadcrumbs; ?>
+	<div class="pager">
+		<?php echo paginate_links( $args ); ?>
+	</div>
 	<a href="#top" title="Return to Top" class="return-to-top">Return to Top</a>
 </div>
