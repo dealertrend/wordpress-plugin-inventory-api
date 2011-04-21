@@ -38,7 +38,7 @@
 						<ul>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' , 'page=1' ) ); ?>">Car</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'truck' , 'page=1' ) ); ?>">Truck</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'suv' , 'page=1' ) ); ?>">SUV</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'sport_utility' , 'page=1' ) ); ?>">SUV</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' , 'page=1' ) ); ?>">Van</a></li>
 						</ul>
 					</li>
