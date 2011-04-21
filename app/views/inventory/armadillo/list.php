@@ -4,10 +4,13 @@
 
 	$parameters = $this->parameters;
 
+	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
+	$total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
+
 	$args = array(
 		'base' => @add_query_arg( 'page' , '%#%' ),
-		'current' => $inventory[ 0 ]->pagination->on_page,
-		'total' => $inventory[ 0 ]->pagination->total,
+		'current' => $on_page,
+		'total' => $total,
 		'next_text' => __( 'Next &raquo;' ),
 		'prev_text' => __( '&laquo; Previous' ),
 		'show_all' => false,
@@ -81,7 +84,7 @@
 			<div class="items">
 				<?php
 					if( empty( $inventory ) ) {
-						echo '<h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2>';
+						echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
 							$year = $inventory_item->year;

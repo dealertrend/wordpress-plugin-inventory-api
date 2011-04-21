@@ -36,7 +36,7 @@
 
 	if( $vehicle_management_system->check_inventory() == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-		echo '<p>Unable to retreive inventory.</p>';
+		echo '<p>Unable to retrieve inventory.</p>';
 		return false;
 	}
 

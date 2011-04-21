@@ -171,8 +171,10 @@
 					if( $video_url ) {
 						echo '<a href="' . $video_url . '" class="video-button">Watch Video for this Vehicle</a>';
 					}
+					if( count( $inventory->photos > 1 ) ) {
+						echo '<div class="navigation"></div>';
+					}
 				?>
-				<div class="navigation"></div>
 			</div>
 			<br class="clear" />
 		</div>
