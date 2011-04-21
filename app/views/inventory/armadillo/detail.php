@@ -1,4 +1,5 @@
 <?php
+
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	setlocale(LC_MONETARY, 'en_US');
 	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
@@ -21,6 +22,9 @@
 	$icons = $inventory->icons;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
+
+	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
+
 ?>
 
 <div class="dealertrend inventory wrapper">
@@ -157,7 +161,11 @@
 					}
 				?>
 				</div>
-				<a href="#" class="video-button">Watch Video for this Vehicle</a>
+				<?php
+					if( $video_url ) {
+						echo '<a href="' . $video_url . '" class="video-button">Watch Video for this Vehicle</a>';
+					}
+				?>
 				<div class="navigation"></div>
 			</div>
 			<br class="clear" />
