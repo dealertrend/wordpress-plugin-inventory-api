@@ -1,17 +1,16 @@
 <?php
 
-# TODO: Clean this code up, it got pretty messy.
-
-$pager = $this->pagination( $inventory );
+global $wp_rewrite;
 
 $parameters = $this->parameters;
+
 $args = array(
 	'base' => @add_query_arg('page','%#%'),
-	'current' => $pager[ 'current_page' ],
-	'total' => $pager[ 'total_pages' ],
+	'current' => $inventory[ 0 ]->pagination->on_page,
+	'total' => $inventory[ 0 ]->pagination->total,
 	'next_text' => __( 'Next &raquo;' ),
 	'prev_text' => __( '&laquo; Previous' ),
-	'show_all' => true,
+	'show_all' => false,
 	'type' => 'plain'
 );
 
@@ -20,7 +19,7 @@ $sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'salec
 $quick_links = $quick_links_end = null;
 
 if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
-	$makes = $this->get_makes();
+	$makes = $vehicle_management_system->get_makes();
 	foreach( $makes as $make ) {
 			if( !empty( $wp_rewrite->rules ) ) {
 				$quick_links .= '<a href="/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</a>';
@@ -29,7 +28,7 @@ if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
 			}
 	}
 } elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
-	$models = $this->get_models();
+	$models = $vehicle_management_system->get_models();
 	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 	foreach( $models as $model ) {
 		if( !empty( $wp_rewrite->rules ) ) {
@@ -40,7 +39,7 @@ if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
 	}
 } elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
 
-	$trims = $this->get_trims();
+	$trims = $vehicle_management_system->get_trims();
 	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 	$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
 	foreach( $trims as $trim ) {
