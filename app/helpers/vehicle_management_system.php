@@ -63,7 +63,6 @@ class vehicle_management_system {
 	}
 
 	function get_inventory( $parameters = array() ) {
-
 		$parameter_string = $this->process_parameters( $parameters );
 
 		$url = $this->routes[ 'vehicles' ] . $parameter_string;
@@ -104,7 +103,7 @@ class vehicle_management_system {
 
 		$parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= $this::max_per_page ? $parameters[ 'per_page' ] : 10;
 
-		$parameters = array_map( 'urlencode' , $parameters );
+		$parameters = array_map( 'urldecode' , $parameters );
 
 		return !empty( $parameters ) ? '?' . http_build_query( $parameters , '' , '&' ) : false;
 	}

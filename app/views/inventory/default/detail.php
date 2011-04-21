@@ -5,9 +5,10 @@
 	setlocale(LC_MONETARY, 'en_US');
 	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
 	$vin = $inventory->vin;
-	$odometer = $inventory->odometer;
+
+	$odometer = empty( $inventory->odometer ) ? 0 : $inventory->odometer;
 	$stock = $inventory->stock_number;
-	$exterior_color = $inventory->exterior_color;
+	$exterior_color = empty( $inventory->exterior_color ) ? 'N/A' : $inventory->exterior_color;
 	$engine = $inventory->engine;
 	$transmission = $inventory->transmission;
 	$drivetrain = $inventory->drive_train;
@@ -20,8 +21,7 @@
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
 	$doors = $inventory->doors;
-
-echo $breadcrumbs;
+	echo $breadcrumbs;
 ?>
 <div class="dealertrend inventory detail">
 	<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
@@ -33,16 +33,16 @@ echo $breadcrumbs;
 					echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="320" height="240" />';
 				}
 			?>
-			</div><!-- .images -->
-			<div class="navigation"></div><!-- .navigation -->
-		</div><!-- .slideshow -->
-	</div><!-- .left-column -->
+			</div>
+			<div class="navigation"></div>
+		</div>
+	</div>
 	<?php flush(); ?>
 	<div class="right-column">
 		<div class="details">
 			<div class="header">
 				<strong>Vehicle Information</strong>
-			</div><!-- .header -->
+			</div>
 			<div class="row"><strong>Price:</strong> <?php echo $price; ?></div>
 			<div class="row"><strong>Stock:</strong> <?php echo $stock; ?></div>
 			<div class="row"><strong>VIN:</strong> <?php echo $vin; ?></div>
@@ -51,13 +51,13 @@ echo $breadcrumbs;
 			<div class="row"><strong>Engine:</strong> <?php echo $engine; ?></div>
 			<div class="row"><strong>Transmission:</strong> <?php echo $transmission; ?></div>
 			<div class="row"><strong>Drivetrain:</strong> <?php echo $drivetrain; ?></div>
-		</div><!-- .details -->
+		</div>
 		<?php flush(); ?>
 		<div class="form">
 			<div class="header">
 				<strong>Vehicle Inquiry</strong>
-			</div><!-- .header -->
-			<form action="<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
+			</div>
+			<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
 				<input name="required_fields" type="hidden" value="name,email,privacy" />
 				<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
 				<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />
@@ -76,17 +76,17 @@ echo $breadcrumbs;
 						<td class="required" colspan="1">
 							<label for="vehicle-inquiry-f-name">Your First Name</label>
 							<input maxlength="70" id="vehicle-inquiry-f-name" name="f_name" style="width:90%" tabindex="1" type="text" />
-						</td><!-- .required -->
+						</td>
 						<td class="required" colspan="1">
 							<label for="vehicle-inquiry-email">Email Address</label>
 							<input maxlength="255" id="vehicle-inquiry-email" name="email" style="width:97%" tabindex="6" type="text" />
-						</td><!-- .required -->
+						</td>
 					</tr>
 					<tr>
 						<td class="required" colspan="1">
 							<label for="vehicle-inquiry-l-name">Your Last Name</label>
 							<input maxlength="70" id="vehicle-inquiry-l-name" name="l_name" style="width:90%" tabindex="2" type="text" />
-						</td><!-- .required -->
+						</td>
 						<td colspan="1">
 							<label for="vehicle-inquiry-timetocall">Best Time To Call</label>
 							<input maxlength="256" name="timetocall" id="vehicle-inquiry-timetocall" style="width:97%" tabindex="5" type="text" />
@@ -100,7 +100,7 @@ echo $breadcrumbs;
 						<td class="required" rowspan="1">
 							<label for="vehicle-inquiry-comments">Comments</label>
 							<textarea name="comments" id="vehicle-inquiry-comments" rows="7" style="width:97%" tabindex="7"></textarea>
-						</td><!-- .required -->
+						</td>
 					</tr>
 					<tr>
 						<td colspan="1">&nbsp;</td>
@@ -117,8 +117,8 @@ echo $breadcrumbs;
 					</tr>
 				</table>
 			</form>
-		</div><!-- .form -->
-	</div><!-- right-column -->
+		</div>
+	</div>
 	<?php flush(); ?>
 	<div id="inventory-tabs" style="clear:both;">
 		<ul>
@@ -133,7 +133,7 @@ echo $breadcrumbs;
 		<div id="dealer-notes">
 			<h3>Dealer Notes</h3>
 			<p><?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?></p>
-		</div><!-- #dealer-notes -->
+		</div>
 		<div id="dealer-options">
 			<h3>Dealer Options</h3>
 			<?php if( !is_null( $dealer_options ) ): ?>
@@ -152,7 +152,7 @@ echo $breadcrumbs;
 				<p>This information is currently not available.</p>
 			<?php endif ?>
 			<br class="clear" />
-		</div><!-- #dealer-options -->
+		</div>
 		<div id="standard-equipment">
 			<h3>Standard Equipment</h3>
 			<?php if( !is_null( $standard_equipment ) ): ?>
@@ -172,11 +172,11 @@ echo $breadcrumbs;
 				<p>This information is currently not available.</p>
 			<?php endif; ?>
 			<br class="clear" />
-		</div><!-- #standard-equipment -->
+		</div>
 		<div id="test-drive">
 			<h3>Test Drive</h3>
 			<div class="form">
-				<form name="formvehicletestdrive" action="<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
+				<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
 					<input type="hidden" name="required_fields" value="name,email,privacy"/>
 					<input type="hidden" name="saleclass" value="<?php echo strtolower($sale_class); ?>"/>
 					<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
@@ -240,7 +240,7 @@ echo $breadcrumbs;
 		<div id="trade-in">
 			<h3>Trade In</h3>
 			<div class="form">
-				<form name="formvehicletradein" action="<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_trade_in" method="post">
+				<form name="formvehicletradein" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_trade_in" method="post">
 					<input type="hidden" name="required_fields" value="name,email,privacy"/>
 					<input type="hidden" name="saleclass" value="strtolower($sale_class);"/>
 					<input type="hidden" name="return_url" value="" id="return_url_trade_in"/>
@@ -353,19 +353,19 @@ echo $breadcrumbs;
 						<button type="submit">Send Inquiry</button>
 					</div>
 				</form>
-			</div><!-- .form -->
+			</div>
 			<script id="loader" type="text/javascript"></script>
 			<script type="text/javascript">
 				function update_vehicle(vin) {
 					if (vin == null || vin.length < 11) return false;
-					dealertrend('#loader').attr('src', '<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/widget/check_vin.js?vin=' + vin);
+					dealertrend('#loader').attr('src', '<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/widget/check_vin.js?vin=' + vin);
 				}
 			</script>
-		</div><!-- #trade-in -->
+		</div>
 		<div id="tell-a-friend">
 			<h3>Tell a Friend</h3>
 			<div class="form">
-				<form name="formtellafriend" action="<?php echo $this->options[ 'api' ][ 'vehicle_management_system' ] . '/' . $this->options[ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
+				<form name="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
 					<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
 					<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
 					<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
@@ -422,8 +422,8 @@ echo $breadcrumbs;
 						<button type="submit">Send to a Friend</button>
 					</div>
 				</form>
-			</div><!-- .form -->
-		</div><!-- #tell-a-friend -->
+			</div>
+		</div>
 		<div id="loan-calculator">
 			<?php
 				$html_free_price = str_replace( '<span class=\'asking\'>' , null , $price );
@@ -480,7 +480,7 @@ echo $breadcrumbs;
 						</tr>
 					</table>
 				</form>
-			</div><!-- .form -->
-		</div><!-- #loan-calculator -->
-	</div><!-- #inventory-tabs -->
-</div><!-- .dealertrend.inventory.detail -->
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,15 @@
 <?php
 
+	global $wp_rewrite;
+
+	wp_enqueue_script(
+		'dealertrend-inventory-theme-default',
+		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/default/js/slideshow.js',
+		array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle', 'dealertrend-inventory-api' ),
+		$this->meta_information[ 'Version' ],
+		true
+	);
+
 	flush();
 	get_header();
 	flush();
@@ -10,7 +20,6 @@
 		return false;
 	}
 
-	
 	if( $vehicle_management_system->check_company_id() == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>Unable to validate company information.</p>';
@@ -32,44 +41,34 @@
 	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
 
 	if( count( $this->parameters > 1 ) ) {
-		$crumb_trail = null;
+		$crumb_trail = '/inventory/';
 		if( !empty( $wp_rewrite->rules ) ) {
-			$breadcrumbs .= ' > <a href="/inventory/" title="' . $company_name . ': Inventory">INVENTORY</a>';
-						$crumb_trail = '/inventory';
-						foreach( $this->parameters as $key => $value ) {
+			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
-					$crumb_trail .= '/' . $value;
-					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( urldecode( $value ) ) . '</a>';
-				}
-			}
+					$crumb_trail .= $value . '/';
+					$breadcrumbs .= '<a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+				} 
+			} 
 		} else {
-			$breadcrumbs .= ' > <a href="?taxonomy=inventory" title="' . $company_name . ': Inventory">INVENTORY</a>';
 			$crumb_trail = '?taxonomy=inventory';
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .= '&amp;' . $key . '=' . $value;
-					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . strtoupper( urldecode( $value ) ) . '</a>';
-				}
-			}
-		}
+					$breadcrumbs .= '<a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+				} 
+			} 
+		} 
 	}
+
 	$breadcrumbs = '<div class="breadcrumbs">' . $breadcrumbs . '</div>';
 
 	$inventory = $vehicle_management_system->get_inventory( $this->parameters );
 
-?>
-
-<br class="clear" id="top" />
-
-<?php
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
-	echo $breadcrumbs;
-	echo '<a href="#top" title="Return to Top" class="return-to-top">Return to Top</a>';
-?>
 
-<?php
 	flush();
 	get_footer();
 	flush();
+
 ?>
