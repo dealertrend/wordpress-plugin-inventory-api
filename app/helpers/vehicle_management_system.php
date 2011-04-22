@@ -48,7 +48,7 @@ class vehicle_management_system {
 	}
 
 	function check_inventory() {
-		$url = $this->routes[ 'vehicles' ] . '?photo_view=1';
+		$url = $this->routes[ 'vehicles' ] . '?photo_view=1&per_page=1';
 		$response = wp_remote_head( $url , array( 'timeout' => vehicle_management_system::max_request_time ) );
 
 		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
@@ -63,6 +63,7 @@ class vehicle_management_system {
 	}
 
 	function get_inventory( $parameters = array() ) {
+		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 		$parameter_string = $this->process_parameters( $parameters );
 
 		$url = $this->routes[ 'vehicles' ] . $parameter_string;
