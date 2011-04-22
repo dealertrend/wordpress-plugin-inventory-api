@@ -178,5 +178,8 @@
 			</div>
 			<br class="clear" />
 		</div>
+		<div class="disclaimer">
+			<p><?php echo $inventory->disclaimer; ?></p>
+		</div>
 	</div>
 </div>
