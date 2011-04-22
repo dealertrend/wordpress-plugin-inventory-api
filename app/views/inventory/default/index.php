@@ -46,7 +46,7 @@
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .= $value . '/';
-					$breadcrumbs .= '<a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
 				} 
 			} 
 		} else {
@@ -54,7 +54,7 @@
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .= '&amp;' . $key . '=' . $value;
-					$breadcrumbs .= '<a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+					$breadcrumbs .= ' > <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
 				} 
 			} 
 		} 
