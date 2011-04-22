@@ -8,7 +8,7 @@
 .dealertrend.inventory.wrapper .pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
 .dealertrend.inventory.wrapper .breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:923px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
 .dealertrend.inventory.wrapper .breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
-.dealertrend.inventory.wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB;  }
+.dealertrend.inventory.wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:25px; }
 
 /* Listing Page */
 .dealertrend.inventory.wrapper .listing .sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
