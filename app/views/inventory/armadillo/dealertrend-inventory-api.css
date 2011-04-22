@@ -77,7 +77,7 @@
 /* Detail Page */
 .dealertrend.inventory.wrapper .detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; height:80px; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; padding:10px; line-height:22px; }
+.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; padding:10px; line-height:22px; clear:both; }
 .dealertrend.inventory.wrapper .detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 .dealertrend.inventory.wrapper .detail .column-left,
 .dealertrend.inventory.wrapper .detail .column-middle,
@@ -129,7 +129,7 @@
 .dealertrend.inventory.wrapper .detail .video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
 .dealertrend.inventory.wrapper .detail .carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 
-.dealertrend.inventory.wrapper .detail #inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px; }
+.dealertrend.inventory.wrapper .detail #inventory-tabs { clear:both; width:95%; height:284px; overflow:hidden; }
 .dealertrend.inventory.wrapper .detail #inventory-tabs #comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
 .dealertrend.inventory.wrapper .detail #inventory-tabs #options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
 .dealertrend.inventory.wrapper .detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }

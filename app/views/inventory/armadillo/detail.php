@@ -149,6 +149,9 @@
 				</div>
 				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
 			</div>
+			<div id="icons">
+				<?php echo $icons; ?>
+			</div>
 			<div id="inventory-tabs">
 				<ul>
 					<li><a href="#options">Vehicle Details</a></li>
@@ -166,9 +169,6 @@
 					?>
 					</ul>
 				</div>
-			</div>
-			<div id="icons">
-				<?php echo $icons; ?>
 			</div>
 			<div id="tabs">
 				<div id="description">
