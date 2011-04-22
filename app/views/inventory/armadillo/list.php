@@ -18,6 +18,7 @@
 	); 
 
 	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
+	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
 	if( empty( $inventory ) ) {
 		$total_found = 0;
@@ -41,6 +42,7 @@
 			<div class="quick-links">
 				<h3>Refine Your Search</h3>
 				<ul>
+					<?php	if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
 					<li class="expanded">
 						<span>Body Style</span>
 						<ul>
@@ -51,16 +53,17 @@
 						</ul>
 					</li>
 					<?php
+						endif;
 						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ):
 					?>
 					<li class="expanded">
 						<span>Make</span>
 						<ul>
 							<?php
-								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) ) as $make ) {
+								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class , 'vehicleclass' => $vehicle_class ) ) as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $make . '/';
-										$url .= isset( $_GET[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->sanitize_inputs( $_GET[ 'vehicleclass' ] ) ) ) : NULL;
+										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 										echo '<li><a href="' . $url . '">' . $make . '</a></li>';
 									} else {
 										echo '<li><a href="' . @add_query_arg( array( 'make' => $make , 'page' => 1 ) ) . '">' . $make . '</a></li>';
