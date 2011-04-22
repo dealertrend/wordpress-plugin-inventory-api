@@ -114,7 +114,7 @@ class vehicle_management_system {
 			return $data;
 		}
 		$response = wp_remote_request( $url , array( 'timeout' => 10 ) );
-		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
+		if( is_wp_error( $response ) || ( isset( $response[ 'headers' ][ 'status' ] ) && $response[ 'headers' ][ 'status' ] != '200 OK' ) ) {
 			$error_string = $response->errors[ 'http_request_failed' ][ 0 ];
 			# Courtesy error logging ^_^
 			error_log( get_bloginfo( 'url' ) . ': WARNING: ' . $error_string, 0 );
