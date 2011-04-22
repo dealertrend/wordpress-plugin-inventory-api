@@ -40,6 +40,7 @@
 		<div class="sidebar">
 			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div class="quick-links">
+				<?php if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
 				<h3>Refine Your Search</h3>
 				<ul>
 					<?php	if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
@@ -101,6 +102,7 @@
 					</li>
 					<?php endif; ?>
 				</ul>
+				<?php endif; ?>
 			</div>
 		</div>
 		<div class="content">
