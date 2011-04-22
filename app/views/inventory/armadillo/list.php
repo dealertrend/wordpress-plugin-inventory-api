@@ -19,6 +19,14 @@
 
 	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 
+	if( empty( $inventory ) ) {
+		$total_found = 0;
+	} elseif ( $inventory[0]->pagination->total == 1 ) {
+		$total_found = $inventory[0]->pagination->total * count( $inventory );
+	} else {
+		$total_found = $inventory[0]->pagination->total * $inventory[0]->pagination->per_page;
+	}
+
 ?>
 
 <div class="dealertrend inventory wrapper">
@@ -29,7 +37,7 @@
 			<?php echo paginate_links( $args ); ?>
 		</div>
 		<div class="sidebar">
-			<div class="total-found"><?php echo !empty( $inventory ) ? $inventory[0]->pagination->total * count( $inventory ): 0; ?> Cars Found</div>
+			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div class="quick-links">
 				<h3>Refine Your Search</h3>
 				<ul>
