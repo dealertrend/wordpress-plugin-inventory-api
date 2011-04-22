@@ -196,6 +196,9 @@
 				?>
 			</div>
 		</div>
+		<div class="disclaimer">
+			<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
+		</div>
 	</div>
 	<?php echo $breadcrumbs; ?>
 	<div class="pager">

@@ -67,6 +67,8 @@
 .dealertrend.inventory.wrapper .listing .content .items .item .price { float:left; width:500px; font-size:20px; font-weight:bold; line-height:60px; }
 .dealertrend.inventory.wrapper .listing .content .items .item .price a { background: transparent url( 'images/button-more-information-155x21.png' ) no-repeat center; display:block; height:60px; width:155px; float:right; text-indent:-9999px; }
 
+.dealertrend.inventory.wrapper .listing.wrapper .disclaimer { float:right; width:750px; font-size:10px; }
+
 /* Detail Page */
 .dealertrend.inventory.wrapper .detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; height:80px; margin-bottom:10px; }
