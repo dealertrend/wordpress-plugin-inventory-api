@@ -6,8 +6,8 @@ if ( class_exists( 'vehicle_management_system' ) ) {
 
 class vehicle_management_system {
 
-	private $max_per_page = 50;
-	private $max_request_time = 10;
+	const max_per_page = 50;
+	const max_request_time = 10;
 
 	public $host = NULL;
 	public $company_id = NULL;
@@ -27,7 +27,7 @@ class vehicle_management_system {
 	}
 
 	function check_host() {
-		$response = wp_remote_head( $this->host , array( 'timeout' => $this->max_request_time ) );
+		$response = wp_remote_head( $this->host , array( 'timeout' => vehicle_management_system::max_request_time ) );
 
 		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
 			return false;
@@ -38,7 +38,7 @@ class vehicle_management_system {
 
 	function check_company_id() {
 		$url  = $this->routes[ 'company_information' ];
-		$response = wp_remote_head( $url , array( 'timeout' => $this->max_request_time ) );
+		$response = wp_remote_head( $url , array( 'timeout' => vehicle_management_system::max_request_time ) );
 
 		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
 			return false;
@@ -49,7 +49,7 @@ class vehicle_management_system {
 
 	function check_inventory() {
 		$url = $this->routes[ 'vehicles' ] . '?photo_view=1';
-		$response = wp_remote_head( $url , array( 'timeout' => $this->max_request_time ) );
+		$response = wp_remote_head( $url , array( 'timeout' => vehicle_management_system::max_request_time ) );
 
 		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
 			return false;
@@ -101,7 +101,7 @@ class vehicle_management_system {
 	function process_parameters( $parameters ) {
 		unset( $parameters[ 'taxonomy' ] );
 
-		$parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= $this->max_per_page ? $parameters[ 'per_page' ] : 10;
+		$parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= vehicle_management_system::max_per_page ? $parameters[ 'per_page' ] : 10;
 
 		$parameters = array_map( 'urldecode' , $parameters );
 
