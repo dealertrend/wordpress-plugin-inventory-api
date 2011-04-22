@@ -51,7 +51,7 @@ class dealertrend_inventory_api {
 			),
 			'host' => NULL,
 			'theme' => array(
-				'name' => 'default',
+				'name' => 'armadillo',
 				'per_page' => 10
 			)
 		)
