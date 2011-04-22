@@ -171,7 +171,6 @@
 										<span class="make"><?php echo $make; ?></span>
 										<span class="model"><?php echo $model; ?></span>
 										<span class="trim"><?php echo $trim; ?></span>
-										<span class="doors"><?php echo $doors; ?>D</span>
 										<span class="drive-train"><?php echo $drive_train; ?></span>
 										<span class="body-style"><?php echo $body_style; ?></span>
 									</a>

@@ -34,7 +34,7 @@
 	<div class="detail wrapper">
 		<?php echo $breadcrumbs; ?>
 		<div class="main-line">
-			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $drive_train . ' ' . $body_style . ' ' . $transmission; ?></h2>
+			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $drive_train . ' ' . $body_style . ' ' . $transmission; ?></h2>
 		</div>
 		<div class="column-left">
 			<div class="request-form">
