@@ -29,7 +29,7 @@
 			<?php echo paginate_links( $args ); ?>
 		</div>
 		<div class="sidebar">
-			<div class="total-found"><?php echo !empty( $inventory ) ? $inventory[0]->pagination->total * $inventory[0]->pagination->per_page : 0; ?> Cars Found</div>
+			<div class="total-found"><?php echo !empty( $inventory ) ? $inventory[0]->pagination->total * count( $inventory ): 0; ?> Cars Found</div>
 			<div class="quick-links">
 				<h3>Refine Your Search</h3>
 				<ul>
@@ -42,6 +42,9 @@
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' , 'page' => 1 ) ); ?>">Van</a></li>
 						</ul>
 					</li>
+					<?php
+						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ):
+					?>
 					<li class="expanded">
 						<span>Make</span>
 						<ul>
@@ -49,7 +52,7 @@
 								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) ) as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $make . '/';
-										$url .= isset( $_GET ) ? '?' . http_build_query( $this->sanitize_inputs( $_GET ) ) : NULL;
+										$url .= isset( $_GET[ 'vehicleclass' ] ) ? '?' . http_build_query( $this->sanitize_inputs( $_GET[ 'vehicleclass' ] ) ) : NULL;
 										echo '<li><a href="' . $url . '">' . $make . '</a></li>';
 									} else {
 										echo '<li><a href="' . @add_query_arg( array( 'make' => $make , 'page' => 1 ) ) . '">' . $make . '</a></li>';
@@ -58,6 +61,35 @@
 							?>
 						</ul>
 					</li>
+					<?php elseif( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
+					<li class="expanded">
+						<span>Model</span>
+						<ul>
+							<?php
+								foreach( $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) ) as $model ) {
+									if( !empty( $wp_rewrite->rules ) ) {
+										$url = '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
+										$url .= isset( $_GET[ 'vehicleclass' ] ) ? '?' . http_build_query( $this->sanitize_inputs( $_GET[ 'vehicleclass' ] ) ) : NULL;
+										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
+									} else {
+										echo '<li><a href="' . @add_query_arg( array( 'model' => $model , 'page' => 1 ) ) . '">' . $model . '</a></li>';
+									}
+								}
+							?>
+						</ul>
+					</li>
+					<?php elseif( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
+					<li class="expanded">
+						<span>Trim</span>
+						<ul>
+							<?php
+								foreach( $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) ) as $trim ) {
+									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
+								}
+							?>
+						</ul>
+					</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 		</div>
