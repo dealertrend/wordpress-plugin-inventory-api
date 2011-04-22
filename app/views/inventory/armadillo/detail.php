@@ -34,7 +34,7 @@
 	<div class="detail wrapper">
 		<?php echo $breadcrumbs; ?>
 		<div class="main-line">
-			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $drive_train . $body_style . $transmission; ?></h2>
+			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $drive_train . ' ' . $body_style . ' ' . $transmission; ?></h2>
 		</div>
 		<div class="column-left">
 			<div class="request-form">
@@ -134,7 +134,7 @@
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="price"><span>Price:</span> <?php echo $price; ?></div>
 			</div>
-			<div id="fuel-economy">
+			<div class="fuel-economy">
 				<?php
 					$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : '-';
 					$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : '-';
@@ -148,6 +148,24 @@
 					<p><strong><?php echo $fuel_highway; ?></strong></p>
 				</div>
 				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
+			</div>
+			<div id="inventory-tabs">
+				<ul>
+					<li><a href="#options">Vehicle Details</a></li>
+					<li><a href="#description">Comments</a></li>
+				</ul>
+				<div id="description">
+					<?php echo '<p>' . $description . '</p>'; ?>
+				</div>
+				<div id="options">
+					<ul>
+					<?php
+						foreach( $dealer_options as $option ) {
+							echo '<li>' . $option . '</li>';
+						}
+					?>
+					</ul>
+				</div>
 			</div>
 			<div id="icons">
 				<?php echo $icons; ?>

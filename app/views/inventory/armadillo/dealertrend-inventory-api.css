@@ -116,17 +116,22 @@
 .dealertrend.inventory.wrapper .detail .helpful-links a#calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
 .dealertrend.inventory.wrapper .detail .helpful-links a:hover { background-position:bottom center !important; }
 
-.dealertrend.inventory.wrapper .detail #fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-city,
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-highway { color:black; width:50px; font-weight:bold; padding:15px; text-align:center; }
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-city strong,
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-highway strong { font-size:30px; }
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-city { float:left; }
-.dealertrend.inventory.wrapper .detail #fuel-economy #fuel-highway { float:right; }
-.dealertrend.inventory.wrapper .detail #fuel-economy p { margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail #fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
+.dealertrend.inventory.wrapper .detail .fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city,
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway { color:black; width:50px; font-weight:bold; padding:15px; text-align:center; }
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city strong,
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway strong { font-size:30px; }
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city { float:left; }
+.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway { float:right; }
+.dealertrend.inventory.wrapper .detail .fuel-economy p { margin-bottom:10px; }
+.dealertrend.inventory.wrapper .detail .fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
 
 .dealertrend.inventory.wrapper .detail .video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
 .dealertrend.inventory.wrapper .detail .carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 
+.dealertrend.inventory.wrapper .detail #inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px; }
+.dealertrend.inventory.wrapper .detail #inventory-tabs #comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
+.dealertrend.inventory.wrapper .detail #inventory-tabs #options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
+.dealertrend.inventory.wrapper .detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
+.dealertrend.inventory.wrapper .detail #inventory-tabs .ui-widget-header { background:#858585 !important; }
 .dealertrend.inventory.wrapper .detail.wrapper .disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
