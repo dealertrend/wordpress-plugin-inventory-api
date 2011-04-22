@@ -16,6 +16,7 @@
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > h3 { line-height:25px; height:25px; text-align:left; text-transform:uppercase; font-size:12px; font-weight:bold; background:#eee; margin-left:10px; padding-top:4px; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul { list-style:none; padding:0; margin:0; }
+.dealertrend.inventory.wrapper .listing .sidebar .quick-links li { list-style:none; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li { color: #006875; font-weight:bold; text-transform:uppercase; margin:0; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li.collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
