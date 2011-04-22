@@ -150,6 +150,9 @@
 							$odometer = $inventory_item->odometer;
 							$icons = $inventory_item->icons;
 							$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
+							$body_style = $inventory_item->body_style;
+							$drive_train = $inventory_item->drive_train;
+							$doors = $inventory_item->doors;
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -168,6 +171,9 @@
 										<span class="make"><?php echo $make; ?></span>
 										<span class="model"><?php echo $model; ?></span>
 										<span class="trim"><?php echo $trim; ?></span>
+										<span class="doors"><?php echo $doors; ?>D</span>
+										<span class="drive-train"><?php echo $drive_train; ?></span>
+										<span class="body-style"><?php echo $body_style; ?></span>
 									</a>
 								</div>
 								<div class="details-left">

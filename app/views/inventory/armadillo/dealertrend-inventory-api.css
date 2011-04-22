@@ -41,15 +41,19 @@
 
 .dealertrend.inventory.wrapper .listing .content .items > h2 { display:block; line-height:20px; padding:10px; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item { background:white; padding-left:10px; clear:both; color:#666; position:relative; padding-bottom:5px; border-bottom:1px solid #a8a8a8; height:145px; }
+.dealertrend.inventory.wrapper .listing .content .items .item { background:white; padding-left:10px; clear:both; color:#666; position:relative; padding-bottom:5px; border-bottom:1px solid #a8a8a8; height:165px; }
 .dealertrend.inventory.wrapper .listing .content .items .item:hover { border-left:10px solid red; padding-left:0; }
 .dealertrend.inventory.wrapper .listing .content .items .item a { text-decoration:none; }
 .dealertrend.inventory.wrapper .listing .content .items .item .photo { height:150px; float:left; display:block; margin-right:20px; }
 .dealertrend.inventory.wrapper .listing .content .items .item .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
+.dealertrend.inventory.wrapper .listing .content .items .item .main-line { padding-right:5px; padding-top:10px; padding-bottom:10px; line-height:22px; font-size:20px; font-weight:bold; text-transform:capitalize; }
 .dealertrend.inventory.wrapper .listing .content .items .item .year,
 .dealertrend.inventory.wrapper .listing .content .items .item .make,
 .dealertrend.inventory.wrapper .listing .content .items .item .model,
-.dealertrend.inventory.wrapper .listing .content .items .item .trim { color:red; font-size:20px; line-height:35px; font-weight:bold; text-transform:capitalize; }
+.dealertrend.inventory.wrapper .listing .content .items .item .trim,
+.dealertrend.inventory.wrapper .listing .content .items .item .doors,
+.dealertrend.inventory.wrapper .listing .content .items .item .drive-train,
+.dealertrend.inventory.wrapper .listing .content .items .item .body-style { color:red; }
 
 .dealertrend.inventory.wrapper .listing .content .items .item .exterior-color,
 .dealertrend.inventory.wrapper .listing .content .items .item .interior-color,
@@ -72,7 +76,7 @@
 /* Detail Page */
 .dealertrend.inventory.wrapper .detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 .dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; height:80px; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; line-height:50px; padding:10px; }
+.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; padding:10px; line-height:22px; }
 .dealertrend.inventory.wrapper .detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 .dealertrend.inventory.wrapper .detail .column-left,
 .dealertrend.inventory.wrapper .detail .column-middle,

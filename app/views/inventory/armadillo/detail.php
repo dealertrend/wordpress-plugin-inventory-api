@@ -22,6 +22,8 @@
 	$icons = $inventory->icons;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
+	$body_style = $inventory->body_style;
+	$drive_train = $inventory->drive_train;
 
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
@@ -32,7 +34,7 @@
 	<div class="detail wrapper">
 		<?php echo $breadcrumbs; ?>
 		<div class="main-line">
-			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $transmission; ?></h2>
+			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $doors . 'D ' . $drive_train . $body_style . $transmission; ?></h2>
 		</div>
 		<div class="column-left">
 			<div class="request-form">
