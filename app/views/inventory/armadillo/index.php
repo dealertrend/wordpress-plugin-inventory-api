@@ -3,7 +3,7 @@
 	global $wp_rewrite;
 
 	wp_enqueue_script(
-		'dealertrend-inventory-theme-default',
+		'dealertrend-inventory-theme-armadillo-slideshow',
 		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/slideshow.js',
 		array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle', 'dealertrend-inventory-api' ),
 		$this->meta_information[ 'Version' ],
@@ -11,7 +11,7 @@
 	);
 
 	wp_enqueue_script(
-		'dealertrend-inventory-theme-default',
+		'dealertrend-inventory-theme-armadillo-sidebar',
 		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/sidebar.js',
 		array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle', 'dealertrend-inventory-api' ),
 		$this->meta_information[ 'Version' ],

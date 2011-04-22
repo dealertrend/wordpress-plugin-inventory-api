@@ -1,6 +1,6 @@
 	var dealertrend = jQuery.noConflict();
 
-	dealertrend('#search-list > ul > li > span').click(function() {
+	dealertrend('.quick-links > ul > li > span').click(function() {
 		if(dealertrend(this).parent().hasClass('collapsed')) {
 			dealertrend(this).parent().removeClass('collapsed');
 			dealertrend(this).parent().addClass('expanded');
