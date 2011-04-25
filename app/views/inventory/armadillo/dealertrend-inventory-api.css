@@ -1,4 +1,5 @@
 .dealertrend.inventory { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+.dealertrend.inventory .strike-through { text-decoration:line-through;  }
 
 .dealertrend.inventory.wrapper { width:925px; margin:auto; position:relative; min-height:800px; margin-top:10px; }
 
@@ -70,6 +71,8 @@
 
 .dealertrend.inventory.wrapper .listing .content .items .item .icons { float:left; padding-left:20px; overflow:hidden; height:40px; width:100px; }
 .dealertrend.inventory.wrapper .listing .content .items .item .price { float:left; width:500px; font-size:20px; font-weight:bold; line-height:60px; }
+.dealertrend.inventory.wrapper .listing .content .items .item .price .asking-price.strike-through { font-size:14px; position:absolute; margin-top:20px; color:gray; font-weight:normal; }
+
 .dealertrend.inventory.wrapper .listing .content .items .item .price a { background: transparent url( 'images/button-more-information-155x21.png' ) no-repeat center; display:block; height:60px; width:155px; float:right; text-indent:-9999px; }
 
 .dealertrend.inventory.wrapper .listing.wrapper .disclaimer { float:right; width:750px; font-size:10px; }

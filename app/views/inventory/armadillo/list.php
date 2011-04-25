@@ -133,6 +133,15 @@
 						echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
+							setlocale(LC_MONETARY, 'en_US');
+							$prices = $inventory_item->prices;
+							$use_was_now = $prices->{ 'use_was_now?' };
+							$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
+							$on_sale = $prices->{ 'on_sale?' };
+							$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
+							$retail_price = $prices->retail_price;
+							$default_price_text = $prices->default_price_text;
+							$asking_price = $prices->asking_price;
 							$year = $inventory_item->year;
 							$make = $inventory_item->make;
 							$model = urldecode( $inventory_item->model_name );
@@ -142,10 +151,6 @@
 							$transmission = $inventory_item->transmission;
 							$exterior_color = $inventory_item->exterior_color;
 							$interior_color = $inventory_item->interior_color;
-							setlocale(LC_MONETARY, 'en_US');
-							$prices = $inventory_item->prices;
-							$asking_price = money_format( '%(#0n', $prices->asking_price );
-							$display_price = $prices->asking_price > 0 ? 'Price:' . $asking_price : $prices->default_price_text;
 							$stock_number = $inventory_item->stock_number;
 							$odometer = $inventory_item->odometer;
 							$icons = $inventory_item->icons;
@@ -189,7 +194,23 @@
 									<?php echo $icons; ?>
 								</div>
 								<div class="price">
-									<?php echo $display_price; ?>
+									<?php
+										if( $on_sale ) {
+											$now_text = NULL;
+											if( $use_was_now ) {
+												$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
+												echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+												$now_text = 'Now: ';
+											}
+											echo '<div class="sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+										} else {
+											if( $asking_price > 0 ) {
+												echo '<div class="asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											} else {
+												echo $default_price_text;
+											}
+										}
+									?>
 									<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
 								</div>
 								<br class="clear" />
