@@ -276,6 +276,8 @@ class dealertrend_inventory_api {
 	function show_theme() {
 		global $wp_query;
 
+		$wp_query->is_home = false;
+
 		$this->parameters = $this->get_parameters();
 
 		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
