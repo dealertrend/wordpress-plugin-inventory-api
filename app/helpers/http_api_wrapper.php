@@ -20,9 +20,12 @@ class http_api_wrapper {
 		return wp_cache_get( $this->url , $this->group );
 	}
 
-	function get_file() {
+	function get_file( $sanitize = false ) {
 		$response = wp_remote_request( $this->url , $this->request_parameters );
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
+			if( $sanitize === true ) {
+				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
+			}
 			return $response;
 		} else {
 			if( is_wp_error( $response) ) {

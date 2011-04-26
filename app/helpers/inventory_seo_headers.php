@@ -9,44 +9,63 @@ class inventory_seo_headers {
 		public $host = NULL;
 		public $company_id = 0;
 		public $parameters = array();
+		public $headers = array();
 
 		function __construct( $host , $company_id , $parameters ) {
 			$this->host = $host;
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
-
-#echo '<pre>';
-#print_r($this);
-#echo '</pre>';
-
-			# get_headers
-			# hooks
-
+			$this->get_headers();
 			add_filter( 'wp_title' , array( &$this , 'get_title' ) );
 			add_action( 'wp_head' , array( &$this , 'get_meta' ) , 1 );
-
 		}
 
 		function get_headers() {
-			#http://api.dealertrend.com/46/seo_helpers.phps?cu=/inventory/New/All/All/All/Reno/NV/
-
-			$saleclass = 'All';
-			$make = NULL; 
-			$model = NULL; 
-			$trim = NULL; 
-			$city = NULL; 
-			$state = NULL; 
-
-			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/';
-
-			$request_handler = new http_api_wrapper( $this->host , 'inventory_seo_headers' );
-			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
+			$make = isset( $this->parameters[ 'make' ] ) ? $this->parameters[ 'make' ] : 'All'; 
+			$model = isset( $this->parameters[ 'model' ] ) ? $this->parameters[ 'model' ] : 'All';	
+			$trim = isset( $this->parameters[ 'trim' ] ) ? $this->parameters[ 'trim' ] : 'All'; 
+			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $trim . '/';
+			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
+			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
+			$body = $data[ 'body' ];
+			$body = str_replace( '&lt;?php' , NULL , $body );
+			$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body ); 
+			preg_match_all( '/=.*;/i' , trim( $body ) , $results );
+			$this->headers[ 'page_title' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 1 ] ) );
+			$this->headers[ 'page_description' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 2 ] ) );
+			$this->headers[ 'page_keywords' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 3 ] ) );
+			$this->headers[ 'follow' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 4 ] ) );
+			$this->headers[ 'index' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 5 ] ) );
 		}
 
 		function get_title() {
+			return $this->headers[ 'page_title' ] . ' ';
 		}
 
 		function get_meta() {
+
+			if( isset( $this->headers[ 'page_description' ] ) && !empty( $this->headers[ 'page_description' ] ) ) {
+				echo '<meta name="Description" content="' . $this->headers[ 'page_description' ] . '" />' . "\n";
+			}
+
+			if( isset( $this->headers[ 'page_keywords' ] ) && !empty( $this->headers[ 'page_keywords' ] ) ) {
+				echo '<meta name="Keywords" content="' . $this->headers[ 'page_keywords' ] . '" />' . "\n";
+			}
+
+			$robots = array();
+			if( isset( $this->headers[ 'follow' ] ) && !empty( $this->headers[ 'follow' ] ) && $this->headers[ 'follow' ] == false ) {
+				$robots[] = 'nofollow';
+			}
+			
+			if( isset( $this->headers[ 'index' ] ) && !empty( $this->headers[ 'index' ] ) && $this->headers[ 'index' ] == false ) {
+				$robots[] = 'noindex';
+			}
+
+			if( !empty( $robots ) ) {
+				echo '<meta name="robots" content="' . implode( $robots , ',' ) . '" />' . "\n";
+			}
+
 		}
 
 }
