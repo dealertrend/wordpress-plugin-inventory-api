@@ -196,7 +196,7 @@
 								<div class="price">
 									<?php
 										if( $on_sale ) {
-											$now_text = NULL;
+											$now_text = 'Price: ';
 											if( $use_was_now ) {
 												$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
 												echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';

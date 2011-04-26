@@ -2,7 +2,14 @@
 
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	setlocale( LC_MONETARY , 'en_US' );
-	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
+	$prices = $inventory->prices;
+	$use_was_now = $prices->{ 'use_was_now?' };
+	$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
+	$on_sale = $prices->{ 'on_sale?' };
+	$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
+	$retail_price = $prices->retail_price;
+	$default_price_text = $prices->default_price_text;
+	$asking_price = $prices->asking_price;
 	$vin = $inventory->vin;
 	$odometer = empty( $inventory->odometer ) || $inventory->odometer <= 0 ? 'N/A' : $inventory->odometer;
 	$stock_number = $inventory->stock_number;
@@ -132,7 +139,25 @@
 				<div><span>Mileage:</span> <?php echo $odometer; ?></div>
 				<div><span>Stock Number:</span> <?php echo $stock_number; ?></div>
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
-				<div class="price"><span>Price:</span> <?php echo $price; ?></div>
+				<div class="price">
+				<?php
+					if( $on_sale ) {
+						$now_text = '<span>Price:</span> ';
+						if( $use_was_now ) {
+							$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
+							echo '<div class="' . $price_class . '"><span>Was:</span> ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+							$now_text = '<span>Now:</span> ';
+						}
+						echo '<div class="sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+					} else {
+						if( $asking_price > 0 ) {
+							echo '<div class="asking-price"><span>Price:</span> ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+						} else {
+							echo $default_price_text;
+						}
+					}
+				?>
+				</div>
 			</div>
 			<div class="fuel-economy">
 				<?php
