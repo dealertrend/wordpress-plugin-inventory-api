@@ -16,6 +16,7 @@
 		# If they chose to uninstall, delete our options from the database, deactivate the plugin, and send them to the plugin page.
 		if( $uninstall == true ) {
 			delete_option( 'dealertrend_inventory_api' );
+			delete_option( 'vehicle_management_system' );
 			deactivate_plugins( $dealertrend_inventory_api->meta_information[ 'PluginBaseName' ] );
 			echo '<script type="text/javascript">window.location.replace("/wp-admin/plugins.php");</script>';
 			exit;
@@ -46,7 +47,7 @@
 		$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 	);
 
-?>
+	?>
 
 <div id="uninstall-dialog" title="Confirm Uninstall" style="display:none;">
 	<p>Are you sure you want to do this?.</p>
@@ -80,8 +81,14 @@
 				<td>
 					<?php
 						$start = timer_stop();
-						echo ( $vehicle_management_system->check_inventory() != false ) ? '<span class="success">Loaded</span>' : '<span class="fail">Unavailable</span>';
+						$check_inventory = $vehicle_management_system->check_inventory();
 						$stop = timer_stop();
+						if( $check_inventory[ 'status' ] == true ) {
+							echo '<span class="success">Loaded</span>';
+						} else {
+							echo '<span class="fail">Unavailable</span>';
+							echo '<br/><small>Returned Message: ' . $check_inventory[ 'data' ][ 'message' ] . '</small>';
+						}
 					?>
 				</td>
 			</tr>
@@ -99,8 +106,14 @@
 				<td>
 					<?php
 						$start = timer_stop();
-						echo ( $vehicle_management_system->check_company_id() != false ) ? '<span class="success">Loaded</span>' : '<span class="fail">Unavailable</span>';
+						$check_company = $vehicle_management_system->check_company_id();
 						$stop = timer_stop();
+						if( $check_company[ 'status' ] == true ) {
+							echo '<span class="success">Loaded</span>';
+						} else {
+							echo '<span class="fail">Unavailable</span>';
+							echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+						}
 					?>
 				</td>
 			</tr>
@@ -108,8 +121,11 @@
 				<td>&nbsp;</td>
 				<td><small>Response time:<?php echo $stop - $start; ?> seconds</small></td>
 			</tr>
-			<?php if( $vehicle_management_system->check_company_id() != false ): ?>
-			<?php $company_information = $vehicle_management_system->get_company_information(); ?>
+			<?php if( $check_company[ 'status' ] == true ): ?>
+			<?php
+				$company_information = $vehicle_management_system->get_company_information();
+				$company_information = $company_information[ 'data' ];
+			?>
 			<tr>
 				<td>Name:</td>
 				<td><strong><?php echo $company_information->name; ?></strong></td>
@@ -242,7 +258,7 @@
 		<p>After you've received a valid VMS and Company ID, you'll need to go to the <a id="settings-link" href="#settings" title="DealerTrend API Settings">settings page</a> and fill in their respective fields. Once you click "Save Changes" it will start pulling in your Inventory and Company Feeds.</p>
 		<h3 class="title">Viewing Inventory</h3>
 		<?php
-			if( $vehicle_management_system->check_inventory() == false ) {
+			if( $check_inventory[ 'status' ] == false ) {
 				echo '<div class="ui-widget"><div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"><p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span><strong>Alert:</strong> Inventory is not working. Please check your settings.</p></div></div>';
 			}
 		?>

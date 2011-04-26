@@ -8,13 +8,14 @@
  * Version: 3.0.0
  */
 
-/** Load the helpers so we can interface with the APIs. */
-require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
-
 if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 	return false;
 }
+
+/** Load the helpers so we can interface with the APIs. */
+require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
 
 /**
  * This is the primary class for the plugin.
@@ -290,6 +291,11 @@ class dealertrend_inventory_api {
 				$vehicle_management_system = new vehicle_management_system(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+
+				$inventory_seo_headers = new inventory_seo_headers(
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+					$this->parameters
 				);
 
 				$theme_path = dirname( __FILE__ ) . '/app/views/inventory/' . $current_theme;

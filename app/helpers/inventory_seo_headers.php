@@ -13,6 +13,10 @@ class inventory_seo_headers {
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
 
+echo '<pre>';
+print_r($this);
+echo '</pre>';
+
 			# get_headers
 			# hooks
 

@@ -1,7 +1,4 @@
 <?php
-if ( class_exists( 'http_api_wrapper' ) ) {
-  return false;
-}
 
 class http_api_wrapper {
 
@@ -19,24 +16,26 @@ class http_api_wrapper {
 		$this->group = $group;
 	}
 
-	function is_cached() {
+	function cached() {
 		return wp_cache_get( $this->url , $this->group );
 	}
 
 	function get_file() {
 		$response = wp_remote_request( $this->url , $this->request_parameters );
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
-			return $response[ 'body' ];
+			return $response;
 		} else {
 			if( is_wp_error( $response) ) {
 				$error_message = $response->get_error_message();
-				error_log( get_bloginfo( 'url' ) . ' , WP Error: ' . $error_string , 0 );
-				return $error_message;
+				$error_code = $response->get_error_message();
+				error_log( get_bloginfo( 'url' ) . ' , WP Error: ' . $error_message , 0 );
 			} else {
+				$error_code = wp_remote_retrieve_response_code( $response );
 				$error_message = wp_remote_retrieve_response_message( $response );
-				error_log( get_bloginfo( 'url' ) . ' , HTTP Error: ' . $error_string , 0 );
-				return $error_message;
+				error_log( get_bloginfo( 'url' ) . ' , HTTP Error: ' . $error_message , 0 );
 			}
+			$error_array = array( 'code' => $error_code , 'message' => $error_message );
+			return $error_array;
 		}
 	}
 

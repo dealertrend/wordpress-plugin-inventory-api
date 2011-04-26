@@ -22,25 +22,38 @@
 	get_header();
 	flush();
 
-	if( $vehicle_management_system->check_host() == false ) {
+	$check_host = $vehicle_management_system->check_host();
+	if( $check_host[ 'status' ] == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>Unable to connect to API.</p>';
 		return false;
 	}
 
-	if( $vehicle_management_system->check_company_id() == false ) {
+	$check_company_id = $vehicle_management_system->check_company_id();
+	if( $check_company_id[ 'status' ] == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>Unable to validate company information.</p>';
 		return false;
 	}
 
-	if( $vehicle_management_system->check_inventory() == false ) {
+	$check_inventory = $vehicle_management_system->check_inventory();
+
+	if( $check_inventory[ 'status' ] == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>Unable to retrieve inventory.</p>';
 		return false;
 	}
 
+	$inventory = $vehicle_management_system->get_inventory( $this->parameters );
+
+	if( $inventory == false ) {
+		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
+		echo '<p>Inventory query timed out.</p>';
+		return false;
+	}
+
 	$company_information = $vehicle_management_system->get_company_information();
+	$company_information = $company_information[ 'data' ];
 	$state = $company_information->state;
 	$city = $company_information->city;
 	$company_name = strtoupper( $company_information->name );
@@ -69,8 +82,6 @@
 	}
 
 	$breadcrumbs = '<div class="breadcrumbs">' . $breadcrumbs . '</div>';
-
-	$inventory = $vehicle_management_system->get_inventory( $this->parameters );
 
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );

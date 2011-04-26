@@ -1,11 +1,5 @@
 <?php
 
-if ( class_exists( 'vehicle_management_system' ) ) {
-	return false;
-}
-
-require_once( dirname( __FILE__ ) . '/http_api_wrapper.php' );
-
 class vehicle_management_system {
 
 	const max_per_page = 50;
@@ -27,66 +21,102 @@ class vehicle_management_system {
 		$this->routes[ 'trims' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/trims.json';
 		$this->routes[ 'body_styles' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
 
-		$test = new http_request_wrapper( $this->host );
-
 	}
 
 	function check_host() {
-		$request_handler = new http_request_wrapper( $this->host );
-		return $request_handler == false ? false : true;
+		$request_handler = new http_api_wrapper( $this->host , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		$data_array = array( 'status' => false , 'data' => $data );
+		if( isset( $data[ 'body' ] ) ) {
+			$data_array[ 'status' ] = true;
+		}
+		return $data_array;
 	}
 
 	function check_company_id() {
 		$url = $this->routes[ 'company_information' ];
-		$request_handler = new http_request_wrapper( $url );
-		return $request_handler == false ? false : true;
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		$data_array = array ( 'status' => false , 'data' => $data );
+		if( isset( $data[ 'body' ] ) ) {
+			$data_array[ 'status' ] = true;
+		}
+		return $data_array;
 	}
 
 	function check_inventory() {
 		$url = $this->routes[ 'vehicles' ] . '?photo_view=1&per_page=1';
-		$request_handler = new http_request_wrapper( $url );
-		return $request_handler == false ? false : true;
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		if( isset( $data[ 'body' ] ) ) {
+			if( trim( $data[ 'body' ] ) != '[]' ) {
+				$data_array[ 'status' ] = true;
+			} else {
+				$data_array[ 'status' ] = false;
+				$data[ 'code' ] = 200;
+				$data[ 'message' ] = 'Inventory does not exist.';
+				
+			}
+		} else {
+			$data_array[ 'status' ] = false;
+		}
+		$data_array[ 'data' ] = $data;
+		return $data_array;
 	}
 
 	function get_company_information() {
-		$request_handler = new http_request_wrapper( $this->routes[ 'company_information' ] );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $this->routes[ 'company_information' ] , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		$data_array = array ( 'status' => false, 'data' => json_decode( $data[ 'body' ] ) );
+		if( isset( $request_hander[ 'body ' ] ) ) {
+			$data_array[ 'status' ] = true;
+		}
+		return $data_array;
 	}
 
 	function get_inventory( $parameters = array() ) {
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'vehicles' ] . $parameter_string;
-		$request_handler = new http_request_wrapper( $url );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		if( isset( $data[ 'body' ] ) ) {
+			return json_decode( $data[ 'body' ] );
+		} else {
+			return false;
+		}
 	}
 
 	function get_makes( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'makes' ] . $parameter_string;
-		$request_handler = new http_request_wrapper( $url );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		return json_decode( $data[ 'body' ] );
 	}
 
 	function get_models( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'models' ] . $parameter_string;
-		$request_handler = new http_request_wrapper( $url );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		return json_decode( $data[ 'body' ] );
 	}
 
 	function get_trims( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'trims' ] . $parameter_string;
-		$request_handler = new http_request_wrapper( $url );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		return json_decode( $data[ 'body' ] );
 	}
 
 	function get_body_styles( $parameters = array()) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'body_styles' ] . $parameter_string;
-		$request_handler = new http_request_wrapper( $url );
-		return json_decode( $request_handler );
+		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+		return json_decode( $data[ 'body' ] );
 	}
 
 	function process_parameters( $parameters ) {
