@@ -17,7 +17,6 @@
 		'type' => 'plain'
 	); 
 
-	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
 	if( empty( $inventory ) ) {
@@ -159,7 +158,7 @@
 							$drive_train = $inventory_item->drive_train;
 							$doors = $inventory_item->doors;
 							if( !empty( $wp_rewrite->rules ) ) {
-								$inventory_url = '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
+								$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
 								$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 							}

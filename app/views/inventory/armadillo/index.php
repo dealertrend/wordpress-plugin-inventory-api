@@ -60,20 +60,36 @@
 
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
 	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
+	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 
-	if( count( $this->parameters > 1 ) ) {
+	$parameters = $this->parameters;
+
+	unset( $parameters[ 'taxonomy' ] );
+
+	if( !isset( $parameters[ 'saleclass' ] ) ){
+		if( isset( $inventory->saleclass ) ) {
+			$substitute = $inventory->saleclass;
+		} else {
+			$substitute = isset( $inventory[ 0 ]->saleclass ) ? $inventory[ 0 ]->saleclass : NULL;
+		}
+		array_shift( $parameters );
+		$substitute_array = array( 'saleclass' => $substitute );
+		$parameters = $substitute_array + $parameters;
+	}
+
+	if( count( $parameters > 1 ) ) {
 		$crumb_trail = '/inventory/';
 		if( !empty( $wp_rewrite->rules ) ) {
-			foreach( $this->parameters as $key => $value ) {
-				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
-					$crumb_trail .=	$value . '/';
+			foreach( $parameters as $key => $value ) {
+				if( !in_array( $key ,$do_not_show ) ) {
+					$crumb_trail .= $value . '/';
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
 		} else {
 			$crumb_trail = '?taxonomy=inventory';
-			foreach( $this->parameters as $key => $value ) {
-				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
+			foreach( $parameters as $key => $value ) {
+				if( !in_array( $key ,$do_not_show ) ) {
 					$crumb_trail .= '&amp;' . $key . '=' . $value;
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
