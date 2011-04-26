@@ -58,7 +58,7 @@
 	$city = $company_information->city;
 	$company_name = strtoupper( $company_information->name );
 
-	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>></span>' . urldecode( $company_name ) . '</a>';
+	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>' . urldecode( $company_name ) . '</span></a>';
 	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
 
 	if( count( $this->parameters > 1 ) ) {
@@ -67,7 +67,7 @@
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .=	$value . '/';
-					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>></span>' . ucfirst( urldecode( $value ) ) . '</a>';
+					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>' . ucfirst( urldecode( $value ) ) . '</span></a>';
 				}
 			}
 		} else {
@@ -75,7 +75,7 @@
 			foreach( $this->parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) && $key != 'taxonomy' ) {
 					$crumb_trail .= '&amp;' . $key . '=' . $value;
-					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>></span>' . ucfirst( urldecode( $value ) ) . '</a>';
+					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>' . ucfirst( urldecode( $value ) ) . '</span></a>';
 				}
 			}
 		}
