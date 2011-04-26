@@ -294,6 +294,7 @@ class dealertrend_inventory_api {
 				);
 
 				$inventory_seo_headers = new inventory_seo_headers(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
 					$this->parameters
 				);

@@ -6,12 +6,18 @@ if ( class_exists( 'inventory_seo_headers' ) ) {
 
 class inventory_seo_headers {
 
+		public $host = NULL;
 		public $company_id = 0;
 		public $parameters = array();
 
-		function __construct( $company_id , $parameters ) {
+		function __construct( $host , $company_id , $parameters ) {
+			$this->host = $host;
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
+
+#echo '<pre>';
+#print_r($this);
+#echo '</pre>';
 
 			# get_headers
 			# hooks
@@ -22,7 +28,19 @@ class inventory_seo_headers {
 		}
 
 		function get_headers() {
-			
+			#http://api.dealertrend.com/46/seo_helpers.phps?cu=/inventory/New/All/All/All/Reno/NV/
+
+			$saleclass = 'All';
+			$make = NULL; 
+			$model = NULL; 
+			$trim = NULL; 
+			$city = NULL; 
+			$state = NULL; 
+
+			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/';
+
+			$request_handler = new http_api_wrapper( $this->host , 'inventory_seo_headers' );
+			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		}
 
 		function get_title() {
