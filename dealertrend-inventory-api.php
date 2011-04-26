@@ -9,6 +9,7 @@
  */
 
 /** Load the helpers so we can interface with the APIs. */
+require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
 
 if ( !class_exists( 'dealertrend_inventory_api' ) ) {

@@ -4,17 +4,19 @@ if ( class_exists( 'vehicle_management_system' ) ) {
 	return false;
 }
 
+require_once( dirname( __FILE__ ) . '/http_api_wrapper.php' );
+
 class vehicle_management_system {
 
 	const max_per_page = 50;
-	const max_request_time = 10;
 
 	public $host = NULL;
-	public $company_id = NULL;
+	public $company_id = 0;
 
 	private $routes = array();
 
 	function __construct( $host , $company_id ) {
+
 		$this->host = $host;
 		$this->company_id = $company_id;
 
@@ -24,79 +26,67 @@ class vehicle_management_system {
 		$this->routes[ 'models' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/models.json';
 		$this->routes[ 'trims' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/trims.json';
 		$this->routes[ 'body_styles' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
+
+		$test = new http_request_wrapper( $this->host );
+
 	}
 
 	function check_host() {
-		$response = wp_remote_head( $this->host , array( 'timeout' => vehicle_management_system::max_request_time ) );
-
-		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
-			return false;
-		}
-
-		return true;
+		$request_handler = new http_request_wrapper( $this->host );
+		return $request_handler == false ? false : true;
 	}
 
 	function check_company_id() {
-		$url  = $this->routes[ 'company_information' ];
-		$response = wp_remote_head( $url , array( 'timeout' => vehicle_management_system::max_request_time ) );
-
-		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
-			return false;
-		}
-
-		return true;
+		$url = $this->routes[ 'company_information' ];
+		$request_handler = new http_request_wrapper( $url );
+		return $request_handler == false ? false : true;
 	}
 
 	function check_inventory() {
 		$url = $this->routes[ 'vehicles' ] . '?photo_view=1&per_page=1';
-		$response = wp_remote_head( $url , array( 'timeout' => vehicle_management_system::max_request_time ) );
-
-		if( is_wp_error( $response ) || $response[ 'headers' ][ 'status' ] != '200 OK' ) {
-			return false;
-		}
-
-		return true;
+		$request_handler = new http_request_wrapper( $url );
+		return $request_handler == false ? false : true;
 	}
 
 	function get_company_information() {
-		return json_decode( $this->get_remote_file( $this->routes[ 'company_information' ] ) );
+		$request_handler = new http_request_wrapper( $this->routes[ 'company_information' ] );
+		return json_decode( $request_handler );
 	}
 
 	function get_inventory( $parameters = array() ) {
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 		$parameter_string = $this->process_parameters( $parameters );
-
 		$url = $this->routes[ 'vehicles' ] . $parameter_string;
-
-		return json_decode( $this->get_remote_file( $url ) );
+		$request_handler = new http_request_wrapper( $url );
+		return json_decode( $request_handler );
 	}
 
 	function get_makes( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'makes' ] . $parameter_string;
-
-		return json_decode( $this->get_remote_file( $url ) );
+		$request_handler = new http_request_wrapper( $url );
+		return json_decode( $request_handler );
 	}
 
 	function get_models( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'models' ] . $parameter_string;
-
-		return json_decode( $this->get_remote_file( $url ) );
+		$request_handler = new http_request_wrapper( $url );
+		return json_decode( $request_handler );
 	}
 
 	function get_trims( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'trims' ] . $parameter_string;
-
-		return json_decode( $this->get_remote_file( $url ) );
+		$request_handler = new http_request_wrapper( $url );
+		return json_decode( $request_handler );
 	}
 
 	function get_body_styles( $parameters = array()) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'body_styles' ] . $parameter_string;
-
-		return json_decode( $this->get_remote_file( $url ) );
+		$request_handler = new http_request_wrapper( $url );
+		return json_decode( $request_handler );
 	}
 
 	function process_parameters( $parameters ) {
@@ -107,39 +97,6 @@ class vehicle_management_system {
 		$parameters = array_map( 'urldecode' , $parameters );
 
 		return !empty( $parameters ) ? '?' . http_build_query( $parameters , '' , '&' ) : false;
-	}
-
-	function get_remote_file( $url , $use_cache = true ) {
-		$data = wp_cache_get( $url , 'dealertrend_inventory_api' );
-		if( $data != false && $use_cache == true ) {
-			return $data;
-		}
-		$response = wp_remote_request( $url , array( 'timeout' => 10 ) );
-		if( is_wp_error( $response ) || ( isset( $response[ 'headers' ][ 'status' ] ) && $response[ 'headers' ][ 'status' ] != '200 OK' ) ) {
-			$error_string = $response->errors[ 'http_request_failed' ][ 0 ];
-			# Courtesy error logging ^_^
-			error_log( get_bloginfo( 'url' ) . ': WARNING: ' . $error_string, 0 );
-			error_log( get_bloginfo( 'url' ) . ': REQUEST: ' . $url , 0 );
-			$this->status[ $option_key ] = false;
-			return false;
-		} else {
-
-			# Returned nothing.
-			if( empty( $response ) ) {
-				return false;
-			}
-
-			$status_header = isset( $response[ 'headers' ][ 'status' ] ) ? $response[ 'headers' ][ 'status' ] : false;
-			# The API isn't happy with our parameters or we were given a bad URL.
-			if( $status_header == '404 Not Found' || $status_header != '200 OK' ) {
-				return false;
-			}
-
-			$data = ( trim( $response[ 'body' ] ) != '[]' ) ? $response[ 'body' ] : false;
-			wp_cache_add( $url , $data , 'dealertrend_inventory_api' , 0 );
-
-			return $data;
-		}
 	}
 
 }
