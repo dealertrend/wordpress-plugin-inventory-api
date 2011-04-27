@@ -157,6 +157,7 @@
 							$body_style = $inventory_item->body_style;
 							$drive_train = $inventory_item->drive_train;
 							$doors = $inventory_item->doors;
+							$headline = $inventory_item->headline;
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -178,6 +179,9 @@
 										<span class="drive-train"><?php echo $drive_train; ?></span>
 										<span class="body-style"><?php echo $body_style; ?></span>
 									</a>
+								</div>
+								<div class="headline">
+									<?php echo $headline; ?>
 								</div>
 								<div class="details-left">
 									<span class="interior-color">Int. Color: <?php echo $interior_color; ?></span>
