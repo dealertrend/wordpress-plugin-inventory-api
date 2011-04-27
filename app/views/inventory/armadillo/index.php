@@ -58,23 +58,21 @@
 
 	$company_name = strtoupper( $company_information->name );
 
+	$parameters = $this->parameters;
+
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
 	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
 	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
-
-	$parameters = $this->parameters;
 
 	unset( $parameters[ 'taxonomy' ] );
 
 	if( !isset( $parameters[ 'saleclass' ] ) ){
 		if( isset( $inventory->saleclass ) ) {
 			$substitute = $inventory->saleclass;
-		} else {
-			$substitute = isset( $inventory[ 0 ]->saleclass ) ? $inventory[ 0 ]->saleclass : NULL;
+			array_shift( $parameters );
+			$substitute_array = array( 'saleclass' => $substitute );
+			$parameters = $substitute_array + $parameters;
 		}
-		array_shift( $parameters );
-		$substitute_array = array( 'saleclass' => $substitute );
-		$parameters = $substitute_array + $parameters;
 	}
 
 	if( count( $parameters > 1 ) ) {
