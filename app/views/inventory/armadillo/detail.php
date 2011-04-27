@@ -37,6 +37,20 @@
 
 ?>
 
+<script>
+function video_popup(url , title) {
+	if (! window.focus) return true;
+	var href;
+	if (typeof(url) == 'string') {
+		href=url;
+	} else {
+		href=url.href;
+		window.open(href, title, 'width=640,height=480,scrollbars=no');
+		return false;
+	}
+}
+</script>
+
 <div class="dealertrend inventory wrapper">
 	<div class="detail wrapper">
 		<?php echo $breadcrumbs; ?>
@@ -214,7 +228,7 @@
 				</div>
 				<?php
 					if( $video_url ) {
-						echo '<a href="' . $video_url . '" class="video-button">Watch Video for this Vehicle</a>';
+						echo '<a onClick="return video_popup(this, \'' . $year_make_model . '\')" href="' . $video_url . '" class="video-button">Watch Video for this Vehicle</a>';
 					}
 					if( count( $inventory->photos > 1 ) ) {
 						echo '<div class="navigation"></div>';
