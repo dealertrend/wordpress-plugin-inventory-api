@@ -24,15 +24,20 @@ class inventory_seo_headers {
 
 		function get_headers() {
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
-			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false; 
-			$make = isset( $this->parameters[ 'make' ] ) ? $this->parameters[ 'make' ] : 'All'; 
-			$model = isset( $this->parameters[ 'model' ] ) ? $this->parameters[ 'model' ] : 'All';	
-			$trim = isset( $this->parameters[ 'trim' ] ) ? $this->parameters[ 'trim' ] : 'All'; 
-			$city = isset( $this->parameters[ 'city' ] ) ? $this->parameters[ 'city' ] : false; 
-			$state = isset( $this->parameters[ 'state' ] ) ? $this->parameters[ 'state' ] : false; 
+			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false;
+			$make = isset( $this->parameters[ 'make' ] ) ? $this->parameters[ 'make' ] : 'All';
+			$model = isset( $this->parameters[ 'model' ] ) ? $this->parameters[ 'model' ] : 'All';
+			$trim = isset( $this->parameters[ 'trim' ] ) ? $this->parameters[ 'trim' ] : 'All';
+			$city = isset( $this->parameters[ 'city' ] ) ? $this->parameters[ 'city' ] : false;
+			$state = isset( $this->parameters[ 'state' ] ) ? $this->parameters[ 'state' ] : false;
+			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
 			$base = $year != false ? $year : $sale_class;
-			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
-			if( strtolower( $trim ) != 'all' ) { 
+			if( $year == false ) {
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
+			} else {
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base .'/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
+			}
+			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
 			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
@@ -40,7 +45,7 @@ class inventory_seo_headers {
 			$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
 			if( $body ) {
 				$body = str_replace( '&lt;?php' , NULL , $body );
-				$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body ); 
+				$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body );
 				if( !preg_match( '/dtarray.*seo_helpers.*false/' , $body ) ) {
 					preg_match_all( '/=.*;/i' , trim( $body ) , $results );
 					$this->headers[ 'page_title' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 1 ] ) );
