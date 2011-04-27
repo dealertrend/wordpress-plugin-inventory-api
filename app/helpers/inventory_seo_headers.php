@@ -37,18 +37,20 @@ class inventory_seo_headers {
 			}
 			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
-			$body = $data[ 'body' ];
-			$body = str_replace( '&lt;?php' , NULL , $body );
-			$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body ); 
-			if( !preg_match( '/dtarray.*seo_helpers.*false/' , $body ) ) {
-				preg_match_all( '/=.*;/i' , trim( $body ) , $results );
-				$this->headers[ 'page_title' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 1 ] ) );
-				$this->headers[ 'page_description' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 2 ] ) );
-				$this->headers[ 'page_keywords' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 3 ] ) );
-				$this->headers[ 'follow' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 4 ] ) );
-				$this->headers[ 'index' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 5 ] ) );
-			} else {
-				$headers = false;
+			$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
+			if( $body ) {
+				$body = str_replace( '&lt;?php' , NULL , $body );
+				$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body ); 
+				if( !preg_match( '/dtarray.*seo_helpers.*false/' , $body ) ) {
+					preg_match_all( '/=.*;/i' , trim( $body ) , $results );
+					$this->headers[ 'page_title' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 1 ] ) );
+					$this->headers[ 'page_description' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 2 ] ) );
+					$this->headers[ 'page_keywords' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 3 ] ) );
+					$this->headers[ 'follow' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 4 ] ) );
+					$this->headers[ 'index' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 5 ] ) );
+				} else {
+					$headers = false;
+				}
 			}
 		}
 
