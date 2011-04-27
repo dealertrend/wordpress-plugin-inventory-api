@@ -23,13 +23,18 @@ class inventory_seo_headers {
 		}
 
 		function get_headers() {
+			# http://api.dealertrend.com/671/seo_helpers.phps?cu=/inventory/New/Truck/GMC/Sierra_2500HD/Phoenix/AZ/?trim=Denali&WP=2.0
+			# host/company_id/inventory/saleclass/vehicleclass/make/model/city/state?trim
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
 			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false; 
 			$make = isset( $this->parameters[ 'make' ] ) ? $this->parameters[ 'make' ] : 'All'; 
 			$model = isset( $this->parameters[ 'model' ] ) ? $this->parameters[ 'model' ] : 'All';	
 			$trim = isset( $this->parameters[ 'trim' ] ) ? $this->parameters[ 'trim' ] : 'All'; 
+			$city = isset( $this->parameters[ 'city' ] ) ? $this->parameters[ 'city' ] : false; 
+			$state = isset( $this->parameters[ 'state' ] ) ? $this->parameters[ 'state' ] : false; 
+
 			$base = $year != false ? $year : $sale_class;
-			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/' . $make . '/' . $model . '/' . $trim . '/';
+			$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
 			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = $data[ 'body' ];

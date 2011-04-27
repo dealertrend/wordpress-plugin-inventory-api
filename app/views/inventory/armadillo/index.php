@@ -52,10 +52,10 @@
 		return false;
 	}
 
-	$company_information = $vehicle_management_system->get_company_information();
 	$company_information = $company_information[ 'data' ];
 	$state = $company_information->state;
 	$city = $company_information->city;
+
 	$company_name = strtoupper( $company_information->name );
 
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
