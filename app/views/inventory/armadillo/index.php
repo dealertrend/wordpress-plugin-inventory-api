@@ -48,7 +48,7 @@
 
 	if( $inventory == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-		echo '<p>Inventory query timed out.</p>';
+		echo '<p>The inventory feed timed out while trying to display. Please refresh the page. If the feed refuses to return data, then the given parameters may be invalid.</p>';
 		return false;
 	}
 
