@@ -36,6 +36,10 @@
 		<div class="pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
+		<form action="" method="GET" id="search">
+			<label for="search">Search:</label>
+			<input id="search-box" name="search" value="" />
+		</form>
 		<div class="sidebar">
 			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div class="quick-links">

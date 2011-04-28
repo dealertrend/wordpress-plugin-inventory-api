@@ -61,7 +61,7 @@
 	$parameters = $this->parameters;
 
 	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
-	$do_not_show = array( 'page' , 'per_page', 'trim', 'body_style', 'vehicleclass', 'sort', 'city', 'state' );
+	$do_not_show = array( 'page' , 'per_page' , 'trim' , 'body_style' , 'vehicleclass' , 'sort' , 'city' , 'state' , 'search' );
 	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 
 	unset( $parameters[ 'taxonomy' ] );

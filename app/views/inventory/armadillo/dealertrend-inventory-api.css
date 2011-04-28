@@ -12,6 +12,11 @@
 .dealertrend.inventory.wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:25px; }
 
 /* Listing Page */
+
+.dealertrend.inventory.wrapper .listing #search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
+.dealertrend.inventory.wrapper .listing #search label { margin-left:75px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
+.dealertrend.inventory.wrapper .listing #search #search-box { width:700px; margin-top:14px; }
+
 .dealertrend.inventory.wrapper .listing .sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
 .dealertrend.inventory.wrapper .listing .sidebar .total-found { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:#9f0300; font-weight:bold; text-align:center; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
