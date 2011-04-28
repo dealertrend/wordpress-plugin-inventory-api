@@ -32,9 +32,9 @@
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
 .dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
 
-.dealertrend.inventory.wrapper .listing { clear:both;  }
+.dealertrend.inventory.wrapper .listing { clear:both; }
 
-.dealertrend.inventory.wrapper .listing .content .sort { height:75px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
+.dealertrend.inventory.wrapper .listing .content .sort { height:50px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
 .dealertrend.inventory.wrapper .listing .content .sort > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
 .dealertrend.inventory.wrapper .listing .content .sort > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
 .dealertrend.inventory.wrapper .listing .content .sort > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px; }
