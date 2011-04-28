@@ -165,60 +165,64 @@
 							}
 							$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
 							<div class="item" id="<?php echo $vin; ?>">
-								<div class="photo">
-									<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
-										<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
-									</a>
+								<div class="col-left">
+									<div class="photo">
+										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
+											<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
+										</a>
+									</div>
 								</div>
-								<div class="main-line">
-									<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
-										<span class="year"><?php echo $year; ?></span>
-										<span class="make"><?php echo $make; ?></span>
-										<span class="model"><?php echo $model; ?></span>
-										<span class="trim"><?php echo $trim; ?></span>
-										<span class="drive-train"><?php echo $drive_train; ?></span>
-										<span class="body-style"><?php echo $body_style; ?></span>
-									</a>
-								</div>
-								<div class="headline">
-									<?php echo $headline; ?>
-								</div>
-								<div class="details-left">
-									<span class="interior-color">Int. Color: <?php echo $interior_color; ?></span>
-									<span class="exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
-									<span class="transmission">Trans: <?php echo $transmission; ?></span>
-								</div>
-								<div class="details-right">
-									<span class="stock-number">Stock #: <?php echo $stock_number; ?></span>
-									<span class="odometer">Mileage: <?php echo $odometer; ?></span>
-									<span class="vin">VIN: <?php echo $vin; ?></span>
-								</div>
-								<div class="icons">
-									<?php echo $icons; ?>
-								</div>
-								<div class="price">
-									<?php
-										if( $on_sale ) {
-											$now_text = 'Price: ';
-											if( $use_was_now ) {
-												$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
-												echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
-												$now_text = 'Now: ';
-											}
-											echo '<div class="sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
-										} else {
-											if( $asking_price > 0 ) {
-												echo '<div class="asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								<div class="col-right">
+									<div class="main-line">
+										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
+											<span class="year"><?php echo $year; ?></span>
+											<span class="make"><?php echo $make; ?></span>
+											<span class="model"><?php echo $model; ?></span>
+											<span class="trim"><?php echo $trim; ?></span>
+											<span class="drive-train"><?php echo $drive_train; ?></span>
+											<span class="body-style"><?php echo $body_style; ?></span>
+										</a>
+									</div>
+									<div class="headline">
+										<?php echo $headline; ?>
+									</div>
+									<div class="details-left">
+										<span class="interior-color">Int. Color: <?php echo $interior_color; ?></span>
+										<span class="exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
+										<span class="transmission">Trans: <?php echo $transmission; ?></span>
+									</div>
+									<div class="details-right">
+										<span class="stock-number">Stock #: <?php echo $stock_number; ?></span>
+										<span class="odometer">Mileage: <?php echo $odometer; ?></span>
+										<span class="vin">VIN: <?php echo $vin; ?></span>
+									</div>
+									<div class="icons">
+										<?php echo $icons; ?>
+									</div>
+									<div class="price">
+										<?php
+											if( $on_sale ) {
+												$now_text = 'Price: ';
+												if( $use_was_now ) {
+													$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
+													echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+													$now_text = 'Now: ';
+												}
+												echo '<div class="sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 											} else {
-												echo $default_price_text;
+												if( $asking_price > 0 ) {
+													echo '<div class="asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+												} else {
+													echo $default_price_text;
+												}
 											}
-										}
-									?>
-									<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
+										?>
+										<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
+									</div>
+									<br class="clear" />
 								</div>
-								<br class="clear" />
 							</div>
-						<?php
+					<?php
 						flush();
 						endforeach;
 					}
