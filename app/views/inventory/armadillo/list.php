@@ -37,7 +37,7 @@
 			<?php echo paginate_links( $args ); ?>
 		</div>
 		<form action="" method="GET" id="search">
-			<label for="search">Search:</label>
+			<label for="search">Inventory Search:</label>
 			<input id="search-box" name="search" value="" />
 		</form>
 		<div class="sidebar">
