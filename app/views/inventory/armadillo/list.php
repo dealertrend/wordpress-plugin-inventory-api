@@ -38,15 +38,22 @@
 		</div>
 		<form action="" method="GET" id="search">
 			<label for="search">Inventory Search:</label>
-			<input id="search-box" name="search" value="" />
+			<input id="search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 		</form>
 		<div class="sidebar">
 			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div class="quick-links">
-				<?php if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
+				<?php
+				?>
+				
+				<?php
+					if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ):
+				?>
 				<h3>Refine Your Search</h3>
 				<ul>
-					<?php	if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
+					<?php
+						if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ):
+					?>
 					<li class="expanded">
 						<span>Body Style</span>
 						<ul>
@@ -54,6 +61,31 @@
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'truck' , 'page' => 1 ) ); ?>">Truck</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'sport_utility' , 'page' => 1 ) ); ?>">SUV</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' , 'page' => 1 ) ); ?>">Van</a></li>
+						</ul>
+					</li>
+					<?php
+						endif;
+						if( !isset( $parameters[ 'price_from' ] ) || !isset( $parameters[ 'price_to' ] ) ):
+					?>
+					<li class="expanded">
+						<span>Price</span>
+						<ul>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' , 'page' => 1 ) ); ?>">$0 - $10,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' , 'page' => 1 ) ); ?>">$10,001 - $20,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' , 'page' => 1 ) ); ?>">$20,001 - $30,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' , 'page' => 1 ) ); ?>">$30,001 - $40,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' , 'page' => 1 ) ); ?>">$40,001 - $50,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' , 'page' => 1 ) ); ?>">$50,001 - &amp; Above</a></li>
+						</ul>
+					</li>
+					<?php
+						endif;
+						if( !isset( $parameters[ 'certified' ] ) ):
+					?>
+					<li class="expanded">
+						<span>Other</span>
+						<ul>
+							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'true' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
 						</ul>
 					</li>
 					<?php
