@@ -56,6 +56,7 @@ function video_popup(url , title) {
 		<?php echo $breadcrumbs; ?>
 		<div class="main-line">
 			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $drive_train . ' ' . $body_style . ' ' . $transmission; ?></h2>
+			<p><?php echo $headline; ?></p>
 		</div>
 		<div class="column-left">
 			<div class="request-form">

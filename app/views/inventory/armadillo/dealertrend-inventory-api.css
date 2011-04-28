@@ -89,8 +89,9 @@
 
 /* Detail Page */
 .dealertrend.inventory.wrapper .detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; height:80px; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; padding:10px; line-height:22px; clear:both; }
+.dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; margin-bottom:10px; padding:10px; clear:both; }
+.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; line-height:22px; }
+.dealertrend.inventory.wrapper .detail .main-line p { clear:both; margin:0; padding:0; color:#9f0300; }
 .dealertrend.inventory.wrapper .detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 .dealertrend.inventory.wrapper .detail .column-left,
 .dealertrend.inventory.wrapper .detail .column-middle,
