@@ -14,7 +14,7 @@
 /* Listing Page */
 
 .dealertrend.inventory.wrapper .listing #search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
-.dealertrend.inventory.wrapper .listing #search label { margin-left:75px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
+.dealertrend.inventory.wrapper .listing #search label { margin-left:50px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
 .dealertrend.inventory.wrapper .listing #search #search-box { width:700px; margin-top:14px; }
 
 .dealertrend.inventory.wrapper .listing .sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
