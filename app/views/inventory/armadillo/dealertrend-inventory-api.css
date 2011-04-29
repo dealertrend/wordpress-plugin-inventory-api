@@ -117,8 +117,10 @@
 .dealertrend.inventory.wrapper .detail .vehicle-information .price .strike-through { color:gray; }
 .dealertrend.inventory.wrapper .detail .request-form,
 .dealertrend.inventory.wrapper .detail .vehicle-information,
-.dealertrend.inventory.wrapper .detail .helpful-links { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .vehicle-information { font-size:10px; }
+.dealertrend.inventory.wrapper .detail .helpful-links,
+.dealertrend.inventory.wrapper .detail .contact-information { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
+.dealertrend.inventory.wrapper .detail .vehicle-information,
+.dealertrend.inventory.wrapper .detail .contact-information { font-size:10px; }
 .dealertrend.inventory.wrapper .detail .vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
 .dealertrend.inventory.wrapper .detail .vehicle-information  .header { margin-bottom:10px; }
 .dealertrend.inventory.wrapper .detail .request-form form { padding:5px; line-height:20px; }
@@ -132,6 +134,8 @@
 .dealertrend.inventory.wrapper .detail .helpful-links a#friend { background: transparent url('images/button-sprite-friend-250x62.jpg') no-repeat; }
 .dealertrend.inventory.wrapper .detail .helpful-links a#calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
 .dealertrend.inventory.wrapper .detail .helpful-links a:hover { background-position:bottom center !important; }
+
+.dealertrend.inventory.wrapper .detail .contact-information p { padding:10px; margin:0; }
 
 .dealertrend.inventory.wrapper .detail .fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
 .dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city,

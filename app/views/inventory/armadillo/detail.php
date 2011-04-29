@@ -31,9 +31,9 @@
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
 	$drive_train = $inventory->drive_train;
-
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
+	$contact_information = $inventory->contact_info;
 
 ?>
 
@@ -124,6 +124,13 @@ function video_popup(url , title) {
 						</table>
 					</form>
 				</div>
+			</div>
+			<div class="contact-information">
+				<div class="header">Contact Information</div>
+				<?php
+					echo '<p>' . $contact_information->greeting . ' <strong>' . $contact_information->dealer_name . '</strong></p>';
+					echo '<p>Phone Number: <strong>' . $contact_information->phone . '</strong></p>';
+				?>
 			</div>
 			<div class="helpful-links">
 				<div class="header">
