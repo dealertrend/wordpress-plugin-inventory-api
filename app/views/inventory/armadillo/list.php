@@ -65,31 +65,6 @@
 					</li>
 					<?php
 						endif;
-						if( !isset( $parameters[ 'price_from' ] ) || !isset( $parameters[ 'price_to' ] ) ):
-					?>
-					<li class="expanded">
-						<span>Price</span>
-						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' , 'page' => 1 ) ); ?>">$0 - $10,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' , 'page' => 1 ) ); ?>">$10,001 - $20,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' , 'page' => 1 ) ); ?>">$20,001 - $30,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' , 'page' => 1 ) ); ?>">$30,001 - $40,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' , 'page' => 1 ) ); ?>">$40,001 - $50,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' , 'page' => 1 ) ); ?>">$50,001 - &amp; Above</a></li>
-						</ul>
-					</li>
-					<?php
-						endif;
-						if( !isset( $parameters[ 'certified' ] ) ):
-					?>
-					<li class="expanded">
-						<span>Other</span>
-						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'true' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
-						</ul>
-					</li>
-					<?php
-						endif;
 						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ):
 					?>
 					<li class="expanded">
@@ -133,6 +108,31 @@
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
 								}
 							?>
+						</ul>
+					</li>
+					<?php
+						endif;
+						if( !isset( $parameters[ 'price_from' ] ) || !isset( $parameters[ 'price_to' ] ) ):
+					?>
+					<li class="expanded">
+						<span>Price</span>
+						<ul>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' , 'page' => 1 ) ); ?>">$0 - $10,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' , 'page' => 1 ) ); ?>">$10,001 - $20,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' , 'page' => 1 ) ); ?>">$20,001 - $30,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' , 'page' => 1 ) ); ?>">$30,001 - $40,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' , 'page' => 1 ) ); ?>">$40,001 - $50,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' , 'page' => 1 ) ); ?>">$50,001 - &amp; Above</a></li>
+						</ul>
+					</li>
+					<?php
+						endif;
+						if( !isset( $parameters[ 'certified' ] ) ):
+					?>
+					<li class="expanded">
+						<span>Other</span>
+						<ul>
+							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'true' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
 						</ul>
 					</li>
 					<?php endif; ?>
