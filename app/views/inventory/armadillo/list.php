@@ -12,7 +12,7 @@
 		'current' => $on_page,
 		'total' => $total,
 		'next_text' => __( 'Next &raquo;' ),
-		'prev_text' => __( '&laquo; Previous' ),
+		'prev_text' => __( '< Previous' ),
 		'show_all' => false,
 		'type' => 'plain'
 	); 
@@ -44,9 +44,6 @@
 			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div class="quick-links">
 				<?php
-				?>
-				
-				<?php
 					if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ):
 				?>
 				<h3>Refine Your Search</h3>
@@ -71,6 +68,9 @@
 						<span>Make</span>
 						<ul>
 							<?php
+								if( isset( $parameters[ 'saleclass' ] ) ) {
+									echo '<li class="small"><a href="/inventory/">View All Vehicles</a></li>';
+								}
 								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class , 'vehicleclass' => $vehicle_class ) ) as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $make . '/';
@@ -88,6 +88,11 @@
 						<span>Model</span>
 						<ul>
 							<?php
+								if( !empty( $wp_rewrite->rules ) ) {
+									echo '<li class="small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+								} else {
+									echo '<li class="small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+								}
 								foreach( $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
@@ -104,6 +109,13 @@
 						<span>Trim</span>
 						<ul>
 							<?php
+								if( !empty( $wp_rewrite->rules ) ) {
+									echo '<li class="small"><a href="/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
+									echo '<li class="small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+								} else {
+									echo '<li class="small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'page' => 1 ) ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
+									echo '<li class="small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+								}
 								foreach( $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) ) as $trim ) {
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
 								}
