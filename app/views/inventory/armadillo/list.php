@@ -211,6 +211,7 @@
 							} else {
 								$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 							}
+							$contact_information = $inventory_item->contact_info;
 							$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
 							<div class="item" id="<?php echo $vin; ?>">
 								<div class="col-left">
@@ -266,6 +267,9 @@
 											}
 										?>
 										<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
+									</div>
+									<div class="contact-information">
+										<?php echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $contact_information->phone : NULL; ?>
 									</div>
 									<br class="clear" />
 								</div>
