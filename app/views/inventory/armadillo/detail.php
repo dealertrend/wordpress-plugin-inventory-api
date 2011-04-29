@@ -137,9 +137,7 @@ function video_popup(url , title) {
 					Helpful Links
 				</div>
 				<a id="schedule" href="/schedule-test-drive/" target="_blank">Schedule Test Drive</a>
-				<a id="trade" href="/trade-evaluation/" target="_blank">Trade Evaluation</a>
 				<a id="facebook" href="http://www.addthis.com/bookmark.php?pub=dealertrend&amp;v=250&amp;source=tbx-250&amp;s=facebook&url=&amp;title=&amp;content=" target="_blank">Share on Facebook</a>
-				<a id="approved" href="#" target="_blank">Get Approved Now</a>
 				<a id="friend" href="#" target="_blank">Send to a Friend</a>
 				<a id="calculate" href="#" target="_blank">Calculate Payments</a>
 			</div>
