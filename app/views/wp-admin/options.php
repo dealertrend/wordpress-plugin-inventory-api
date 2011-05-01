@@ -253,7 +253,7 @@
 	<?php flush(); ?>
 	<div id="help">
 		<h3 class="title">Initial Setup</h3>
-		<p>To get the plugin started you'll need to specific a VMS and a valid Company ID.</p>
+		<p>To get the plugin started you'll need to specify a VMS and a valid Company ID.</p>
 		<p>Both of these will be provided to you upon purchasing a license with <?php echo $site_link; ?></p>
 		<p>After you've received a valid VMS and Company ID, you'll need to go to the <a id="settings-link" href="#settings" title="DealerTrend API Settings">settings page</a> and fill in their respective fields. Once you click "Save Changes" it will start pulling in your Inventory and Company Feeds.</p>
 		<h3 class="title">Viewing Inventory</h3>
