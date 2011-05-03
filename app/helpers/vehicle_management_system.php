@@ -1,16 +1,57 @@
 <?php
 
+if ( class_exists( 'vehicle_management_system' ) ) {
+	return false;
+}
+
+/**
+ * This is the primary class for the VMS.
+ *
+ * It's sole responsibility is to get and return inventory data form the VMS.
+ *
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 3.0.0
+ */
 class vehicle_management_system {
 
+	/**
+	 * This is a hard constant. The VMS will never return more than 50 items per page.
+	 *
+	 * @since 3.0.0
+	 * @var integer
+	 */
 	const max_per_page = 50;
 
+	/**
+	 * This is the address of the API we'll be querying against.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
 	public $host = NULL;
+
+	/**
+	 * This is the account we'll be requesting information from within the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var integer
+	 */
 	public $company_id = 0;
 
+	/**
+	 * Private variable containing the routes for making API calls.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 * @var array
+	 */
 	private $routes = array();
 
-	function __construct( $host , $company_id ) {
 
+	function __construct( $host , $company_id ) {
 		$this->host = $host;
 		$this->company_id = $company_id;
 
@@ -20,7 +61,6 @@ class vehicle_management_system {
 		$this->routes[ 'models' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/models.json';
 		$this->routes[ 'trims' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/trims.json';
 		$this->routes[ 'body_styles' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
-
 	}
 
 	function check_host() {

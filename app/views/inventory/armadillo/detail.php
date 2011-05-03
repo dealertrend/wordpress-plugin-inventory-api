@@ -51,6 +51,33 @@ function video_popup(url , title) {
 }
 </script>
 
+<div id="schedule-form"	title="Schedule a Test Drive">
+<p class="validateTips">All form fields are required.</p>
+	<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
+		
+	</form>
+
+	<form>
+	<fieldset>
+		<label for="name">Name</label>
+		<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+		<label for="email">Email</label>
+		<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	</fieldset>
+	</form>
+
+</div>
+
+<div id="friend-form" title="Send to a Friend">
+friend
+</div>
+
+<div id="calculate-form" title="Calculate Payments">
+calculate
+</div>
+
 <div class="dealertrend inventory wrapper">
 	<div class="detail wrapper">
 		<?php echo $breadcrumbs; ?>
@@ -136,10 +163,10 @@ function video_popup(url , title) {
 				<div class="header">
 					Helpful Links
 				</div>
-				<a id="schedule" href="/schedule-test-drive/" target="_blank">Schedule Test Drive</a>
+				<a id="schedule" href="#schedule-form">Schedule Test Drive</a>
 				<a id="facebook" href="http://www.addthis.com/bookmark.php?pub=dealertrend&amp;v=250&amp;source=tbx-250&amp;s=facebook&url=&amp;title=&amp;content=" target="_blank">Share on Facebook</a>
-				<a id="friend" href="#" target="_blank">Send to a Friend</a>
-				<a id="calculate" href="#" target="_blank">Calculate Payments</a>
+				<a id="friend" href="#friend-form">Send to a Friend</a>
+				<a id="calculate" href="#calculate-form">Calculate Payments</a>
 			</div>
 			<?php
 				if( $carfax ) {
