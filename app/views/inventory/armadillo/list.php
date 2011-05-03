@@ -177,7 +177,7 @@
 			<div id="armadillo-listing-items">
 				<?php
 					if( empty( $inventory ) ) {
-						echo '<div class="armadillo0-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
+						echo '<div class="armadillo-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
 							setlocale(LC_MONETARY, 'en_US');
@@ -214,7 +214,7 @@
 							$contact_information = $inventory_item->contact_info;
 							$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
 							<div class="armadillo-item" id="<?php echo $vin; ?>">
-								<div class="armadill-column-left">
+								<div class="armadillo-column-left">
 									<div class="armadillo-photo">
 										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
 											<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
@@ -273,6 +273,7 @@
 									</div>
 									<br class="armadillo-clear" />
 								</div>
+								<br class="armadillo-clear" />
 							</div>
 					<?php
 						flush();
@@ -281,7 +282,7 @@
 				?>
 			</div>
 		</div>
-		<div class="armadillo-disclaimer">
+		<div id="armadillo-disclaimer">
 			<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
 		</div>
 	</div>

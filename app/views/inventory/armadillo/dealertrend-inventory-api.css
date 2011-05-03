@@ -1,169 +1,168 @@
-.dealertrend.inventory { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.dealertrend.inventory .strike-through { text-decoration:line-through;  }
+/* Shared elements. */
+.armadillo-strike-through { text-decoration:line-through;  }
+.armadillo-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
+.armadillo-return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
+.armadillo-pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
+.armadillo-breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:923px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
+.armadillo-breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
+.armadillo-breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:25px; }
 
-.dealertrend.inventory.wrapper { width:925px; margin:auto; position:relative; margin-top:10px; }
-
-.dealertrend.inventory.wrapper .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
-
-.dealertrend.inventory.wrapper .return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
-.dealertrend.inventory.wrapper .pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
-.dealertrend.inventory.wrapper .breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:923px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
-.dealertrend.inventory.wrapper .breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
-.dealertrend.inventory.wrapper .breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:25px; }
+#armadillo-wrapper { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; width:925px; margin:auto; margin-top:10px; position:relative;  }
 
 /* Listing Page */
+#armadillo-listing { clear:both; }
 
-.dealertrend.inventory.wrapper .listing #search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
-.dealertrend.inventory.wrapper .listing #search label { margin-left:50px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
-.dealertrend.inventory.wrapper .listing #search #search-box { width:700px; margin-top:14px; }
+#armadillo-search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
+#armadillo-search label { margin-left:50px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
+#armadillo-search-box { width:700px; margin-top:14px; }
 
-.dealertrend.inventory.wrapper .listing .sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .listing .sidebar .total-found { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:#9f0300; font-weight:bold; text-align:center; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > h3 { line-height:25px; height:25px; text-align:left; text-transform:uppercase; font-size:12px; font-weight:bold; background:#eee; margin-left:10px; padding-top:4px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul { list-style:none; padding:0; margin:0; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links li { list-style:none; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li { color: #006875; font-weight:bold; text-transform:uppercase; margin:0; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li.collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li.expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul { list-style:none; padding:0; margin:0; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul > li { margin:0; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
-.dealertrend.inventory.wrapper .listing .sidebar .quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
+#armadillo-listing-sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
+#armadillo-total-found { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:#9f0300; font-weight:bold; text-align:center; }
+#armadillo-quick-links { border-right:1px solid #a8a8a8; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+#armadillo-quick-links > h3 { line-height:25px; height:25px; text-align:left; text-transform:uppercase; font-size:12px; font-weight:bold; background:#eee; margin-left:10px; padding-top:4px; }
+#armadillo-quick-links > ul { list-style:none; padding:0; margin:0; }
+#armadillo-quick-links li { list-style:none; }
+#armadillo-quick-links > ul > li { color: #006875; font-weight:bold; text-transform:uppercase; margin:0; }
+#armadillo-quick-links > ul > li span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
+#armadillo-quick-links > ul > li.armadillo-collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
+#armadillo-quick-links > ul > li.armadillo-expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
+#armadillo-quick-links > ul > li > ul { list-style:none; padding:0; margin:0; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
+#armadillo-quick-links > ul > li > ul > li { margin:0; }
+#armadillo-quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
+#armadillo-quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
 
-.dealertrend.inventory.wrapper .listing { clear:both; }
+#armadillo-sorting-columns { height:50px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
+#armadillo-sorting-columns > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
+#armadillo-sorting-columns > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
+#armadillo-sorting-columns > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px; }
+#armadillo-sorting-columns > div > a:hover { color:#9f0300; }
+#armadillo-sorting-columns > div { float:left; width:185px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
+#armadillo-sorting-columns > div.last { border-right:0; }
 
-.dealertrend.inventory.wrapper .listing .content .sort { height:50px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
-.dealertrend.inventory.wrapper .listing .content .sort > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
-.dealertrend.inventory.wrapper .listing .content .sort > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
-.dealertrend.inventory.wrapper .listing .content .sort > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px; }
-.dealertrend.inventory.wrapper .listing .content .sort > div > a:hover { color:#9f0300; }
-.dealertrend.inventory.wrapper .listing .content .sort > div { float:left; width:185px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
-.dealertrend.inventory.wrapper .listing .content .sort > div.last { border-right:0; }
-
-.dealertrend.inventory.wrapper .listing .content .items { width:748px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; z-index:2; position:relative; margin-bottom:10px; }
+#armadillo-listing-items { width:748px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; z-index:2; position:relative; margin-bottom:10px; }
 
 .not-found { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; }
 
-.dealertrend.inventory.wrapper .listing .content .items > h2 { display:block; line-height:20px; padding:10px; }
+#armadillo-listing-items > h2 { display:block; line-height:20px; padding:10px; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item { background:white; padding-left:10px; clear:both; position:relative; color:#666; position:relative; padding-bottom:5px; border-bottom:1px solid #a8a8a8; }
-.dealertrend.inventory.wrapper .listing .content .items .item:hover { border-left:10px solid #9f0300; padding-left:0; }
-.dealertrend.inventory.wrapper .listing .content .items .item a { text-decoration:none; }
-.dealertrend.inventory.wrapper .listing .content .items .item .photo { display:block; float:left; display:block; position:relative; margin-right:10px; }
-.dealertrend.inventory.wrapper .listing .content .items .item .photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-.dealertrend.inventory.wrapper .listing .content .items .item .main-line { padding:10px 5px 0 5px; line-height:24px; font-size:20px; font-weight:bold; text-transform:capitalize; width:725px; word-wrap: break-word; }
-.dealertrend.inventory.wrapper .listing .content .items .item .headline { color:#9f0300; font-weight:bold; line-height:14px; font-size:12px; padding:5px 0; width:500px; word-wrap: break-word; float:left; }
-.dealertrend.inventory.wrapper .listing .content .items .item .year,
-.dealertrend.inventory.wrapper .listing .content .items .item .make,
-.dealertrend.inventory.wrapper .listing .content .items .item .model,
-.dealertrend.inventory.wrapper .listing .content .items .item .trim,
-.dealertrend.inventory.wrapper .listing .content .items .item .doors,
-.dealertrend.inventory.wrapper .listing .content .items .item .drive-train,
-.dealertrend.inventory.wrapper .listing .content .items .item .body-style { color:#666; }
+.armadillo-column-left { width:200px; float:left; }
+.armadillo-column-right { float:left; width:530px; overflow:hidden; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item .exterior-color,
-.dealertrend.inventory.wrapper .listing .content .items .item .interior-color,
-.dealertrend.inventory.wrapper .listing .content .items .item .transmission,
-.dealertrend.inventory.wrapper .listing .content .items .item .stock-number,
-.dealertrend.inventory.wrapper .listing .content .items .item .odometer,
-.dealertrend.inventory.wrapper .listing .content .items .item .vin { display:block; }
+.armadillo-item { background:white; clear:both; position:relative; color:#666; position:relative; padding-bottom:5px; border-bottom:1px solid #a8a8a8; }
+.armadillo-item .armadillo-column-left { padding-left:10px; margin-top:15px;}
+.armadillo-item:hover .armadillo-column-left { border-left:10px solid #9f0300; padding-left:0; }
+.armadillo-item a { text-decoration:none; }
+.armadillo-item .armadillo-photo { display:block; float:left; display:block; position:relative; margin-right:10px; }
+.armadillo-item .armadillo-photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
+.armadillo-item .armadillo-main-line { padding:10px 5px 0 5px; line-height:24px; font-size:20px; font-weight:bold; text-transform:capitalize; word-wrap: break-word; }
+.armadillo-item .armadillo-headline { color:#9f0300; font-weight:bold; line-height:14px; font-size:12px; padding:5px 0; word-wrap: break-word; margin-left:5px; }
+.armadillo-item .armadillo-year,
+.armadillo-item .armadillo-make,
+.armadillo-item .armadillo-model,
+.armadillo-item .armadillo-trim,
+.armadillo-item .armadillo-doors,
+.armadillo-item .armadillo-drive-train,
+.armadillo-item .armadillo-body-style { color:#666; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item .details-left,
-.dealertrend.inventory.wrapper .listing .content .items .item .details-right { font-size:9px; overflow:hidden; }
-.dealertrend.inventory.wrapper .listing .content .items .item .details-left { float:left; padding-right:10px; border-right:1px solid #a8a8a8; width:145px; }
-.dealertrend.inventory.wrapper .listing .content .items .item .details-right { float:left; padding-left:10px; width:155px; }
+.armadillo-item .armadillo-exterior-color,
+.armadillo-item .armadillo-interior-color,
+.armadillo-item .armadillo-transmission,
+.armadillo-item .armadillo-stock-number,
+.armadillo-item .armadillo-odometer,
+.armadillo-item .armadillo-vin { display:block; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item .icons { float:left; padding-left:20px; overflow:hidden; height:40px; width:100px; }
-.dealertrend.inventory.wrapper .listing .content .items .item .price { float:left; width:500px; font-size:20px; font-weight:bold; }
-.dealertrend.inventory.wrapper .listing .content .items .item .price .asking-price,
-.dealertrend.inventory.wrapper .listing .content .items .item .price .sale-price { color:#9f0300; clear:both; line-height:26px; }
-.dealertrend.inventory.wrapper .listing .content .items .item .price > div { width:200px; float:left; }
-.dealertrend.inventory.wrapper .listing .content .items .item .price .asking-price.strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
+.armadillo-item .armadillo-details-left,
+.armadillo-item .armadillo-details-right { font-size:9px; overflow:hidden; margin-left:5px; }
+.armadillo-item .armadillo-details-left { float:left; padding-right:10px; border-right:1px solid #a8a8a8; width:145px; }
+.armadillo-item .armadillo-details-right { float:left; padding-left:10px; width:155px; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item .price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
-.dealertrend.inventory.wrapper .listing .content .items .item .price a:hover { background:#666; }
+.armadillo-item .armadillo-icons { float:left; padding-left:20px; overflow:hidden; height:40px; width:100px; }
+.armadillo-item .armadillo-price { float:left; width:500px; font-size:20px; font-weight:bold; margin-left:5px; }
+.armadillo-item .armadillo-price .armadillo-asking-price,
+.armadillo-item .armadillo-price .armadillo-sale-price { color:#9f0300; clear:both; line-height:26px; }
+.armadillo-item .armadillo-price > div { width:200px; float:left; }
+.armadillo-item .armadillo-price .armadillo-asking-price.armadillo-strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
 
-.dealertrend.inventory.wrapper .listing .content .items .item .contact-information { float:left; }
+.armadillo-item .armadillo-price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
+.armadillo-item .armadillo-price a:hover { background:#666; }
 
-.dealertrend.inventory.wrapper .listing.wrapper .disclaimer { float:right; width:750px; font-size:10px; }
+.armadillo-item .armadillo-contact-information { float:left; margin-left:5px; }
+
+#armadillo-disclaimer { float:right; width:750px; font-size:10px; }
 
 /* Detail Page */
 
-#schedule-form,
-#friend-form,
-#calculate-form { display:none; }
+#armadillo-schedule-form,
+#armadillo-friend-form,
+#armadillo-calculate-form { display:none; }
 
-#schedule-form label, #schedule-form input { display:block; }
-#schedule-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
-#shcedule-form fieldset { padding:0; border:0; margin-top:25px; }
+#armadillo-schedule-form label, #armadillo-schedule-form input { display:block; }
+#armadillo-schedule-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
+#armadillo-shcedule-form fieldset { padding:0; border:0; margin-top:25px; }
 .ui-dialog .ui-state-error { padding: .3em; }
-.validateTips { border: 1px solid transparent; padding: 0.3em; }
+.armadillo-validate-tips { border: 1px solid transparent; padding: 0.3em; }
 
-.dealertrend.inventory.wrapper .detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.dealertrend.inventory.wrapper .detail .main-line { border-bottom:1px solid #a8a8a8; margin-bottom:10px; padding:10px; clear:both; }
-.dealertrend.inventory.wrapper .detail .main-line h2 { color:black; font-size:20px; line-height:22px; }
-.dealertrend.inventory.wrapper .detail .main-line p { clear:both; margin:0; padding:0; color:#9f0300; }
-.dealertrend.inventory.wrapper .detail .header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
-.dealertrend.inventory.wrapper .detail .column-left,
-.dealertrend.inventory.wrapper .detail .column-middle,
-.dealertrend.inventory.wrapper .detail .column-right { float:left; width:300px; }
+#armadillo-detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+#armadillo-detail .armadillo-main-line { border-bottom:1px solid #a8a8a8; margin-bottom:10px; padding:10px; clear:both; }
+#armadillo-detail .armadillo-main-line h2 { color:black; font-size:20px; line-height:22px; }
+#armadillo-detail .armadillo-main-line p { clear:both; margin:0; padding:0; color:#9f0300; }
+#armadillo-detail .armadillo-header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
+#armadillo-detail .armadillo-column-left,
+#armadillo-detail .armadillo-column-middle,
+#armadillo-detail .armadillo-column-right { float:left; width:300px; }
 
-.dealertrend.inventory.wrapper .detail .icons { float:left; width:300px; text-align:left; padding:10px; }
+#armadillo-detail .armadillo-icons { float:left; width:300px; text-align:left; padding:10px; }
 
-.dealertrend.inventory.wrapper .detail .slideshow { width:320px; }
-.dealertrend.inventory.wrapper .detail .slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-.dealertrend.inventory.wrapper .detail .slideshow .navigation { line-height:25px; display:block; margin:5px auto 0 auto; border:1px solid black; width:320px; }
-.dealertrend.inventory.wrapper .detail .slideshow .navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; float:left; height:50px; }
-.dealertrend.inventory.wrapper .detail .slideshow .navigation a img:hover { border:3px solid #9f0300; }
-.dealertrend.inventory.wrapper .detail .slideshow .navigation a.activeSlide img { border-color:#55CCe6; }
-.dealertrend.inventory.wrapper .detail .slideshow .navigation a.activeSlide img:hover { border-color:#9f0300; }
+#armadillo-detail .armadillo-slideshow { width:320px; }
+#armadillo-detail .armadillo-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; border:1px solid black; width:320px; text-align:center; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:50px; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation a img:hover { border:3px solid #9f0300; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img { border-color:#55CCe6; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img:hover { border-color:#9f0300; }
 
-.dealertrend.inventory.wrapper .detail .request-form { background:#efefef; }
-.dealertrend.inventory.wrapper .detail .request-form .submit { background: url('images/button-submit-170x25.png') no-repeat top center; width:170px; height:25px; margin:auto; display:block; text-indent:-9999px; border:0; }
-.dealertrend.inventory.wrapper .detail .vehicle-information { background:white; }
-.dealertrend.inventory.wrapper .detail .vehicle-information .price span { color:black; }
-.dealertrend.inventory.wrapper .detail .vehicle-information .price { color:#9f0300; font-size:16px; margin:10px 0; font-weight:bold; }
-.dealertrend.inventory.wrapper .detail .vehicle-information .price .strike-through { color:gray; }
-.dealertrend.inventory.wrapper .detail .request-form,
-.dealertrend.inventory.wrapper .detail .vehicle-information,
-.dealertrend.inventory.wrapper .detail .helpful-links,
-.dealertrend.inventory.wrapper .detail .contact-information { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .vehicle-information,
-.dealertrend.inventory.wrapper .detail .contact-information { font-size:10px; }
-.dealertrend.inventory.wrapper .detail .vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
-.dealertrend.inventory.wrapper .detail .vehicle-information  .header { margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .request-form form { padding:5px; line-height:20px; }
-.dealertrend.inventory.wrapper .detail .request-form form input,
-.dealertrend.inventory.wrapper .detail .request-form form textarea { width:95%; }
-.dealertrend.inventory.wrapper .detail .helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; background-position:top center;  }
-.dealertrend.inventory.wrapper .detail .helpful-links a#schedule { background: transparent url('images/button-sprite-schedule-test-drive-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a#trade { background: transparent url('images/button-sprite-trade-evaluation-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a#facebook { background: transparent url('images/button-sprite-facebook-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a#approved { background: transparent url('images/button-sprite-get-approved-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a#friend { background: transparent url('images/button-sprite-friend-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a#calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
-.dealertrend.inventory.wrapper .detail .helpful-links a:hover { background-position:bottom center !important; }
+#armadillo-detail .armadillo-request-form { background:#efefef; }
+#armadillo-detail .armadillo-request-form .submit { background: url('images/button-submit-170x25.png') no-repeat top center; width:170px; height:25px; margin:auto; display:block; text-indent:-9999px; border:0; }
+#armadillo-detail .armadillo-vehicle-information { background:white; }
+#armadillo-detail .armadillo-vehicle-information .armadillo-price span { color:black; }
+#armadillo-detail .armadillo-vehicle-information .armadillo-price { color:#9f0300; font-size:16px; margin:10px 0; font-weight:bold; }
+#armadillo-detail .armadillo-vehicle-information .armadillo-price .armadillo-strike-through { color:gray; }
+#armadillo-detail .armadillo-request-form,
+#armadillo-detail .armadillo-vehicle-information,
+#armadillo-detail .armadillo-helpful-links,
+#armadillo-detail .armadillo-contact-information { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
+#armadillo-detail .armadillo-vehicle-information,
+#armadillo-detail .armadillo-contact-information { font-size:10px; }
+#armadillo-detail .armadillo-vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
+#armadillo-detail .armadillo-vehicle-information .armadillo-header { margin-bottom:10px; }
+#armadillo-detail .armadillo-request-form form { padding:5px; line-height:20px; }
+#armadillo-detail .armadillo-request-form form input,
+#armadillo-detail .armadillo-request-form form textarea { width:95%; }
+#armadillo-detail .armadillo-helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; background-position:top center;  }
+#armadillo-detail .armadillo-helpful-links a#armadillo-schedule { background: transparent url('images/button-sprite-schedule-test-drive-250x62.jpg') no-repeat; }
+#armadillo-detail .armadillo-helpful-links a#armadillo-facebook { background: transparent url('images/button-sprite-facebook-250x62.jpg') no-repeat; }
+#armadillo-detail .armadillo-helpful-links a#armadillo-friend { background: transparent url('images/button-sprite-friend-250x62.jpg') no-repeat; }
+#armadillo-detail .armadillo-helpful-links a#armadillo-calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
+#armadillo-detail .armadillo-helpful-links a:hover { background-position:bottom center !important; }
 
-.dealertrend.inventory.wrapper .detail .contact-information p { padding:10px; margin:0; }
+#armadillo-detail .armadillo-contact-information p { padding:10px; margin:0; }
 
-.dealertrend.inventory.wrapper .detail .fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city,
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway { color:black; width:50px; font-weight:bold; padding:15px; text-align:center; }
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city strong,
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway strong { font-size:30px; }
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-city { float:left; }
-.dealertrend.inventory.wrapper .detail .fuel-economy #fuel-highway { float:right; }
-.dealertrend.inventory.wrapper .detail .fuel-economy p { margin-bottom:10px; }
-.dealertrend.inventory.wrapper .detail .fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
+#armadillo-detail .armadillo-fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-city,
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-highway { color:black; width:50px; font-weight:bold; padding:15px; text-align:center; }
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-city strong,
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-highway strong { font-size:30px; }
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-city { float:left; }
+#armadillo-detail .armadillo-fuel-economy #armadillo-fuel-highway { float:right; }
+#armadillo-detail .armadillo-fuel-economy p { margin-bottom:10px; }
+#armadillo-detail .armadillo-fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
 
-.dealertrend.inventory.wrapper .detail .video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
-.dealertrend.inventory.wrapper .detail .carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
+#armadillo-detail .armadillo-video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
+#armadillo-detail .armadillo-carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 
-.dealertrend.inventory.wrapper .detail #inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px;  }
-.dealertrend.inventory.wrapper .detail #inventory-tabs #comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
-.dealertrend.inventory.wrapper .detail #inventory-tabs #options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
-.dealertrend.inventory.wrapper .detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
-.dealertrend.inventory.wrapper .detail #inventory-tabs .ui-widget-header { background:#858585 !important; }
-.dealertrend.inventory.wrapper .detail.wrapper .disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
+#armadillo-detail #armadillo-inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px;  }
+#armadillo-detail #armadillo-inventory-tabs #armadillo-comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
+#armadillo-detail #armadillo-inventory-tabs #armadillo-options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
+#armadillo-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
+#armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
+.armadillo-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }

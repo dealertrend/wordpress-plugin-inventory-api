@@ -32,6 +32,14 @@
 		true
 	);
 
+	wp_enqueue_script(
+		'dealertrend-inventory-theme-armadillo-tabs',
+		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/tabs.js',
+		array( 'jquery-ui-tabs' , 'dealertrend-inventory-api' ),
+		$this->meta_information[ 'Version' ],
+		true
+	);
+
 	flush();
 	get_header();
 	flush();
@@ -109,7 +117,7 @@
 		}
 	}
 
-	$breadcrumbs = '<div class="breadcrumbs">' . $breadcrumbs . '</div>';
+	$breadcrumbs = '<div class="armadillo-breadcrumbs">' . $breadcrumbs . '</div>';
 
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );

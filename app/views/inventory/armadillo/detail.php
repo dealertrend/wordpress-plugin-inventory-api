@@ -170,13 +170,13 @@ calculate
 			</div>
 			<?php
 				if( $carfax ) {
-					echo '<a href="' . $carfax . '" class="carfax">Carfax</a>';
+					echo '<a href="' . $carfax . '" class="armadillo-carfax">Carfax</a>';
 				}
 			?>
 			<br class="armadillo-clear" />
 		</div>
 		<div class="armadillo-column-middle">
-			<div class="vehicle-information">
+			<div class="armadillo-vehicle-information">
 				<div class="armadillo-header">
 					Vehicle Information
 				</div>

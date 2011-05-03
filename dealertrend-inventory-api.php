@@ -169,7 +169,7 @@ class dealertrend_inventory_api {
 			'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png'
 		);
 
-		if( $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
+		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
 			# Load up the CSS for the adminstration screen.
 			wp_register_style( 'dealertrend-inventory-api-admin' , $this->meta_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->meta_information[ 'Version' ] );
 			wp_enqueue_style( 'dealertrend-inventory-api-admin' );
