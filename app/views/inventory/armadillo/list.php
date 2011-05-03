@@ -29,20 +29,20 @@
 
 ?>
 
-<div class="dealertrend inventory wrapper">
-	<br class="clear" id="top" />
-	<div class="listing wrapper">
+<div id="armadillo-wrapper">
+	<br class="armadillo-clear" id="armadillo-top" />
+	<div id="armadillo-listing">
 		<?php echo $breadcrumbs; ?>
-		<div class="pager">
+		<div class="armadillo-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
-		<form action="" method="GET" id="search">
+		<form action="" method="GET" id="armadillo-search">
 			<label for="search">Inventory Search:</label>
-			<input id="search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
+			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 		</form>
-		<div class="sidebar">
-			<div class="total-found"><?php echo $total_found; ?> Cars Found</div>
-			<div class="quick-links">
+		<div id="armadillo-listing-sidebar">
+			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>
+			<div id="armadillo-quick-links">
 				<?php
 					if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ):
 				?>
@@ -51,7 +51,7 @@
 					<?php
 						if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ):
 					?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Body Style</span>
 						<ul>
 							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' , 'page' => 1 ) ); ?>">Car</a></li>
@@ -64,7 +64,7 @@
 						endif;
 						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ):
 					?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Make</span>
 						<ul>
 							<?php
@@ -84,14 +84,14 @@
 						</ul>
 					</li>
 					<?php elseif( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Model</span>
 						<ul>
 							<?php
 								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
-									echo '<li class="small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
@@ -105,16 +105,16 @@
 						</ul>
 					</li>
 					<?php elseif( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Trim</span>
 						<ul>
 							<?php
 								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="small"><a href="/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
-									echo '<li class="small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
+									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
-									echo '<li class="small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'page' => 1 ) ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
-									echo '<li class="small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'page' => 1 ) ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) ) as $trim ) {
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
@@ -126,7 +126,7 @@
 						endif;
 						if( !isset( $parameters[ 'price_from' ] ) || !isset( $parameters[ 'price_to' ] ) ):
 					?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Price</span>
 						<ul>
 							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' , 'page' => 1 ) ); ?>">$0 - $10,000</a></li>
@@ -141,7 +141,7 @@
 						endif;
 						if( !isset( $parameters[ 'certified' ] ) ):
 					?>
-					<li class="expanded">
+					<li class="armadillo-expanded">
 						<span>Other</span>
 						<ul>
 							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'true' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
@@ -152,9 +152,9 @@
 				<?php endif; ?>
 			</div>
 		</div>
-		<div class="content">
-			<div class="sort">
-				<div class="column">Sort by</div>
+		<div id="armadillo-listing-content">
+			<div id="armadillo-sorting-columns">
+				<div>Sort by</div>
 				<?php
 					$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
 					switch( $sort ) {
@@ -174,10 +174,10 @@
 				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price , 'page' => 1 ) ); ?>">Price</a></div>
 				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage , 'page' => 1 ) ); ?>">Mileage</a></div>
 			</div>
-			<div class="items">
+			<div id="armadillo-listing-items">
 				<?php
 					if( empty( $inventory ) ) {
-						echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
+						echo '<div class="armadillo0-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
 							setlocale(LC_MONETARY, 'en_US');
@@ -213,54 +213,54 @@
 							}
 							$contact_information = $inventory_item->contact_info;
 							$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
-							<div class="item" id="<?php echo $vin; ?>">
-								<div class="col-left">
-									<div class="photo">
+							<div class="armadillo-item" id="<?php echo $vin; ?>">
+								<div class="armadill-column-left">
+									<div class="armadillo-photo">
 										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
 											<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 										</a>
 									</div>
 								</div>
-								<div class="col-right">
-									<div class="main-line">
+								<div class="armadillo-column-right">
+									<div class="armadillo-main-line">
 										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
-											<span class="year"><?php echo $year; ?></span>
-											<span class="make"><?php echo $make; ?></span>
-											<span class="model"><?php echo $model; ?></span>
-											<span class="trim"><?php echo $trim; ?></span>
-											<span class="drive-train"><?php echo $drive_train; ?></span>
-											<span class="body-style"><?php echo $body_style; ?></span>
+											<span class="armadillo-year"><?php echo $year; ?></span>
+											<span class="armadillo-make"><?php echo $make; ?></span>
+											<span class="armadillo-model"><?php echo $model; ?></span>
+											<span class="armadillo-trim"><?php echo $trim; ?></span>
+											<span class="armadillo-drive-train"><?php echo $drive_train; ?></span>
+											<span class="armadillo-body-style"><?php echo $body_style; ?></span>
 										</a>
 									</div>
-									<div class="headline">
+									<div class="armadillo-headline">
 										<?php echo $headline; ?>
 									</div>
-									<div class="details-left">
-										<span class="interior-color">Int. Color: <?php echo $interior_color; ?></span>
-										<span class="exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
-										<span class="transmission">Trans: <?php echo $transmission; ?></span>
+									<div class="armadillo-details-left">
+										<span class="armadillo-interior-color">Int. Color: <?php echo $interior_color; ?></span>
+										<span class="armadillo-exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
+										<span class="armadillo-transmission">Trans: <?php echo $transmission; ?></span>
 									</div>
-									<div class="details-right">
-										<span class="stock-number">Stock #: <?php echo $stock_number; ?></span>
-										<span class="odometer">Mileage: <?php echo $odometer; ?></span>
-										<span class="vin">VIN: <?php echo $vin; ?></span>
+									<div class="armadillo-details-right">
+										<span class="armadillo-stock-number">Stock #: <?php echo $stock_number; ?></span>
+										<span class="armadillo-odometer">Mileage: <?php echo $odometer; ?></span>
+										<span class="armadillo-vin">VIN: <?php echo $vin; ?></span>
 									</div>
-									<div class="icons">
+									<div class="armadillo-icons">
 										<?php echo $icons; ?>
 									</div>
-									<div class="price">
+									<div class="armadillo-price">
 										<?php
 											if( $on_sale ) {
 												$now_text = 'Price: ';
 												if( $use_was_now ) {
-													$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
+													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 													echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 													$now_text = 'Now: ';
 												}
-												echo '<div class="sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+												echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 											} else {
 												if( $asking_price > 0 ) {
-													echo '<div class="asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+													echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 												} else {
 													echo $default_price_text;
 												}
@@ -268,10 +268,10 @@
 										?>
 										<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
 									</div>
-									<div class="contact-information">
+									<div class="armadillo-contact-information">
 										<?php echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $contact_information->phone : NULL; ?>
 									</div>
-									<br class="clear" />
+									<br class="armadillo-clear" />
 								</div>
 							</div>
 					<?php
@@ -281,13 +281,13 @@
 				?>
 			</div>
 		</div>
-		<div class="disclaimer">
+		<div class="armadillo-disclaimer">
 			<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
 		</div>
 	</div>
 	<?php echo $breadcrumbs; ?>
-	<div class="pager">
+	<div class="armadillo-pager">
 		<?php echo paginate_links( $args ); ?>
 	</div>
-	<a href="#top" title="Return to Top" class="return-to-top">Return to Top</a>
+	<a href="#armadillo-top" title="Return to Top" class="armadillo-return-to-top">Return to Top</a>
 </div>
