@@ -117,7 +117,7 @@ dealertrend(document).ready(function(){
 
 		dealertrend('#armadillo-calculate-form').dialog({
 			autoOpen: true,
-			height: 250,
+			height: 300,
 			width: 500,
 			modal: true,
 		});
