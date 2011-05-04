@@ -35,6 +35,8 @@
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 	$contact_information = $inventory->contact_info;
 
+	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
+
 ?>
 
 <script>
@@ -52,30 +54,127 @@ function video_popup(url , title) {
 </script>
 
 <div id="armadillo-schedule-form"	title="Schedule a Test Drive">
-<p class="armadillo-validate-tips">All form fields are required.</p>
+	<h3>Schedule a Test Drive</h3>
+	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
 	<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
-		
+		<fieldset>
+			<input type="hidden" name="required_fields" value="name,email,privacy"/>
+			<input type="hidden" name="saleclass" value="<?php echo strtolower($sale_class); ?>"/>
+			<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
+			<input type="hidden" name="vehicle" value="<?php echo $year . ' ' . $make . ' ' . $model; ?>"/>
+			<input type="hidden" name="year" value="<?php echo $year; ?>"/>
+			<input type="hidden" name="make" value="<?php echo $make; ?>"/>
+			<input type="hidden" name="model_name" value="<?php echo $model; ?>"/>
+			<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
+			<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
+			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
+			<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
+			<input type="hidden" name="price" value="<?php echo $primary_price; ?>"/>
+			<label for="formvehicletestdrive-name">Your First &amp; Last Name</label>
+			<input type="text" maxlength="70" name="name" id="formvehicletestdrive-name" class="text ui-widget-content ui-corner-all" />
+			<label for="formvehicletestdrive-email">Email Address</label>
+			<input type="text" maxlength="255" name="email" id="formvehicletestdrive-email" class="text ui-widget-content ui-corner-all" />
+			<label for="formvehicletestdrive-phone">Phone Number</label>
+			<input type="text" maxlength="256" name="phone" id="formvehicletestdrive-phone" class="text ui-widget-content ui-corner-all" />
+			<label for="formvehicletestdrive-timetocall">Best Time To Call</label>
+			<input type="text" maxlength="256" name="timetocall" id="formvehicletestdrive-timetocall" class="text ui-widget-content ui-corner-all" />
+			<label for="formvehicletestdrive-subject">Subject</label>
+			<input type="text" maxlength="256" name="subject" id="formvehicletestdrive-subject" value="Vehicle Test Drive - <?php echo $year_make_model; ?>" class="text ui-widget-content ui-corner-all" />
+			<label for="formvehicletestdrive-comments">Comments</label>
+			<textarea rows="10" cols="35" name="comments" id="formvehicletestdrive-comments" class="text ui-widget-content ui-corner-all" ></textarea>
+			<label for="formvehicletestdrive-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
+			<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" class="text ui-widget-content ui-corner-all" />
+			<div style="display:none">
+				<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
+			</div>
+		</fieldset>
 	</form>
-
-	<form>
-	<fieldset>
-		<label for="name">Name</label>
-		<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-		<label for="email">Email</label>
-		<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-	</fieldset>
-	</form>
-
 </div>
 
 <div id="armadillo-friend-form" title="Send to a Friend">
-friend
+	<h3>Send to a Friend</h3>
+	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
+	<form name="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
+		<fieldset>
+			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
+			<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
+			<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
+			<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
+			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
+			<label for="formtellafriend-from-name">Your First &amp; Last Name</label>
+			<input type="text" maxlength="70" name="from_name" id="formtellafriend-from-name" class="text ui-widget-content ui-corner-all" />
+			<label for="formtellafriend-from-email">Email Address</label>
+			<input type="text" id="formtellafriend-from-email" maxlength="255" name="from_email" class="text ui-widget-content ui-corner-all" />
+			<label for="formtellafriend-friend-name">Your Friend's Name</label>
+			<input type="text" maxlength="70" name="friend_name" id="formtellafriend-friend-name" class="text ui-widget-content ui-corner-all" />
+			<label for="formtellafriend-friend-email">Friend's Email Address</label>
+			<input type="text" maxlength="255" name="friend_email" id="formtellafriend-friend-email"class="text ui-widget-content ui-corner-all" />
+			<label for="formtellafriend-subject">Subject</label>
+			<input type="text" maxlength="256" name="subject" id="formtellafriend-subject" value="<?php echo $company_information->name; ?> - Tell-A-Friend - <?php echo $year_make_model; ?>" class="text ui-widget-content ui-corner-all" />
+			<label for="formtellafriend-comments">Comments</label>
+			<textarea rows="10" name="comments" id="formtellafriend-comments" class="text ui-widget-content ui-corner-all" ></textarea>
+			<label for="formtellafriend-notify" style="float:left; margin-right:10px;">Notify me when e-mail is opened</label>
+			<input id="formtellafriend-notify" type="checkbox" name="notify" value="yes" />
+			<label for="formtellafriend-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
+			<input type="checkbox" class="privacy" id="formtellafriend-privacy" name="privacy" value="Yes" />
+			<div style="display:none">
+				<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
+			</div>
+		</fieldset>
+	</form>
 </div>
 
 <div id="armadillo-calculate-form" title="Calculate Payments">
-calculate
+	<h3>Loan Calculator</h3>
+	<form id="loan-calculator" name="loan-calculator" action="#" method="post">
+		<table style="width:100%">
+			<tr>
+				<td colspan="1">
+					<label for="loan-calculator-price">Vehicle Price</label>
+					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo money_format( '%(#0n' , $primary_price ); ?>" />
+				</td>
+				<td colspan="1">
+					<label for="loan-calculator-interest-rate">Interest Rate</label>
+					<input type="text" style="width:90%" name="interest-rate" id="loan-calculator-interest-rate" value="7.35%" />
+				</td>
+				<td colspan="1">
+					<label for="loan-calculator-term">Term (months)</label>
+					<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="48" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1">
+					<label for="loan-calculator-trade-in-value">Trade in Value</label>
+					<input type="text" style="width:90%" name="trade-in-value" id="loan-calculator-trade-in-value" value="$3,000" />
+				</td>
+				<td colspan="1">
+					<label for="loan-calculator-down-payment">Down Payment</label>
+					<input type="text" style="width:90%" name="down-payment" id="loan-calculator-down-payment" value="$5,000" />
+				</td>
+				<td colspan="1">
+					<label for="loan-calculator-sales-tax">Sales Tax</label>
+					<input type="text" style="width:90%" name="sales-tax" id="loan-calculator-sales-tax" value="7.375%" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1">
+					<div>Bi-Monthly Cost</div>
+					<div id="loan-calculator-bi-monthly-cost"></div>
+				</td>
+				<td colspan="1">
+					<div>Monthly Cost</div>
+					<div id="loan-calculator-monthly-cost"></div>
+				</td>
+				<td colspan="1">
+					<div>Total Cost <small>(including taxes)</small></div>
+					<div id="loan-calculator-total-cost"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3"><br /><button>Calculate</button></td>
+			</tr>
+		</table>
+	</form>
 </div>
 
 <div id="armadillo-inventory-wrapper">
@@ -103,7 +202,7 @@ calculate
 						<input name="stock" type="hidden" value="<?php echo $stock_number; ?>" />
 						<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
 						<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
-						<input name="price" type="hidden" value="<?php echo $price; ?>" />
+						<input name="price" type="hidden" value="<?php echo $primary_price; ?>" />
 						<input name="name" type="hidden" value="" />
 						<table>
 							<tr>

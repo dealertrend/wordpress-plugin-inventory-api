@@ -1,5 +1,5 @@
 /* Shared elements. */
-.ui-widget-overlay { background-color: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; }
+.ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; }
 
 .armadillo-strike-through { text-decoration:line-through;  }
 .armadillo-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
@@ -98,11 +98,18 @@
 #armadillo-friend-form,
 #armadillo-calculate-form { display:none; }
 
-#armadillo-schedule-form label, #armadillo-schedule-form input { display:block; }
-#armadillo-schedule-form input.text { margin-bottom:12px; width:95%; padding: .4em; }
-#armadillo-shcedule-form fieldset { padding:0; border:0; margin-top:25px; }
+#armadillo-schedule-form label,
+#armadillo-schedule-form input,
+#armadillo-friend-form label,
+#armadillo-friend-form input { display:block; }
+#armadillo-schedule-form input.text,
+#armadillo-schedule-form textarea,
+#armadillo-friend-form input.text,
+#armadillo-friend-form textarea { margin-bottom:12px; width:95%; padding: .4em; }
+#armadillo-shcedule-form fieldset,
+#armadillo-friend-form fieldset { padding:0; border:0; margin-top:25px; }
 .ui-dialog .ui-state-error { padding: .3em; }
-.armadillo-validate-tips { border: 1px solid transparent; padding: 0.3em; }
+.armadillo-validate-tips { border: 1px solid transparent; padding: 0.3em 0; }
 
 #armadillo-detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 #armadillo-detail .armadillo-main-line { border-bottom:1px solid #a8a8a8; margin-bottom:10px; padding:10px; clear:both; }
@@ -117,8 +124,8 @@
 
 #armadillo-detail .armadillo-slideshow { width:320px; }
 #armadillo-detail .armadillo-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; border:1px solid black; width:320px; text-align:center; }
-#armadillo-detail .armadillo-slideshow .armadillo-navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:50px; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:320px; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:auto; width:69px; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img:hover { border:3px solid #9f0300; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img { border-color:#55CCe6; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img:hover { border-color:#9f0300; }

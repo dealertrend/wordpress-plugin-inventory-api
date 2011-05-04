@@ -307,15 +307,16 @@ class dealertrend_inventory_api {
 
 				$company_information = $vehicle_management_system->get_company_information();
 
-				# Because we don't carry the city and state in the parameter array, we need to construct it here and amend it to the array when we instantiate the object.
-				$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
-
-				# Instantiate our object for dynamic title and meta information.
-				$inventory_seo_headers = new inventory_seo_headers(
-					$this->options[ 'vehicle_management_system' ][ 'host' ],
-					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-					$this->parameters + $seo_hack
-				);
+				if( isset( $company_information[ 'status' ] ) && $company_information[ 'status' ] == true ) {
+					# Because we don't carry the city and state in the parameter array, we need to construct it here and amend it to the array when we instantiate the object.
+					$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
+					# Instantiate our object for dynamic title and meta information.
+					$inventory_seo_headers = new inventory_seo_headers(
+						$this->options[ 'vehicle_management_system' ][ 'host' ],
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+						$this->parameters + $seo_hack
+					);
+				}
 
 				$theme_path = dirname( __FILE__ ) . '/app/views/inventory/' . $current_theme;
 				if( $handle = opendir( $theme_path ) ) {
