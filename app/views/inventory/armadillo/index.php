@@ -60,7 +60,7 @@
 
 	$check_inventory = $vehicle_management_system->check_inventory();
 
-	if( $check_inventory[ 'status' ] == false ) {
+	if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>Unable to retrieve inventory.</p>';
 		return false;
@@ -68,7 +68,7 @@
 
 	$inventory = $vehicle_management_system->get_inventory( $this->parameters );
 
-	if( $inventory == false ) {
+	if( $inventory === false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 		echo '<p>The inventory feed timed out while trying to display. Please refresh the page. If the feed refuses to return data, then the given parameters may be invalid.</p>';
 		return false;

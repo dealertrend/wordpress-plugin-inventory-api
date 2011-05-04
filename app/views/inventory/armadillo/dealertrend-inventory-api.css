@@ -43,7 +43,7 @@
 
 #armadillo-listing-items { width:748px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; z-index:2; position:relative; margin-bottom:10px; }
 
-.not-found { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; }
+.armadillo-not-found { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; }
 
 #armadillo-listing-items > h2 { display:block; line-height:20px; padding:10px; }
 

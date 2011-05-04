@@ -95,7 +95,6 @@ class vehicle_management_system {
 				$data_array[ 'status' ] = false;
 				$data[ 'code' ] = 200;
 				$data[ 'message' ] = 'Inventory does not exist.';
-				
 			}
 		} else {
 			$data_array[ 'status' ] = false;
