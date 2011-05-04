@@ -118,13 +118,13 @@
 #armadillo-detail .armadillo-header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 #armadillo-detail .armadillo-column-left,
 #armadillo-detail .armadillo-column-middle,
-#armadillo-detail .armadillo-column-right { float:left; width:300px; }
+#armadillo-detail .armadillo-column-right { float:left; width:308.2px !important; }
 
 #armadillo-detail .armadillo-icons { float:left; width:300px; text-align:left; padding:10px; }
 
-#armadillo-detail .armadillo-slideshow { width:320px; }
+#armadillo-detail .armadillo-slideshow { width:300px;  }
 #armadillo-detail .armadillo-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:320px; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:300px; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:auto; width:69px; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img:hover { border:3px solid #9f0300; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img { border-color:#55CCe6; }
