@@ -144,7 +144,7 @@
 					<li class="armadillo-expanded">
 						<span>Other</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'true' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'yes' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
 						</ul>
 					</li>
 					<?php endif; ?>
