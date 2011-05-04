@@ -139,7 +139,7 @@
 					</li>
 					<?php
 						endif;
-						if( !isset( $parameters[ 'certified' ] ) ):
+						if( !isset( $parameters[ 'certified' ] ) && ( !isset( $parameters[ 'saleclass' ] ) || strtolower( $parameters[ 'saleclass' ] ) != 'new' ) ):
 					?>
 					<li class="armadillo-expanded">
 						<span>Other</span>

@@ -2,12 +2,12 @@ var dealertrend = jQuery.noConflict();
 
 dealertrend(document).ready(function(){
 
-	dealertrend('#schedule').click(function() {
+	dealertrend('#armadillo-schedule').click(function() {
 
 		var name = dealertrend( "#name" ),
 		email = dealertrend( "#email" ),
 		allFields = dealertrend( [] ).add( name ).add( email ),
-		tips = dealertrend( ".validateTips" );
+		tips = dealertrend( ".armadillo-validate-tips" );
 
 		function updateTips( t ) {
 			tips
@@ -39,7 +39,7 @@ dealertrend(document).ready(function(){
 			}
 		}
 
-		dealertrend('#schedule-form').dialog({
+		dealertrend('#armadillo-schedule-form').dialog({
 			autoOpen: true,
 			height: 500,
 			width: 350,
@@ -75,12 +75,12 @@ dealertrend(document).ready(function(){
 
 	});
 
-	dealertrend('#friend').click(function() {
+	dealertrend('#armadillo-friend').click(function() {
 		alert('friend');
 		return false;
 	});
 
-	dealertrend('#calculate').click(function() {
+	dealertrend('#armadillo-calculate').click(function() {
 		alert('calculate');
 		return false;
 	});
