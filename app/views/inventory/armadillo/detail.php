@@ -139,7 +139,7 @@ function video_popup(url , title) {
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-term">Term (months)</label>
-					<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="48" />
+					<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="72" />
 				</td>
 			</tr>
 			<tr>
