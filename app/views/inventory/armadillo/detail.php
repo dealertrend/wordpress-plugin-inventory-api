@@ -94,7 +94,7 @@ function video_popup(url , title) {
 <div id="armadillo-friend-form" title="Send to a Friend">
 	<h3>Send to a Friend</h3>
 	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
-	<form name="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
+	<form name="formtellafriend" id="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
 		<fieldset>
 			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
 			<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
@@ -190,7 +190,7 @@ function video_popup(url , title) {
 					<div class="armadillo-header">
 						Make an Offer / Get Info
 					</div>
-					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
+					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
 						<input name="required_fields" type="hidden" value="name,email,privacy" />
 						<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
 						<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />
