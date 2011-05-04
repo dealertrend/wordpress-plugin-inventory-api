@@ -123,6 +123,7 @@
 #armadillo-detail .armadillo-icons { float:left; width:300px; text-align:left; padding:10px; }
 
 #armadillo-detail .armadillo-slideshow { width:300px;  }
+#armadillo-detail .armadillo-slideshow .armadillo-images > img { width:300px !important; height:auto !important; margin-left:10px; }
 #armadillo-detail .armadillo-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:300px; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img { margin:0px; border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:auto; width:69px; }
