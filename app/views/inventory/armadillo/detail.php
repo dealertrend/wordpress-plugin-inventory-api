@@ -269,7 +269,7 @@ function video_popup(url , title) {
 			</div>
 			<?php
 				if( $carfax ) {
-					echo '<a href="' . $carfax . '" class="armadillo-carfax">Carfax</a>';
+					echo '<a href="' . $carfax . '" class="armadillo-carfax" target="_blank">Carfax</a>';
 				}
 			?>
 			<br class="armadillo-clear" />
