@@ -177,7 +177,7 @@ function video_popup(url , title) {
 	</form>
 </div>
 
-<div id="armadillo-inventory-wrapper">
+<div id="armadillo-wrapper">
 	<div id="armadillo-detail">
 		<?php echo $breadcrumbs; ?>
 		<div class="armadillo-main-line">
