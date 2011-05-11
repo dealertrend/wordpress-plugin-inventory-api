@@ -88,7 +88,7 @@
 .armadillo-item .armadillo-price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
 .armadillo-item .armadillo-price a:hover { background:#666; }
 
-.armadillo-item .armadillo-contact-information { float:left; margin-left:5px; }
+.armadillo-item .armadillo-contact-information { float:left; margin-left:5px; font-size:14px; }
 
 #armadillo-disclaimer { float:right; width:750px; font-size:10px; }
 
@@ -142,7 +142,7 @@
 #armadillo-detail .armadillo-vehicle-information,
 #armadillo-detail .armadillo-helpful-links,
 #armadillo-detail .armadillo-contact-information { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
-#armadillo-detail .armadillo-vehicle-information,
+#armadillo-detail .armadillo-vehicle-information { font-size:10px; }
 #armadillo-detail .armadillo-contact-information { font-size:14px; }
 #armadillo-detail .armadillo-vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
 #armadillo-detail .armadillo-vehicle-information .armadillo-header { margin-bottom:10px; }
