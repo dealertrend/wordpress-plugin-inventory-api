@@ -2,11 +2,11 @@
 .dealertrend.inventory .listing .clear,
 .dealertrend.inventory.detail .clear { clear:both; display:block; width:100%; height:0; line-height:0; }
 
-.breadcrumbs,
+.bobcat-breadcrumbs,
 .return-to-top,
 .pager,
 .quick-links { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.breadcrumbs { float:left; height:26px; }
+.bobcat-breadcrumbs { float:left; height:26px; }
 .return-to-top,
 .pager { float:right; text-transform:uppercase; text-align:right; }
 
