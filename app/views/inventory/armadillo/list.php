@@ -70,10 +70,21 @@
 						<span>Make</span>
 						<ul>
 							<?php
+
+								$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
+								$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
+								$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
+								$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
+								$filters = array(
+									'vehicleclass' => $vehicleclass,
+									'price_to' => $price_to,
+									'price_from' => $price_from,
+									'certified' => $certified
+								);
 								if( isset( $parameters[ 'saleclass' ] ) ) {
 									echo '<li class="small"><a href="/inventory/">View All Vehicles</a></li>';
 								}
-								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class , 'vehicleclass' => $vehicle_class ) ) as $make ) {
+								foreach( $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) + $filters ) as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $make . '/';
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
@@ -95,7 +106,7 @@
 								} else {
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
-								foreach( $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) ) as $model ) {
+								foreach( $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) + $filters ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
@@ -118,7 +129,7 @@
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'page' => 1 ) ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
-								foreach( $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) ) as $trim ) {
+								foreach( $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) + $filters ) as $trim ) {
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
 								}
 							?>
