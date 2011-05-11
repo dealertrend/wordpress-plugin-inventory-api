@@ -66,7 +66,7 @@ function video_popup(url , title) {
 			<input type="hidden" name="make" value="<?php echo $make; ?>"/>
 			<input type="hidden" name="model_name" value="<?php echo $model; ?>"/>
 			<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
-			<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
+			<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
 			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 			<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
 			<input type="hidden" name="price" value="<?php echo $primary_price; ?>"/>
@@ -99,7 +99,7 @@ function video_popup(url , title) {
 			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
 			<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
 			<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
-			<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
+			<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
 			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 			<label for="formtellafriend-from-name">Your First &amp; Last Name</label>
 			<input type="text" maxlength="70" name="from_name" id="formtellafriend-from-name" class="text ui-widget-content ui-corner-all" />
