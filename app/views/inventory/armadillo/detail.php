@@ -305,11 +305,12 @@ function video_popup(url , title) {
 				?>
 				</div>
 			</div>
+			<?php
+				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
+				$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
+				if( $fuel_city != false && $fuel_highway != false ) {
+			?>
 			<div class="armadillo-fuel-economy">
-				<?php
-					$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : '-';
-					$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : '-';
-				?>
 				<div id="armadillo-fuel-city">
 					<p>City</p>
 					<p><strong><?php echo $fuel_city; ?></strong></p>
@@ -320,6 +321,7 @@ function video_popup(url , title) {
 				</div>
 				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
 			</div>
+			<?php } ?>
 			<div class="armadillo-icons">
 				<?php echo $icons; ?>
 			</div>

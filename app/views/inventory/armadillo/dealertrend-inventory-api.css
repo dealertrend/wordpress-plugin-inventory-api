@@ -6,8 +6,8 @@
 .armadillo-return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
 .armadillo-pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
 .armadillo-breadcrumbs { background: white url('images/background-breadcrumbs-sliver-5x25.jpg') repeat-x; float:left; height:25px; width:923px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; }
-.armadillo-breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:20px; }
-.armadillo-breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:25px; }
+.armadillo-breadcrumbs a { font-size:14px; display:block; float:left; padding-left:10px; text-decoration:none; color:black; font-weight:100; line-height:27px; }
+.armadillo-breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:20px; margin-top:2px; display:block; float:left; }
 
 #armadillo-wrapper { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; width:925px; margin:auto; margin-top:10px; position:relative;  }
 
@@ -16,7 +16,7 @@
 
 #armadillo-search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
 #armadillo-search label { margin-left:50px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
-#armadillo-search-box { width:700px; margin-top:14px; }
+#armadillo-search-box { width:500px; margin-top:14px; }
 
 #armadillo-listing-sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
 #armadillo-total-found { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:#9f0300; font-weight:bold; text-align:center; }
@@ -43,7 +43,7 @@
 
 #armadillo-listing-items { width:748px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; z-index:2; position:relative; margin-bottom:10px; }
 
-.armadillo-not-found { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; }
+.armadillo-not-found { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; font-size:16px; }
 
 #armadillo-listing-items > h2 { display:block; line-height:20px; padding:10px; }
 
@@ -114,7 +114,7 @@
 #armadillo-detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
 #armadillo-detail .armadillo-main-line { border-bottom:1px solid #a8a8a8; margin-bottom:10px; padding:10px; clear:both; }
 #armadillo-detail .armadillo-main-line h2 { color:black; font-size:20px; line-height:22px; }
-#armadillo-detail .armadillo-main-line p { clear:both; margin:0; padding:0; color:#9f0300; }
+#armadillo-detail .armadillo-main-line p { clear:both; margin:0; padding:0; color:#9f0300; font-size:14px; font-weight:bold; margin-top:5px; }
 #armadillo-detail .armadillo-header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 #armadillo-detail .armadillo-column-left,
 #armadillo-detail .armadillo-column-middle,
@@ -143,7 +143,7 @@
 #armadillo-detail .armadillo-helpful-links,
 #armadillo-detail .armadillo-contact-information { width:95%; border:1px solid #a8a8a8; margin-bottom:10px; }
 #armadillo-detail .armadillo-vehicle-information,
-#armadillo-detail .armadillo-contact-information { font-size:10px; }
+#armadillo-detail .armadillo-contact-information { font-size:14px; }
 #armadillo-detail .armadillo-vehicle-information div span { margin-left:10px; width:100px; display:block; float:left; }
 #armadillo-detail .armadillo-vehicle-information .armadillo-header { margin-bottom:10px; }
 #armadillo-detail .armadillo-request-form form { padding:5px; line-height:20px; }

@@ -36,9 +36,11 @@
 		<div class="armadillo-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
-		<form action="" method="GET" id="armadillo-search">
+		<form action="/inventory/" method="GET" id="armadillo-search">
 			<label for="search">Inventory Search:</label>
 			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
+			<input type="submit" value="Search Within" onClick="this.form.action='<?php echo $crumb_trail; ?>'" />
+			<input type="submit" value="Search All" />
 		</form>
 		<div id="armadillo-listing-sidebar">
 			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>
@@ -124,7 +126,6 @@
 					</li>
 					<?php
 						endif;
-						if( !isset( $parameters[ 'price_from' ] ) || !isset( $parameters[ 'price_to' ] ) ):
 					?>
 					<li class="armadillo-expanded">
 						<span>Price</span>
@@ -138,7 +139,6 @@
 						</ul>
 					</li>
 					<?php
-						endif;
 						if( !isset( $parameters[ 'certified' ] ) && ( !isset( $parameters[ 'saleclass' ] ) || strtolower( $parameters[ 'saleclass' ] ) != 'new' ) ):
 					?>
 					<li class="armadillo-expanded">
