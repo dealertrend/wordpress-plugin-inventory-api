@@ -46,6 +46,12 @@
 			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div id="armadillo-quick-links">
 				<?php
+					$filters = array(
+						'vehicleclass' => $vehicleclass,
+						'price_to' => $price_to,
+						'price_from' => $price_from,
+						'certified' => $certified
+					);
 					if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ):
 				?>
 				<h3>Refine Your Search</h3>
@@ -75,12 +81,6 @@
 								$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
 								$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
 								$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
-								$filters = array(
-									'vehicleclass' => $vehicleclass,
-									'price_to' => $price_to,
-									'price_from' => $price_from,
-									'certified' => $certified
-								);
 								if( isset( $parameters[ 'saleclass' ] ) ) {
 									echo '<li class="small"><a href="/inventory/">View All Vehicles</a></li>';
 								}
