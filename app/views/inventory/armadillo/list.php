@@ -46,6 +46,10 @@
 			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>
 			<div id="armadillo-quick-links">
 				<?php
+					$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
+					$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
+					$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
+					$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
 					$filters = array(
 						'vehicleclass' => $vehicleclass,
 						'price_to' => $price_to,
@@ -76,11 +80,6 @@
 						<span>Make</span>
 						<ul>
 							<?php
-
-								$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
-								$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
-								$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
-								$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
 								if( isset( $parameters[ 'saleclass' ] ) ) {
 									echo '<li class="small"><a href="/inventory/">View All Vehicles</a></li>';
 								}
