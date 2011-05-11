@@ -21,7 +21,7 @@ class http_api_wrapper {
 	 * @since 3.0.0
 	 * @var integer
 	 */
-	const timeout = 10;
+	const timeout = 20;
 
 	/**
 	 * Public variable intended to contain the URL being requested.
@@ -83,7 +83,11 @@ class http_api_wrapper {
 	 * @return mixed Error response array on fail. HTTP Object on success.
 	 */
 	function get_file( $sanitize = false ) {
+		$start = timer_stop();
 		$response = wp_remote_request( $this->url , $this->request_parameters );
+		$stop = timer_stop();
+		$response_time = $stop - $start;
+		error_log( 'Requested file: ' . $this->url . ' , Response Time: ' . $response_time , 0 );
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
 			if( $sanitize === true ) {
 				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
