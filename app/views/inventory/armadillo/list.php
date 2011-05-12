@@ -39,8 +39,6 @@
 		<form action="/inventory/" method="GET" id="armadillo-search">
 			<label for="search">Inventory Search:</label>
 			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
-			<input type="submit" value="Search Within" onClick="this.form.action='<?php echo $crumb_trail; ?>'" />
-			<input type="submit" value="Search All" />
 		</form>
 		<div id="armadillo-listing-sidebar">
 			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>

@@ -16,7 +16,7 @@
 
 #armadillo-search { background:#eee; height:50px; clear:both; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
 #armadillo-search label { margin-left:50px; margin-right:5px; display:block; float:left; line-height:50px; padding:0; }
-#armadillo-search-box { width:500px; margin-top:14px; }
+#armadillo-search-box { width:700px; margin-top:14px; }
 
 #armadillo-listing-sidebar { width:175px; float:left; background:#eee; border-left:1px solid #a8a8a8; z-index:3; position:relative; margin-bottom:10px; }
 #armadillo-total-found { height:50px; line-height:50px; background:#eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8;  font-size:18px; color:#9f0300; font-weight:bold; text-align:center; }
