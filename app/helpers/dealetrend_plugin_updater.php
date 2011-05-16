@@ -26,10 +26,10 @@ class dealetrend_plugin_updater {
 			);
 			$this->new_meta_information = $update_data;
 			if( isset( $this->current_meta_information[ 'PluginBaseName' ] ) ) {
-			}
 				delete_site_transient( 'update_plugins' );
+			}
 			$plugin_check_list->response[ $this->current_meta_information[ 'PluginBaseName' ] ] = $update_data;
-	#		set_site_transient( 'update_plugins' , $plugin_check_list );
+			set_site_transient( 'update_plugins' , $plugin_check_list );
 			add_action( 'admin_init', array( &$this, 'filter_plugin_rows' ), 15 );
 		}
 
@@ -83,7 +83,7 @@ class dealetrend_plugin_updater {
 
 	function filter_plugin_count( $current_values ) {
 
-		if( $this->new_version != 0 ) {
+		if( $this->new_version > $this->current_meta_information[ 'Version' ] ) {
 			$new_values = $current_values;
 			if( !isset( $new_values->response[ $this->current_meta_information[ 'PluginBaseName' ] ] ) ){
 				$new_values->response[ $this->current_meta_information[ 'PluginBaseName' ] ] = $this->new_meta_information;
