@@ -21,7 +21,7 @@ class dealetrend_plugin_updater {
 			$update_data = (object) array(
 				'new_version' => $version_check[ 'latest' ],
 				'url' => $this->current_meta_information[ 'PluginURI' ],
-				'package' => 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertred-inventory-api.zip',
+				'package' => 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertrend-inventory-api.zip',
 				'upgrade_notice' => ''
 			);
 			$this->new_meta_information = $update_data;
