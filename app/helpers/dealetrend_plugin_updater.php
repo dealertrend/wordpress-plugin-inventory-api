@@ -72,7 +72,7 @@ class dealetrend_plugin_updater {
 		if( !empty( $versions ) ) {
 			$latest_version = str_replace( 'v' , NULL , $versions[ 0 ] );
 		} else {
-			$latest_version = '4.0.0';
+			$latest_version = '0';
 		}
 		$this->new_version = $latest_version;
 		$current_version = $this->current_meta_information[ 'Version' ];
