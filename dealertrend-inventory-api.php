@@ -16,6 +16,7 @@ if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/dealetrend_plugin_updater.php' );
 
 /**
  * This is the primary class for the plugin.
@@ -77,6 +78,8 @@ class dealertrend_inventory_api {
 	 */
 	function __construct() {
 		$this->meta_information = $this->get_meta_information();
+		# Need to call the updater after the required objects have been instantiated.
+		add_action( 'admin_init' , array( &$this , 'updater' ) );
 		$this->load_options();
 		# Only load the admin CSS/JS on the admin screen.
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
@@ -86,6 +89,12 @@ class dealertrend_inventory_api {
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
 		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
+	}
+
+	function updater() {
+		$updater = new dealetrend_plugin_updater( $this->meta_information );
+		$version_check = $updater->check_for_updates();
+		$updater->display_update_notice( $version_check );
 	}
 
 	/**
