@@ -293,9 +293,6 @@ class dealertrend_inventory_api {
 	function show_inventory_theme() {
 		global $wp_query;
 
-		# There's an issue where WordPress is labeling our taxonomy as a home page. Which it is not.
-		$wp_query->is_home = false;
-
 		$this->parameters = $this->get_parameters();
 
 		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
@@ -303,6 +300,8 @@ class dealertrend_inventory_api {
 		switch( $taxonomy ) {
 
 			case 'inventory':
+				# There's an issue where WordPress is labeling our taxonomy as a home page. Which it is not.
+				$wp_query->is_home = false;
 				add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 				add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 
