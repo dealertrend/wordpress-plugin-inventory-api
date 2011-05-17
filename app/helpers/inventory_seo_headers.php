@@ -86,29 +86,25 @@ class inventory_seo_headers {
 			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
 			$base = $year != false ? $year : $sale_class;
 			if( $year == false ) {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
 			} else {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.phps?cu=/inventory/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
 			}
+
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
 			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
-			$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
+			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
 			if( $body ) {
-				$body = str_replace( '&lt;?php' , NULL , $body );
-				$body = preg_replace( '/\/\*.*\*\//ixsm' , NULL , $body );
-				if( !preg_match( '/dtarray.*seo_helpers.*false/' , $body ) ) {
-					preg_match_all( '/=.*;/i' , trim( $body ) , $results );
-					$this->headers[ 'page_title' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 1 ] ) );
-					$this->headers[ 'page_description' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 2 ] ) );
-					$this->headers[ 'page_keywords' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 3 ] ) );
-					$this->headers[ 'follow' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 4 ] ) );
-					$this->headers[ 'index' ] = trim( preg_replace( '/\&quot;|;|=/' , NULL , $results[ 0 ][ 5 ] ) );
-				} else {
-					$headers = false;
-				}
+				$this->headers[ 'page_title' ] = $body->page_title;
+				$this->headers[ 'page_description' ] = $body->page_description;
+				$this->headers[ 'page_keywords' ] = $body->page_keywords;
+				$this->headers[ 'follow' ] = $body->follow;
+				$this->headers[ 'index' ] = $body->index;
+			} else {
+				$headers = false;
 			}
 		}
 
