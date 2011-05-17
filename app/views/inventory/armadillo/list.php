@@ -8,7 +8,7 @@
 	$total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
 
 	$args = array(
-		'base' => @add_query_arg( 'page' , '%#%' ),
+		'base' => add_query_arg( 'page' , '%#%' ),
 		'current' => $on_page,
 		'total' => $total,
 		'next_text' => __( 'Next &raquo;' ),
@@ -26,6 +26,8 @@
 	} else {
 		$total_found = $inventory[0]->pagination->total * $inventory[0]->pagination->per_page;
 	}
+
+	$query = http_build_query( $_GET );
 
 ?>
 
@@ -60,14 +62,15 @@
 				<ul>
 					<?php
 						if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ):
+							$do_not_carry = remove_query_arg( 'page' , $query );
 					?>
 					<li class="armadillo-expanded">
 						<span>Body Style</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'car' , 'page' => 1 ) ); ?>">Car</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'truck' , 'page' => 1 ) ); ?>">Truck</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'sport_utility' , 'page' => 1 ) ); ?>">SUV</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'vehicleclass' => 'van' , 'page' => 1 ) ); ?>">Van</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'car' ) , $do_not_carry ); ?>">Car</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'truck' ) , $do_not_carry ); ?>">Truck</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'sport_utility' ) , $do_not_carry ); ?>">SUV</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'van' ) , $do_not_carry ); ?>">Van</a></li>
 						</ul>
 					</li>
 					<?php
@@ -87,7 +90,7 @@
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 										echo '<li><a href="' . $url . '">' . $make . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'make' => $make , 'page' => 1 ) ) . '">' . $make . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $make ) , $do_not_carry ) . '">' . $make . '</a></li>';
 									}
 								}
 							?>
@@ -101,14 +104,14 @@
 								if( !empty( $wp_rewrite->rules ) ) {
 									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'model' => $model , 'page' => 1 ) ) . '">' . $model . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
 							?>
@@ -123,11 +126,11 @@
 									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
 									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'page' => 1 ) ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'page' => 1 ) ) . '">View ' . $sale_class. ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] ) , $do_not_carry ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) ) as $trim ) {
-									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim , 'page' => 1 ) ) . '">' . $trim . '</a></li>';
+									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
 							?>
 						</ul>
@@ -138,12 +141,12 @@
 					<li class="armadillo-expanded">
 						<span>Price</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' , 'page' => 1 ) ); ?>">$0 - $10,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' , 'page' => 1 ) ); ?>">$10,001 - $20,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' , 'page' => 1 ) ); ?>">$20,001 - $30,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' , 'page' => 1 ) ); ?>">$30,001 - $40,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' , 'page' => 1 ) ); ?>">$40,001 - $50,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' , 'page' => 1 ) ); ?>">$50,001 - &amp; Above</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>">$0 - $10,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>">$10,001 - $20,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>">$20,001 - $30,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>">$30,001 - $40,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>">$40,001 - $50,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>">$50,001 - &amp; Above</a></li>
 						</ul>
 					</li>
 					<?php
@@ -152,7 +155,7 @@
 					<li class="armadillo-expanded">
 						<span>Other</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'yes' , 'page' => 1 ) ); ?>">Certified Pre-Owned</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'yes' ) , $do_not_carry ); ?>">Certified Pre-Owned</a></li>
 						</ul>
 					</li>
 					<?php endif; ?>
@@ -178,9 +181,9 @@
 					$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 					$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 				?>
-				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year , 'page' => 1 ) ); ?>">Year</a></div>
-				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price , 'page' => 1 ) ); ?>">Price</a></div>
-				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage , 'page' => 1 ) ); ?>">Mileage</a></div>
+				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a></div>
+				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a></div>
+				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a></div>
 			</div>
 			<div id="armadillo-listing-items">
 				<?php
@@ -288,6 +291,7 @@
 						endforeach;
 					}
 				?>
+				<br class="armadillo-clear" />
 			</div>
 		</div>
 		<div id="armadillo-disclaimer">
@@ -299,4 +303,6 @@
 		<?php echo paginate_links( $args ); ?>
 	</div>
 	<a href="#armadillo-top" title="Return to Top" class="armadillo-return-to-top">Return to Top</a>
+	<br class="armadillo-clear" />
 </div>
+<br class="armadillo-clear" />
