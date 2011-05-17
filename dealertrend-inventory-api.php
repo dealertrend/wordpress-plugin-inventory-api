@@ -16,7 +16,7 @@ if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/dealetrend_plugin_updater.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
 /**
  * This is the primary class for the plugin.
