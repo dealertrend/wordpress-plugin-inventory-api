@@ -49,7 +49,8 @@ class http_api_wrapper {
 	 * @var array
 	 */
 	public $request_parameters = array(
-		'timeout' => http_api_wrapper::timeout
+		'timeout' => http_api_wrapper::timeout,
+		'headers' => array( 'Referer' => NULL )
 	);
 
 	/**
@@ -63,6 +64,7 @@ class http_api_wrapper {
 	function __construct( $url , $group ) {
 		$this->url = $url;
 		$this->group = $group;
+		$this->request_parameters[ 'headers' ][ 'Referer' ] = get_site_url();
 	}
 
 	/**
