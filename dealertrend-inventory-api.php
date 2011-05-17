@@ -126,7 +126,7 @@ class dealertrend_inventory_api {
 
 		$plugin_file = pathinfo(__FILE__);
 
-		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
+		$data[ 'PluginURL' ] = get_site_url() . '/wp-content/plugins/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
 		return $data;
