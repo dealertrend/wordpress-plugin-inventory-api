@@ -44,6 +44,18 @@
 	get_header();
 	flush();
 
+	$company_information = $company_information[ 'data' ];
+
+	echo "\n" . '<!--' . "\n";
+	echo '##################################################' . "\n";
+	echo print_r( $this , true ) . "\n";
+	echo "[ Inventory Plugin Information ]\n";
+	echo print_r( $company_information , true ) . "\n";
+	echo print_r( $vehicle_management_system , true ) . "\n";
+	echo print_r( $inventory_seo_headers , true ) . "\n";
+	echo '##################################################' . "\n";
+	echo '-->' . "\n";
+
 	$check_host = $vehicle_management_system->check_host();
 	if( $check_host[ 'status' ] == false ) {
 		echo '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
@@ -74,7 +86,6 @@
 		return false;
 	}
 
-	$company_information = $company_information[ 'data' ];
 	$state = $company_information->state;
 	$city = $company_information->city;
 
