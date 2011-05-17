@@ -24,8 +24,6 @@ require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php
  * It uses standard WordPress hooks and helpers for the different APIs it interfaces with.
  * It also utilizes several custom helpers to incorporate the API itself and some extended functionality of the WordPress core.
  *
- * @package WordPress
- * @subpackage Plugin
  * @since 3.0.0
  */
 class dealertrend_inventory_api {
@@ -91,6 +89,12 @@ class dealertrend_inventory_api {
 		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
 	}
 
+	/**
+	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
+	 *
+	 * @since 3.0.1
+	 * @return void;
+	 */
 	function updater() {
 		$updater = new dealetrend_plugin_updater( $this->meta_information );
 		$version_check = $updater->check_for_updates();
@@ -260,8 +264,6 @@ class dealertrend_inventory_api {
 	/**
 	 * Allows us to create our own taxonomy, see: {@link http://codex.wordpress.org/Taxonomies#What_is_a_taxonomy.3F Taxonomies: What is a taxonomy?}
 	 *
-	 * @package WordPress
-	 * @subpackage Plugin
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -445,8 +447,6 @@ class dealertrend_inventory_api {
 	/** 
 	 * Get a list of a specific type of theme. Example: 'inventory' or 'showcase'.
 	 *
-	 * @package WordPress
-	 * @subpackage Plugin
 	 * @since 3.0.0
 	 * @param string $type The name of the folder to look in for themes.
 	 * @return array The collected list of folders available to choose form.
