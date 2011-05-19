@@ -43,7 +43,8 @@ class InventoryWidget extends WP_Widget {
 
 	/** constructor */
 	function __construct() {
-		parent::__construct( false , $name = 'Inventory' );
+
+		parent::__construct( false , $name = 'DealerTrend, Inc. VMS Widget' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
 
 		if( !is_admin() ) {
 			$plugin = new dealertrend_inventory_api;
@@ -52,6 +53,7 @@ class InventoryWidget extends WP_Widget {
 			add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 		}
 		$this->load_options();
+
 	}
 
 	/** @see WP_Widget::widget */
