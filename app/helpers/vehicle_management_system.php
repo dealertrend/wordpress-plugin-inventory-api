@@ -50,6 +50,7 @@ class vehicle_management_system {
 	 */
 	private $routes = array();
 
+	public $request_stack = array();
 
 	function __construct( $host , $company_id ) {
 		$this->host = $host;
@@ -65,6 +66,7 @@ class vehicle_management_system {
 
 	function check_host() {
 		$request_handler = new http_api_wrapper( $this->host , 'vehicle_management_system' );
+		$this->request_stack[] = $this->host;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$data_array = array( 'status' => false , 'data' => $data );
 		if( isset( $data[ 'body' ] ) ) {
@@ -76,6 +78,7 @@ class vehicle_management_system {
 	function check_company_id() {
 		$url = $this->routes[ 'company_information' ];
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$data_array = array ( 'status' => false , 'data' => $data );
 		if( isset( $data[ 'body' ] ) ) {
@@ -87,6 +90,7 @@ class vehicle_management_system {
 	function check_inventory() {
 		$url = $this->routes[ 'vehicles' ] . '?photo_view=1&per_page=1';
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		if( isset( $data[ 'body' ] ) ) {
 			if( trim( $data[ 'body' ] ) != '[]' ) {
@@ -105,6 +109,7 @@ class vehicle_management_system {
 
 	function get_company_information() {
 		$request_handler = new http_api_wrapper( $this->routes[ 'company_information' ] , 'vehicle_management_system' );
+		$this->request_stack[] = $this->routes[ 'company_information' ];
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$data_array = array ( 'status' => false, 'data' => json_decode( $data[ 'body' ] ) );
 		if( isset( $request_hander[ 'body ' ] ) ) {
@@ -118,6 +123,7 @@ class vehicle_management_system {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'vehicles' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		if( isset( $data[ 'body' ] ) ) {
 			return json_decode( $data[ 'body' ] );
@@ -130,6 +136,7 @@ class vehicle_management_system {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'makes' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		return json_decode( $data[ 'body' ] );
 	}
@@ -138,6 +145,7 @@ class vehicle_management_system {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'models' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		return json_decode( $data[ 'body' ] );
 	}
@@ -146,6 +154,7 @@ class vehicle_management_system {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'trims' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		return json_decode( $data[ 'body' ] );
 	}
@@ -154,6 +163,7 @@ class vehicle_management_system {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'body_styles' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
+		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		return json_decode( $data[ 'body' ] );
 	}
