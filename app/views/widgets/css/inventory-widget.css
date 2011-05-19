@@ -1,0 +1,17 @@
+.inventory-widget { background:white; position:relative; font-size:12px; color:red; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+.inventory-widget a { color:red;  }
+.inventory-widget-title { text-align:center; font-size:16px; line-height:150%; padding:0; height:10%; background:white; color:black; font-weight:bold; }
+.inventory-widget-content { overflow:scroll; height:88%; background:white; }
+.inventory-widget-thumbnail { margin-bottom:5px; }
+.inventory-widget-item { float:left; margin-left:25px; width:200px; text-align:center; margin-bottom:10px; }
+.inventory-widget-main-line { text-align:center; }
+.inventory-widget-main-line div { display:inline; margin-right:5px; }
+.inventory-widget-strike-through { text-decoration:line-through; }
+.inventory-widget-strike-through.inventory-widget-asking-price { color:black; }
+
+.inventory-widget-content.carousel { overflow:hidden; width:100%; }
+.carousel { height:100%; }
+.carousel-control.previous,
+.carousel-control.next { float:left; margin:10% 5px; width:60px; }
+.carousel .inventory-widget-item { width:265px; margin:0; padding:0; }
+.carousel-wrap { width:84%; float:left; margin:0 5px; }

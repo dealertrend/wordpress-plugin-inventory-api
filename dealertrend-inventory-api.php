@@ -18,6 +18,9 @@ require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php'
 require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
+/** Widgets */
+require_once( dirname( __FILE__ ) . '/app/views/widgets/inventory.php' );
+
 /**
  * This is the primary class for the plugin.
  *
@@ -124,7 +127,7 @@ class dealertrend_inventory_api {
 		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
 
-		$plugin_file = pathinfo(__FILE__);
+		$plugin_file = pathinfo( __FILE__ );
 
 		$data[ 'PluginURL' ] = get_site_url() . '/wp-content/plugins/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
@@ -418,7 +421,7 @@ class dealertrend_inventory_api {
 			false,
 			$this->meta_information[ 'Version' ]
 		);
-		wp_enqueue_style( 'dealertrend-inventory-api' ); 
+		wp_enqueue_style( 'dealertrend-inventory-api' );
 		
 		wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
 		wp_enqueue_style( 'jquery-ui-black-tie' ); 
