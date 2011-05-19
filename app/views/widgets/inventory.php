@@ -44,10 +44,10 @@ class InventoryWidget extends WP_Widget {
 	/** constructor */
 	function __construct() {
 		parent::__construct( false , $name = 'Inventory' );
-		$plugin = new dealertrend_inventory_api;
-		$this->meta_information = $plugin->meta_information;
 
 		if( !is_admin() ) {
+			$plugin = new dealertrend_inventory_api;
+			$this->meta_information = $plugin->meta_information;
 			add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 			add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 		}
