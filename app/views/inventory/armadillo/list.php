@@ -191,7 +191,7 @@
 						echo '<div class="armadillo-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
-							setlocale(LC_MONETARY, 'en_US');
+							setlocale( LC_MONETARY , 'en_US' );
 							$prices = $inventory_item->prices;
 							$use_was_now = $prices->{ 'use_was_now?' };
 							$use_price_strike_through = $prices->{ 'use_price_strike_through?' };

@@ -1,7 +1,7 @@
 /* Shared elements. */
 .ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; }
 
-.armadillo-strike-through { text-decoration:line-through;  }
+.armadillo-strike-through { text-decoration:line-through; }
 .armadillo-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
 .armadillo-return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
 .armadillo-pager { text-align:right; float:right; line-height:25px; height:25px; margin-top:-25px; margin-right:10px; }
