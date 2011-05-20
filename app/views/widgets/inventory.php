@@ -215,7 +215,7 @@ class InventoryWidget extends WP_Widget {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			'http://thomlx.free.fr/js/jquery.carousel.min.js',
+			$this->meta_information[ 'PluginURL' ] . '/app/views/widgets/js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			false,
 			true
