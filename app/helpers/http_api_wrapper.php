@@ -62,9 +62,10 @@ class http_api_wrapper {
 	 * @return void
 	 */
 	function __construct( $url , $group ) {
+		global $wp;
 		$this->url = $url;
 		$this->group = $group;
-		$this->request_parameters[ 'headers' ][ 'Referer' ] = get_site_url();
+		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . $wp->request;
 	}
 
 	/**
