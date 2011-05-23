@@ -27,7 +27,7 @@
 		$total_found = $inventory[0]->pagination->total * $inventory[0]->pagination->per_page;
 	}
 
-	$query = http_build_query( $_GET );
+	$query = '?' . http_build_query( $_GET );
 
 ?>
 
