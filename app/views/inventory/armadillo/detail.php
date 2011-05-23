@@ -34,6 +34,9 @@
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 	$contact_information = $inventory->contact_info;
+	$greeting = isset( $contact_information->greeting ) ? $contact_information->greeting : NULL;
+	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
+	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
@@ -254,8 +257,8 @@ function video_popup(url , title) {
 			<div class="armadillo-contact-information">
 				<div class="armadillo-header">Contact Information</div>
 				<?php
-					echo '<p>' . $contact_information->greeting . ' <strong>' . $contact_information->dealer_name . '</strong></p>';
-					echo '<p>Phone Number: <strong>' . $contact_information->phone . '</strong></p>';
+					echo '<p>' . $greeting . ' <strong>' . $dealer_name . '</strong></p>';
+					echo '<p>Phone Number: <strong>' . $phone . '</strong></p>';
 				?>
 			</div>
 			<div class="armadillo-helpful-links">
