@@ -15,9 +15,9 @@
 	$dealer_options = $inventory->dealer_options;
 	$standard_equipment = $inventory->standard_equipment;
 	$year = $inventory->year;
-	$make = $inventory->make;
-	$model = $inventory->model_name;
-	$trim = $inventory->trim;
+	$make = urldecode( $inventory->make );
+	$model = urldecode( $inventory->model_name );
+	$trim = urldecode( $inventory->trim );
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
 	$doors = $inventory->doors;
@@ -107,7 +107,7 @@
 						<td colspan="1">
 							<input onclick="document.forms['vehicle-inquiry']['name'].value = document.forms['vehicle-inquiry']['f_name'].value + ' ' + document.forms['vehicle-inquiry']['l_name'].value; document.forms['vehicle-inquiry']['privacy'].checked = true; document.forms['vehicle-inquiry'].submit();" type="button" value="Send Inquiry" class="submit" />
 							<small style="float:right;">
-								<label for="vehicle-inquiry-privacy"><a href="/privacy" target="_blank">Privacy Policy</a></label>
+								<label for="vehicle-inquiry-privacy"><a href="<?php echo $site_url; ?>/privacy" target="_blank">Privacy Policy</a></label>
 							</small>
 							<div style="display:none">
 								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy" type="checkbox" value="Yes" />
@@ -178,7 +178,7 @@
 			<div class="form">
 				<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
 					<input type="hidden" name="required_fields" value="name,email,privacy"/>
-					<input type="hidden" name="saleclass" value="<?php echo strtolower($sale_class); ?>"/>
+					<input type="hidden" name="saleclass" value="<?php echo strtolower( $sale_class ); ?>"/>
 					<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
 					<input type="hidden" name="vehicle" value="<?php echo $year . ' ' . $make . ' ' . $model; ?>"/>
 					<input type="hidden" name="year" value="<?php echo $year; ?>"/>
@@ -224,7 +224,7 @@
 						</tr>
 						<tr>
 							<td class="required" colspan="2">
-								<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" /> <label for="formvehicletestdrive-privacy">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
+								<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" /> <label for="formvehicletestdrive-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
 								<div style="display:none">
 									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
 								</div>
@@ -242,7 +242,7 @@
 			<div class="form">
 				<form name="formvehicletradein" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_trade_in" method="post">
 					<input type="hidden" name="required_fields" value="name,email,privacy"/>
-					<input type="hidden" name="saleclass" value="strtolower($sale_class);"/>
+					<input type="hidden" name="saleclass" value="<?php strtolower( $sale_class ); ?>"/>
 					<input type="hidden" name="return_url" value="" id="return_url_trade_in"/>
 					<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
 					<input type="hidden" name="year" value="<?php echo $year; ?>"/>
@@ -342,7 +342,7 @@
 						</tr>
 						<tr>
 							<td class="required" colspan="2">
-								<input type="checkbox" class="privacy" name="privacy" id="formvehicletradein-privacy" value="Yes" /><label for="formvehicletradein-privacy">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
+								<input type="checkbox" class="privacy" name="privacy" id="formvehicletradein-privacy" value="Yes" /><label for="formvehicletradein-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
 								<div style="display:none">
 									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
 								</div>
@@ -410,7 +410,7 @@
 									<input id="formtellafriend-notify" type="checkbox" name="notify" value="yes" /><label for="formtellafriend-notify">Request Notification of Receipt when email is opened?</label>
 								</div>
 								<div class="required">
-									<input type="checkbox" name="privacy" id="formtellafriend-privacy" value="Yes" /><label for="formtellafriend-privacy">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
+									<input type="checkbox" name="privacy" id="formtellafriend-privacy" value="Yes" /><label for="formtellafriend-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
 								</div>
 								<div style="display:none">
 									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?

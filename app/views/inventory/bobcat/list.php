@@ -21,31 +21,31 @@
 		$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
 		foreach( $makes as $make ) {
 			if( !empty( $wp_rewrite->rules ) ) {
-				$quick_links .= '<a href="/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</a>';
+				$quick_links .= '<a href="' . $site_url . '/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</a>';
 			} else {
 				$quick_links .= '<a href="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $make . '">' . $make . '</a>';
 			}
 		}
 	} elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
 		$models = $vehicle_management_system->get_models(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 		foreach( $models as $model ) {
 			if( !empty( $wp_rewrite->rules ) ) {
-				$quick_links .= '<a href="/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</a>';
+				$quick_links .= '<a href="' . $site_url . '/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</a>';
 			} else {
 				$quick_links .= '<a href="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '">' . $model . '</a>';
 			}
 		}
 	} elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
 		$trims = $vehicle_management_system->get_trims(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
 		foreach( $trims as $trim ) {
 			$quick_links .= '<a href="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</a>';
 		}
 	} else {
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
 		$quick_links_end .= '<a href="' . @add_query_arg( array( 'trim' => 'All' ) ) . '">View All Trims</a>';
 	}
 
@@ -55,8 +55,8 @@
 	<br class="clear" id="top" />
 	<div class="quick-links">
 		<?php
-			echo !empty($quick_links) ? $quick_links . '<br />' : NULL;
-			echo !empty($quick_links_end) ? $quick_links_end : NULL;
+			echo !empty( $quick_links ) ? $quick_links . '<br />' : NULL;
+			echo !empty( $quick_links_end ) ? $quick_links_end : NULL;
 		?>
 	</div>
 	<div class="listing wrapper">
@@ -70,7 +70,7 @@
 			} else {
 				foreach( $inventory as $inventory_item ):
 					$year = $inventory_item->year;
-					$make = $inventory_item->make;
+					$make = urldecode( $inventory_item->make );
 					$model = urldecode( $inventory_item->model_name );
 					$vin = $inventory_item->vin;
 					$trim = urldecode( $inventory_item->trim );
@@ -78,9 +78,9 @@
 					$engine = $inventory_item->engine;
 					$transmission = $inventory_item->transmission;
 					$exterior_color = $inventory_item->exterior_color;
-					setlocale(LC_MONETARY, 'en_US');
+					setlocale( LC_MONETARY , 'en_US' );
 					$prices = $inventory_item->prices;
-					$asking_price = money_format( '%(#0n', $prices->asking_price );
+					$asking_price = money_format( '%(#0n' , $prices->asking_price );
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
@@ -88,7 +88,7 @@
 					$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 					$doors = $inventory_item->doors . 'D';
 					if( !empty( $wp_rewrite->rules ) ) {
-						$inventory_url = '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
+						$inventory_url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 					} else {
 						$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 					}

@@ -2,6 +2,8 @@
 
 	global $wp_rewrite;
 
+	$site_url = site_url();
+
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
@@ -58,7 +60,7 @@
 
 	$parameters = $this->parameters;
 
-	$breadcrumbs = '<a href="/" title="' . $company_name . ': Home Page">' . urldecode( $company_name ) . '</a>';
+	$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page">' . urldecode( $company_name ) . '</a>';
 	$do_not_show = array( 'page' , 'per_page' , 'trim' , 'body_style' , 'vehicleclass' , 'sort' , 'city' , 'state' , 'search', 'price_from' , 'price_to' , 'certified' );
 
 	unset( $parameters[ 'taxonomy' ] );
@@ -73,11 +75,11 @@
 	}
 
 	if( count( $parameters > 1 ) ) {
-		$crumb_trail = '/inventory/';
+		$crumb_trail = $site_url . '/inventory/';
 		if( !empty( $wp_rewrite->rules ) ) {
 			foreach( $parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) ) {
-					$crumb_trail .= $value . '/';
+					$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
 					$breadcrumbs .= '<a href=' . $crumb_trail . '> > ' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
@@ -85,7 +87,7 @@
 			$crumb_trail = '?taxonomy=inventory';
 			foreach( $parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) ) {
-					$crumb_trail .= '&amp;' . $key . '=' . $value;
+					$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
 					$breadcrumbs .= '<a href=' . $crumb_trail . '> > ' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
