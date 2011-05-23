@@ -20,9 +20,9 @@
 	$dealer_options = $inventory->dealer_options;
 	$standard_equipment = $inventory->standard_equipment;
 	$year = $inventory->year;
-	$make = $inventory->make;
-	$model = $inventory->model_name;
-	$trim = $inventory->trim;
+	$make = urldecode( $inventory->make );
+	$model = urldecode( $inventory->model_name );
+	$trim = urldecode( $inventory->trim );
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
 	$doors = $inventory->doors;

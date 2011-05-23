@@ -201,7 +201,7 @@
 							$default_price_text = $prices->default_price_text;
 							$asking_price = $prices->asking_price;
 							$year = $inventory_item->year;
-							$make = $inventory_item->make;
+							$make = urldecode( $inventory_item->make );
 							$model = urldecode( $inventory_item->model_name );
 							$vin = $inventory_item->vin;
 							$trim = urldecode( $inventory_item->trim );

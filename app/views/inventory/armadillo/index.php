@@ -113,7 +113,7 @@
 		if( !empty( $wp_rewrite->rules ) ) {
 			foreach( $parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) ) {
-					$crumb_trail .= $value . '/';
+					$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
@@ -121,7 +121,7 @@
 			$crumb_trail = '?taxonomy=inventory';
 			foreach( $parameters as $key => $value ) {
 				if( !in_array( $key ,$do_not_show ) ) {
-					$crumb_trail .= '&amp;' . $key . '=' . $value;
+					$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
 					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				}
 			}
