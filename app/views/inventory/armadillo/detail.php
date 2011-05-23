@@ -287,7 +287,7 @@ function video_popup(url , title) {
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="armadillo-price">
 				<?php
-					if( $on_sale ) {
+					if( $on_sale && $sale_price > 0 ) {
 						$now_text = '<span>Price:</span> ';
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';

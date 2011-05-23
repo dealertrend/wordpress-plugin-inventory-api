@@ -21,10 +21,10 @@
 
 	if( empty( $inventory ) ) {
 		$total_found = 0;
-	} elseif ( $inventory[0]->pagination->total == 1 ) {
-		$total_found = $inventory[0]->pagination->total * count( $inventory );
+	} elseif ( $inventory[ 0 ]->pagination->total == 1 ) {
+		$total_found = $inventory[ 0 ]->pagination->total * count( $inventory );
 	} else {
-		$total_found = $inventory[0]->pagination->total * $inventory[0]->pagination->per_page;
+		$total_found = $inventory[ 0 ]->pagination->total * $inventory[ 0 ]->pagination->per_page;
 	}
 
 	$query = '?' . http_build_query( $_GET );
@@ -38,7 +38,7 @@
 		<div class="armadillo-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
-		<form action="/inventory/" method="GET" id="armadillo-search">
+		<form action="<?php echo $site_url; ?>/inventory/" method="GET" id="armadillo-search">
 			<label for="search">Inventory Search:</label>
 			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 		</form>
@@ -82,11 +82,11 @@
 						<ul>
 							<?php
 								if( isset( $parameters[ 'saleclass' ] ) ) {
-									echo '<li class="small"><a href="/inventory/">View All Vehicles</a></li>';
+									echo '<li class="small"><a href="' . $site_url . '/inventory/">View All Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) ) as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
-										$url = '/inventory/' . $sale_class . '/' . $make . '/';
+										$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/';
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 										echo '<li><a href="' . $url . '">' . $make . '</a></li>';
 									} else {
@@ -102,13 +102,13 @@
 						<ul>
 							<?php
 								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
-										$url = '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
+										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
 									} else {
 										echo '<li><a href="' . @add_query_arg( array( 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
@@ -123,8 +123,8 @@
 						<ul>
 							<?php
 								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
-									echo '<li class="armadillo-small"><a href="/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
+									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
+									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] ) , $do_not_carry ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
@@ -218,7 +218,7 @@
 							$doors = $inventory_item->doors;
 							$headline = $inventory_item->headline;
 							if( !empty( $wp_rewrite->rules ) ) {
-								$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
+								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
 								$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 							}
