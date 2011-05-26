@@ -156,21 +156,23 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			$model_values = $model_data[ 'data' ];
 			echo '<div>';
 			foreach( $model_values as $model ) {
-				if( !empty( $wp_rewrite->rules ) ) {
-					$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/'; 
-				} else {
-					$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
+				if( in_array( $model->name , $instance[ 'models' ] ) ) {
+					if( !empty( $wp_rewrite->rules ) ) {
+						$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/'; 
+					} else {
+						$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
+					}
+					$generic_vehicle_title = $model->name;
+					$thumbnail = urldecode( $model->image_urls->small );
+					echo '<div class="vrs-widget-item">';
+					echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
+					echo '<div class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
+					echo '<div class="vrs-widget-main-line">';
+					echo '<div class="vrs-widget-make">' . $model->name . '</div>';
+					echo '</div>';
+					echo '</a>';
+					echo '</div>';
 				}
-				$generic_vehicle_title = $model->name;
-				$thumbnail = urldecode( $model->image_urls->small );
-				echo '<div class="vrs-widget-item">';
-				echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
-				echo '<div class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
-				echo '<div class="vrs-widget-main-line">';
-				echo '<div class="vrs-widget-make">' . $model->name . '</div>';
-				echo '</div>';
-				echo '</a>';
-				echo '</div>';
 			}
 			echo '</div>';
 			echo '</div>';
@@ -180,7 +182,6 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '</div>';
 		echo '<div class="vrs-after-widget">' . $after_widget . '</div>';
 		echo '</div>';
-
 	}
 
 	function update( $new_instance , $old_instance ) {
