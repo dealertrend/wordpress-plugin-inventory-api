@@ -15,11 +15,13 @@ if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 /** Load the helpers so we can interface with the APIs. */
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
 /** Widgets */
-require_once( dirname( __FILE__ ) . '/app/views/widgets/inventory.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vms.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vrs.php' );
 
 /**
  * This is the primary class for the plugin.
@@ -59,6 +61,9 @@ class dealertrend_inventory_api {
 				'name' => 'armadillo',
 				'per_page' => 10
 			)
+		),
+		'vehicle_reference_system' => array(
+			'host' => NULL
 		)
 	);
 
@@ -129,7 +134,7 @@ class dealertrend_inventory_api {
 
 		$plugin_file = pathinfo( __FILE__ );
 
-		$data[ 'PluginURL' ] = get_site_url() . '/wp-content/plugins/' . basename( $plugin_file[ 'dirname' ] );
+		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
 		return $data;
@@ -177,8 +182,8 @@ class dealertrend_inventory_api {
 		add_filter( 'plugin_action_links_' . $this->meta_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
 		# Add a new menu item in the WordPress admin menu so people can get to the plugin settings from the sidebar.
 		add_menu_page(
-			'Dealertrend API Settings',
-			'Dealertrend Inventory API',
+			'Dealertrend API',
+			'Dealertrend API',
 			'manage_options',
 			'dealertrend_inventory_api',
 			array( &$this , 'create_options_page' ),
