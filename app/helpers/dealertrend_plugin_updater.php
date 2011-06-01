@@ -62,22 +62,26 @@ class dealetrend_plugin_updater {
 
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
-		$json = json_decode( $body );
-		$tags = $json->tags;
-		# We just want to version numbers.
-		$versions = array_keys( get_object_vars( $tags ) );
-		# Descending.
-		sort( $versions );
-		$versions = array_reverse( $versions );
-		if( !empty( $versions ) ) {
-			$latest_version = str_replace( 'v' , NULL , $versions[ 0 ] );
-		} else {
-			$latest_version = '0';
-		}
-		$this->new_version = $latest_version;
-		$current_version = $this->current_meta_information[ 'Version' ];
+		if( $body ) {
+			$json = json_decode( $body );
+			$tags = $json->tags;
+			# We just want to version numbers.
+			$versions = array_keys( get_object_vars( $tags ) );
+			# Descending.
+			sort( $versions );
+			$versions = array_reverse( $versions );
+			if( !empty( $versions ) ) {
+				$latest_version = str_replace( 'v' , NULL , $versions[ 0 ] );
+			} else {
+				$latest_version = '0';
+			}
+			$this->new_version = $latest_version;
+			$current_version = $this->current_meta_information[ 'Version' ];
 
-		return array( 'current' => $current_version , 'latest' => $latest_version );
+			return array( 'current' => $current_version , 'latest' => $latest_version );
+		} else {
+			return false;
+		}
 
 	}
 

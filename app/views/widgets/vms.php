@@ -1,17 +1,8 @@
 <?php
 
-if ( class_exists( 'inventory_widget' ) ) {
-	return false;
-}
-
-/**
- * FooWidget Class
- */
-class InventoryWidget extends WP_Widget {
+class VehicleManagementSystemWidget extends WP_Widget {
 
 	public $options = array();
-
-	public $meta_information = array();
 
 	const limit = 20;
 
@@ -41,24 +32,22 @@ class InventoryWidget extends WP_Widget {
 		'wont-last'
 	);
 
-	/** constructor */
+	public $meta_information = array();
+
 	function __construct() {
 
-		parent::__construct( false , $name = 'DealerTrend, Inc. VMS Widget' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
+		parent::__construct( false , $name = 'Vehicle Management System' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
+		$this->meta_information[ 'WidgetURL' ] =  WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 
 		if( !is_admin() ) {
-			$plugin = new dealertrend_inventory_api;
-			$this->meta_information = $plugin->meta_information;
-			add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
-			add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
+			add_action( 'wp_print_styles' , array( &$this , 'vms_styles' ) , 1 );
+			add_action( 'wp_print_scripts', array( &$this , 'vms_scripts' ) , 1 );
 		}
 		$this->load_options();
 
 	}
 
-	/** @see WP_Widget::widget */
 	function widget( $args , $instance ) {
-
 		global $wp_rewrite;
 
 		extract( $args );
@@ -101,7 +90,7 @@ class InventoryWidget extends WP_Widget {
 		$inventory = $vehicle_management_system->get_inventory(
 			array(
 				'photo_view' => 1,
-				'per_page' => InventoryWidget::limit,
+				'per_page' => VehicleManagementSystemWidget::limit,
 				'icons' => $instance[ 'tag' ],
 				'saleclass' => $instance[ 'saleclass' ]
 			)
@@ -122,15 +111,15 @@ class InventoryWidget extends WP_Widget {
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
 
-		echo '<div id="' . $this->id . '" class="inventory-widget" style="' . $width . $height . $float . '">';
-		echo '<div class="inventory-before-widget">' . $before_widget . '</div>';
+		echo '<div id="' . $this->id . '" class="vms-widget" style="' . $width . $height . $float . '">';
+		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
 		if( $title ) {
-			echo '<div class="inventory-widget-before-title">' . $before_title . '</div>';
-			echo '<div class="inventory-widget-title">' . $title . '</div>';
-			echo '<div class="inventory-widget-after-title">' . $after_title . '</div>';
+			echo '<div class="vms-widget-before-title">' . $before_title . '</div>';
+			echo '<div class="vms-widget-title">' . $title . '</div>';
+			echo '<div class="vms-widget-after-title">' . $after_title . '</div>';
 		}
-		echo '<div class="inventory-widget-content ' . $carousel . '">';
-		echo '<div class="inventory-widget-item-wrapper ' . $carousel . '">';
+		echo '<div class="vms-widget-content ' . $carousel . '">';
+		echo '<div class="vms-widget-item-wrapper ' . $carousel . '">';
 		$sale_class = isset( $instance[ 'saleclass' ] ) ? ucwords( $instance[ 'saleclass' ] ) : 'All';
 		foreach( $inventory as $inventory_item ) {
 			setlocale( LC_MONETARY , 'en_US' );
@@ -160,31 +149,31 @@ class InventoryWidget extends WP_Widget {
 			$doors = $inventory_item->doors;
 			$headline = $inventory_item->headline;
 			if( !empty( $wp_rewrite->rules ) ) {
-				$inventory_url = '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
+				$inventory_url = site_url() . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 			} else {
 				$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 			}
 			$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
-			echo '<div class="inventory-widget-item">';
+			echo '<div class="vms-widget-item">';
 			echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
-			echo '<div class="inventory-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
-			echo '<div class="inventory-widget-main-line">';
-			echo '<div class="inventory-widget-model">' . $year . '</div>';
-			echo '<div class="inventory-widget-model">' . $make . '</div>';
-			echo '<div class="inventory-widget-model">' . $model . '</div>';
+			echo '<div class="vms-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
+			echo '<div class="vms-widget-main-line">';
+			echo '<div class="vms-widget-year">' . $year . '</div>';
+			echo '<div class="vms-widget-make">' . $make . '</div>';
+			echo '<div class="vms-widget-model">' . $model . '</div>';
 			echo '</div>';
-			echo '<div class="inventory-widget-price">';
-			if( $on_sale ) {
+			echo '<div class="vms-widget-price">';
+			if( $on_sale && $sale_price > 0 ) {
 				$now_text = 'Price: ';
 				if( $use_was_now ) {
-					$price_class = ( $use_price_strike_through ) ? 'inventory-widget-strike-through inventory-widget-asking-price' : 'inventory-widget-asking-price';
+					$price_class = ( $use_price_strike_through ) ? 'vms-widget-strike-through vms-widget-asking-price' : 'vms-widget-asking-price';
 					echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 					$now_text = 'Now: ';
 				}
-				echo '<div class="inventory-widget-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+				echo '<div class="vms-widget-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 			} else {
 				if( $asking_price > 0 ) {
-					echo '<div class="inventory-widget-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+					echo '<div class="vms-widget-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 				} else {
 					echo $default_price_text;
 				}
@@ -195,42 +184,38 @@ class InventoryWidget extends WP_Widget {
 		}
 		echo '</div>';
 		echo '</div>';
-		echo '<div class="inventory-after-widget">' . $after_widget . '</div>';
+		echo '<div class="vms-after-widget">' . $after_widget . '</div>';
 		echo '</div>';
 	}
 
-	function inventory_styles() {
+	function vms_styles() {
 		wp_register_style(
 			'dealertrend-inventory-api-vms-widget',
-			$this->meta_information[ 'PluginURL' ] . '/app/views/widgets/css/inventory-widget.css',
-			false,
-			$this->meta_information[ 'Version' ]
+			$this->meta_information[ 'WidgetURL' ] . 'css/vms-widget.css'
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api-vms-widget' );
 	}
 
-	function inventory_scripts() {
+	function vms_scripts() {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			$this->meta_information[ 'PluginURL' ] . '/app/views/widgets/js/jquery.carousel.min.js',
+			$this->meta_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			false,
 			true
 		);
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vms-widget',
-			$this->meta_information[ 'PluginURL' ] . '/app/views/widgets/js/inventory-widget.js',
+			$this->meta_information[ 'WidgetURL' ] . 'js/vms-widget.js',
 			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs', 'jquery-carousel' ),
-			$this->meta_information[ 'Version' ],
+			false,
 			true
 		);
-
 	}
 
-	/** @see WP_Widget::update */
 	function update( $new_instance , $old_instance ) {
 		$instance = $old_instance;
 		$instance[ 'title' ] = strip_tags( $new_instance[ 'title' ] );
@@ -244,8 +229,8 @@ class InventoryWidget extends WP_Widget {
 		return $instance;
 	}
 
-	/** @see WP_Widget::form */
 	function form( $instance ) {
+
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
 		$width = isset( $instance[ 'width' ] ) ? esc_attr( $instance[ 'width' ] ) : '310px';
 		$height = isset( $instance[ 'height' ] ) ? esc_attr( $instance[ 'height' ] ) : '250px';
@@ -315,8 +300,5 @@ class InventoryWidget extends WP_Widget {
 	}
 
 }
-
-# register FooWidget widget
-add_action( 'widgets_init' , create_function( '' , 'return register_widget("InventoryWidget");' ) );
 
 ?>
