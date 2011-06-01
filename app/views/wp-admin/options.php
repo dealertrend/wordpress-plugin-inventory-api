@@ -17,6 +17,7 @@
 		if( $uninstall == true ) {
 			delete_option( 'dealertrend_inventory_api' );
 			delete_option( 'vehicle_management_system' );
+			delete_option( 'vehicle_reference_system' );
 			deactivate_plugins( $dealertrend_inventory_api->meta_information[ 'PluginBaseName' ] );
 			echo '<script type="text/javascript">window.location.replace("/wp-admin/plugins.php");</script>';
 			exit;
@@ -24,12 +25,10 @@
 
 		# Did they want to save the data?
 		if( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'update' ) {
-			# Remove trailing slashes as well as https.
-			# This plugin should never need https and trailing slashes are ugly. ^_^
-			if( isset( $_POST[ 'vehicle_management_system' ] ) ) {
-				$_POST[ 'vehicle_management_system' ][ 'host' ] = preg_replace( '/^(https?:\/\/)?(.+)([^a-z])$/i' , '$2' , $_POST[ 'vehicle_management_system' ][ 'host' ] );
-				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = $_POST[ 'vehicle_management_system' ][ 'host' ];
+			if( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
+				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' );
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
+				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' );
 			} elseif( isset( $_POST[ 'theme' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
@@ -47,6 +46,10 @@
 		$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 	);
 
+	$vehicle_reference_system = new vehicle_reference_system (
+		$this->options[ 'vehicle_reference_system' ][ 'host' ]
+	);
+
 	?>
 
 <div id="uninstall-dialog" title="Confirm Uninstall" style="display:none;">
@@ -61,7 +64,7 @@
 </div>
 
 <div id="icon-dealertrend" class="icon32"><br /></div>
-<h2><?php echo $this->meta_information[ 'Name' ]; ?> Settings</h2>
+<h2><?php echo $this->meta_information[ 'Name' ]; ?></h2>
 <?php flush(); ?>
 <div id="option-tabs" style="clear:both;">
 	<ul>
@@ -70,11 +73,11 @@
 		<li><a href="#settings">Settings</a></li>
 		<li><a href="#help">Help</a></li>
 	</ul>
-<?php flush(); ?>
+	<?php flush(); ?>
 	<div id="feeds">
 		<table width="450">
 			<tr>
-				<td colspan="2"><h3 class="title">Inventory Feed</h3></td>
+				<td colspan="2"><h3 class="title">Vehicle Management System Feed</h3></td>
 			</tr>
 			<tr>
 				<td width="125">Feed Status:</td>
@@ -88,6 +91,31 @@
 						} else {
 							echo '<span class="fail">Unavailable</span>';
 							echo '<br/><small>Returned Message: ' . $check_inventory[ 'data' ][ 'message' ] . '</small>';
+						}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><small>Response time:<?php echo $stop - $start; ?> seconds</small></td>
+			</tr>
+		</table>
+		<table width="450">
+			<tr>
+				<td colspan="2"><h3 class="title">Vehicle Reference System Feed</h3></td>
+			</tr>
+			<tr>
+				<td width="125">Feed Status:</td>
+				<td>
+					<?php
+						$start = timer_stop();
+						$check_feed = $vehicle_reference_system->check_feed();
+						$stop = timer_stop();
+						if( $check_feed[ 'status' ] == true ) {
+							echo '<span class="success">Loaded</span>';
+						} else {
+							echo '<span class="fail">Unavailable</span>';
+							echo '<br/><small>Returned Message: ' . $check_feed[ 'data' ][ 'message' ] . '</small>';
 						}
 					?>
 				</td>
@@ -201,7 +229,7 @@
 	</div>
 	<?php flush(); ?>
 	<div id="settings">
-		<form name="dealertrend_inventory_api_api_settings" method="post" action="#feeds">
+		<form name="dealertrend_inventory_api_plugin_settings" method="post" action="#feeds">
 			<?php wp_nonce_field( 'dealertrend_inventory_api' ); ?>
 			<table width="450">
 				<tr>
@@ -216,6 +244,10 @@
 				<tr>
 					<td width="200"></td>
 					<td><small>Inventory will not be available without providing a valid VMS from <?php echo $site_link; ?></small></td>
+				</tr>
+				<tr>
+					<td width="200"><label for="vehicle-reference-system">Vehicle Reference System:</label></td>
+					<td><input type="text" id="vehicle-reference-system" name="vehicle_reference_system[host]" value="<?php echo $dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] ?>" class="long_input" /></td>
 				</tr>
 				<tr>
 					<td width="200"></td>

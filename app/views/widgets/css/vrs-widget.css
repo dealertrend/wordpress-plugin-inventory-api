@@ -1,0 +1,20 @@
+.vrs-widget { background:white; position:relative; font-size:12px; color:red; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
+.vrs-widget a { color:red; }
+.vrs-widget-item-wrapper { height:100%; }
+.vrs-widget.items { height:88% }
+.vrs-widget-title { text-align:center; font-size:16px; line-height:150%; padding:0; height:10%; background:white; color:black; font-weight:bold; }
+.vrs-widget-content { height:88%; background:white; }
+.vrs-widget.items > div { overflow-y:scroll; height:88%; }
+.vrs-widget-thumbnail { margin-bottom:5px; }
+.vrs-widget-item { float:left; margin-left:25px; width:200px; text-align:center; margin-bottom:10px; }
+.vrs-widget-main-line { text-align:center; }
+.vrs-widget-main-line div { display:inline; margin-right:5px; }
+.vrs-widget-strike-through { text-decoration:line-through; }
+.vrs-widget-strike-through.vrs-widget-asking-price { color:black; }
+
+.carousel { overflow:hidden; }
+.carousel { height:100%; }
+.carousel-control.previous,
+.carousel-control.next { float:left; margin:10% 0px; width:70px; }
+.carousel .vrs-widget-item { width:250px; margin:0; padding:0; height:171px; }
+.carousel-wrap { width:82%; float:left; margin:0 5px; }
