@@ -87,6 +87,7 @@ class dealertrend_inventory_api {
 		# Need to call the updater after the required objects have been instantiated.
 		add_action( 'admin_init' , array( &$this , 'updater' ) );
 		$this->load_options();
+		$this->load_widgets();
 		# Only load the admin CSS/JS on the admin screen.
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
@@ -156,6 +157,22 @@ class dealertrend_inventory_api {
 				$this->options[ $option_group ] = $option_values;
 			}
 		}
+	}
+
+	function load_widgets() {
+		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleManagementSystemWidget");' ) );
+		}
+
+		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleReferenceSystemWidget");' ) );
+		}
+
+#		$check_host = $vehicle_reference_system->check_host();
+#		if( $check_host[ 'status' ] == false ) {
+#			echo '<p>Unable to connect to API.</p>';
+#			return false;
+#		}
 	}
 
 	/**

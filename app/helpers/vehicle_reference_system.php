@@ -48,7 +48,8 @@ class vehicle_reference_system {
 		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
 		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$data_array = array ( 'status' => false, 'data' => json_decode( $data[ 'body' ] ) );
+		$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
+		$data_array = array ( 'status' => false, 'data' => $body );
 		if( isset( $request_hander[ 'body ' ] ) ) {
 			$data_array[ 'status' ] = true;
 		}
@@ -61,14 +62,12 @@ class vehicle_reference_system {
 		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
 		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$data_array = array ( 'status' => false, 'data' => json_decode( $data[ 'body' ] ) );
+		$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
+		$data_array = array ( 'status' => false, 'data' => $body );
 		if( isset( $request_hander[ 'body ' ] ) ) {
 			$data_array[ 'status' ] = true;
 		}
 		return $data_array;
-	}
-
-	function get_trims( $parameters = array() ) {
 	}
 
 	function process_parameters( $parameters ) {
