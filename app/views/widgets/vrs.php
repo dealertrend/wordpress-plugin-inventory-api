@@ -147,32 +147,42 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 		echo '<ul>';
 		foreach( $makes as $make ) {
-			echo '<li><a href="#vrs-' . $this->id . '-' . $make . '">' . $make . '</a></li>';
+			echo '<li><a href="#vrs-' . $this->id . '-' . preg_replace( '/(\W+)/i' , '_' , $make ) . '">' . $make . '</a></li>';
 		}
 		echo '</ul>';
 		foreach( $makes as $make ) {
-			echo '<div id="vrs-' . $this->id . '-' . $make . '" class="vrs-widget items ' . $carousel . '">';
+			echo '<div id="vrs-' . $this->id . '-' . preg_replace( '/(\W+)/i' , '_' , $make ) . '" class="vrs-widget items ' . $carousel . '">';
 			$model_data = $vehicle_reference_system->get_models( array( 'make' => $make ) );
 			$model_values = $model_data[ 'data' ];
 			echo '<div>';
-			foreach( $model_values as $model ) {
-				if( in_array( $model->name , $instance[ 'models' ] ) ) {
-					if( !empty( $wp_rewrite->rules ) ) {
-						$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/'; 
-					} else {
-						$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
+			if( isset( $model_values ) && is_array( $model_values) ) {
+				foreach( $model_values as $model ) {
+					if( in_array( $model->name , $instance[ 'models' ] ) ) {
+						if( !empty( $wp_rewrite->rules ) ) {
+							$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/'; 
+						} else {
+							$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
+						}
+						$generic_vehicle_title = $model->name;
+						$thumbnail = urldecode( $model->image_urls->small );
+						echo '<div class="vrs-widget-item">';
+						echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
+						echo '<div class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
+						echo '<div class="vrs-widget-main-line">';
+						echo '<div class="vrs-widget-make">' . $model->name . '</div>';
+						echo '</div>';
+						echo '</a>';
+						echo '</div>';
 					}
-					$generic_vehicle_title = $model->name;
-					$thumbnail = urldecode( $model->image_urls->small );
-					echo '<div class="vrs-widget-item">';
-					echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
-					echo '<div class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
-					echo '<div class="vrs-widget-main-line">';
-					echo '<div class="vrs-widget-make">' . $model->name . '</div>';
-					echo '</div>';
-					echo '</a>';
-					echo '</div>';
 				}
+			} else {
+				echo '<div class="vrs-widget-item">';
+					echo '<br class="clear" />';
+					echo '<div class="vrs-widget-main-line">';
+					echo '<p>Data Not Available.</p>';
+					echo '</div>';
+					echo '<br class="clear" />';
+				echo '</div>';
 			}
 			echo '</div>';
 			echo '</div>';
@@ -280,7 +290,5 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 	}
 
 }
-
-add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleReferenceSystemWidget");' ) );
 
 ?>
