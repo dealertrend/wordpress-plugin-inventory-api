@@ -6,6 +6,7 @@
  * Author URI: http://www.dealertrend.com
  * Description: Provides access to the Vehicle Management System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
  * Version: 3.2.3
+ * License: GPLv2 or later
  */
 
 if ( !class_exists( 'dealertrend_inventory_api' ) ) {
