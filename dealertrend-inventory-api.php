@@ -6,7 +6,24 @@
  * Author URI: http://www.dealertrend.com
  * Description: Provides access to the Vehicle Management System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
  * Version: 3.2.3
+ * License: GPLv2 or later
  */
+
+/*
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 
 if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 	return false;
@@ -15,11 +32,13 @@ if ( !class_exists( 'dealertrend_inventory_api' ) ) {
 /** Load the helpers so we can interface with the APIs. */
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
 /** Widgets */
-require_once( dirname( __FILE__ ) . '/app/views/widgets/inventory.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vms.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vrs.php' );
 
 /**
  * This is the primary class for the plugin.
@@ -59,6 +78,9 @@ class dealertrend_inventory_api {
 				'name' => 'armadillo',
 				'per_page' => 10
 			)
+		),
+		'vehicle_reference_system' => array(
+			'host' => NULL
 		)
 	);
 
@@ -82,6 +104,7 @@ class dealertrend_inventory_api {
 		# Need to call the updater after the required objects have been instantiated.
 		add_action( 'admin_init' , array( &$this , 'updater' ) );
 		$this->load_options();
+		$this->load_widgets();
 		# Only load the admin CSS/JS on the admin screen.
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
@@ -129,7 +152,7 @@ class dealertrend_inventory_api {
 
 		$plugin_file = pathinfo( __FILE__ );
 
-		$data[ 'PluginURL' ] = get_site_url() . '/wp-content/plugins/' . basename( $plugin_file[ 'dirname' ] );
+		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
 		return $data;
@@ -151,6 +174,22 @@ class dealertrend_inventory_api {
 				$this->options[ $option_group ] = $option_values;
 			}
 		}
+	}
+
+	function load_widgets() {
+		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleManagementSystemWidget");' ) );
+		}
+
+		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleReferenceSystemWidget");' ) );
+		}
+
+#		$check_host = $vehicle_reference_system->check_host();
+#		if( $check_host[ 'status' ] == false ) {
+#			echo '<p>Unable to connect to API.</p>';
+#			return false;
+#		}
 	}
 
 	/**
@@ -177,8 +216,8 @@ class dealertrend_inventory_api {
 		add_filter( 'plugin_action_links_' . $this->meta_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
 		# Add a new menu item in the WordPress admin menu so people can get to the plugin settings from the sidebar.
 		add_menu_page(
-			'Dealertrend API Settings',
-			'Dealertrend Inventory API',
+			'Dealertrend API',
+			'Dealertrend API',
 			'manage_options',
 			'dealertrend_inventory_api',
 			array( &$this , 'create_options_page' ),
