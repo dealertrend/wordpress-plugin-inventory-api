@@ -177,16 +177,13 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 				}
 			} else {
 				echo '<div class="vrs-widget-item">';
-					echo '<br class="clear" />';
 					echo '<div class="vrs-widget-main-line">';
 					echo '<p>Data Not Available.</p>';
 					echo '</div>';
-					echo '<br class="clear" />';
 				echo '</div>';
 			}
 			echo '</div>';
 			echo '</div>';
-			echo '<br class="clear" />';
 		}
 		echo '</div>';
 		echo '</div>';
