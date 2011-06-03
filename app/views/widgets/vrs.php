@@ -225,7 +225,28 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '<input class="widefat" id="' . $this->get_field_id( 'title' ) . '" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . $title . '" />';
 		echo '</p>';
 
-		$make_data = $vehicle_reference_system->get_makes();
+		$current_year = date( 'Y' );
+		$last_year = $current_year - 1;
+		$next_year = $current_year + 1;
+
+		$make_data[ $last_year ] = $vehicle_reference_system->get_makes( array( 'year' => $last_year ) );
+		$make_data[ $current_year ] = $vehicle_reference_system->get_makes( array( 'year' => $current_year ) );
+		$make_data[ $next_year ] = $vehicle_reference_system->get_makes( array( 'year' => $next_year ) );
+
+		$make_data[ 'data' ] = array_merge( $make_data[ $last_year ][ 'data' ] , $make_data[ $current_year ][ 'data' ] , $make_data[ $next_year ][ 'data' ] );
+
+		# It would be cool if there was a better way to do this.
+		$i_can_haz_make = array();
+		foreach( $make_data[ 'data' ] as $key => $value ) {
+			$existing_data = array_search( $value->name , $i_can_haz_make );
+			if( !$existing_data ) {
+				$i_can_haz_make[ $key ] = $value->name;
+			} else {
+				$make_data[ 'data' ][ $existing_data ] = $value;
+				unset( $make_data[ 'data' ][ $key ] );
+			}
+		}
+
 		$make_values = $make_data[ 'data' ];
 
 		echo '<p>';
@@ -243,7 +264,28 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			echo '<label for="' . $this->get_field_id( 'models' ) . '">' . _e( 'Models:' ) . '</label>';
 			echo '<select id="' . $this->get_field_id( 'models' ) . '" name="' . $this->get_field_name( 'models' ) . '[]" class="vrs-models" size="4" multiple="multiple">';
 			foreach( $makes as $make ) {
-				$model_data = $vehicle_reference_system->get_models( array( 'make' => $make ) );
+
+				$model_data[ $last_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $last_year ) );
+				$model_data[ $current_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $current_year ) );
+				$model_data[ $next_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $next_year ) );
+
+				$model_data[ $last_year ][ 'data' ] = is_array( $model_data[ $last_year ][ 'data' ] ) ? $model_data[ $last_year ][ 'data' ] : array();
+				$model_data[ $current_year ][ 'data' ] = is_array( $model_data[ $current_year ][ 'data' ] ) ? $model_data[ $current_year ][ 'data' ] : array();
+				$model_data[ $next_year ][ 'data' ] = is_array( $model_data[ $next_year ][ 'data' ] ) ? $model_data[ $next_year ][ 'data' ] : array();
+
+				$model_data[ 'data' ] = array_merge( $model_data[ $last_year ][ 'data' ] , $model_data[ $current_year ][ 'data' ] , $model_data[ $next_year ][ 'data' ] );
+
+				# It would be cool if there was a better way to do this.
+				$i_can_haz_model = array();
+				foreach( $model_data[ 'data' ] as $key => $value ) {
+					$existing_data = array_search( $value->name , $i_can_haz_model );
+					if( !$existing_data ) {
+						$i_can_haz_model[ $key ] = $value->name;
+					} else {
+						$model_data[ 'data' ][ $existing_data ] = $value;
+						unset( $model_data[ 'data' ][ $key ] );
+					}
+				}
 				$model_values = $model_data[ 'data' ];
 				echo '<optgroup label="' . $make . '">';
 				foreach( $model_values as $model ) {
