@@ -86,6 +86,16 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 	}
 
 	function vrs_front_scripts() {
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_enqueue_script(
+			'jquery-carousel',
+			$this->meta_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
+			array( 'jquery' ),
+			false,
+			true
+		);
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vrs-widget',
 			$this->meta_information[ 'WidgetURL' ] . 'js/vrs-widget.js',
