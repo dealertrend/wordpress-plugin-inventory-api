@@ -206,23 +206,23 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 	function update( $new_instance , $old_instance ) {
 		$instance = $old_instance;
-		$instance[ 'title' ] = strip_tags( $new_instance[ 'title' ] );
-		$instance[ 'width' ] = $new_instance[ 'width' ];
-		$instance[ 'height' ] = $new_instance[ 'height' ];
-		$instance[ 'float' ] = $new_instance[ 'float' ];
-		$instance[ 'carousel' ] = $new_instance[ 'carousel' ];
-		$instance[ 'makes' ] = $new_instance[ 'makes' ];
-		$instance[ 'models' ] = $new_instance[ 'models' ];
+		$instance[ 'title' ] = isset( $new_instance[ 'title' ] ) ? strip_tags( $new_instance[ 'title' ] ) : NULL;
+		$instance[ 'width' ] = isset( $new_instance[ 'width' ] ) ? $new_instance[ 'width' ] : NULL;
+		$instance[ 'height' ] = isset( $new_instance[ 'height' ] ) ? $new_instance[ 'height' ] : NULL;
+		$instance[ 'float' ] = isset( $new_instance[ 'float' ] ) ? $new_instance[ 'float' ] : false;
+		$instance[ 'carousel' ] = isset( $new_instance[ 'carousel' ] ) ? $new_instance[ 'carousel' ] : false;
+		$instance[ 'makes' ] = isset( $new_instance[ 'makes' ] ) ? $new_instance[ 'makes' ] : array();
+		$instance[ 'models' ] = isset( $new_instance[ 'models' ] ) ? $new_instance[ 'models' ] : array();
 
 		return $instance;
 	}
 
 	function form( $instance ) {
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
-		$width = isset( $instance[ 'width' ] ) ? esc_attr( $instance[ 'width' ] ) : '310px';
-		$height = isset( $instance[ 'height' ] ) ? esc_attr( $instance[ 'height' ] ) : '250px';
-		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : NULL;
-		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : NULL;
+		$width = isset( $instance[ 'width' ] ) ? esc_attr( $instance[ 'width' ] ) : NULL;
+		$height = isset( $instance[ 'height' ] ) ? esc_attr( $instance[ 'height' ] ) : NULL;
+		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : false;
+		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
 
