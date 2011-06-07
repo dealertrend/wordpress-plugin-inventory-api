@@ -79,6 +79,8 @@
 .armadillo-item .armadillo-details-right { float:left; padding-left:10px; width:155px; }
 
 .armadillo-item .armadillo-icons { float:left; padding-left:20px; overflow:hidden; height:40px; width:150px; }
+.armadillo-item .armadillo-ais-incentive { float:left; font-weight:bold; clear:both; color:#9f0300; font-size:12px; }
+.armadillo-item .armadillo-ais-incentive a { padding-left:5px; }
 .armadillo-item .armadillo-price { float:left; width:500px; font-size:20px; font-weight:bold; margin-left:5px; }
 .armadillo-item .armadillo-price .armadillo-asking-price,
 .armadillo-item .armadillo-price .armadillo-sale-price { color:#9f0300; clear:both; line-height:26px; }
@@ -135,6 +137,7 @@
 #armadillo-detail .armadillo-request-form { background:#efefef; }
 #armadillo-detail .armadillo-request-form .submit { background: url('images/button-submit-170x25.png') no-repeat top center; width:170px; height:25px; margin:auto; display:block; text-indent:-9999px; border:0; }
 #armadillo-detail .armadillo-vehicle-information { background:white; }
+#armadillo-detail .armadillo-vehicle-information .armadillo-price { padding-left:10px; }
 #armadillo-detail .armadillo-vehicle-information .armadillo-price span { color:black; }
 #armadillo-detail .armadillo-vehicle-information .armadillo-price { color:#9f0300; font-size:16px; margin:10px 0; font-weight:bold; }
 #armadillo-detail .armadillo-vehicle-information .armadillo-price .armadillo-strike-through { color:gray; }
