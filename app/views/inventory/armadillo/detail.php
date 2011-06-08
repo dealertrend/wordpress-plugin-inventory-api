@@ -382,6 +382,7 @@ function video_popup(url , title) {
 		</div>
 		<div class="armadillo-column-right">
 			<div class="armadillo-slideshow">
+				<?php if( count( $inventory->photos ) ): ?>
 				<div class="armadillo-images">
 				<?php
 					foreach( $inventory->photos as $photo ) {
@@ -389,6 +390,7 @@ function video_popup(url , title) {
 					}
 				?>
 				</div>
+				<?php endif; ?>
 				<?php
 					if( $video_url ) {
 						echo '<a onClick="return video_popup(this, \'' . $year_make_model . '\')" href="' . $video_url . '" class="armadillo-video-button">Watch Video for this Vehicle</a>';
