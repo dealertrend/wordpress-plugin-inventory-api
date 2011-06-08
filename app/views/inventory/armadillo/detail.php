@@ -290,20 +290,46 @@ function video_popup(url , title) {
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="armadillo-price">
 				<?php
+					$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
+					$incentive_price = 0;
+					if( $ais_incentive ) {
+						preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
+					}
 					if( $on_sale && $sale_price > 0 ) {
-						$now_text = '<span>Price:</span> ';
+						$now_text = 'Price: ';
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
-							echo '<div class="' . $price_class . '"><span>Was:</span> ' . money_format( '%(#0n' , $asking_price ) . '</div>';
-							$now_text = '<span>Now:</span> ';
+							if( $incentive_price > 0 ) {
+								echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+							} else {
+								echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+							}
+							$now_text = 'Now: ';
 						}
-						echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+						if( $incentive_price > 0 ) {
+							echo '<div class="armadillo-ais-incentive"><small>Savings: ' . $ais_incentive . '</small></div>';
+							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+						} else {
+							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+						}
 					} else {
 						if( $asking_price > 0 ) {
-							echo '<div class="armadillo-asking-price"><span>Price:</span> ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+							if( $incentive_price > 0 ) {
+								echo '<div class="armadillo-asking-price">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+								echo '<div class="armadillo-asking-price">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+							} else {
+								echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+							}
 						} else {
 							echo $default_price_text;
 						}
+					}
+					if( $ais_incentive ) {
+										echo '<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" style="font-size:10px;">
+											VIEW AVAILABLE INCENTIVES AND REBATES
+										</a>';
 					}
 				?>
 				</div>
@@ -356,6 +382,7 @@ function video_popup(url , title) {
 		</div>
 		<div class="armadillo-column-right">
 			<div class="armadillo-slideshow">
+				<?php if( count( $inventory->photos ) ): ?>
 				<div class="armadillo-images">
 				<?php
 					foreach( $inventory->photos as $photo ) {
@@ -363,6 +390,7 @@ function video_popup(url , title) {
 					}
 				?>
 				</div>
+				<?php endif; ?>
 				<?php
 					if( $video_url ) {
 						echo '<a onClick="return video_popup(this, \'' . $year_make_model . '\')" href="' . $video_url . '" class="armadillo-video-button">Watch Video for this Vehicle</a>';

@@ -65,7 +65,7 @@ class http_api_wrapper {
 		global $wp;
 		$this->url = $url;
 		$this->group = $group;
-		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . $wp->request;
+		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . '/' . $wp->request;
 	}
 
 	/**

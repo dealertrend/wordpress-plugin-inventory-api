@@ -44,7 +44,8 @@ class vehicle_reference_system {
 	}
 
 	function get_makes( $parameters = array() ) {
-		$url = $this->routes[ 'makes' ];
+		$parameter_string = $this->process_parameters( $parameters );
+		$url = $this->routes[ 'makes' ] . $parameter_string;
 		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
 		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
