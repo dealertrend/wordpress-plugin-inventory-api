@@ -174,6 +174,23 @@
 				<td>Country Code:</td>
 				<td><strong><?php echo $company_information->country_code; ?></strong></td>
 			</tr>
+			<?php
+				$api_keys = isset( $company_information->api_keys ) ? $company_information->api_keys : array();
+				if( count( $api_keys ) > 0 ) {
+			?>
+			<tr>
+				<td>API Keys:</td>
+				<td>
+					<ol>
+						<?php
+							foreach( $api_keys as $key => $value ) {
+								echo '<li>' . $key . ': ' . $value . '</li>';
+							}
+						?>
+					</ol>
+				</td>
+			</tr>
+			<?php } ?>
 		<?php endif; ?>
 		</table>
 	</div>
