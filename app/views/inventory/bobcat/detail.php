@@ -132,11 +132,11 @@
 		</ul>
 		<div id="dealer-notes">
 			<h3>Dealer Notes</h3>
-			<p><?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?></p>
+			<?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?>
 		</div>
 		<div id="dealer-options">
 			<h3>Dealer Options</h3>
-			<?php if( !is_null( $dealer_options ) ): ?>
+			<?php if( !empty( $dealer_options ) ): ?>
 				<ul>
 					<?php
 						$counter = 0;
@@ -155,15 +155,23 @@
 		</div>
 		<div id="standard-equipment">
 			<h3>Standard Equipment</h3>
-			<?php if( !is_null( $standard_equipment ) ): ?>
+			<?php if( !empty( $standard_equipment ) ): ?>
 			<ul>
 				<?php
 					$previous = null;
+					$counter = 0;
+					$split = count( $standard_equipment ) / 2;
 					foreach( $standard_equipment as $item ) {
-						echo ( is_null( $previous ) ) ? '<li class="no-list"><strong>' . $item->group . '</strong></li>' : NULL;
-						$previous = ( is_null( $previous ) ) ? $item->group : $previous;
-						echo ( $previous != $item->group ) ? '</ul><ul><li class="no-list"><strong>' . $previous . '</strong></li>' : NULL;
-						$previous = ( $previous != $item->group ) ? $item->group : $previous;
+						$counter++;
+						if( $previous != $item->group ) {
+							if( $counter > $split ) {
+								echo '</ul><ul>';
+								$counter = 0;
+							}
+							echo '<li class="no-list"><strong>' . $item->group . '</strong></li>';
+						}
+						$previous = $previous != $item->group ? $item->group : $previous;
+						echo ( $previous != $item->group ) ? '<li><strong>' . $previous . '</strong></li>' : NULL;
 						echo '<li>' . $item->name . '</li>';
 					}
 				?>
