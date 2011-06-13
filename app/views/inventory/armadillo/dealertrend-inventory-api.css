@@ -175,7 +175,7 @@
 #armadillo-detail .armadillo-carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 
 #armadillo-detail #armadillo-inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px;  }
-#armadillo-detail #armadillo-inventory-tabs #armadillo-comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
+#armadillo-detail #armadillo-inventory-tabs #armadillo-description { height:210px; overflow-x: hidden; overflow-y:scroll;  }
 #armadillo-detail #armadillo-inventory-tabs #armadillo-options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
 #armadillo-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
 #armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
