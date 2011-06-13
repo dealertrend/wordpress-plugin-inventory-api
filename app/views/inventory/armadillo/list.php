@@ -126,7 +126,7 @@
 									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
 									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
 								} else {
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] ) , $do_not_carry ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
+									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $do_not_carry ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
 									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
 								}
 								foreach( $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) ) as $trim ) {
