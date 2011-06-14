@@ -100,7 +100,6 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function __construct() {
-# add_action( 'all', create_function( '', 'var_dump( current_filter() );' ) );
 		$this->meta_information = $this->get_meta_information();
 
 		# Need to call the updater after the required objects have been instantiated.
