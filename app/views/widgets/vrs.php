@@ -4,11 +4,11 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 	public $options = array();
 
-	public $meta_information = array();
+	public $plugin_information = array();
 
 	function __construct() {
 		parent::__construct( false , $name = 'Vehicle Reference System' , array( 'description' => 'A customizable widget to display vehicle reference information for research purposes. Feeds provided by DealerTrend, Inc.' ) );
-		$this->meta_information[ 'WidgetURL' ] =	WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$this->plugin_information[ 'WidgetURL' ] =	WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 		if( is_admin() ) {
 			add_action( 'admin_print_styles' , array( &$this , 'vrs_admin_styles' ) , 1 );
 			add_action( 'admin_print_scripts', array( &$this , 'vrs_admin_scripts' ) , 1 );
@@ -40,7 +40,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 		wp_register_style(
 			'dealertrend-inventory-api-vrs-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'css/vrs-admin.css'
+			$this->plugin_information[ 'WidgetURL' ] . 'css/vrs-admin.css'
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api-vrs-widget' );
 	}
@@ -48,7 +48,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 	function vrs_front_styles() {
 		wp_register_style(
 			'dealertrend-inventory-api-vrs-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'css/vrs-widget.css'
+			$this->plugin_information[ 'WidgetURL' ] . 'css/vrs-widget.css'
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api-vrs-widget' );
 
@@ -78,7 +78,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vrs-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'js/vrs-admin.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/vrs-admin.js',
 			array( 'jquery' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 			false,
 			true
@@ -91,14 +91,14 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			$this->meta_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			false,
 			true
 		);
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vrs-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'js/vrs-widget.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/vrs-widget.js',
 			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs', 'jquery-carousel' ),
 			false,
 			true

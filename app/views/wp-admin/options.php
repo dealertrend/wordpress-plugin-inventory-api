@@ -18,7 +18,7 @@
 			delete_option( 'dealertrend_inventory_api' );
 			delete_option( 'vehicle_management_system' );
 			delete_option( 'vehicle_reference_system' );
-			deactivate_plugins( $dealertrend_inventory_api->meta_information[ 'PluginBaseName' ] );
+			deactivate_plugins( $dealertrend_inventory_api->plugin_information[ 'PluginBaseName' ] );
 			echo '<script type="text/javascript">window.location.replace("/wp-admin/plugins.php");</script>';
 			exit;
 		}
@@ -64,7 +64,7 @@
 </div>
 
 <div id="icon-dealertrend" class="icon32"><br /></div>
-<h2><?php echo $this->meta_information[ 'Name' ]; ?></h2>
+<h2><?php echo $this->plugin_information[ 'Name' ]; ?></h2>
 <?php flush(); ?>
 <div id="option-tabs" style="clear:both;">
 	<ul>

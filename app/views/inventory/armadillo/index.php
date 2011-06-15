@@ -12,33 +12,33 @@
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-slideshow',
-		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/slideshow.js',
+		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/slideshow.js',
 		array( 'jquery-cycle' , 'dealertrend-inventory-api' ),
-		$this->meta_information[ 'Version' ],
+		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-detail-buttons',
-		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/detail-buttons.js',
+		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/detail-buttons.js',
 		array( 'jquery-ui-dialog' , 'dealertrend-inventory-api' ),
-		$this->meta_information[ 'Version' ],
+		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-sidebar',
-		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/sidebar.js',
+		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/sidebar.js',
 		array( 'jquery' , 'jquery-ui-core' , 'dealertrend-inventory-api' ),
-		$this->meta_information[ 'Version' ],
+		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-tabs',
-		$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/tabs.js',
+		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/tabs.js',
 		array( 'jquery-ui-tabs' , 'dealertrend-inventory-api' ),
-		$this->meta_information[ 'Version' ],
+		$this->plugin_information[ 'Version' ],
 		true
 	);
 

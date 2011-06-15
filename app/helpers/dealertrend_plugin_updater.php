@@ -6,12 +6,12 @@ if ( class_exists( 'dealetrend_plugin_updater' ) ) {
 
 class dealetrend_plugin_updater {
 
-	public $current_meta_information = array();
-	public $new_meta_information = array();
+	public $current_plugin_information = array();
+	public $new_plugin_information = array();
 	public $new_version = NULL;
 
-	function __construct( $current_meta_information ) {
-		$this->current_meta_information = $current_meta_information;
+	function __construct( $current_plugin_information ) {
+		$this->current_plugin_information = $current_plugin_information;
 		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
 	}
 
@@ -20,15 +20,15 @@ class dealetrend_plugin_updater {
 		if( $version_check[ 'current' ] < $version_check[ 'latest' ] ) {
 			$update_data = (object) array(
 				'new_version' => $version_check[ 'latest' ],
-				'url' => $this->current_meta_information[ 'PluginURI' ],
+				'url' => $this->current_plugin_information[ 'PluginURI' ],
 				'package' => 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertrend-inventory-api.zip',
 				'upgrade_notice' => ''
 			);
-			$this->new_meta_information = $update_data;
-			if( isset( $this->current_meta_information[ 'PluginBaseName' ] ) ) {
+			$this->new_plugin_information = $update_data;
+			if( isset( $this->current_plugin_information[ 'PluginBaseName' ] ) ) {
 				delete_site_transient( 'update_plugins' );
 			}
-			$plugin_check_list->response[ $this->current_meta_information[ 'PluginBaseName' ] ] = $update_data;
+			$plugin_check_list->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $update_data;
 			set_site_transient( 'update_plugins' , $plugin_check_list );
 			add_action( 'admin_init', array( &$this, 'filter_plugin_rows' ), 15 );
 		}
@@ -36,19 +36,19 @@ class dealetrend_plugin_updater {
 	}
 
 	function filter_plugin_rows() {
-		remove_all_actions( 'after_plugin_row_' . $this->current_meta_information[ 'PluginBaseName' ] );
-		add_action('after_plugin_row_' . $this->current_meta_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
+		remove_all_actions( 'after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ] );
+		add_action('after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
 	}
 
 	function plugin_row() {
-		$filename = $this->current_meta_information[ 'PluginBaseName' ];
+		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
 
 		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
 
 		$url = 'http://github.com/dealertrend/wordpress-plugin-inventory-api/commits/master?action=details&&TB_iframe=true&width=640&height=438';
 
 		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
-		echo 'There is a new version of ' . $this->current_meta_information[ 'Name' ] . ' from ' . $this->current_meta_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
+		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
 		echo '</div></td></tr>';
 	}
 
@@ -76,7 +76,7 @@ class dealetrend_plugin_updater {
 				$latest_version = '0';
 			}
 			$this->new_version = $latest_version;
-			$current_version = $this->current_meta_information[ 'Version' ];
+			$current_version = $this->current_plugin_information[ 'Version' ];
 
 			return array( 'current' => $current_version , 'latest' => $latest_version );
 		} else {
@@ -87,10 +87,10 @@ class dealetrend_plugin_updater {
 
 	function filter_plugin_count( $current_values ) {
 
-		if( $this->new_version > $this->current_meta_information[ 'Version' ] ) {
+		if( $this->new_version > $this->current_plugin_information[ 'Version' ] ) {
 			$new_values = $current_values;
-			if( !isset( $new_values->response[ $this->current_meta_information[ 'PluginBaseName' ] ] ) ){
-				$new_values->response[ $this->current_meta_information[ 'PluginBaseName' ] ] = $this->new_meta_information;
+			if( !isset( $new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] ) ){
+				$new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $this->new_plugin_information;
 			}
 
 			return $new_values;

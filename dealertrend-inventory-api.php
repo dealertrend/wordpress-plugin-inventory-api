@@ -25,10 +25,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-if ( !class_exists( 'dealertrend_inventory_api' ) ) {
-	return false;
-}
-
 /** Load the helpers so we can interface with the APIs. */
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
@@ -100,21 +96,13 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function __construct() {
-		$this->plugin_information = $this->load_plugin_information();
+		$this->load_plugin_information();
 		$this->check_for_updates();
 		$this->load_options();
 		$this->load_widgets();
-
-		# Only load the admin CSS/JS on the admin screen.
-		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
-		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
-
-		# Dealing with the rewrite object: {@link http://codex.wordpress.org/Function_Reference/WP_Rewrite}
-		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
-		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
-		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
-
-		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
+		$this->load_admin_assets();
+		$this->setup_routing();
+		$this->queue_templates();
 	}
 
 	/**
@@ -137,11 +125,6 @@ class dealertrend_inventory_api {
 			'AuthorURI' => 'Author URI'
 		);
 
-	function check_for_updates() {
-		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
-	}
-
-		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
 
 		$plugin_file = pathinfo( __FILE__ );
@@ -149,7 +132,11 @@ class dealertrend_inventory_api {
 		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
-		return $data;
+		$this->plugin_information = $data;
+	}
+
+	function check_for_updates() {
+		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
 	}
 
 	/**
@@ -191,12 +178,21 @@ class dealertrend_inventory_api {
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
 			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleReferenceSystemWidget");' ) );
 		}
+	}
 
-#		$check_host = $vehicle_reference_system->check_host();
-#		if( $check_host[ 'status' ] == false ) {
-#			echo '<p>Unable to connect to API.</p>';
-#			return false;
-#		}
+	function load_admin_assets() {
+		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
+		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
+	}
+
+	function setup_routing() {
+		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
+		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
+		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
+	}
+
+	function queue_templates() {
+		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
 	}
 
 	/**
@@ -232,11 +228,8 @@ class dealertrend_inventory_api {
 		);
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
-			# Load up the CSS for the adminstration screen.
-			wp_register_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
-			wp_enqueue_style( 'dealertrend-inventory-api-admin' );
-			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
-			wp_enqueue_style( 'jquery-ui-black-tie' );
+			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
+			wp_enqueue_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
 		}
 
 	}
@@ -514,7 +507,6 @@ class dealertrend_inventory_api {
 
 }
 
-# Instantiate the object so it can be used in other places.
 if ( class_exists( 'dealertrend_inventory_api' ) and !isset( $dealertrend_inventory_api ) ) {
 	$dealertrend_inventory_api = new dealertrend_inventory_api();
 }

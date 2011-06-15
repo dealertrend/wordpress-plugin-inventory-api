@@ -32,12 +32,12 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		'wont-last'
 	);
 
-	public $meta_information = array();
+	public $plugin_information = array();
 
 	function __construct() {
 
 		parent::__construct( false , $name = 'Vehicle Management System' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
-		$this->meta_information[ 'WidgetURL' ] =  WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$this->plugin_information[ 'WidgetURL' ] =  WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 
 		if( !is_admin() ) {
 			add_action( 'wp_print_styles' , array( &$this , 'vms_styles' ) , 1 );
@@ -191,7 +191,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 	function vms_styles() {
 		wp_register_style(
 			'dealertrend-inventory-api-vms-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'css/vms-widget.css'
+			$this->plugin_information[ 'WidgetURL' ] . 'css/vms-widget.css'
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api-vms-widget' );
 	}
@@ -202,14 +202,14 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			$this->meta_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			false,
 			true
 		);
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vms-widget',
-			$this->meta_information[ 'WidgetURL' ] . 'js/vms-widget.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/vms-widget.js',
 			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs', 'jquery-carousel' ),
 			false,
 			true
