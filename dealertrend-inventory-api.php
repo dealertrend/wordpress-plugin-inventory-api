@@ -57,7 +57,7 @@ class dealertrend_inventory_api {
 	 * @access public
 	 * @var array
 	 */
-	public $meta_information = array();
+	public $plugin_information = array();
 
 	/**
 	 * Default options. These values are initially set when the plugin is creates a new instance.
@@ -100,33 +100,24 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function __construct() {
-		$this->meta_information = $this->get_meta_information();
+		$this->plugin_information = $this->load_plugin_information();
 
 		# Need to call the updater after the required objects have been instantiated.
 		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
 
 		$this->load_options();
 		$this->load_widgets();
+
 		# Only load the admin CSS/JS on the admin screen.
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
+
 		# Dealing with the rewrite object: {@link http://codex.wordpress.org/Function_Reference/WP_Rewrite}
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
-		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
-	}
 
-	/**
-	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
-	 *
-	 * @since 3.0.1
-	 * @return void;
-	 */
-	function updater() {
-		$updater = new dealetrend_plugin_updater( $this->meta_information );
-		$version_check = $updater->check_for_updates();
-		$updater->display_update_notice( $version_check );
+		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
 	}
 
 	/**
@@ -137,7 +128,7 @@ class dealertrend_inventory_api {
 	 * @since 3.0.0
 	 * @return array
 	 */
-	function get_meta_information() {
+	function load_plugin_information() {
 		$data = array();
 
 		$file_headers = array (
@@ -148,6 +139,18 @@ class dealertrend_inventory_api {
 			'Author' => 'Author',
 			'AuthorURI' => 'Author URI'
 		);
+
+	/**
+	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
+	 *
+	 * @since 3.0.1
+	 * @return void;
+	 */
+	function updater() {
+		$updater = new dealetrend_plugin_updater( $this->plugin_information );
+		$version_check = $updater->check_for_updates();
+		$updater->display_update_notice( $version_check );
+	}
 
 		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
@@ -215,7 +218,7 @@ class dealertrend_inventory_api {
 	 */
 	function admin_styles() {
 		# Provide easy acess to the settings page by adding links to our plugin's entry in the plugin management page.
-		add_filter( 'plugin_action_links_' . $this->meta_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
+		add_filter( 'plugin_action_links_' . $this->plugin_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
 		# Add a new menu item in the WordPress admin menu so people can get to the plugin settings from the sidebar.
 		add_menu_page(
 			'Dealertrend API',
@@ -228,7 +231,7 @@ class dealertrend_inventory_api {
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
 			# Load up the CSS for the adminstration screen.
-			wp_register_style( 'dealertrend-inventory-api-admin' , $this->meta_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->meta_information[ 'Version' ] );
+			wp_register_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
 			wp_enqueue_style( 'dealertrend-inventory-api-admin' );
 			wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
 			wp_enqueue_style( 'jquery-ui-black-tie' );
@@ -274,8 +277,8 @@ class dealertrend_inventory_api {
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-admin' ,
-			$this->meta_information[ 'PluginURL' ] . '/app/views/wp-admin/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
-			$this->meta_information[ 'Version' ],
+			$this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
+			$this->plugin_information[ 'Version' ],
 			true
 		);
 	}
@@ -458,9 +461,9 @@ class dealertrend_inventory_api {
 		$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
 		wp_register_style(
 			'dealertrend-inventory-api',
-			$this->meta_information[ 'PluginURL' ] . '/app/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
+			$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
 			false,
-			$this->meta_information[ 'Version' ]
+			$this->plugin_information[ 'Version' ]
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api' );
 		
@@ -481,9 +484,9 @@ class dealertrend_inventory_api {
 		wp_enqueue_script( 'jquery-cycle' , 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
 		wp_enqueue_script(
 			'dealertrend-inventory-api',
-			$this->meta_information[ 'PluginURL' ] . '/app/views/shared/js/dealertrend-api-init-inventory.js',
+			$this->plugin_information[ 'PluginURL' ] . '/app/views/shared/js/dealertrend-api-init-inventory.js',
 			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ),
-			$this->meta_information[ 'Version' ],
+			$this->plugin_information[ 'Version' ],
 			true
 		);
 	}
