@@ -140,6 +140,17 @@ class dealertrend_inventory_api {
 			'AuthorURI' => 'Author URI'
 		);
 
+		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
+		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
+
+		$plugin_file = pathinfo( __FILE__ );
+
+		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
+		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
+
+		return $data;
+	}
+
 	/**
 	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
 	 *
@@ -152,16 +163,6 @@ class dealertrend_inventory_api {
 		$updater->display_update_notice( $version_check );
 	}
 
-		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
-		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
-
-		$plugin_file = pathinfo( __FILE__ );
-
-		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
-		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
-
-		return $data;
-	}
 
 	/**
 	 * Load the plugins options from the database into the current scope.
