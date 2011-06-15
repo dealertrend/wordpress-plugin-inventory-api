@@ -101,10 +101,7 @@ class dealertrend_inventory_api {
 	 */
 	function __construct() {
 		$this->plugin_information = $this->load_plugin_information();
-
-		# Need to call the updater after the required objects have been instantiated.
-		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
-
+		$this->check_for_updates();
 		$this->load_options();
 		$this->load_widgets();
 
@@ -139,6 +136,10 @@ class dealertrend_inventory_api {
 			'Author' => 'Author',
 			'AuthorURI' => 'Author URI'
 		);
+
+	function check_for_updates() {
+		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
+	}
 
 		# The WordPress way of getting file headers: {@link http://phpdoc.wordpress.org/trunk/WordPress/_wp-includes---functions.php.html#functionget_file_data)
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
