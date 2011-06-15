@@ -1,6 +1,6 @@
 <?php
 
-if ( class_exists( 'inventory_seo_headers' ) ) {
+if ( class_exists( 'dynamic_site_headers' ) ) {
 	return false;
 }
 
@@ -14,7 +14,7 @@ if ( class_exists( 'inventory_seo_headers' ) ) {
  * @since 3.0.0
  */
 
-class inventory_seo_headers {
+class dynamic_site_headers {
 
 	/**
 	 * Public variable for the host of the API we are suposed to request the headers from.
@@ -94,7 +94,7 @@ class inventory_seo_headers {
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
-			$request_handler = new http_api_wrapper( $url , 'inventory_seo_headers' );
+			$request_handler = new http_api_wrapper( $url , 'dynamic_site_headers' );
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
 			if( $body ) {

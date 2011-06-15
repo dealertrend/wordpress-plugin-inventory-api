@@ -54,7 +54,7 @@
 	echo "[ Inventory Plugin Information ]\n";
 	echo print_r( $company_information , true ) . "\n";
 	echo print_r( $vehicle_management_system , true ) . "\n";
-	echo print_r( $inventory_seo_headers , true ) . "\n";
+	echo print_r( $dynamic_site_headers , true ) . "\n";
 	echo '##################################################' . "\n";
 	echo '-->' . "\n";
 

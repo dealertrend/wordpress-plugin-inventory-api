@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_reference_system.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/inventory_seo_headers.php' );
+require_once( dirname( __FILE__ ) . '/app/helpers/dynamic_site_headers.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
 /** Widgets */
@@ -362,7 +362,7 @@ class dealertrend_inventory_api {
 				# Because we don't carry the city and state in the parameter array, we need to construct it here and amend it to the array when we instantiate the object.
 				$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
 				# Instantiate our object for dynamic title and meta information.
-				$inventory_seo_headers = new inventory_seo_headers(
+				$dynamic_site_headers = new dynamic_site_headers(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
 					$this->parameters + $seo_hack
