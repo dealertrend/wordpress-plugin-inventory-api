@@ -49,6 +49,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Public plugin information derived from the file header, as well as some custom keys.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @access public
 	 * @var array
@@ -60,6 +61,7 @@ class dealertrend_inventory_api {
 	 *
 	 * This is also the array that ends up storing changed variables wich are later saved.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @access private
 	 * @var array
@@ -92,6 +94,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -110,6 +113,7 @@ class dealertrend_inventory_api {
 	 *
 	 * Adds some custom keys that are plugin related data that are used frequently.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @return array
 	 */
@@ -128,35 +132,43 @@ class dealertrend_inventory_api {
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
 
 		$plugin_file = pathinfo( __FILE__ );
-
 		$data[ 'PluginURL' ] = WP_PLUGIN_URL . '/' . basename( $plugin_file[ 'dirname' ] );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
 		$this->plugin_information = $data;
 	}
 
+	/**
+	 * Queues the updater to check for updates anytime WordPress is checking for an update.
+	 *
+	 * @package Wordpress
+	 * @since 3.2
+	 * @return void
+	 *
+	 */
 	function check_for_updates() {
-		add_action( 'core_version_check_locale' , array( &$this , 'updater' ) );
+		add_action( 'core_version_check_locale' , array( &$this , 'instantiate_updater' ) );
 	}
 
 	/**
 	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.1
 	 * @return void;
 	 */
-	function updater() {
-		$updater = new dealetrend_plugin_updater( $this->plugin_information );
-		$version_check = $updater->check_for_updates();
-		$updater->display_update_notice( $version_check );
+	function instantiate_updater() {
+		$update_handler = new dealetrend_plugin_updater( $this->plugin_information );
+		$version_comparison = $update_handler->check_for_updates();
+		$update_handler->display_update_notice( $version_comparison );
 	}
-
 
 	/**
 	 * Load the plugins options from the database into the current scope.
 	 *
 	 * If there are no settings, it will instantiate them with the plugin defaults.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -170,6 +182,15 @@ class dealertrend_inventory_api {
 		}
 	}
 
+	/**
+	 * Load the widgets! (Must read this description in Frau Farbissina's voice)
+	 *
+	 * The widgets should only load if they have the settings they need to work.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function load_widgets() {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleManagementSystemWidget");' ) );
@@ -180,23 +201,44 @@ class dealertrend_inventory_api {
 		}
 	}
 
+	/**
+	 * Load the stylesheets and scripts for the administration area.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function load_admin_assets() {
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
 	}
 
+	/**
+	 * Take the quasinecessary steps to get our plugin to assert dominance within a specific taxonomy and URL structure.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function setup_routing() {
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
 	}
 
+	/**
+	 * When loading the standard content WordPress would try to serve, under a specific instance we want to inject our own content.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function queue_templates() {
 		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
 	}
 
 	/**
-	 * Saves the current options to the database.
+	 * Saves the current options to the database then load them back into the plugin.
 	 *
 	 * @since 3.0.0
 	 * @return void
@@ -215,9 +257,7 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function admin_styles() {
-		# Provide easy acess to the settings page by adding links to our plugin's entry in the plugin management page.
 		add_filter( 'plugin_action_links_' . $this->plugin_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
-		# Add a new menu item in the WordPress admin menu so people can get to the plugin settings from the sidebar.
 		add_menu_page(
 			'Dealertrend API',
 			'Dealertrend API',
@@ -311,7 +351,6 @@ class dealertrend_inventory_api {
 	 */
 	function create_taxonomy() {
 		$labels = array(
-			# Localization: {@link http://phpdoc.wordpress.org/trunk/WordPress/i18n/_wp-includes---l10n.php.html#function_x}
 			'name' => _x( 'Inventory' , 'taxonomy general name' ),
 			'menu_name' => __( 'Inventory' ),
 		);
@@ -344,14 +383,13 @@ class dealertrend_inventory_api {
 		switch( $taxonomy ) {
 
 			case 'inventory':
-				# There's an issue where WordPress is labeling our taxonomy as a home page. Which it is not.
-				$wp_query->is_home = false;
+				$this->fix_bad_wordpress_assumption();
+
 				add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 				add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 
 				$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
 
-				# Instantiate our object for the VMS.
 				$vehicle_management_system = new vehicle_management_system(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
@@ -359,9 +397,8 @@ class dealertrend_inventory_api {
 
 				$company_information = $vehicle_management_system->get_company_information();
 
-				# Because we don't carry the city and state in the parameter array, we need to construct it here and amend it to the array when we instantiate the object.
 				$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
-				# Instantiate our object for dynamic title and meta information.
+
 				$dynamic_site_headers = new dynamic_site_headers(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
@@ -381,28 +418,52 @@ class dealertrend_inventory_api {
 					return false;
 				}
 
-				# Our ovveride should not continue, lest we end up with duplicated outputs.
-				exit;
+				$this->stop_wordpress();
 
 			break;
 		}
 	}
 
 	/**
+	 * There are instances where we need to stop the execution of WordPress.
+	 *
+	 * One such instance is when we are overriding the content output.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
+	function stop_wordpress() {
+		exit;
+	}
+
+	/**
+	 * There's an issue where WordPress is labeling our taxonomy as a home page. Which it is not.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
+	function fix_bad_wordpress_assumption() {
+		$wp_query->is_home = false;
+	}
+
+	/**
 	 * Take the current parameters, including the URL structure and query strings and assemble them into an array.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @return array The processed parameters.
 	 */
 	function get_parameters() {
 		global $wp;
 		global $wp_rewrite;
+
 		$permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
-		# Sanitize potential user inputs.
 		$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
 		$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
 		$parameters = array();
-		# Assert control over the expected parameters.
+
 		foreach( $permalink_parameters as $key => $value ) {
 			switch( $key ) {
 				case 0: $index = 'taxonomy'; break;
