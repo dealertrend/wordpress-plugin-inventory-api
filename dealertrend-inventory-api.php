@@ -33,8 +33,8 @@ require_once( dirname( __FILE__ ) . '/app/helpers/dynamic_site_headers.php' );
 require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
 
 /** Widgets */
-require_once( dirname( __FILE__ ) . '/app/views/widgets/vms.php' );
-require_once( dirname( __FILE__ ) . '/app/views/widgets/vrs.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/app/views/widgets/vehicle_reference_system.php' );
 
 /**
  * This is the primary class for the plugin.
