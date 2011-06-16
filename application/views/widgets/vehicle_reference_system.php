@@ -95,7 +95,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/js/jquery.carousel.min.js',
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-carousel/0.9.8/js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			'1.8.11',
 			true
@@ -115,10 +115,10 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		extract( $args );
 
 		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , $instance[ 'title' ] ) : NULL;
-		$width = isset( $instance[ 'width' ] ) ? 'width: ' . $instance[ 'width' ] . ';' : NULL;
-		$height = isset( $instance[ 'height' ] ) ? 'height: ' . $instance[ 'height' ] . ';' : NULL;
-		$float = isset( $instance[ 'float' ] ) && $instance[ 'float' ] === true ? 'float: ' . $instance[ 'float' ] . ';' : false;
-		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] === true ? 'carousel' : false;
+		$width = isset( $instance[ 'width' ] ) && strlen( $instance[ 'width' ] ) > 3  ? 'width: ' . $instance[ 'width' ] . ';' : NULL;
+		$height = isset( $instance[ 'height' ] ) && strlen( $instance[ 'height' ] ) > 3 ? 'height: ' . $instance[ 'height' ] . ';' : NULL;
+		$float = isset( $instance[ 'float' ] ) && $instance[ 'float' ] == true ? 'float: ' . $instance[ 'float' ] . ';' : false;
+		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] == true ? 'carousel' : false;
 
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();

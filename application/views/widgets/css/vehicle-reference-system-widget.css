@@ -16,5 +16,5 @@
 .carousel { height:100%; }
 .carousel-control.previous,
 .carousel-control.next { float:left; margin:10% 0px; width:70px; }
-.carousel .vrs-widget-item { width:250px; margin:0; padding:0; height:171px; }
-.carousel-wrap { width:82%; float:left; margin:0 5px; }
+.carousel .vrs-widget-item { width:14.6%; margin:0; padding:0; height:171px; }
+.carousel-wrap { width:82%; float:left; margin:0 0px; }
