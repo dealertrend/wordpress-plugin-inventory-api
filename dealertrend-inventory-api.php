@@ -26,15 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 /** Load the helpers so we can interface with the APIs. */
-require_once( dirname( __FILE__ ) . '/app/helpers/http_api_wrapper.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_management_system.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/vehicle_reference_system.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/dynamic_site_headers.php' );
-require_once( dirname( __FILE__ ) . '/app/helpers/dealertrend_plugin_updater.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/http_api_wrapper.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/dealertrend_plugin_updater.php' );
 
 /** Widgets */
-require_once( dirname( __FILE__ ) . '/app/views/widgets/vehicle_management_system.php' );
-require_once( dirname( __FILE__ ) . '/app/views/widgets/vehicle_reference_system.php' );
+require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_management_system.php' );
+require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_reference_system.php' );
 
 /**
  * This is the primary class for the plugin.
@@ -79,6 +79,9 @@ class dealertrend_inventory_api {
 		),
 		'vehicle_reference_system' => array(
 			'host' => NULL
+		),
+		'debug' => array(
+			'logging' => false
 		)
 	);
 
@@ -264,12 +267,12 @@ class dealertrend_inventory_api {
 			'manage_options',
 			'dealertrend_inventory_api',
 			array( &$this , 'create_options_page' ),
-			'http://wp.s3.dealertrend.com/shared/icon-dealertrend.png'
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/img/icon-dealertrend.png'
 		);
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
-			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
-			wp_enqueue_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
+			wp_enqueue_style( 'jquery-ui-black-tie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.11' );
+			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
 		}
 
 	}
@@ -296,7 +299,7 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function create_options_page() {
-		include( dirname( __FILE__ ) . '/app/views/wp-admin/options.php' );
+		include( dirname( __FILE__ ) . '/application/views/options/page.php' );
 	}
 
 	/**
@@ -312,7 +315,7 @@ class dealertrend_inventory_api {
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-admin' ,
-			$this->plugin_information[ 'PluginURL' ] . '/app/views/wp-admin/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
@@ -405,7 +408,7 @@ class dealertrend_inventory_api {
 					$this->parameters + $seo_hack
 				);
 
-				$theme_path = dirname( __FILE__ ) . '/app/views/inventory/' . $current_theme;
+				$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
 				if( $handle = opendir( $theme_path ) ) {
 					while( false !== ( $file = readdir( $handle ) ) ) {
 						if( $file == 'index.php' ) {
@@ -517,13 +520,13 @@ class dealertrend_inventory_api {
 		$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
 		wp_register_style(
 			'dealertrend-inventory-api',
-			$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
 			false,
 			$this->plugin_information[ 'Version' ]
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api' );
 		
-		wp_register_Style( 'jquery-ui-black-tie' , 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.1' );
+		wp_register_Style( 'jquery-ui-black-tie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.11' );
 		wp_enqueue_style( 'jquery-ui-black-tie' ); 
 	}
 
@@ -535,16 +538,9 @@ class dealertrend_inventory_api {
 	 */
 	function inventory_scripts() {
 		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
-		wp_enqueue_script( 'jquery-cycle' , 'http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.72.js' , array( 'jquery' ) , '2.72' , true );
-		wp_enqueue_script(
-			'dealertrend-inventory-api',
-			$this->plugin_information[ 'PluginURL' ] . '/app/views/shared/js/dealertrend-api-init-inventory.js',
-			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-cycle' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
 	}
 
 	/** 
@@ -555,7 +551,7 @@ class dealertrend_inventory_api {
 	 * @return array The collected list of folders available to choose form.
 	 */
 	function get_themes( $type ) { 
-		$directories = scandir( dirname( __FILE__ ) . '/app/views/' . $type . '/' );
+		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
 		$ignore = array( '.' , '..' , 'shared' );
 		foreach( $directories as $key => $value ) {
 			if( in_array( $value , $ignore ) ) {
