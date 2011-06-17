@@ -52,6 +52,8 @@ class dynamic_site_headers {
 	 */
 		public $headers = array();
 
+		public $request_stack = array();
+
 	/**
 	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
 	 *
@@ -95,6 +97,7 @@ class dynamic_site_headers {
 				$url .= '?trim=' . urlencode( $trim );
 			}
 			$request_handler = new http_api_wrapper( $url , 'dynamic_site_headers' );
+			$this->request_stack[] = $url;
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
 			if( $body ) {
