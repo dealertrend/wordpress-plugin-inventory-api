@@ -82,8 +82,9 @@
 .armadillo-item .armadillo-ais-incentive { float:left; font-weight:bold; clear:both; color:#9f0300; font-size:12px; width:500px !important; }
 .armadillo-item .armadillo-ais-incentive a { padding-left:5px; }
 .armadillo-item .armadillo-price { float:left; width:500px; font-size:20px; font-weight:bold; margin-left:5px; }
-.armadillo-item .armadillo-price .armadillo-asking-price,
-.armadillo-item .armadillo-price .armadillo-sale-price { color:#9f0300; clear:both; line-height:26px; }
+.armadillo-price .armadillo-asking-price,
+.armadillo-price .armadillo-sale-price { color:#9f0300; clear:both; line-height:26px; }
+.armadillo-price .armadillo-sale-expires { font-size:14px; clear:both; line-height:26px; }
 .armadillo-item .armadillo-price > div { width:200px; float:left; }
 .armadillo-item .armadillo-price .armadillo-asking-price.armadillo-strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
 

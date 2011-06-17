@@ -7,6 +7,7 @@
 	$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
 	$on_sale = $prices->{ 'on_sale?' };
 	$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
+	$sale_expire = isset( $prices->sale_expire ) ? $prices->sale_expire : NULL;
 	$retail_price = $prices->retail_price;
 	$default_price_text = $prices->default_price_text;
 	$asking_price = $prices->asking_price;
@@ -301,7 +302,10 @@ function video_popup(url , title) {
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 							if( $incentive_price > 0 ) {
-								echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+								echo '<div class="armadillo-sale-price">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+								if( $sale_expire != NULL ) {
+									echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+								}
 							} else {
 								echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 							}
@@ -310,11 +314,17 @@ function video_popup(url , title) {
 						if( $incentive_price > 0 ) {
 							echo '<div class="armadillo-ais-incentive"><small>Savings: ' . $ais_incentive . '</small></div>';
 							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+							if( $sale_expire != NULL ) {
+								echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+							}
 						} else {
 							if( $ais_incentive != NULL ) {
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 							}
 							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+							if( $sale_expire != NULL ) {
+								echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+							}
 						}
 					} else {
 						if( $asking_price > 0 ) {

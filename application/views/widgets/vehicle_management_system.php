@@ -129,6 +129,7 @@ class vehicle_management_system_widget extends WP_Widget {
 			$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
 			$on_sale = $prices->{ 'on_sale?' };
 			$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
+			$sale_expire = isset( $prices->sale_expire ) ? $prices->sale_expire : NULL;
 			$retail_price = $prices->retail_price;
 			$default_price_text = $prices->default_price_text;
 			$asking_price = $prices->asking_price;
@@ -172,6 +173,9 @@ class vehicle_management_system_widget extends WP_Widget {
 					$now_text = 'Now: ';
 				}
 				echo '<div class="vms-widget-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+				if( $sale_expire != NULL ) {
+					echo '<div class="vms-widget-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+				}
 			} else {
 				if( $asking_price > 0 ) {
 					echo '<div class="vms-widget-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
