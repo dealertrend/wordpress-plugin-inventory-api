@@ -262,7 +262,7 @@
 									<?php
 										$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
 										$incentive_price = 0;
-										if( !empty( $ais_incentive ) ) {
+										if( $ais_incentive != NULL ) ) {
 									?>
 									<div class="armadillo-ais-incentive">
 										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=<?php echo $vin; ?>&wID=<?php echo $company_information->api_keys->ais; ?>&zID=<?php echo $company_information->zip; ?>" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES">
@@ -291,6 +291,9 @@
 													echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
 												} else {
+													if( $ais_incentive != NULL ) {
+														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+													}
 													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 												}
 											} else {
@@ -300,9 +303,15 @@
 														echo '<div class="armadillo-ais-incentive" style="font-size:12px; color:#0066CC; ">Savings: ' . $ais_incentive . '</div>';
 														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 													} else {
+														if( $ais_incentive != NULL ) {
+															echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+														}
 														echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 													}
 												} else {
+													if( $ais_incentive != NULL ) {
+														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+													}
 													echo $default_price_text;
 												}
 											}

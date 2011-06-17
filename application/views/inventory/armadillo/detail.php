@@ -292,7 +292,7 @@ function video_popup(url , title) {
 				<?php
 					$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
 					$incentive_price = 0;
-					if( $ais_incentive ) {
+					if( $ais_incentive != NULL ) {
 						preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
 						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 					}
@@ -311,6 +311,9 @@ function video_popup(url , title) {
 							echo '<div class="armadillo-ais-incentive"><small>Savings: ' . $ais_incentive . '</small></div>';
 							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
 						} else {
+							if( $ais_incentive != NULL ) {
+								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+							}
 							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 						}
 					} else {
@@ -320,13 +323,19 @@ function video_popup(url , title) {
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 								echo '<div class="armadillo-asking-price">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 							} else {
+								if( $ais_incentive != NULL ) {
+									echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+								}
 								echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 							}
 						} else {
+							if( $ais_incentive != NULL ) {
+								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+							}
 							echo $default_price_text;
 						}
 					}
-					if( $ais_incentive ) {
+					if( $ais_incentive != NULL ) {
 										echo '<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" style="font-size:10px;">
 											VIEW AVAILABLE INCENTIVES AND REBATES
 										</a>';
