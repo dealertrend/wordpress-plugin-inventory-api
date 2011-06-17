@@ -1,0 +1,130 @@
+/*
+Global
+*/
+.dealertrend-mobile.inventory td{
+	padding: 3px 0px;
+}
+.dealertrend-mobile.inventory label{
+	padding-bottom: 3px;
+	font-size: 1em;
+}
+.dealertrend-mobile.inventory textarea{
+	font-size: 1em;
+}
+.dealertrend-mobile.inventory input[type="text"]{
+	padding: 2px;
+	font-size: 1em;
+}
+.dealertrend-mobile.inventory input[type="checkbox"]{
+	margin-right: 5px;
+}
+.dealertrend-mobile.inventory button{
+	padding: 2px 10px;
+	font-size: 1em;
+}
+/*
+Index
+*/
+.dealertrend-mobile.inventory .company-details{
+	margin-right: 100px;
+}
+.dealertrend-mobile.inventory .company-contact{
+	float: right;
+	width: 100px;
+	text-align: right;
+}
+/*
+List
+*/
+.dealertrend-mobile.inventory .nav{
+	text-align: center;
+	padding: 5px;
+}
+.dealertrend-mobile.inventory .nav .select{
+	text-align: center;
+}
+.dealertrend-mobile.inventory .nav .select p select{
+	font-size: 1em;
+}
+.dealertrend-mobile.inventory .nav .paginate{
+	padding-top: 5px;
+	text-align: center;
+}
+.dealertrend-mobile.inventory .nav .paginate .page-numbers{
+	font-size: 1.1em;
+	padding: 0px 3px;
+	margin-top: 5px;
+}
+.dealertrend-mobile.inventory .nav .paginate .current{
+	font-weight: bold;
+}
+.dealertrend-mobile.inventory .listing .breadcrumbs{
+	text-align: center;
+	padding: 5px;
+}
+.dealertrend-mobile.inventory .listing a{
+	text-decoration: none;
+	color: #000;
+}
+.dealertrend-mobile.inventory .item{
+
+}
+.dealertrend-mobile.inventory .item .photo{
+	float: left;
+	margin: 0px 5px 5px 0px;
+}
+.dealertrend-mobile.inventory .item .photo img{
+	width: 100px;
+}
+.dealertrend-mobile.inventory .item .details{
+
+}
+.dealertrend-mobile.inventory .item .details p{
+	padding: 1px 0px;
+	margin: 0px;
+}
+.dealertrend-mobile.inventory .item .details .headline{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.dealertrend-mobile.inventory .item .pricing{
+	float: right;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+.dealertrend-mobile.inventory .item .clear{
+	clear: both;
+}
+/*
+Detail
+*/
+.dealertrend-mobile.inventory .car h3{
+	padding: 5px 0px;
+}
+.dealertrend-mobile.inventory .car p{
+	padding: 5px 0px;
+}
+.dealertrend-mobile.inventory .car .clear{
+	clear: both;
+}
+#dealer-options, #standard-equipment, #test-drive, #trade-in, #tell-a-friend, #loan-calculator{
+	display: none;
+}
+.dealertrend-mobile.inventory .car .details select{
+	font-size: 1em;
+}
+.dealertrend-mobile.inventory .car .images{
+	min-height: 150px;
+	text-align: center;
+}
+.dealertrend-mobile.inventory .car .images-nav{
+	text-align: center;
+	padding: 3px 0px 0px;
+}
+.dealertrend-mobile.inventory .car .images-nav a{
+	padding: 0px 15px;
+}
+/*
+Style from other themes of CDP
+*/
+.armadillo-strike-through { text-decoration:line-through; color: #999;  }
