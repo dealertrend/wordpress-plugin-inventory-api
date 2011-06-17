@@ -405,6 +405,7 @@ class dealertrend_inventory_api {
 				add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 
 				$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
+				$current_mobile_theme = 'websitez';
 
 				$vehicle_management_system = new vehicle_management_system(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -422,7 +423,13 @@ class dealertrend_inventory_api {
 					);
 				}
 
-				$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
+				$is_mobile = isset( $wp_query->is_mobile ) ? $wp_query->is_mobile : false;
+
+				if( $is_mobile != true ) {
+					$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
+				} else {
+					$theme_path = dirname( __FILE__ ) . '/application/views/mobile/' . $current_mobile_theme;
+				}
 				if( $handle = opendir( $theme_path ) ) {
 					while( false !== ( $file = readdir( $handle ) ) ) {
 						if( $file == 'index.php' ) {
