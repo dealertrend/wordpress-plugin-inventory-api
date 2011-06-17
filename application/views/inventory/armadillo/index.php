@@ -9,35 +9,37 @@
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	wp_enqueue_script( 'jquery-ui-cycle' );
 	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
+	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-slideshow',
-		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/slideshow.js',
-		array( 'jquery-cycle' , 'dealertrend-inventory-api' ),
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/slideshow.js',
+		array( 'jquery-cycle' ),
 		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-detail-buttons',
-		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/detail-buttons.js',
-		array( 'jquery-ui-dialog' , 'dealertrend-inventory-api' ),
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/detail-buttons.js',
+		array( 'jquery-ui-dialog' ),
 		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-sidebar',
-		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/sidebar.js',
-		array( 'jquery' , 'jquery-ui-core' , 'dealertrend-inventory-api' ),
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/sidebar.js',
+		array( 'jquery' , 'jquery-ui-core' ),
 		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-armadillo-tabs',
-		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/armadillo/js/tabs.js',
-		array( 'jquery-ui-tabs' , 'dealertrend-inventory-api' ),
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/tabs.js',
+		array( 'jquery-ui-tabs' ),
 		$this->plugin_information[ 'Version' ],
 		true
 	);
@@ -47,16 +49,6 @@
 	flush();
 
 	$company_information = $company_information[ 'data' ];
-
-	echo "\n" . '<!--' . "\n";
-	echo '##################################################' . "\n";
-	echo print_r( $this , true ) . "\n";
-	echo "[ Inventory Plugin Information ]\n";
-	echo print_r( $company_information , true ) . "\n";
-	echo print_r( $vehicle_management_system , true ) . "\n";
-	echo print_r( $dynamic_site_headers , true ) . "\n";
-	echo '##################################################' . "\n";
-	echo '-->' . "\n";
 
 	$check_host = $vehicle_management_system->check_host();
 	if( $check_host[ 'status' ] == false ) {
@@ -87,6 +79,18 @@
 		echo '<p>The inventory feed timed out while trying to display. Please refresh the page. If the feed refuses to return data, then the given parameters may be invalid.</p>';
 		return false;
 	}
+
+	echo "\n" . '<!--' . "\n";
+	echo '##################################################' . "\n";
+	echo print_r( $this , true ) . "\n";
+	echo "[ Inventory Plugin Information ]\n";
+	echo print_r( $company_information , true ) . "\n";
+	echo print_r( $vehicle_management_system , true ) . "\n";
+	if( isset( $dynamic_site_headers ) ) {
+		echo print_r( $dynamic_site_headers , true ) . "\n";
+	}
+	echo '##################################################' . "\n";
+	echo '-->' . "\n";
 
 	$state = $company_information->state;
 	$city = $company_information->city;

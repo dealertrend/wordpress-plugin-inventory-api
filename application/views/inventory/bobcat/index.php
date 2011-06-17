@@ -11,7 +11,7 @@
 
 	wp_enqueue_script(
 		'dealertrend-inventory-theme-bobcat-slideshow',
-		$this->plugin_information[ 'PluginURL' ] . '/app/views/inventory/bobcat/js/slideshow.js',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/slideshow.js',
 		array( 'jquery-cycle', 'dealertrend-inventory-api' ),
 		$this->plugin_information[ 'Version' ],
 		true

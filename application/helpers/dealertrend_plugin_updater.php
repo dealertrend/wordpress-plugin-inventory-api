@@ -11,7 +11,15 @@ class dealetrend_plugin_updater {
 	public $new_version = NULL;
 
 	function __construct( $current_plugin_information ) {
+		$this->load_plugin_information( $current_plugin_information );
+		$this->queue_plugin_updater();
+	}
+
+	function load_plugin_information( $current_plugin_information ) {
 		$this->current_plugin_information = $current_plugin_information;
+	}
+
+	function queue_plugin_updater() {
 		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
 	}
 
@@ -31,7 +39,6 @@ class dealetrend_plugin_updater {
 			set_site_transient( 'update_plugins' , $plugin_check_list );
 			add_action( 'admin_init', array( &$this, 'filter_plugin_rows' ), 15 );
 		}
-
 	}
 
 	function filter_plugin_rows() {

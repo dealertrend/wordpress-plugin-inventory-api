@@ -1,20 +1,33 @@
 .vrs-widget { background:white; position:relative; font-size:12px; color:red; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
-.vrs-widget a { color:red; }
 .vrs-widget-item-wrapper { height:100%; }
-.vrs-widget.items { height:88% }
-.vrs-widget-title { text-align:center; font-size:16px; line-height:150%; padding:0; height:10%; background:white; color:black; font-weight:bold; }
-.vrs-widget-content { height:88%; background:white; }
-.vrs-widget.items > div { overflow-y:scroll; height:88%; }
+
+.vrs-widget-title { text-align:center; font-size:16px; line-height:150%; padding:0; height:25px; background:white; color:black; font-weight:bold; }
+
+.vrs-widget.items > div { overflow:auto; height:88%; }
+.vrs-widget .carousel .items > div { overflow:auto; height:250px; }
+
+.vrs-widget-item { float:left; margin-left:25px; width:230px; text-align:center; margin-bottom:10px; }
+
 .vrs-widget-thumbnail { margin-bottom:5px; }
-.vrs-widget-item { float:left; margin-left:25px; width:200px; text-align:center; margin-bottom:10px; }
+
 .vrs-widget-main-line { text-align:center; }
 .vrs-widget-main-line div { display:inline; margin-right:5px; }
+
 .vrs-widget-strike-through { text-decoration:line-through; }
 .vrs-widget-strike-through.vrs-widget-asking-price { color:black; }
 
-.carousel { overflow:hidden; }
-.carousel { height:100%; }
+.vrs-widget .carousel { overflow:auto; }
+.vrs-widget .carousel .vrs-widget-item-wrapper { overflow:auto; }
+.vrs-widget .carousel .carousel-wrap { position:relative; float:left; margin:0; padding:0; }
+
+.vrs-widget.small .vrs-widget-item-wrapper { width:390px; }
+.vrs-widget.small .carousel .carousel-wrap { width:65%; }
+.vrs-widget.medium .vrs-widget-item-wrapper { width:625px; }
+.vrs-widget.medium .carousel .carousel-wrap { width:78%; }
+.vrs-widget.large .vrs-widget-item-wrapper { width:850px; }
+.vrs-widget.large .carousel .carousel-wrap { width:85%; }
+
 .carousel-control.previous,
-.carousel-control.next { float:left; margin:10% 0px; width:70px; }
-.carousel .vrs-widget-item { width:14.6%; margin:0; padding:0; height:171px; }
-.carousel-wrap { width:82%; float:left; margin:0 0px; }
+.carousel-control.next { float:left; margin-top:80px; padding:0; }
+
+.carousel .vrs-widget-item { width:230px; margin:0; padding:0; height:171px; }

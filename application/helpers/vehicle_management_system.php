@@ -111,7 +111,8 @@ class vehicle_management_system {
 		$request_handler = new http_api_wrapper( $this->routes[ 'company_information' ] , 'vehicle_management_system' );
 		$this->request_stack[] = $this->routes[ 'company_information' ];
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$data_array = array ( 'status' => false, 'data' => json_decode( $data[ 'body' ] ) );
+		$results = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : NULL;
+		$data_array = array ( 'status' => false, 'data' => $results );
 		if( isset( $request_hander[ 'body ' ] ) ) {
 			$data_array[ 'status' ] = true;
 		}

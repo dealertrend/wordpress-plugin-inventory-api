@@ -1,6 +1,6 @@
 <?php
 
-class VehicleManagementSystemWidget extends WP_Widget {
+class vehicle_management_system_widget extends WP_Widget {
 
 	public $options = array();
 
@@ -37,6 +37,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 	function __construct() {
 
 		parent::__construct( false , $name = 'Vehicle Management System' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
+		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
 		$this->plugin_information[ 'WidgetURL' ] =  WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 
 		if( !is_admin() ) {
@@ -90,7 +91,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		$inventory = $vehicle_management_system->get_inventory(
 			array(
 				'photo_view' => 1,
-				'per_page' => VehicleManagementSystemWidget::limit,
+				'per_page' => vehicle_management_system::limit,
 				'icons' => $instance[ 'tag' ],
 				'saleclass' => $instance[ 'saleclass' ]
 			)
@@ -191,7 +192,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 	function vms_styles() {
 		wp_register_style(
 			'dealertrend-inventory-api-vms-widget',
-			$this->plugin_information[ 'WidgetURL' ] . 'css/vms-widget.css'
+			$this->plugin_information[ 'WidgetURL' ] . 'css/vehicle-management-system-widget.css'
 		);
 		wp_enqueue_style( 'dealertrend-inventory-api-vms-widget' );
 	}
@@ -202,14 +203,14 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script(
 			'jquery-carousel',
-			$this->plugin_information[ 'WidgetURL' ] . 'js/jquery.carousel.min.js',
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-carousel/0.9.8/js/jquery.carousel.min.js',
 			array( 'jquery' ),
 			false,
 			true
 		);
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vms-widget',
-			$this->plugin_information[ 'WidgetURL' ] . 'js/vms-widget.js',
+			$this->plugin_information[ 'WidgetURL' ] . 'js/vehicle-management-system-widget.js',
 			array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs', 'jquery-carousel' ),
 			false,
 			true
@@ -267,7 +268,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		echo '<select name="' . $this->get_field_name( 'float' ) . '" id="' . $this->get_field_id( 'float' ) . '">';
 		$float_values = array( NULL , 'left' , 'right' );
 		foreach( $float_values as $float_option ) {
-			$selected = ( $float_option == $float ) ? 'selected="selected"' : NULL;
+			$selected = ( $float_option == $float ) ? 'selected' : NULL;
 			echo '<option ' . $selected . ' value="' . $float_option . '">' . ucfirst( $float_option ) . '</option>';
 		}
 		echo '</select>';
@@ -277,7 +278,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		echo '<label for="' . $this->get_field_id( 'saleclass' ) . '">' . _e( 'Sale Class:' ) . '</label>';
 		echo '<select name="' . $this->get_field_name( 'saleclass' ) . '" id="' . $this->get_field_id( 'saleclass' ) . '">';
 		foreach( $this->sale_class as $sale_class_option ) {
-			$selected = ( $sale_class_option == $sale_class ) ? 'selected="selected"' : NULL;
+			$selected = ( $sale_class_option == $sale_class ) ? 'selected' : NULL;
 			echo '<option ' . $selected . ' value="' . $sale_class_option . '">' . ucfirst( $sale_class_option ) . '</option>';
 		}
 		echo '</select>';
@@ -287,7 +288,7 @@ class VehicleManagementSystemWidget extends WP_Widget {
 		echo '<label for="' . $this->get_field_id( 'tag' ) . '">' . _e( 'Filter By:' ) . '</label>';
 		echo '<select name="' . $this->get_field_name( 'tag' ) . '" id="' . $this->get_field_id( 'tag' ) . '">';
 		foreach( $this->tags as $tag_option ) {
-			$selected = ( $tag_option == $tag ) ? 'selected="selected"' : NULL;
+			$selected = ( $tag_option == $tag ) ? 'selected' : NULL;
 			echo '<option ' . $selected . ' value="' . $tag_option . '">' . $tag_option . '</option>';
 		}
 		echo '</select>';

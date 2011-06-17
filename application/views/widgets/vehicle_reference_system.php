@@ -1,13 +1,17 @@
 <?php
 
-class VehicleReferenceSystemWidget extends WP_Widget {
+class vehicle_reference_system_widget extends WP_Widget {
 
 	public $options = array();
 
 	public $plugin_information = array();
 
+	public $jquery_theme = NULL;
+
 	function __construct() {
 		parent::__construct( false , $name = 'Vehicle Reference System' , array( 'description' => 'A customizable widget to display vehicle reference information for research purposes. Feeds provided by DealerTrend, Inc.' ) );
+		$plugin_options = get_option( 'dealertrend_inventory_api' );
+		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
 		$plugin_file = pathinfo( __FILE__ );
 		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
 		$this->plugin_information[ 'WidgetURL' ] = WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
@@ -28,24 +32,17 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			false,
 			'1.10'
 		);
-
 		wp_enqueue_style(
 			'jquery-ui-multiselect-filter',
 			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
 			false,
 			'1.10'
 		);
-
 		wp_enqueue_style(
-			'jquery-ui-black-tie',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css',
+			'jquery-ui-' . $this->jquery_theme,
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->jquery_theme . '/jquery-ui.css',
 			false,
 			'1.8.11'
-		);
-
-		wp_enqueue_style(
-			'dealertrend-inventory-api-vehicle-reference-system-widget',
-			$this->plugin_information[ 'WidgetURL' ] . 'css/vehicle-reference-system-admin.css'
 		);
 	}
 
@@ -54,10 +51,9 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			'dealertrend-inventory-api-vehicle-reference-system-widget',
 			$this->plugin_information[ 'WidgetURL' ] . 'css/vehicle-reference-system-widget.css'
 		);
-
 		wp_enqueue_style(
-			'jquery-ui-black-tie',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css',
+			'jquery-ui-' . $this->jquery_theme,
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->jquery_theme . '/jquery-ui.css',
 			false,
 			'1.8.11'
 		);
@@ -71,7 +67,6 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			'1.10',
 			true
 		);
-
 		wp_enqueue_script(
 			'jquery-ui-multiselect-filter',
 			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
@@ -79,7 +74,6 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			'1.10',
 			true
 		);
-
 		wp_enqueue_script(
 			'dealertrend-inventory-api-vehicle-reference-system-widget',
 			$this->plugin_information[ 'WidgetURL' ] . 'js/vehicle-reference-system-admin.js',
@@ -115,8 +109,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		extract( $args );
 
 		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , $instance[ 'title' ] ) : NULL;
-		$width = isset( $instance[ 'width' ] ) && strlen( $instance[ 'width' ] ) > 3  ? 'width: ' . $instance[ 'width' ] . ';' : NULL;
-		$height = isset( $instance[ 'height' ] ) && strlen( $instance[ 'height' ] ) > 3 ? 'height: ' . $instance[ 'height' ] . ';' : NULL;
+		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) && $instance[ 'float' ] == true ? 'float: ' . $instance[ 'float' ] . ';' : false;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] == true ? 'carousel' : false;
 
@@ -150,7 +143,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
 
-		echo '<div id="' . $this->id . '" class="vrs-widget" style="' . $width . $height . $float . '">';
+		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' .$float . '">';
 		echo '<div class="vrs-before-widget">' . $before_widget . '</div>';
 		if( $title ) {
 			echo '<div class="vrs-widget-before-title">' . $before_title . '</div>';
@@ -158,7 +151,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 			echo '<div class="vrs-widget-after-title">' . $after_title . '</div>';
 		}
 		echo '<div class="vrs-widget-content ' . $carousel . '">';
-		echo '<div class="vrs-widget-item-wrapper ' . $carousel . '">';
+		echo '<div class="vrs-widget-item-wrapper ' . $carousel . '"">';
 
 		echo '<ul>';
 		foreach( $makes as $make ) {
@@ -234,8 +227,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 	function update( $new_instance , $old_instance ) {
 		$instance = $old_instance;
 		$instance[ 'title' ] = isset( $new_instance[ 'title' ] ) ? strip_tags( $new_instance[ 'title' ] ) : NULL;
-		$instance[ 'width' ] = isset( $new_instance[ 'width' ] ) ? $new_instance[ 'width' ] : NULL;
-		$instance[ 'height' ] = isset( $new_instance[ 'height' ] ) ? $new_instance[ 'height' ] : NULL;
+		$instance[ 'layout' ] = isset( $new_instance[ 'layout' ] ) ? $new_instance[ 'layout' ] : 'small';
 		$instance[ 'float' ] = isset( $new_instance[ 'float' ] ) ? $new_instance[ 'float' ] : false;
 		$instance[ 'carousel' ] = isset( $new_instance[ 'carousel' ] ) ? $new_instance[ 'carousel' ] : false;
 		$instance[ 'makes' ] = isset( $new_instance[ 'makes' ] ) ? $new_instance[ 'makes' ] : array();
@@ -246,8 +238,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 
 	function form( $instance ) {
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
-		$width = isset( $instance[ 'width' ] ) ? esc_attr( $instance[ 'width' ] ) : NULL;
-		$height = isset( $instance[ 'height' ] ) ? esc_attr( $instance[ 'height' ] ) : NULL;
+		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : NULL;
 		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : false;
 		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
@@ -290,7 +281,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '<label for="' . $this->get_field_id( 'makes' ) . '">' . _e( 'Makes:' ) . '</label>';
 		echo '<select id="' . $this->get_field_id( 'makes' ) . '" name="' . $this->get_field_name( 'makes' ) . '[]" class="vrs-makes" size="4" multiple="multiple">';
 		foreach( $make_values as $make ) {
-			$selected = in_array( $make->name , $makes ) ? 'selected="selected"' : NULL;
+			$selected = in_array( $make->name , $makes ) ? 'selected' : NULL;
 			echo '<option value="' . $make->name . '" ' . $selected . '>' . $make->name . '</option>';
 		}
 		echo '</select>';
@@ -325,7 +316,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 				$model_values = $model_data[ 'data' ];
 				echo '<optgroup label="' . $make . '">';
 				foreach( $model_values as $model ) {
-					$selected = in_array( $model->name , $models ) ? 'selected="selected"' : NULL;
+					$selected = in_array( $model->name , $models ) ? 'selected' : NULL;
 					echo '<option value="' . $model->name . '" ' . $selected . '>' . $model->name . '</option>';
 				}
 				echo '</optgroup>';
@@ -340,15 +331,15 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '</p>';
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'width' ) . '">' . _e( 'Width:' ) . '</label>';
-		echo '<input id="' . $this->get_field_id( 'width' ) . '" name="' . $this->get_field_name( 'width' ) . '" type="text" size="8" value="' . $width . '" />';
-		echo '<br /><small>Use Ems, Pixels, Points or Percents.</small>';
-		echo '</p>';
-
-		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'height' ) . '">' . _e( 'Height:' ) . '</label>';
-		echo '<input id="' . $this->get_field_id( 'height' ) . '" name="' . $this->get_field_name( 'height' ) . '" type="text" size="8" value="' . $height . '" />';
-		echo '<br /><small>Use Ems, Pixels, Points or Percents.</small>';
+		echo '<label for="' . $this->get_field_id( 'layout' ) . '">' . _e( 'Layout:' ) . '</label>';
+		echo '<select id="' . $this->get_field_id( 'layout' ) . '" name="' . $this->get_field_name( 'layout' ) . '" class="vrs-layout">';
+		$layout_options = array( 'small' , 'medium' , 'large' );
+		foreach( $layout_options as $layout_possibility ) {
+			$selected = $layout == $layout_possibility ? 'selected' : NULL;
+			echo '<option value="' . $layout_possibility . '" ' . $selected . '>' . ucfirst( $layout_possibility ) . '</option>';
+		}
+		
+		echo '</select>';
 		echo '</p>';
 
 		echo '<p>';
@@ -356,7 +347,7 @@ class VehicleReferenceSystemWidget extends WP_Widget {
 		echo '<select name="' . $this->get_field_name( 'float' ) . '" id="' . $this->get_field_id( 'float' ) . '">';
 		$float_values = array( NULL , 'left' , 'right' );
 		foreach( $float_values as $float_option ) {
-			$selected = ( $float_option == $float ) ? 'selected="selected"' : NULL;
+			$selected = ( $float_option == $float ) ? 'selected' : NULL;
 			echo '<option ' . $selected . ' value="' . $float_option . '">' . ucfirst( $float_option ) . '</option>';
 		}
 		echo '</select>';

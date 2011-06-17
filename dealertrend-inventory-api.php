@@ -4,8 +4,8 @@
  * Plugin URI: https://github.com/dealertrend/wordpress-plugin-inventory-api
  * Author: DealerTrend, Inc.
  * Author URI: http://www.dealertrend.com
- * Description: Provides access to the Vehicle Management System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
- * Version: 3.4.5
+ * Description: Provides access to the Vehicle Management System and Vehicle Reference System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
+ * Version: 3.5.0
  * License: GPLv2 or later
  */
 
@@ -42,6 +42,7 @@ require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_referenc
  * It uses standard WordPress hooks and helpers for the different APIs it interfaces with.
  * It also utilizes several custom helpers to incorporate the API itself and some extended functionality of the WordPress core.
  *
+ * @package Wordpress
  * @since 3.0.0
  */
 class dealertrend_inventory_api {
@@ -82,12 +83,18 @@ class dealertrend_inventory_api {
 		),
 		'debug' => array(
 			'logging' => false
+		),
+		'jquery' => array(
+			'ui' => array(
+				'theme' => 'black-tie'
+			)
 		)
 	);
 
 	/**
 	 * Public variable for all the parameters the plugin is currently working with.
 	 *
+	 * @package Wordpress
 	 * @since 3.0.0
 	 * @access public
 	 * @var array
@@ -196,11 +203,11 @@ class dealertrend_inventory_api {
 	 */
 	function load_widgets() {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
-			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleManagementSystemWidget");' ) );
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vehicle_management_system_widget" );' ) );
 		}
 
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
-			add_action( 'widgets_init' , create_function( '' , 'return register_widget("VehicleReferenceSystemWidget");' ) );
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vehicle_reference_system_widget" );' ) );
 		}
 	}
 
@@ -243,6 +250,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Saves the current options to the database then load them back into the plugin.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -252,10 +260,11 @@ class dealertrend_inventory_api {
 	}
 
 	/**
-	 * A persistent implementation of a funciton to add a  few access points to the plugin's options page.
+	 * A persistent implementation of a funciton to add a few access points to the plugin's options page.
 	 *
 	 * It also checks to see if we are on the options page for the plugin, if so, load the CSS for it.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -271,15 +280,15 @@ class dealertrend_inventory_api {
 		);
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
-			wp_enqueue_style( 'jquery-ui-black-tie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.11' );
+			wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
 		}
-
 	}
 
 	/**
 	 * Add shortcut links to the settings page for our plugin.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return array The array of links to be added in the plugin management page.
 	 */
@@ -295,6 +304,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Load the plugin options page.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -305,6 +315,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Add the Javascript for the options page.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -324,6 +335,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Add our custom rewrite rules to the WordPress Rewrite Object.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return array The old rewrite rules with our prefixed to them.
 	 */
@@ -337,6 +349,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Remove rewrite rules and then recreate rewrite rules.
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return bool False on failure.
 	 */
@@ -349,6 +362,7 @@ class dealertrend_inventory_api {
 	/**
 	 * Allows us to create our own taxonomy, see: {@link http://codex.wordpress.org/Taxonomies#What_is_a_taxonomy.3F Taxonomies: What is a taxonomy?}
 	 *
+	 * @package WordPress
 	 * @since 3.0.0
 	 * @return void
 	 */
@@ -384,7 +398,6 @@ class dealertrend_inventory_api {
 		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
 
 		switch( $taxonomy ) {
-
 			case 'inventory':
 				$this->fix_bad_wordpress_assumption();
 
@@ -400,13 +413,14 @@ class dealertrend_inventory_api {
 
 				$company_information = $vehicle_management_system->get_company_information();
 
-				$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
-
-				$dynamic_site_headers = new dynamic_site_headers(
-					$this->options[ 'vehicle_management_system' ][ 'host' ],
-					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-					$this->parameters + $seo_hack
-				);
+				if( $company_information[ 'data' ] != false ) {
+					$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
+					$dynamic_site_headers = new dynamic_site_headers(
+						$this->options[ 'vehicle_management_system' ][ 'host' ],
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+						$this->parameters + $seo_hack
+					);
+				}
 
 				$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
 				if( $handle = opendir( $theme_path ) ) {
@@ -518,16 +532,14 @@ class dealertrend_inventory_api {
 	 */
 	function inventory_styles() {
 		$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
-		wp_register_style(
+		wp_enqueue_style(
 			'dealertrend-inventory-api',
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
 			false,
 			$this->plugin_information[ 'Version' ]
 		);
-		wp_enqueue_style( 'dealertrend-inventory-api' );
 		
-		wp_register_Style( 'jquery-ui-black-tie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/black-tie/jquery-ui.css' , false , '1.8.11' );
-		wp_enqueue_style( 'jquery-ui-black-tie' ); 
+		wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 	}
 
 	/**
@@ -541,6 +553,18 @@ class dealertrend_inventory_api {
 		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_register_style(
+			'dealertrend-inventory-api-detail-tabs',
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/detail-tabs.js',
+			false,
+			$this->plugin_information[ 'Version' ]
+		);
+		wp_register_style(
+			'dealertrend-inventory-api-loan-calculator',
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/loan-calculator.js',
+			false,
+			$this->plugin_information[ 'Version' ]
+		);
 	}
 
 	/** 
@@ -552,7 +576,7 @@ class dealertrend_inventory_api {
 	 */
 	function get_themes( $type ) { 
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
-		$ignore = array( '.' , '..' , 'shared' );
+		$ignore = array( '.' , '..' );
 		foreach( $directories as $key => $value ) {
 			if( in_array( $value , $ignore ) ) {
 				unset( $directories[ $key ] );
