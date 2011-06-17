@@ -91,7 +91,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		$inventory = $vehicle_management_system->get_inventory(
 			array(
 				'photo_view' => 1,
-				'per_page' => vehicle_management_system::limit,
+				'per_page' => vehicle_management_system_widget::limit,
 				'icons' => $instance[ 'tag' ],
 				'saleclass' => $instance[ 'saleclass' ]
 			)
