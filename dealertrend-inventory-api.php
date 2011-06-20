@@ -244,7 +244,7 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function queue_templates() {
-		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) );
+		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) , 2 );
 	}
 
 	/**
@@ -423,7 +423,7 @@ class dealertrend_inventory_api {
 					);
 				}
 
-				$is_mobile = isset( $wp_query->is_mobile ) ? $wp_query->is_mobile : false;
+				$is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
 
 				if( $is_mobile != true ) {
 					$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
