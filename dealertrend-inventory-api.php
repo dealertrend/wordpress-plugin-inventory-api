@@ -269,7 +269,9 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function admin_styles() {
-		add_filter( 'plugin_action_links_' . $this->plugin_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
+		$network_admin = is_network_admin();
+		$prefix = $network_admin ? 'network_admin_' : '';
+		add_filter( $prefix . 'plugin_action_links_' . $this->plugin_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
 		add_menu_page(
 			'Dealertrend API',
 			'Dealertrend API',
