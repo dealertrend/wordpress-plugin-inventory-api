@@ -9,7 +9,7 @@
 
 		$uninstall = isset( $_POST[ 'uninstall' ][ 0 ] ) ? $_POST[ 'uninstall' ][ 0 ] : false;
 
-		$_POST = array_map( array( &$dealertrend_inventory_api , 'sanitize_inputs' ) , &$_POST );
+		$_POST = array_map( array( &$dealertrend_inventory_api , 'sanitize_inputs' ) , $_POST );
 
 		if( $uninstall == true ) {
 			delete_option( 'dealertrend_inventory_api' );
