@@ -138,12 +138,11 @@ class vehicle_reference_system_widget extends WP_Widget {
 		echo print_r( $this , true ) . "\n";
 		echo print_r( $instance , true ) . "\n";
 		echo print_r( $args , true ) . "\n";
-		echo "[ Inventory Widget Information ]\n";
 		echo print_r( $vehicle_reference_system , true ) . "\n";
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
 
-		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' .$float . '">';
+		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' . $float . '">';
 		echo '<div class="vrs-before-widget">' . $before_widget . '</div>';
 		if( $title ) {
 			echo '<div class="vrs-widget-before-title">' . $before_title . '</div>';
@@ -151,7 +150,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 			echo '<div class="vrs-widget-after-title">' . $after_title . '</div>';
 		}
 		echo '<div class="vrs-widget-content ' . $carousel . '">';
-		echo '<div class="vrs-widget-item-wrapper ' . $carousel . '"">';
+		echo '<div class="vrs-widget-item-wrapper ' . $carousel . '">';
 
 		echo '<ul>';
 		foreach( $makes as $make ) {
@@ -238,7 +237,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 	function form( $instance ) {
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
-		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : NULL;
+		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : false;
 		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
@@ -345,7 +344,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		echo '<p>';
 		echo '<label for="' . $this->get_field_id( 'float' ) . '">' . _e( 'Float:' ) . '</label>';
 		echo '<select name="' . $this->get_field_name( 'float' ) . '" id="' . $this->get_field_id( 'float' ) . '">';
-		$float_values = array( NULL , 'left' , 'right' );
+		$float_values = array( 'none' , 'left' , 'right' );
 		foreach( $float_values as $float_option ) {
 			$selected = ( $float_option == $float ) ? 'selected' : NULL;
 			echo '<option ' . $selected . ' value="' . $float_option . '">' . ucfirst( $float_option ) . '</option>';
