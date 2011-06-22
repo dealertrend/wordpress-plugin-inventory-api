@@ -26,11 +26,11 @@
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
 				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' );
 				$dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] =  isset( $_POST[ 'debug' ][ 'logging' ] ) ? $_POST[ 'debug' ][ 'logging' ] : false;
-				$dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] =  isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] : 'black-tie';
-				echo '<script type="text/javascript">window.location.replace("admin.php?page=dealertrend_inventory_api");</script>';
 			} elseif( isset( $_POST[ 'theme' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
+				$dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] =  isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] : 'black-tie';
+				echo '<script type="text/javascript">window.location.replace("admin.php?page=dealertrend_inventory_api");</script>';
 			}
 			$dealertrend_inventory_api->save_options();
 		}
@@ -213,9 +213,30 @@
 								$themes = $dealertrend_inventory_api->get_themes( 'inventory' );
 								foreach( $themes as $key => $value  ) {
 									$selected = ( $value == $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] ) ? 'selected' : NULL;
-									echo '<option ' . $selected . ' value="' . $value . '">' . $value .'</option>';
+									echo '<option ' . $selected . ' value="' . $value . '">' . ucwords( $value ) .'</option>';
 								}
 							?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td width="125"><label for="debug">jQuery UI Theme:</a></td>
+					<td>
+						<select id="jquery-ui-theme" name="jquery[ui][theme]">
+						<?php
+							$theme_path = str_replace( 'views/options' , 'assets/jquery-ui/1.8.11/themes' , dirname( __FILE__ ) );
+							if( $handle = opendir( $theme_path ) ) {
+								$ignore = array( '.' , '..' );
+								while( false !== ( $file = readdir( $handle ) ) ) {
+									$selected = $dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] == $file ? 'selected' : NULL;
+									if( ! in_array( $file , $ignore ) ) {
+										$file_title = str_replace( '-' , ' ' , $file );
+										echo '<option value="' . $file . '" ' . $selected . '>' . ucwords( $file_title ) . '</option>';
+									}
+								}
+								closedir( $handle );
+							}
+						?>
 						</select>
 					</td>
 				</tr>
@@ -293,27 +314,6 @@
 					<td width="125"><label for="debug">Debug Mode:</a></td>
 					<td>
 						<input type="checkbox" name="debug[logging]" id="debug" value="true" <?php echo $dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] == true ? 'checked="checked"' : 'NULL' ?> />
-					</td>
-				</tr>
-				<tr>
-					<td width="125"><label for="debug">jQuery UI Theme:</a></td>
-					<td>
-						<select id="jquery-ui-theme" name="jquery[ui][theme]">
-						<?php
-							$theme_path = str_replace( 'views/options' , 'assets/jquery-ui/1.8.11/themes' , dirname( __FILE__ ) );
-							if( $handle = opendir( $theme_path ) ) {
-								$ignore = array( '.' , '..' );
-								while( false !== ( $file = readdir( $handle ) ) ) {
-									$selected = $dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] == $file ? 'selected' : NULL;
-									if( ! in_array( $file , $ignore ) ) {
-										$file_title = str_replace( '-' , ' ' , $file );
-										echo '<option value="' . $file . '" ' . $selected . '>' . ucwords( $file_title ) . '</option>';
-									}
-								}
-								closedir( $handle );
-							}
-						?>
-						</select>
 					</td>
 				</tr>
 			</table>
