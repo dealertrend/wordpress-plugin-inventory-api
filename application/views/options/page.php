@@ -82,21 +82,22 @@
 				<td width="125">Feed Status:</td>
 				<td>
 					<?php
-						$start = timer_stop();
-						$check_inventory = $vehicle_management_system->check_inventory();
-						$stop = timer_stop();
-						if( $check_inventory[ 'status' ] == true ) {
-							echo '<span class="success">Loaded</span>';
+						if( ! empty( $this->options[ 'vehicle_management_system' ][ 'host' ] ) ) {
+							$start = timer_stop();
+							$check_inventory = $vehicle_management_system->check_inventory();
+							$stop = timer_stop();
+							if( $check_inventory[ 'status' ] == true ) {
+								echo '<span class="success">Loaded</span>';
+							} else {
+								echo '<span class="fail">Unavailable</span>';
+								echo '<br/><small>Returned Message: ' . $check_inventory[ 'data' ][ 'message' ] . '</small>';
+							}
+							$time = $stop - $start;
+							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 						} else {
-							echo '<span class="fail">Unavailable</span>';
-							echo '<br/><small>Returned Message: ' . $check_inventory[ 'data' ][ 'message' ] . '</small>';
+							echo '<span class="fail">Not Configured</span>';
 						}
 					?>
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><small>Response time:<?php echo $stop - $start; ?> seconds</small></td>
 			</tr>
 		</table>
 		<table width="450">
@@ -107,21 +108,23 @@
 				<td width="125">Feed Status:</td>
 				<td>
 					<?php
-						$start = timer_stop();
-						$check_feed = $vehicle_reference_system->check_feed();
-						$stop = timer_stop();
-						if( $check_feed[ 'status' ] == true ) {
-							echo '<span class="success">Loaded</span>';
+						if( ! empty( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) ) {
+							$start = timer_stop();
+							$check_feed = $vehicle_reference_system->check_feed();
+							$stop = timer_stop();
+							if( $check_feed[ 'status' ] == true ) {
+								echo '<span class="success">Loaded</span>';
+							} else {
+								echo '<span class="fail">Unavailable</span>';
+								echo '<br/><small>Returned Message: ' . $check_feed[ 'data' ][ 'message' ] . '</small>';
+							}
+							$time = $stop - $start;
+							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 						} else {
-							echo '<span class="fail">Unavailable</span>';
-							echo '<br/><small>Returned Message: ' . $check_feed[ 'data' ][ 'message' ] . '</small>';
+							echo '<span class="fail">Not Configured</span>';
 						}
 					?>
 				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><small>Response time:<?php echo $stop - $start; ?> seconds</small></td>
 			</tr>
 		</table>
 		<table width="450">
@@ -132,23 +135,25 @@
 				<td width="125">Account Status:</td>
 				<td>
 					<?php
-						$start = timer_stop();
-						$check_company = $vehicle_management_system->check_company_id();
-						$stop = timer_stop();
-						if( $check_company[ 'status' ] == true ) {
-							echo '<span class="success">Loaded</span>';
+						if( $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] != 0 ) {
+							$start = timer_stop();
+							$check_company = $vehicle_management_system->check_company_id();
+							$stop = timer_stop();
+							if( $check_company[ 'status' ] == true ) {
+								echo '<span class="success">Loaded</span>';
+							} else {
+								echo '<span class="fail">Unavailable</span>';
+								echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+							}
+							$time = $stop - $start;
+							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 						} else {
-							echo '<span class="fail">Unavailable</span>';
-							echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+							echo '<span class="fail">Not Configured</span>';
 						}
 					?>
 				</td>
 			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><small>Response time:<?php echo $stop - $start; ?> seconds</small></td>
-			</tr>
-			<?php if( $check_company[ 'status' ] == true ): ?>
+			<?php if( isset( $check_company ) && $check_company[ 'status' ] == true ): ?>
 			<?php
 				$company_information = $vehicle_management_system->get_company_information();
 				$company_information = $company_information[ 'data' ];
