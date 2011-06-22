@@ -27,8 +27,6 @@
 		$total_found = $inventory[ 0 ]->pagination->total * $inventory[ 0 ]->pagination->per_page;
 	}
 
-	$query = '?' . http_build_query( $_GET );
-
 ?>
 
 <div id="armadillo-wrapper">
@@ -38,7 +36,8 @@
 		<div class="armadillo-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
-		<form action="<?php echo $site_url; ?>/inventory/" method="GET" id="armadillo-search">
+		<form action="<?php echo $inventory_base; ?>" method="GET" id="armadillo-search">
+			<?php echo empty( $wp_rewrite->rules ) ? '<input type="hidden" value="inventory" name="taxonomy" />' : NULL; ?>
 			<label for="search">Inventory Search:</label>
 			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 		</form>
