@@ -157,7 +157,7 @@ class dealertrend_inventory_api {
 	 *
 	 */
 	function check_for_updates() {
-		add_action( 'core_version_check_locale' , array( &$this , 'instantiate_updater' ) );
+		add_action( 'wp_update_plugins' , array( &$this , 'instantiate_updater' ) );
 	}
 
 	/**
