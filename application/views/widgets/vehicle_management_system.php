@@ -34,15 +34,21 @@ class vehicle_management_system_widget extends WP_Widget {
 
 	public $plugin_information = array();
 
+	public $jquery_theme = NULL;
+
 	function __construct() {
 
 		parent::__construct( false , $name = 'Vehicle Management System' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
 		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
-		$this->plugin_information[ 'WidgetURL' ] =  WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$this->plugin_information[ 'WidgetURL' ] =	WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$plugin_options = get_option( 'dealertrend_inventory_api' );
+		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
 
 		if( !is_admin() ) {
-			add_action( 'wp_print_styles' , array( &$this , 'vms_styles' ) , 1 );
-			add_action( 'wp_print_scripts', array( &$this , 'vms_scripts' ) , 1 );
+			if( is_active_widget( false, $this->id , $this->id_base , true ) ) {
+				add_action( 'wp_print_styles' , array( &$this , 'vms_styles' ) , 1 );
+				add_action( 'wp_print_scripts', array( &$this , 'vms_scripts' ) , 1 );
+			}
 		}
 		$this->load_options();
 
@@ -54,10 +60,9 @@ class vehicle_management_system_widget extends WP_Widget {
 		extract( $args );
 
 		$title = apply_filters( 'widget_title' , $instance[ 'title' ] );
-		$width = isset( $instance[ 'width' ] ) ? 'width: ' . $instance[ 'width' ] . ';' : NULL;
-		$height = isset( $instance[ 'height' ] ) ? 'height: ' . $instance[ 'height' ] . ';' : NULL;
+		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) ? 'float: ' . $instance[ 'float' ] . ';' : NULL;
-		$carousel = isset( $instance[ 'carousel' ] ) ? 'carousel' : NULL;
+		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] != false ? 'carousel' : false;
 
 		$vehicle_management_system = new vehicle_management_system(
 			$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -112,16 +117,16 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
 
-		echo '<div id="' . $this->id . '" class="vms-widget" style="' . $width . $height . $float . '">';
+		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
 		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
 		if( $title ) {
 			echo '<div class="vms-widget-before-title">' . $before_title . '</div>';
 			echo '<div class="vms-widget-title">' . $title . '</div>';
 			echo '<div class="vms-widget-after-title">' . $after_title . '</div>';
 		}
-		echo '<div class="vms-widget-content ' . $carousel . '">';
-		echo '<div class="vms-widget-item-wrapper ' . $carousel . '">';
 		$sale_class = isset( $instance[ 'saleclass' ] ) ? ucwords( $instance[ 'saleclass' ] ) : 'All';
+
+		$content_block = NULL;
 		foreach( $inventory as $inventory_item ) {
 			setlocale( LC_MONETARY , 'en_US' );
 			$prices = $inventory_item->prices;
@@ -138,67 +143,110 @@ class vehicle_management_system_widget extends WP_Widget {
 			$model = urldecode( $inventory_item->model_name );
 			$vin = $inventory_item->vin;
 			$trim = urldecode( $inventory_item->trim );
-			$engine = $inventory_item->engine;
-			$transmission = $inventory_item->transmission;
-			$exterior_color = $inventory_item->exterior_color;
-			$interior_color = $inventory_item->interior_color;
-			$stock_number = $inventory_item->stock_number;
-			$odometer = $inventory_item->odometer;
-			$icons = $inventory_item->icons;
 			$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 			$body_style = $inventory_item->body_style;
 			$drive_train = $inventory_item->drive_train;
-			$doors = $inventory_item->doors;
-			$headline = $inventory_item->headline;
 			if( !empty( $wp_rewrite->rules ) ) {
 				$inventory_url = site_url() . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
 			} else {
 				$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 			}
 			$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
-			echo '<div class="vms-widget-item">';
-			echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
-			echo '<div class="vms-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
-			echo '<div class="vms-widget-main-line">';
-			echo '<div class="vms-widget-year">' . $year . '</div>';
-			echo '<div class="vms-widget-make">' . $make . '</div>';
-			echo '<div class="vms-widget-model">' . $model . '</div>';
-			echo '</div>';
-			echo '<div class="vms-widget-price">';
+
+			$price_block = NULL;
+
+			$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
+			$incentive_price = 0;
+			preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+			$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
+
 			if( $on_sale && $sale_price > 0 ) {
 				$now_text = 'Price: ';
 				if( $use_was_now ) {
-					$price_class = ( $use_price_strike_through ) ? 'vms-widget-strike-through vms-widget-asking-price' : 'vms-widget-asking-price';
-					echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+					$price_class = ( $use_price_strike_through ) ? 'vms-strike-through vms-asking-price' : 'vms-asking-price';
+					if( $incentive_price > 0 ) {
+						$price_block .= '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+					} else {
+						$price_block .= '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+					}
 					$now_text = 'Now: ';
 				}
-				echo '<div class="vms-widget-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
-				if( $sale_expire != NULL ) {
-					echo '<div class="vms-widget-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+				if( $incentive_price > 0 ) {
+					$price_block .= '<div class="vms-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+					$price_block .= '<div class="vms-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+				} else {
+					if( $ais_incentive != NULL ) {
+						$price_block .= '<div class="vms-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+					}
+					$price_block .= '<div class="vms-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+					if( $sale_expire != NULL ) {
+						$price_block .= '<div class="vms-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
+					}
 				}
 			} else {
 				if( $asking_price > 0 ) {
-					echo '<div class="vms-widget-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+					if( $incentive_price > 0 ) {
+						$price_block .= '<div class="vms-asking-price">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+						$price_block .= '<div class="vms-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+						$price_block .= '<div class="vms-asking-price">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+						} else {
+							if( $ais_incentive != NULL ) {
+								$price_block .= '<div class="vms-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+						}
+						$price_block .= '<div class="vms-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+					}
 				} else {
-					echo $default_price_text;
+					if( $ais_incentive != NULL ) {
+						$price_block .= '<div class="vms-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+					}
+					$price_block .= $default_price_text;
 				}
 			}
-			echo '</div>';
-			echo '</a>';
-			echo '</div>';
+
+			$content_block .= '
+				<div class="vms-widget-item">
+					<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">
+						<img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
+						<div class="vms-widget-main-line">
+							<div class="vms-widget-year">' . $year . '</div>
+							<div class="vms-widget-make">' . $make . '</div>
+							<div class="vms-widget-model">' . $model . '</div>
+						</div>
+						<div class="vms-widget-price">
+							' . $price_block . '
+						</div>
+					</a>
+				</div>
+			';
 		}
-		echo '</div>';
-		echo '</div>';
+
+		echo '
+			<div class="vms-widget-content ' . $carousel . '">
+				<ul>
+					<li><a href="#' .$this->id . '" title="Inventory">Inventory</a></li>
+				</ul>
+				<div id="' . $this->id . '" class="vms-widget-content-wrapper">
+					<div class="vms-widget-item-wrapper">
+						' . $content_block . '
+					</div>
+				</div>
+			</div>
+		';
 		echo '<div class="vms-after-widget">' . $after_widget . '</div>';
 		echo '</div>';
 	}
 
 	function vms_styles() {
-		wp_register_style(
+		wp_enqueue_style(
 			'dealertrend-inventory-api-vms-widget',
 			$this->plugin_information[ 'WidgetURL' ] . 'css/vehicle-management-system-widget.css'
 		);
-		wp_enqueue_style( 'dealertrend-inventory-api-vms-widget' );
+		wp_enqueue_style(
+			'jquery-ui-' . $this->jquery_theme,
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->jquery_theme . '/jquery-ui.css',
+			false,
+			'1.8.11'
+		);
 	}
 
 	function vms_scripts() {
@@ -223,13 +271,12 @@ class vehicle_management_system_widget extends WP_Widget {
 
 	function update( $new_instance , $old_instance ) {
 		$instance = $old_instance;
-		$instance[ 'title' ] = strip_tags( $new_instance[ 'title' ] );
-		$instance[ 'width' ] = $new_instance[ 'width' ];
-		$instance[ 'height' ] = $new_instance[ 'height' ];
-		$instance[ 'float' ] = $new_instance[ 'float' ];
-		$instance[ 'saleclass' ] = $new_instance[ 'saleclass' ];
-		$instance[ 'tag' ] = $new_instance[ 'tag' ];
-		$instance[ 'carousel' ] = $new_instance[ 'carousel' ];
+		$instance[ 'title' ] = isset( $new_instance[ 'title' ] ) ? strip_tags( $new_instance[ 'title' ] ) : NULL;
+		$instance[ 'layout' ] = isset( $new_instance[ 'layout' ] ) ? $new_instance[ 'layout' ] : 'small';
+		$instance[ 'float' ] = isset( $new_instance[ 'float' ] ) ? $new_instance[ 'float' ] : 'none';
+		$instance[ 'saleclass' ] = isset( $new_instance[ 'saleclass' ] ) ?$new_instance[ 'saleclass' ] : 'all';
+		$instance[ 'tag' ] = isset( $new_instance[ 'tag' ] ) ? $new_instance[ 'tag' ] : NULL;
+		$instance[ 'carousel' ] = isset( $new_instance[ 'carousel' ] ) ? $new_instance[ 'carousel' ] : false;
 		
 		return $instance;
 	}
@@ -237,12 +284,11 @@ class vehicle_management_system_widget extends WP_Widget {
 	function form( $instance ) {
 
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
-		$width = isset( $instance[ 'width' ] ) ? esc_attr( $instance[ 'width' ] ) : '310px';
-		$height = isset( $instance[ 'height' ] ) ? esc_attr( $instance[ 'height' ] ) : '250px';
-		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : NULL;
-		$sale_class = isset( $instance[ 'saleclass' ] ) ? $instance[ 'saleclass' ] : NULL;
+		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
+		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : 'none';
+		$sale_class = isset( $instance[ 'saleclass' ] ) ? $instance[ 'saleclass' ] : 'all';
 		$tag = isset( $instance[ 'tag' ] ) ? $instance[ 'tag' ] : NULL;
-		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : NULL;
+		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
 
 		echo '<p>';
 		echo '<label for="' . $this->get_field_id( 'title' ) . '">' . _e( 'Title:' ) . '</label>';
@@ -252,19 +298,18 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo '<p>';
 		echo '<label for="' . $this->get_field_id( 'carousel' ) . '">' . _e( 'Carousel:' ) . '</label>';
 		$checked = ( $carousel == true ) ? 'checked="checked"' : NULL;
-		echo '<input id="' . $this->get_field_id( 'carousel' ) . '" name="' . $this->get_field_name( 'carousel' ) . '" type="checkbox" ' . $checked . '  value="true" />';
+		echo '<input id="' . $this->get_field_id( 'carousel' ) . '" name="' . $this->get_field_name( 'carousel' ) . '" type="checkbox" ' . $checked . '	value="true" />';
 		echo '</p>';
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'width' ) . '">' . _e( 'Width:' ) . '</label>';
-		echo '<input id="' . $this->get_field_id( 'width' ) . '" name="' . $this->get_field_name( 'width' ) . '" type="text" size="8" value="' . $width . '" />';
-		echo '<br /><small>Use Ems, Pixels, Points or Percents.</small>';
-		echo '</p>';
-
-		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'height' ) . '">' . _e( 'Height:' ) . '</label>';
-		echo '<input id="' . $this->get_field_id( 'height' ) . '" name="' . $this->get_field_name( 'height' ) . '" type="text" size="8" value="' . $height . '" />';
-		echo '<br /><small>Use Ems, Pixels, Points or Percents.</small>';
+		echo '<label for="' . $this->get_field_id( 'layout' ) . '">' . _e( 'Layout:' ) . '</label>';
+		echo '<select id="' . $this->get_field_id( 'layout' ) . '" name="' . $this->get_field_name( 'layout' ) . '" class="vrs-layout">';
+		$layout_options = array( 'small' , 'medium' , 'large' );
+		foreach( $layout_options as $layout_possibility ) {
+			$selected = $layout == $layout_possibility ? 'selected' : NULL;
+			echo '<option value="' . $layout_possibility . '" ' . $selected . '>' . ucfirst( $layout_possibility ) . '</option>';
+		}
+		echo '</select>';
 		echo '</p>';
 
 		echo '<p>';
