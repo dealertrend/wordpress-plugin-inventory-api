@@ -24,10 +24,10 @@
 .vrs-widget.small .carousel .carousel-wrap { width:65%; }
 .vrs-widget.medium .vrs-widget-item-wrapper { width:625px; }
 .vrs-widget.medium .carousel .carousel-wrap { width:78%; }
-.vrs-widget.large .vrs-widget-item-wrapper { width:850px; }
+.vrs-widget.large .vrs-widget-item-wrapper { width:840px; }
 .vrs-widget.large .carousel .carousel-wrap { width:85%; }
 
-.carousel-control.previous,
-.carousel-control.next { float:left; margin-top:80px; padding:0; }
+.vrs-widget .carousel-control.previous,
+.vrs-widget .carousel-control.next { float:left; margin-top:80px; padding:0; }
 
-.carousel .vrs-widget-item { width:230px; margin:0; padding:0; height:171px; }
+.vrs-widget .carousel .vrs-widget-item { width:230px; margin:0; padding:0; height:171px; }
