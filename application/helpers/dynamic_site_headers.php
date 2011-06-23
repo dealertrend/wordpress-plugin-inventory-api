@@ -80,11 +80,11 @@ class dynamic_site_headers {
 		function get_headers() {
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
 			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false;
-			$make = isset( $this->parameters[ 'make' ] ) ? $this->parameters[ 'make' ] : 'All';
-			$model = isset( $this->parameters[ 'model' ] ) ? $this->parameters[ 'model' ] : 'All';
-			$trim = isset( $this->parameters[ 'trim' ] ) ? $this->parameters[ 'trim' ] : 'All';
-			$city = isset( $this->parameters[ 'city' ] ) ? $this->parameters[ 'city' ] : false;
-			$state = isset( $this->parameters[ 'state' ] ) ? $this->parameters[ 'state' ] : false;
+			$make = isset( $this->parameters[ 'make' ] ) ? urlencode( $this->parameters[ 'make' ] ) : 'All';
+			$model = isset( $this->parameters[ 'model' ] ) ? urlencode( $this->parameters[ 'model' ] ) : 'All';
+			$trim = isset( $this->parameters[ 'trim' ] ) ? urlencode( $this->parameters[ 'trim' ] ) : 'All';
+			$city = isset( $this->parameters[ 'city' ] ) ? urlencode( $this->parameters[ 'city' ] ) : false;
+			$state = isset( $this->parameters[ 'state' ] ) ? urlencode( $this->parameters[ 'state' ] ) : false;
 			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
 			$base = $year != false ? $year : $sale_class;
 			if( $year == false ) {
