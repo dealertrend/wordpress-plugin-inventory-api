@@ -350,7 +350,6 @@
 			}
 		?>
 		<p>If the VMS and Company Feed are both loaded, you may view your inventory here: <a href="<?php bloginfo( 'url' ); echo $inventory_link; ?>" target="_blank"><?php bloginfo( 'url' ); echo $inventory_link; ?></a></p>
-				</tr>
 		<p>Please note that any pages or sub-pages that reside at this permalink will no longer be shown.</p>
 		<h3 class="title">Plugin Legend</h3>
 		<table width="450" cellspacing="20">
