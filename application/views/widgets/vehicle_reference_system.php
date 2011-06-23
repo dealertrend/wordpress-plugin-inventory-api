@@ -15,12 +15,14 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$plugin_file = pathinfo( __FILE__ );
 		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
 		$this->plugin_information[ 'WidgetURL' ] = WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
-		if( is_admin() ) {
+		if( !is_admin() ) {
+			if( is_active_widget( false, $this->id , $this->id_base , true ) ) {
+				add_action( 'wp_print_styles' , array( &$this , 'vrs_front_styles' ) , 1 );
+				add_action( 'wp_print_scripts', array( &$this , 'vrs_front_scripts' ) , 1 );
+			}
+		} else {
 			add_action( 'admin_print_styles' , array( &$this , 'vrs_admin_styles' ) , 1 );
 			add_action( 'admin_print_scripts', array( &$this , 'vrs_admin_scripts' ) , 1 );
-		} else {
-			add_action( 'wp_print_styles' , array( &$this , 'vrs_front_styles' ) , 1 );
-			add_action( 'wp_print_scripts', array( &$this , 'vrs_front_scripts' ) , 1 );
 		}
 		$this->load_options();
 	}
@@ -157,6 +159,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 			echo '<li><a href="#vrs-' . $this->id . '-' . preg_replace( '/(\W+)/i' , '_' , $make ) . '">' . $make . '</a></li>';
 		}
 		echo '</ul>';
+
 		foreach( $makes as $make ) {
 			echo '<div id="vrs-' . $this->id . '-' . preg_replace( '/(\W+)/i' , '_' , $make ) . '" class="vrs-widget items ' . $carousel . '">';
 
@@ -337,7 +340,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$selected = $layout == $layout_possibility ? 'selected' : NULL;
 			echo '<option value="' . $layout_possibility . '" ' . $selected . '>' . ucfirst( $layout_possibility ) . '</option>';
 		}
-		
 		echo '</select>';
 		echo '</p>';
 
