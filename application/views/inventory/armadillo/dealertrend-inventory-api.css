@@ -10,6 +10,7 @@
 .armadillo-breadcrumbs a span { padding-right:10px; font-size:25px; font-weight:100; color:#BBB; line-height:20px; margin-top:2px; display:block; float:left; }
 
 #armadillo-wrapper { font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; width:925px; margin:auto; margin-top:10px; position:relative;  }
+#armadillo-wrapper input { font-family: Helvetica, Arial; }
 
 /* Listing Page */
 #armadillo-listing { clear:both; }
@@ -32,6 +33,12 @@
 #armadillo-quick-links > ul > li > ul > li { margin:0; }
 #armadillo-quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
 #armadillo-quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
+#armadillo-listing li > a.active { color:#9f0300; text-decoration:underline; }
+
+#armadillo-quick-links > ul > li a.jquery-ui-button { width:150px !important; display:block !imporatnt; margin:auto; margin-bottom:10px; }
+#armadillo-quick-links > ul > li span.no-style { margin-bottom:5px; }
+#armadillo-quick-links > ul > li span.no-style,
+#armadillo-quick-links > ul > li .jquery-ui-button span { border-bottom:0 !important; padding:0 !important; width:150px !important; display:block !important; }
 
 #armadillo-sorting-columns { height:50px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
 #armadillo-sorting-columns > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
@@ -44,6 +51,7 @@
 #armadillo-listing-items { width:748px; margin-left:-1px; border-left:1px solid #a8a8a8; border-right:1px solid #a8a8a8; position:relative; float:right; z-index:2; position:relative; margin-bottom:10px; }
 
 .armadillo-not-found h2 { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; font-size:16px; }
+.armadillo-not-found > a { width:250px; margin-top:15px; display:block; margin-left:250px; position:absolute; }
 
 #armadillo-listing-items > h2 { display:block; line-height:20px; padding:10px; }
 
@@ -79,9 +87,10 @@
 .armadillo-item .armadillo-details-right { float:left; padding-left:10px; width:155px; }
 
 .armadillo-item .armadillo-icons { float:left; padding-left:20px; overflow:hidden; height:40px; width:150px; }
-.armadillo-item .armadillo-ais-incentive { float:left; font-weight:bold; clear:both; color:#9f0300; font-size:12px; width:500px !important; }
+.armadillo-item .armadillo-ais-incentive,
+#armadillo-detail .armadillo-ais-incentive { float:left; font-weight:bold; clear:both; color:#1982D1; font-size:12px !important; width:500px !important; line-height:18px !important; }
 .armadillo-item .armadillo-ais-incentive a { padding-left:5px; }
-.armadillo-item .armadillo-price { float:left; width:500px; font-size:20px; font-weight:bold; margin-left:5px; }
+.armadillo-item .armadillo-price { float:left; width:500px; font-size:20px; font-weight:bold; margin-left:5px; line-height:26px; }
 .armadillo-price .armadillo-asking-price,
 .armadillo-price .armadillo-sale-price { color:#9f0300; clear:both; line-height:26px; }
 .armadillo-price .armadillo-sale-expires { font-size:14px; clear:both; line-height:26px; }
@@ -181,3 +190,7 @@
 #armadillo-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
 #armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
 .armadillo-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
+
+.ui-widget-overlay { opacity:0.3 !important; left:0; position:fixed; top:0; z-index:8000; }
+.ui-overlay iframe { display:block; width:785px; height:615px; position:fixed; z-index:9999; top: 50%; left: 50%; margin-top: -307px; margin-left: -392px; }
+.ui-dialog { z-index:9999 !important; }

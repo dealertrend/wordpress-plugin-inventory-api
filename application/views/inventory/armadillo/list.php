@@ -15,7 +15,7 @@
 		'prev_text' => __( '< Previous' ),
 		'show_all' => false,
 		'type' => 'plain'
-	); 
+	);
 
 	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
@@ -26,6 +26,11 @@
 	} else {
 		$total_found = $inventory[ 0 ]->pagination->total * $inventory[ 0 ]->pagination->per_page;
 	}
+
+	$do_not_carry = remove_query_arg( 'page' , $query );
+
+	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) );
+	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/used/' : add_query_arg( array( 'saleclass' => 'used' ) );
 
 ?>
 
@@ -59,31 +64,38 @@
 				?>
 				<h3>Refine Your Search</h3>
 				<ul>
+					<li class="armadillo-expanded">
+						<span>Sale Class</span>
+						<ul>
+							<li><span class="no-style"><a href="<?php echo $new; ?>" title="View New Inventory" class="jquery-ui-button <?php echo strtolower( $sale_class ) == 'new' ? 'disabled' : NULL; ?>">New</a></span></li>
+							<li><span class="no-style"><a href="<?php echo $used; ?>" title="View Used Inventory" class="jquery-ui-button <?php echo strtolower( $sale_class ) == 'used' ? 'disabled' : NULL; ?>">Used</a></span></li>
+						</ul>
+					</li>
+				</ul>
+				<ul>
 					<?php
 						if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ):
-							$do_not_carry = remove_query_arg( 'page' , $query );
 					?>
 					<li class="armadillo-expanded">
 						<span>Body Style</span>
 						<ul>
-							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'car' ) , $do_not_carry ); ?>">Car</a></li>
-							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'truck' ) , $do_not_carry ); ?>">Truck</a></li>
-							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'sport_utility' ) , $do_not_carry ); ?>">SUV</a></li>
-							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'van' ) , $do_not_carry ); ?>">Van</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'car' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'car' ? 'class="active"' : NULL; ?>>Car</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'truck' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'truck' ? 'class="active"' : NULL; ?>>Truck</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'sport_utility' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'sport_utility' ? 'class="active"' : NULL; ?>>SUV</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'van' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'van' ? 'class="active"' : NULL; ?>>Van</a></li>
 						</ul>
 					</li>
 					<?php
 						endif;
-						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ):
+						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
+							$makes = $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
+							if( count( $makes ) > 0 ) {
 					?>
 					<li class="armadillo-expanded">
 						<span>Make</span>
 						<ul>
 							<?php
-								if( isset( $parameters[ 'saleclass' ] ) ) {
-									echo '<li class="small"><a href="' . $site_url . '/inventory/">View All Vehicles</a></li>';
-								}
-								foreach( $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) ) as $make ) {
+								foreach( $makes as $make ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/';
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
@@ -95,16 +107,15 @@
 							?>
 						</ul>
 					</li>
-					<?php elseif( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ): ?>
+					<?php
+							}
+						} elseif( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ) { ?>
 					<li class="armadillo-expanded">
 						<span>Model</span>
 						<ul>
 							<?php
-								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
-								} else {
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
-								}
+								$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
+								$make_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class ) , $tmp_do_not_carry );
 								foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
@@ -113,39 +124,36 @@
 										echo '<li><a href="' . @add_query_arg( array( 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
+								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Back</a></span></li>';
 							?>
 						</ul>
 					</li>
-					<?php elseif( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
+					<?php } elseif( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) { ?>
 					<li class="armadillo-expanded">
 						<span>Trim</span>
 						<ul>
 							<?php
-								if( !empty( $wp_rewrite->rules ) ) {
-									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/">View All ' . $parameters[ 'make' ] . ' Models</a></li>';
-									echo '<li class="armadillo-small"><a href="' . $site_url . '/inventory/' . $sale_class . '/">View ' . $sale_class . ' Vehicles</a></li>';
-								} else {
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $do_not_carry ) . '">< View All ' . $parameters[ 'make' ] . '</a></li>';
-									echo '<li class="armadillo-small"><a href="' . @add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry ) . '">View ' . $sale_class. ' Vehicles</a></li>';
-								}
+								$tmp_do_not_carry = remove_query_arg( 'model' , $do_not_carry );
+								$model_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $tmp_do_not_carry );
 								foreach( $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) ) as $trim ) {
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
+								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Back</a></span></li>';
 							?>
 						</ul>
 					</li>
 					<?php
-						endif;
+						};
 					?>
 					<li class="armadillo-expanded">
 						<span>Price</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>">$0 - $10,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>">$10,001 - $20,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>">$20,001 - $30,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>">$30,001 - $40,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>">$40,001 - $50,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>">$50,001 - &amp; Above</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from === "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>" <?php echo $price_from == 10001 ? 'class="active"' : NULL; ?>>$10,001 - $20,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>" <?php echo $price_from == 20001 ? 'class="active"' : NULL; ?>>$20,001 - $30,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>" <?php echo $price_from == 30001 ? 'class="active"' : NULL; ?>>$30,001 - $40,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>" <?php echo $price_from == 40001 ? 'class="active"' : NULL; ?>>$40,001 - $50,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>" <?php echo $price_from == 50001 ? 'class="active"' : NULL; ?>>$50,001 - &amp; Above</a></li>
 						</ul>
 					</li>
 					<?php
@@ -187,7 +195,7 @@
 			<div id="armadillo-listing-items">
 				<?php
 					if( empty( $inventory ) ) {
-						echo '<div class="armadillo-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
+						echo '<div class="armadillo-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2><a onClick="history.go(-1)" title="Return to Previous Search" class="jquery-ui-button">Return to Previous Search</a></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
 							setlocale( LC_MONETARY , 'en_US' );
@@ -247,8 +255,10 @@
 										<?php echo $headline; ?>
 									</div>
 									<div class="armadillo-details-left">
-										<span class="armadillo-interior-color">Int. Color: <?php echo $interior_color; ?></span>
-										<span class="armadillo-exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
+										<?php
+											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : '&nbsp;';
+											echo $exterior_color != NULL ? '<span class="armadillo-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : '&nbsp;';
+										?>
 										<span class="armadillo-transmission">Trans: <?php echo $transmission; ?></span>
 									</div>
 									<div class="armadillo-details-right">
@@ -264,8 +274,8 @@
 										$incentive_price = 0;
 										if( $ais_incentive != NULL ) {
 									?>
-									<div class="armadillo-ais-incentive">
-										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=<?php echo $vin; ?>&wID=<?php echo $company_information->api_keys->ais; ?>&zID=<?php echo $company_information->zip; ?>" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES">
+									<div class="armadillo-ais-incentive view-available-rebates">
+										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=<?php echo $vin; ?>&wID=<?php echo $company_information->api_keys->ais; ?>&zID=<?php echo $company_information->zip; ?>" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">
 											VIEW AVAILABLE INCENTIVES AND REBATES
 										</a>
 										<?php
@@ -282,9 +292,6 @@
 													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 													if( $incentive_price > 0 ) {
 														echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
-														if( $sale_expire != NULL ) {
-															echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
-														}
 													} else {
 														echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 													}
@@ -294,7 +301,7 @@
 													echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
 													if( $sale_expire != NULL ) {
-														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 													}
 												} else {
 													if( $ais_incentive != NULL ) {
@@ -302,14 +309,14 @@
 													}
 													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 													if( $sale_expire != NULL ) {
-														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
+														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 													}
 												}
 											} else {
 												if( $asking_price > 0 ) {
 													if( $incentive_price > 0 ) {
 														echo '<div class="armadillo-asking-price" style="font-size:12px;">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
-														echo '<div class="armadillo-ais-incentive" style="font-size:12px; color:#0066CC; ">Savings: ' . $ais_incentive . '</div>';
+														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 													} else {
 														if( $ais_incentive != NULL ) {

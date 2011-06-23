@@ -312,11 +312,8 @@ function video_popup(url , title) {
 							$now_text = 'Now: ';
 						}
 						if( $incentive_price > 0 ) {
-							echo '<div class="armadillo-ais-incentive"><small>Savings: ' . $ais_incentive . '</small></div>';
+							echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
-							if( $sale_expire != NULL ) {
-								echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
-							}
 						} else {
 							if( $ais_incentive != NULL ) {
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
@@ -346,9 +343,9 @@ function video_popup(url , title) {
 						}
 					}
 					if( $ais_incentive != NULL ) {
-										echo '<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" style="font-size:10px;">
+										echo '<div style="float:none; " class="armadillo-ais-incentive view-available-rebates"><a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" style="display:block; width:280px !important;" onClick="return loadIframe( this.href );">
 											VIEW AVAILABLE INCENTIVES AND REBATES
-										</a>';
+										</a></div>';
 					}
 				?>
 				</div>
@@ -373,24 +370,32 @@ function video_popup(url , title) {
 			<div class="armadillo-icons">
 				<?php echo $icons; ?>
 			</div>
-			<div id="armadillo-inventory-tabs">
-				<ul>
-					<li><a href="#armadillo-options">Vehicle Details</a></li>
-					<li><a href="#armadillo-description">Comments</a></li>
-				</ul>
-				<div id="armadillo-description">
-					<?php echo '<p>' . $description . '</p>'; ?>
-				</div>
-				<div id="armadillo-options">
+			<?php
+				if( ! empty( $dealer_options ) && ! empty( $description ) ) {
+			?>
+				<div id="armadillo-inventory-tabs">
 					<ul>
-					<?php
-						foreach( $dealer_options as $option ) {
-							echo '<li>' . $option . '</li>';
-						}
-					?>
+						<?php
+							echo ! empty( $dealer_options ) ? '<li><a href="#armadillo-options">Vehicle Details</a></li>' : NULL;
+							echo ! empty( $description ) ? '<li><a href="#armadillo-description">Comments</a></li>' : NULL;
+						?>
 					</ul>
+					<?php
+						echo ! empty( $description ) ? '<div id="armadillo-description"><p>' . $description . '</p></div>' : NULL;
+						if( ! empty( $dealer_options ) ) {
+					?>
+					<div id="armadillo-options">
+						<ul>
+						<?php
+							foreach( $dealer_options as $option ) {
+								echo '<li>' . $option . '</li>';
+							}
+						?>
+						</ul>
+					</div>
+					<?php } ?>
 				</div>
-			</div>
+			<?php } ?>
 			<div id="armadillo-tabs">
 				<div id="armadillo-description">
 				</div>
