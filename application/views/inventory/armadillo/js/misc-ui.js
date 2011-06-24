@@ -5,7 +5,8 @@ dealertrend(document).ready(
     dealertrend( '.jquery-ui-button' ).button().each(
       function() {
         if( dealertrend( this ).hasClass( 'disabled' ) == true ) {
-          dealertrend( this ).button({ disabled: true }).click(
+          dealertrend( this ).button( "option", "icons", {primary:'ui-icon-triangle-1-e'} );
+          dealertrend( this ).button({ disabled: true } ).click(
             function() {
               return false;
             }
