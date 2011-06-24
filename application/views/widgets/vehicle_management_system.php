@@ -223,9 +223,9 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo '
 			<div class="vms-widget-content ' . $carousel . '">
 				<ul>
-					<li><a href="#' .$this->id . '" title="Inventory">Inventory</a></li>
+					<li><a href="#' .$this->id . '-content" title="Inventory">Inventory</a></li>
 				</ul>
-				<div id="' . $this->id . '" class="vms-widget-content-wrapper">
+				<div id="' . $this->id . '-content" class="vms-widget-content-wrapper">
 					<div class="vms-widget-item-wrapper">
 						' . $content_block . '
 					</div>
