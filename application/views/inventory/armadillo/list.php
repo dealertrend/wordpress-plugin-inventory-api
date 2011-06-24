@@ -124,7 +124,7 @@
 										echo '<li><a href="' . @add_query_arg( array( 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
-								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Back</a></span></li>';
+								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Previous</a></span></li>';
 							?>
 						</ul>
 					</li>
@@ -138,7 +138,7 @@
 								foreach( $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) ) as $trim ) {
 									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
-								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Back</a></span></li>';
+								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Previous</a></span></li>';
 							?>
 						</ul>
 					</li>
