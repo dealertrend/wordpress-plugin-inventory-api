@@ -52,36 +52,46 @@
 
 	$site_url = site_url();
 
-	get_header();
-	flush();
-
 	$company_information = $company_information[ 'data' ];
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 
 	$check_host = $vehicle_management_system->check_host();
+	status_header( '400' );
+	if( $check_host[ 'status' ] != false ) {
+		status_header( '302' );
+		$check_company_id = $vehicle_management_system->check_company_id();
+		if( $check_company_id[ 'status' ] != false ) {
+			$check_inventory = $vehicle_management_system->check_inventory();
+			if( $check_inventory[ 'status' ] != false ) {
+				$inventory = $vehicle_management_system->get_inventory( $this->parameters );
+				if( $inventory != false ) {
+					status_header( '200' );
+				}
+			}
+		}
+	}
+
+	get_header();
+	flush();
+
 	if( $check_host[ 'status' ] == false ) {
 		echo $generic_error_message;
 		echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
 		return false;
 	}
 
-	$check_company_id = $vehicle_management_system->check_company_id();
 	if( $check_company_id[ 'status' ] == false ) {
 		echo $generic_error_message;
 		echo '<p>We were unable to retreive the company information feed. Refreshing the page may resolve this.</p>';
 		return false;
 	}
 
-	$check_inventory = $vehicle_management_system->check_inventory();
-
 	if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
 		echo $generic_error_message;
 		echo '<p>We were unable to retreive the inventory feed. Refreshing the page may resolve this.</p>';
 		return false;
 	}
-
-	$inventory = $vehicle_management_system->get_inventory( $this->parameters );
 
 	if( $inventory === false ) {
 		echo $generic_error_message;
