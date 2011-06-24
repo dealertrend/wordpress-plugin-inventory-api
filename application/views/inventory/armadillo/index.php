@@ -59,7 +59,6 @@
 	$check_host = $vehicle_management_system->check_host();
 	status_header( '400' );
 	if( $check_host[ 'status' ] != false ) {
-		status_header( '302' );
 		$check_company_id = $vehicle_management_system->check_company_id();
 		if( $check_company_id[ 'status' ] != false ) {
 			$check_inventory = $vehicle_management_system->check_inventory();
