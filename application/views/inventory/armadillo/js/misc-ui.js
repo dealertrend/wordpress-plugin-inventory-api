@@ -15,7 +15,7 @@ dealertrend(document).ready(
     );
 
     var overlay = dealertrend(
-      '<div class="ui-overlay"><div class="icanhazmodal"><iframe width="785" src="about:blank" height="615" frameborder="0"></iframe></div><div class="ui-widget-overlay"></div></div>'
+      '<div class="ui-overlay"><div class="icanhazmodal"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div><div class="ui-widget-overlay"></div></div>'
     ).hide().appendTo('body');
 
     dealertrend( '.icanhazmodal' ).dialog({
@@ -23,15 +23,22 @@ dealertrend(document).ready(
       modal: false,
       resizable: false,
       width: 820,
-      height: 700,
+      height: 485,
       close: function( event , ui ) { overlay.fadeOut(); },
       title: 'Incentives and Rebates'
     });
 
     dealertrend( '.view-available-rebates > a' ).click(
       function() {
+        dealertrend( '.ui-widget-overlay' ).height( dealertrend( document ).height() );
         overlay.fadeIn();
         dealertrend( '.icanhazmodal' ).dialog( 'open' );
+      }
+    );
+
+    dealertrend( '.ui-widget-overlay').click(
+      function() {
+        dealertrend( '.icanhazmodal' ).dialog( 'close' );;
       }
     );
   }
