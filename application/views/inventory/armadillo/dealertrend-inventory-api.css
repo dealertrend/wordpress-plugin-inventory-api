@@ -26,19 +26,19 @@
 #armadillo-quick-links > ul { list-style:none; padding:0; margin:0; }
 #armadillo-quick-links li { list-style:none; }
 #armadillo-quick-links > ul > li { color: #006875; font-weight:bold; text-transform:uppercase; margin:0; }
-#armadillo-quick-links > ul > li span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
-#armadillo-quick-links > ul > li.armadillo-collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
-#armadillo-quick-links > ul > li.armadillo-expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
+#armadillo-quick-links > ul > li > span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
+#armadillo-quick-links > ul > li.armadillo-collapsed > span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
+#armadillo-quick-links > ul > li.armadillo-expanded > span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
 #armadillo-quick-links > ul > li > ul { list-style:none; padding:0; margin:0; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
 #armadillo-quick-links > ul > li > ul > li { margin:0; }
 #armadillo-quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
 #armadillo-quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
 #armadillo-listing li > a.active { color:#9f0300; text-decoration:underline; }
 
-#armadillo-quick-links > ul > li a.jquery-ui-button { width:150px !important; display:block !imporatnt; margin:auto; margin-bottom:10px; }
+#armadillo-quick-links > ul > li a.jquery-ui-button { width:150px !important; display:block; margin:auto; }
 #armadillo-quick-links > ul > li span.no-style { margin-bottom:5px; }
 #armadillo-quick-links > ul > li span.no-style,
-#armadillo-quick-links > ul > li .jquery-ui-button span { border-bottom:0 !important; padding:0 !important; width:150px !important; display:block !important; }
+#armadillo-quick-links > ul > li .jquery-ui-button > span { border-bottom:0 !important; padding:0 !important; display:block !important; }
 
 #armadillo-sorting-columns { height:50px; background: #eee; color:black; border-left:1px solid #eee; border-right:1px solid #a8a8a8; border-bottom:1px solid #a8a8a8; }
 #armadillo-sorting-columns > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
