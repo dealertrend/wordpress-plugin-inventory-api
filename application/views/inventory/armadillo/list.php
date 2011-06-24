@@ -29,7 +29,8 @@
 
 	$do_not_carry = remove_query_arg( 'page' , $query );
 
-	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) );
+	$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
+	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
 	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/used/' : add_query_arg( array( 'saleclass' => 'used' ) );
 
 ?>
@@ -89,7 +90,8 @@
 						endif;
 						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
 							$makes = $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
-							if( count( $makes ) > 0 ) {
+							$make_count = count ( $makes );
+							if( $make_count > 1 ) {
 					?>
 					<li class="armadillo-expanded">
 						<span>Make</span>
@@ -108,41 +110,62 @@
 						</ul>
 					</li>
 					<?php
+							} else {
+								if( $make_count == 1 ) {
+									$parameters[ 'make' ] = $makes[ 0 ];
+								}
 							}
-						} elseif( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ) { ?>
+						}
+						if( ( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ) && isset( $parameters[ 'make' ] ) ) {
+							$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
+							$make_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class ) , $tmp_do_not_carry );
+							$models = $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
+							$model_count = count( $models );
+							if( $model_count > 1 ) {
+					?>
 					<li class="armadillo-expanded">
 						<span>Model</span>
 						<ul>
 							<?php
-								$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-								$make_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class ) , $tmp_do_not_carry );
-								foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
+								foreach( $models as $model ) {
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
 								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Previous</a></span></li>';
 							?>
 						</ul>
 					</li>
-					<?php } elseif( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) { ?>
+					<?php
+							} else {
+								if( $model_count == 1 ) {
+									$parameters[ 'model' ] = $models[ 0 ];
+								}
+							}
+						}
+						if( ( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) && isset( $parameters[ 'model' ] ) ) {
+							$tmp_do_not_carry = remove_query_arg( 'model' , $do_not_carry );
+							$model_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $tmp_do_not_carry );
+							$trims = $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+							$trim_count = count( $trims );
+							if( $trim_count > 1 ) {
+					?>
 					<li class="armadillo-expanded">
 						<span>Trim</span>
 						<ul>
 							<?php
-								$tmp_do_not_carry = remove_query_arg( 'model' , $do_not_carry );
-								$model_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $tmp_do_not_carry );
-								foreach( $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) ) as $trim ) {
-									echo '<li><a href="' . @add_query_arg( array( 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
+								foreach( $trims as $trim ) {
+									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
 								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Previous</a></span></li>';
 							?>
 						</ul>
 					</li>
 					<?php
+							}
 						};
 					?>
 					<li class="armadillo-expanded">
