@@ -49,6 +49,8 @@
 		$this->options[ 'vehicle_reference_system' ][ 'host' ]
 	);
 
+	$check_vms_host = $vehicle_management_system->check_host();
+
 	?>
 
 <div id="uninstall-dialog" title="Confirm Uninstall" style="display:none;">
@@ -136,17 +138,21 @@
 				<td>
 					<?php
 						if( $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] != 0 ) {
-							$start = timer_stop();
-							$check_company = $vehicle_management_system->check_company_id();
-							$stop = timer_stop();
-							if( $check_company[ 'status' ] == true ) {
-								echo '<span class="success">Loaded</span>';
+							if( $check_vms_host[ 'status' ] == true ) {
+								$start = timer_stop();
+								$check_company = $vehicle_management_system->check_company_id();
+								$stop = timer_stop();
+								if( $check_company[ 'status' ] == true ) {
+									echo '<span class="success">Loaded</span>';
+									} else {
+									echo '<span class="fail">Unavailable</span>';
+									echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+								}
+								$time = $stop - $start;
+								echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 							} else {
-								echo '<span class="fail">Unavailable</span>';
-								echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+								echo '<span class="fail">' . $check_vms_host[ 'data' ][ 'message' ] . '</span>';
 							}
-							$time = $stop - $start;
-							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 						} else {
 							echo '<span class="fail">Not Configured</span>';
 						}
