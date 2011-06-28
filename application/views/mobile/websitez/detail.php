@@ -1,11 +1,12 @@
 <?php
+
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	setlocale( LC_MONETARY , 'en_US' );
 	$prices = $inventory->prices;
 	$use_was_now = $prices->{ 'use_was_now?' };
 	$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
 	$on_sale = $prices->{ 'on_sale?' };
 	$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
+	$sale_expire = isset( $prices->sale_expire ) ? $prices->sale_expire : NULL;
 	$retail_price = $prices->retail_price;
 	$default_price_text = $prices->default_price_text;
 	$asking_price = $prices->asking_price;
@@ -19,9 +20,9 @@
 	$dealer_options = $inventory->dealer_options;
 	$standard_equipment = $inventory->standard_equipment;
 	$year = $inventory->year;
-	$make = $inventory->make;
-	$model = $inventory->model_name;
-	$trim = $inventory->trim;
+	$make = urldecode( $inventory->make );
+	$model = urldecode( $inventory->model_name );
+	$trim = urldecode( $inventory->trim );
 	$year_make_model = $year . ' ' . $make . ' ' . $model;
 	$description = $inventory->description;
 	$doors = $inventory->doors;
@@ -33,13 +34,12 @@
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 	$contact_information = $inventory->contact_info;
+	$greeting = isset( $contact_information->greeting ) ? $contact_information->greeting : NULL;
+	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
+	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
-	
-	$headline = $inventory->headline;
-	if(strlen($headline) == 0)
-		$headline = $year." ".$make." ".$model;
-	$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
+
 ?>
 <div class="websitez-container dealertrend-mobile inventory">
 	<div class="post">
@@ -47,56 +47,6 @@
 			<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
 			<div class="images">
 				<?php
-					if(count($inventory->photos) > 1):
-					?>
-					<script type="text/javascript">
-					var active_image = 1;
-					var total_images = "<?php echo count($inventory->photos);?>";
-					var car_image_rotator;
-					function change_car_image(){
-						jQuery(".car-image").each(function(){jQuery(this).hide()});
-						if(active_image == total_images){
-							jQuery("#car-image-1").show("slow");
-							active_image=1;
-						}else{
-							//jQuery("#car-image-"+(active_image+1)).show("slow");
-							$("#car-image-"+(active_image+1)).animate({
-						    height: 'toggle'
-						  }, 1000, function() {
-						    // Animation complete.
-						  });
-							active_image++;
-						}
-					}
-					function change_car_image_previous(){
-						change_car_image_stop();
-						if(active_image > 2){
-							active_image = active_image - 2;
-						}else{
-							active_image = total_images;
-						}
-						change_car_image();
-						return false;
-					}
-					function change_car_image_next(){
-						change_car_image_stop();
-						change_car_image();
-						return false;
-					}
-					function change_car_image_start(){
-						car_image_rotator = setInterval('change_car_image()',4000);
-						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_stop();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/33_24x24.png\" border=\"0\"></a>");
-						return false;
-					}
-					function change_car_image_stop(){
-						window.clearInterval(car_image_rotator);
-						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_start();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/31_24x24.png\" border=\"0\"></a>");
-						return false;
-					}
-					change_car_image_start();
-					</script>
-					<?php
-					endif;
 					$i=1;
 					foreach( $inventory->photos as $photo ) {
 						if($i==1)
@@ -106,22 +56,7 @@
 						$i++;
 					}
 				?>
-				</div>
-				<?php
-				if(count($inventory->photos) > 1):
-				?>
-				<div class="images-nav">
-					<a href="" onClick="return change_car_image_previous();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/28_24x24.png" border="0"></a> <span id="change_car_image_playpause"><a href="" onClick="return change_car_image_stop();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/33_24x24.png" border="0"></a></span> <a href="" onClick="return change_car_image_next();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/29_24x24.png" border="0"></a>
-				</div>
-				<?php
-				else:
-				?>
-				<div class="photo">
-					<img src='<?php echo $inventory->photos[0]->small; ?>' alt='<?php echo $generic_vehicle_title;?>'>
-				</div>
-				<?php
-				endif;
-				?>
+			</div>
 			<?php flush(); ?>
 			<div class="right-column">
 				<div class="details">
@@ -130,14 +65,14 @@
 					if( $on_sale ) {
 						$now_text = '<strong>Price:</strong> ';
 						if( $use_was_now ) {
-							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
+							$price_class = ( $use_price_strike_through ) ? 'websitez-strike-through websitez-asking-price' : 'websitez-asking-price';
 							echo '<p class="' . $price_class . '"><strong>Was:</strong> ' . money_format( '%(#0n' , $asking_price ) . '</p>';
 							$now_text = '<strong>Now:</strong> ';
 						}
-						echo '<p class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</p>';
+						echo '<p class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</p>';
 					} else {
 						if( $asking_price > 0 ) {
-							echo '<p class="armadillo-asking-price"><strong>Price:</strong> ' . money_format( '%(#0n' , $asking_price ) . '</p>';
+							echo '<p class="websitez-asking-price"><strong>Price:</strong> ' . money_format( '%(#0n' , $asking_price ) . '</p>';
 						} else {
 							echo $default_price_text;
 						}
@@ -166,7 +101,7 @@
 						<input name="stock" type="hidden" value="<?php echo $stock_number; ?>" />
 						<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
 						<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
-						<input name="price" type="hidden" value="<?php echo $price; ?>" />
+						<input name="price" type="hidden" value="<?php echo $primary_price; ?>" />
 						<input name="name" type="hidden" value="" />
 						<table>
 							<tr>
@@ -292,7 +227,7 @@
 							<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
 							<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 							<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-							<input type="hidden" name="price" value="<?php echo $price; ?>"/>
+							<input type="hidden" name="price" value="<?php echo $primary_price; ?>"/>
 							<table style="width:100%">
 								<tr>
 									<td class="required" style="width:50%;" colspan="1">
@@ -356,7 +291,7 @@
 							<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
 							<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 							<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-							<input type="hidden" name="price" value="<?php echo $price; ?>"/>
+							<input type="hidden" name="price" value="<?php echo $primary_price; ?>"/>
 							<table style="width:100%">
 								<tr>
 									<td class="required" colspan="1" style="width:50%;">
@@ -530,7 +465,7 @@
 				</div>
 				<div id="loan-calculator" class="options-div">
 					<?php
-						$html_free_price = str_replace( '<span class=\'asking\'>' , null , $price );
+						$html_free_price = str_replace( '<span class=\'asking\'>' , null , $primary_price );
 						$html_free_price = str_replace( '</span>' , null , $html_free_price );
 					?>
 					<h3>Loan Calculator</h3>
