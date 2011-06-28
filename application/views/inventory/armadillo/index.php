@@ -1,5 +1,7 @@
 <?php
 
+	global $wp_rewrite;
+
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
@@ -47,8 +49,6 @@
 		$this->plugin_information[ 'Version' ],
 		true
 	);
-
-	global $wp_rewrite;
 
 	$site_url = site_url();
 
@@ -109,8 +109,8 @@
 	echo '##################################################' . "\n";
 	echo '-->' . "\n";
 
-	$state = $company_information->state;
 	$city = $company_information->city;
+	$state = $company_information->state;
 
 	$company_name = strtoupper( $company_information->name );
 

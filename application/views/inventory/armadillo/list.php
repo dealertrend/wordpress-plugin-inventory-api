@@ -2,8 +2,6 @@
 
 	global $wp_rewrite;
 
-	$parameters = $this->parameters;
-
 	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
 	$total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
 
