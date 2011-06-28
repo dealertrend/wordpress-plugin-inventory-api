@@ -31,14 +31,51 @@
 	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
 	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/used/' : add_query_arg( array( 'saleclass' => 'used' ) );
 
+	$quick_links = $quick_links_end = null;
+
+	if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
+		$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
+		foreach( $makes as $make ) {
+			if( !empty( $wp_rewrite->rules ) ) {
+				$quick_links .= '<option value="/inventory/'. $sale_class	. '/' . $make . '/">' . $make . '</option>';
+			} else {
+				$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class	. '&amp;make=' . $make . '">' . $make . '</option>';
+			}
+		}
+	} elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
+		$models = $vehicle_management_system->get_models(	array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
+		if(is_array($models)):
+			foreach( $models as $model ) {
+				if( !empty( $wp_rewrite->rules ) ) {
+					$quick_links .= '<option value="/inventory/'. $sale_class	. '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</option>';
+				} else {
+					$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class	. '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '">' . $model . '</option>';
+				}
+			}
+		endif;
+	} elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
+		$trims = $vehicle_management_system->get_trims(	array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/All/">View All Makes</option>' : '<option value="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' )		) . '">View All Makes</option>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</option>' : '<option value="' . @add_query_arg( array( 'model' => 'All' , 'trim'	 => 'All' ) ) . '">View All Models</option>';
+		foreach( $trims as $trim ) {
+			$quick_links .= '<option value="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</option>';
+		}
+	} else {
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/All/">View All Makes</option>' : '<option value="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' )		) . '">View All Makes</option>';
+		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</option>' : '<option value="' . @add_query_arg( array( 'model' => 'All' , 'trim'	 => 'All' ) ) . '">View All Models</option>';
+		$quick_links_end .= '<option value="' . @add_query_arg( array( 'trim' => 'All' ) ) . '">View All Trims</option>';
+	}
+
 ?>
 
 <div class="websitez-container dealertrend-mobile inventory">
 	<div class="post nav">
 		<div class="select">
-			<select>
-			<option>PUT STUFF HERE</option>
-			</select>
+		<?php
+			echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
+			echo !empty($quick_links_end) ? "<p><select name='' onchange=''>".$quick_links_end."</select></p>" : NULL;
+		?>
 		</div>
 		<div class="paginate">
 			<p><?php echo paginate_links( $args ); ?></p>
