@@ -78,7 +78,6 @@
 					$engine = $inventory_item->engine;
 					$transmission = $inventory_item->transmission;
 					$exterior_color = $inventory_item->exterior_color;
-					setlocale( LC_MONETARY , 'en_US' );
 					$prices = $inventory_item->prices;
 					$asking_price = money_format( '%(#0n' , $prices->asking_price );
 					$stock_number = $inventory_item->stock_number;

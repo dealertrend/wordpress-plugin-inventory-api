@@ -1,5 +1,7 @@
 <?php
 
+	setlocale( LC_MONETARY , 'en_US.UTF-8' );
+
 	global $wp_rewrite;
 
 	wp_enqueue_script( 'jquery' );

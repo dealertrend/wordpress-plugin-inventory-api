@@ -2,7 +2,6 @@
 	# Easy to use variables.
 	$headline = $inventory->headline;
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	setlocale(LC_MONETARY, 'en_US');
 	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
 	$vin = $inventory->vin;
 
@@ -30,7 +29,7 @@
 			<div class="images">
 			<?php
 				foreach( $inventory->photos as $photo ) {
-					echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="320" height="240" />';
+					echo '<img src="' . str_replace( '&' , '&amp;' , $photo->large ) . '" width="400" />';
 				}
 			?>
 			</div>
