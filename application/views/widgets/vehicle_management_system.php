@@ -207,14 +207,14 @@ class vehicle_management_system_widget extends WP_Widget {
 				<div class="vms-widget-item">
 					<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">
 						<img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
-						<div class="vms-widget-main-line">
-							<div class="vms-widget-year">' . $year . '</div>
-							<div class="vms-widget-make">' . $make . '</div>
-							<div class="vms-widget-model">' . $model . '</div>
+						<span class="vms-widget-main-line">
+							<span class="vms-widget-year">' . $year . '</span>
+							<span class="vms-widget-make">' . $make . '</span>
+							<span class="vms-widget-model">' . $model . '</span>
 						</div>
-						<div class="vms-widget-price">
+						<span class="vms-widget-price">
 							' . $price_block . '
-						</div>
+						</span>
 					</a>
 				</div>
 			';
