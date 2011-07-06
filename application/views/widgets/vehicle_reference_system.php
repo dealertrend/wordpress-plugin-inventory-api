@@ -202,10 +202,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 						$thumbnail = urldecode( $model->image_urls->small );
 						echo '<div class="vrs-widget-item">';
 						echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
-						echo '<div class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></div>';
-						echo '<div class="vrs-widget-main-line">';
-						echo '<div class="vrs-widget-make">' . $model->name . '</div>';
-						echo '</div>';
+						echo '<span class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></span>';
+						echo '<span class="vrs-widget-main-line">';
+						echo '<span class="vrs-widget-make">' . $model->name . '</span>';
+						echo '</span>';
 						echo '</a>';
 						echo '</div>';
 					}
