@@ -199,6 +199,7 @@ class dealertrend_inventory_api {
 	function global_scripts() {
 		if( ! is_admin() ) {
 			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
+			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/global/js/traffic-sources.js' , array( 'jquery-cookie' ) , $this->plugin_information[ 'Version' ] , true );
 		}
 	}
 
