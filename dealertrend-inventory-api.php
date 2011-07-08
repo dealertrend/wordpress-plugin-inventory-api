@@ -192,6 +192,16 @@ class dealertrend_inventory_api {
 		}
 	}
 
+	function load_global_scripts() {
+		add_action( 'wp_print_scripts', array( &$this , 'global_scripts' ) , 1 );
+	}
+
+	function global_scripts() {
+		if( ! is_admin() ) {
+			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
+		}
+	}
+
 	/**
 	 * Load the widgets! (Must read this description in Frau Farbissina's voice)
 	 *
@@ -394,6 +404,8 @@ class dealertrend_inventory_api {
 	 */
 	function show_inventory_theme() {
 		global $wp_query;
+
+		$this->load_global_scripts();
 
 		$this->parameters = $this->get_parameters();
 
