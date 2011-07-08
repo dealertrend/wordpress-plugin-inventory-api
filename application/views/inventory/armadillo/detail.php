@@ -41,9 +41,14 @@
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
+	$traffic_source = isset( $_COOKIE[ 'dealertrend-traffic-source' ] ) ? $_COOKIE[ 'dealertrend-traffic-source' ] : false;
+
+	$traffic_source = $this->sanitize_inputs( $traffic_source );
+
 ?>
 
 <script>
+
 function video_popup(url , title) {
 	if (! window.focus) return true;
 	var href;
@@ -62,6 +67,7 @@ function video_popup(url , title) {
 	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
 	<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
 		<fieldset>
+			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 			<input type="hidden" name="required_fields" value="name,email,privacy"/>
 			<input type="hidden" name="saleclass" value="<?php echo strtolower($sale_class); ?>"/>
 			<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
@@ -100,6 +106,7 @@ function video_popup(url , title) {
 	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
 	<form name="formtellafriend" id="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
 		<fieldset>
+			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
 			<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
 			<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
@@ -195,6 +202,7 @@ function video_popup(url , title) {
 						Make an Offer / Get Info
 					</div>
 					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
+						<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 						<input name="required_fields" type="hidden" value="name,email,privacy" />
 						<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
 						<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />
