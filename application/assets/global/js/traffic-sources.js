@@ -1,5 +1,6 @@
-var dealertrend = jQuery.noConflict();
-var cookie_name = 'dealertrend-traffic-source';
+// parseUri 1.2.2
+// (c) Steven Levithan <stevenlevithan.com>
+// MIT License
 
 function parseUri (str) {
     var    o   = parseUri.options,
@@ -29,6 +30,9 @@ parseUri.options = {
         loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
 };
+
+var dealertrend = jQuery.noConflict();
+var cookie_name = 'dealertrend-traffic-source';
 
 var cookie_value = dealertrend.cookie( cookie_name );
 
