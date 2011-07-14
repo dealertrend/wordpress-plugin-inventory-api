@@ -68,17 +68,6 @@
 		return false;
 	}
 
-	echo "\n" . '<!--' . "\n";
-	echo '##################################################' . "\n";
-	echo print_r( $this , true ) . "\n";
-	echo print_r( $company_information , true ) . "\n";
-	echo print_r( $vehicle_management_system , true ) . "\n";
-	if( isset( $dynamic_site_headers ) ) {
-		echo print_r( $dynamic_site_headers , true ) . "\n";
-	}
-	echo '##################################################' . "\n";
-	echo '-->' . "\n";
-
 	$parameters = $this->parameters;
 	$query = '?' . http_build_query( $_GET );
 
@@ -127,6 +116,18 @@
 	}
 
 	$breadcrumbs = '<div class="websitez-breadcrumbs">' . $breadcrumbs . '</div>';
+
+	echo "\n" . '<!--' . "\n";
+	echo '##################################################' . "\n";
+	echo print_r( $this , true ) . "\n";
+	echo print_r( $company_information , true ) . "\n";
+	echo print_r( $vehicle_management_system , true ) . "\n";
+	if( isset( $dynamic_site_headers ) ) {
+		echo print_r( $dynamic_site_headers , true ) . "\n";
+	}
+	echo '##################################################' . "\n";
+	echo '-->' . "\n";
+
 
 	echo '<div id="dealertrend-inventory-api">';
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';

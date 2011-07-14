@@ -135,16 +135,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 			return false;
 		}
 
-		echo "\n" . '<!--' . "\n";
-		echo '##################################################' . "\n";
-		echo print_r( $this , true ) . "\n";
-		echo print_r( $instance , true ) . "\n";
-		echo print_r( $args , true ) . "\n";
-		echo print_r( $vehicle_reference_system , true ) . "\n";
-		echo '##################################################' . "\n";
-		echo '-->' . "\n";
-
-		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' . $float . '">';
 		echo '<div class="vrs-before-widget">' . $before_widget . '</div>';
 		if( $title ) {
 			echo '<div class="vrs-widget-before-title">' . $before_title . '</div>';
@@ -224,6 +214,17 @@ class vehicle_reference_system_widget extends WP_Widget {
 		echo '</div>';
 		echo '<div class="vrs-after-widget">' . $after_widget . '</div>';
 		echo '</div>';
+
+		echo "\n" . '<!--' . "\n";
+		echo '##################################################' . "\n";
+		echo print_r( $this , true ) . "\n";
+		echo print_r( $instance , true ) . "\n";
+		echo print_r( $args , true ) . "\n";
+		echo print_r( $vehicle_reference_system , true ) . "\n";
+		echo '##################################################' . "\n";
+		echo '-->' . "\n";
+
+		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' . $float . '">';
 	}
 
 	function update( $new_instance , $old_instance ) {
