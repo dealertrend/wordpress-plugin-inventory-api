@@ -50,7 +50,11 @@ class http_api_wrapper {
 	 */
 	public $request_parameters = array(
 		'timeout' => http_api_wrapper::timeout,
-		'headers' => array( 'Referer' => NULL )
+		'headers' => array(
+			'Referer' => NULL,
+			'X-WordPress-Version' => NULL,
+			'X-Plugin-Version' => NULL
+		)
 	);
 
 	private $debug = false;
@@ -64,12 +68,14 @@ class http_api_wrapper {
 	 * @return void
 	 */
 	function __construct( $url , $group ) {
-		global $wp;
+		global $wp , $wp_version , $dealertrend_inventory_api;
 		$this->url = $url;
 		$this->group = $group;
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
 		$this->debug = $plugin_options[ 'debug' ][ 'logging' ];
 		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . '/' . $wp->request;
+		$this->request_parameters[ 'headers' ][ 'X-WordPress-Version' ] = $wp_version;
+		$this->request_parameters[ 'headers' ][ 'X-Plugin-Version' ] = $dealertrend_inventory_api->plugin_information[ 'Version' ];
 	}
 
 	/**
