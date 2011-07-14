@@ -38,6 +38,7 @@
 	$greeting = isset( $contact_information->greeting ) ? $contact_information->greeting : NULL;
 	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
+	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
@@ -267,7 +268,12 @@ function video_popup(url , title) {
 				<div class="armadillo-header">Contact Information</div>
 				<?php
 					echo '<p>' . $greeting . ' <strong>' . $dealer_name . '</strong></p>';
-					echo '<p>Phone Number: <strong>' . $phone . '</strong></p>';
+					if( $internet_manager != NULL ) {
+						echo '<p><span id="armadillo-internet-manager-label">Internet Manager:</span> <strong>' . $internet_manager . '</strong></p>';
+					}
+					if( $phone != NULL ) {
+						echo '<p>Phone Number: <strong>' . $phone . '</strong></p>';
+					}
 				?>
 			</div>
 			<div class="armadillo-helpful-links">
