@@ -42,7 +42,7 @@
 			$check_inventory = $vehicle_management_system->check_inventory();
 			if( $check_inventory[ 'status' ] != false ) {
 				$inventory = $vehicle_management_system->get_inventory( $this->parameters );
-				if( $inventory != false ) {
+				if( $inventory !== false ) {
 					status_header( '200' );
 				}
 			}
