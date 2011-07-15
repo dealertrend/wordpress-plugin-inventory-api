@@ -193,4 +193,3 @@
 
 .ui-widget-overlay { opacity:0.3 !important; left:0; position:fixed; top:0; z-index:8000; }
 .ui-overlay iframe { display:block; width:785px; height:615px; position:fixed; z-index:9999; top: 50%; left: 50%; margin-top: -307px; margin-left: -392px; }
-.ui-dialog { z-index:9999 !important; }
