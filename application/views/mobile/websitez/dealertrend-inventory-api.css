@@ -42,6 +42,7 @@ List
 }
 .dealertrend-mobile.inventory .nav .select{
 	text-align: center;
+	margin: 0 auto;
 }
 .dealertrend-mobile.inventory .nav .select p select{
 	font-size: 1em;
