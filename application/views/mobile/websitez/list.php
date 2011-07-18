@@ -22,6 +22,7 @@
 <div class="websitez-container dealertrend-mobile inventory">
 	<div class="post nav">
 		<div class="select">
+			<p><select name='' onchange='window.location=this.value'><option value='/inventory/All/'>View All Cars</option><option value='/inventory/New/' <?php if($sale_class == "New") echo "selected";?>>View New Cars</option><option value='/inventory/Used/' <?php if($sale_class == "Used") echo "selected";?>>View Used Cars</option></select></p>
 		<?php
 			//Car Makes
 			if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ):
@@ -79,9 +80,6 @@
 			endif;
 			
 			echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
-			
-			//echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
-			//echo !empty($quick_links_end) ? "<p><select name='' onchange=''>".$quick_links_end."</select></p>" : NULL;
 		?>
 		</div>
 		<div class="paginate">
@@ -115,9 +113,8 @@
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
-					$headline = $inventory_item->headline;
-					if(strlen($headline) == 0)
-						$headline = $year." ".$make." ".$model;
+					$custom_headline = $inventory_item->headline;
+					$headline = $year." ".$make." ".$model;
 					$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 					$doors = $inventory_item->doors . 'D';
 					if( !empty( $wp_rewrite->rules ) ) {
@@ -137,6 +134,12 @@
 								<p class="exterior-color"><?php echo $exterior_color; ?></p>
 								<p class="odometer"><?php echo number_format($odometer); ?> miles</p>
 							</div>
+							<div class="clear"></div>
+							<?php if(strlen($custom_headline) > 0): ?>
+								<div class="bottom-column">
+									<p class="custom-headline"><?php echo $custom_headline; ?></p>
+								</div>
+							<?php endif; ?>
 							<div class="bottom-column">
 								<p class="icons"><?php echo $icons; ?></p>
 							</div>
@@ -166,6 +169,13 @@
 						flush();
 				 endforeach;
 				} ?>
+		</div>
+		<div class="post nav">
+			<div class="select">
+				<div class="paginate">
+					<p><?php echo paginate_links( $args ); ?></p>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

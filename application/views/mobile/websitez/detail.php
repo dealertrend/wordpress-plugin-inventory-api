@@ -60,11 +60,14 @@
 							active_image=1;
 						}else{
 							//jQuery("#car-image-"+(active_image+1)).show("slow");
-							$("#car-image-"+(active_image+1)).animate({
+							/*$("#car-image-"+(active_image+1)).animate({
 						    height: 'toggle'
 						  }, 1000, function() {
 						    // Animation complete.
-						  });
+						  });*/
+							$("#car-image-"+(active_image+1)).fadeIn('slow', function() {
+				        // Animation complete
+				      });
 							active_image++;
 						}
 					}
@@ -85,12 +88,12 @@
 					}
 					function change_car_image_start(){
 						car_image_rotator = setInterval('change_car_image()',4000);
-						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_stop();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/33_24x24.png\" border=\"0\"></a>");
+						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_stop();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/33_24x24.png\" border=\"0\"></a>");
 						return false;
 					}
 					function change_car_image_stop(){
 						window.clearInterval(car_image_rotator);
-						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_start();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/31_24x24.png\" border=\"0\"></a>");
+						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_start();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/31_24x24.png\" border=\"0\"></a>");
 						return false;
 					}
 					change_car_image_start();
@@ -111,7 +114,7 @@
 				if(count($inventory->photos) > 1):
 				?>
 				<div class="images-nav">
-					<a href="" onClick="return change_car_image_previous();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/28_24x24.png" border="0"></a> <span id="change_car_image_playpause"><a href="" onClick="return change_car_image_stop();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/33_24x24.png" border="0"></a></span> <a href="" onClick="return change_car_image_next();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/mobile/' ?>images/29_24x24.png" border="0"></a>
+					<a href="" onClick="return change_car_image_previous();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/28_24x24.png" border="0"></a> <span id="change_car_image_playpause"><a href="" onClick="return change_car_image_stop();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/33_24x24.png" border="0"></a></span> <a href="" onClick="return change_car_image_next();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/29_24x24.png" border="0"></a>
 				</div>
 				<?php
 				else:
@@ -604,3 +607,4 @@
 		</div>
 	</div>
 </div>
+<link rel="stylesheet" id="dealertrend-inventory-api-css" href="<?php echo $this->plugin_information[ 'PluginURL' ]; ?>/application/views/mobile/websitez/dealertrend-inventory-api.css" type="text/css" media="all">
