@@ -42,6 +42,7 @@ List
 }
 .dealertrend-mobile.inventory .nav .select{
 	text-align: center;
+	margin: 0 auto;
 }
 .dealertrend-mobile.inventory .nav .select p select{
 	font-size: 1em;
@@ -77,7 +78,7 @@ List
 	width: 100px;
 }
 .dealertrend-mobile.inventory .item .details{
-
+	margin-left: 105px;
 }
 .dealertrend-mobile.inventory .item .details p{
 	padding: 1px 0px;
@@ -86,6 +87,10 @@ List
 .dealertrend-mobile.inventory .item .details .headline{
 	font-weight: bold;
 	font-size: 1.1em;
+}
+.dealertrend-mobile.inventory .item .bottom-column .custom-headline{
+	font-weight: bold;
+	font-style: italic;
 }
 .dealertrend-mobile.inventory .item .pricing{
 	float: right;

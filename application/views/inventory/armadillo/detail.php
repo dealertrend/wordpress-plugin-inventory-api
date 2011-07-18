@@ -431,3 +431,5 @@ function video_popup(url , title) {
 		</div>
 	</div>
 </div>
+<?php echo dirname( __FILE__ );?>
+<link rel="stylesheet" id="dealertrend-inventory-api-css" href="<?php echo $this->plugin_information[ 'PluginURL' ]; ?>/application/views/mobile/websitez/dealertrend-inventory-api.css" type="text/css" media="all">

@@ -15,50 +15,71 @@
 	);
 
 	$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
-	$quick_links = $quick_links_end = null;
-
-	if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
-		$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
-		foreach( $makes as $make ) {
-			if( !empty( $wp_rewrite->rules ) ) {
-				$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</option>';
-			} else {
-				$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $make . '">' . $make . '</option>';
-			}
-		}
-	} elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
-		$models = $vehicle_management_system->get_models(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
-		if(is_array($models)):
-			foreach( $models as $model ) {
-				if( !empty( $wp_rewrite->rules ) ) {
-					$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</option>';
-				} else {
-					$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '">' . $model . '</option>';
-				}
-			}
-		endif;
-	} elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
-		$trims = $vehicle_management_system->get_trims(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/All/">View All Makes</option>' : '<option value="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</option>';
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</option>' : '<option value="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</option>';
-		foreach( $trims as $trim ) {
-			$quick_links .= '<option value="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</option>';
-		}
-	} else {
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/All/">View All Makes</option>' : '<option value="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</option>';
-		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</option>' : '<option value="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</option>';
-		$quick_links_end .= '<option value="' . @add_query_arg( array( 'trim' => 'All' ) ) . '">View All Trims</option>';
-	}
+	$quick_links = null;
 
 ?>
 
 <div class="websitez-container dealertrend-mobile inventory">
 	<div class="post nav">
 		<div class="select">
+			<p><select name='' onchange='window.location=this.value'><option value='/inventory/All/'>View All Cars</option><option value='/inventory/New/' <?php if($sale_class == "New") echo "selected";?>>View New Cars</option><option value='/inventory/Used/' <?php if($sale_class == "Used") echo "selected";?>>View Used Cars</option></select></p>
 		<?php
+			//Car Makes
+			if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ):
+				$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
+				if(count($makes) > 0):
+					$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
+					foreach( $makes as $make ):
+						if( !empty( $wp_rewrite->rules ) ):
+							$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</option>';
+						else:
+							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $make . '">' . $make . '</option>';
+						endif;
+					endforeach;
+				endif;
+			else:
+				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
+				$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $parameters[ 'make' ] . '/" selected>' . $parameters[ 'make' ] . '</option>';
+			endif;
+			
 			echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
-			echo !empty($quick_links_end) ? "<p><select name='' onchange=''>".$quick_links_end."</select></p>" : NULL;
+			
+			//Car Models
+			if( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ):
+				$models = $vehicle_management_system->get_models(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Models</option>' : '<option value-"'.@add_query_arg( array( 'make' => $parameters['make'] , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Models</option>';
+				if(is_array($models) && count($models) > 0):
+					foreach( $models as $model ):
+						if( !empty( $wp_rewrite->rules ) ):
+							$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</option>';
+						else:
+							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class  . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '">' . $model . '</option>';
+						endif;
+					endforeach;
+				endif;
+			else:
+				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'/'.$parameters['make'].'/">View All Models</option>' : '<option value-"'.@add_query_arg( array( 'make' => $parameters['model'] , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Models</option>';
+				$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $parameters[ 'make' ] . '/' . $parameters['model']. '/" selected>' . $parameters[ 'model' ] . '</option>';
+			endif;
+			
+			echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
+			
+			//Car Trims
+			if( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ):
+				$trims = $vehicle_management_system->get_trims(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+				//$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/All/">View All Trims</option>' : '<option value="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Trims</option>';
+				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/' . $parameters['model'] . '/All/">View All Trims</option>' : '<option value="' . @add_query_arg( array( 'make' => $parameters['make'], 'model' => $parameters['model'] , 'trim' => 'All' ) ) . '">View All Trims</option>';
+				if(count($trims) > 0):
+					foreach( $trims as $trim ):
+						$quick_links .= '<option value="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</option>';
+					endforeach;
+				endif;
+			else:
+				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'/' . $parameters['make'] . '/' . $parameters['model'] . '/">View All Trims</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Trims</option>';
+				$quick_links .= '<option value="/inventory/'. $sale_class  . '/' . $parameters[ 'make' ] . '/' . $parameters['model']. '/' . $parameters['trim'] . '/" selected>' . $parameters[ 'trim' ] . '</option>';
+			endif;
+			
+			echo !empty($quick_links) ? "<p><select name='' onchange='window.location=this.value'>".$quick_links."</select></p>" : NULL;
 		?>
 		</div>
 		<div class="paginate">
@@ -92,9 +113,8 @@
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
-					$headline = $inventory_item->headline;
-					if(strlen($headline) == 0)
-						$headline = $year." ".$make." ".$model;
+					$custom_headline = $inventory_item->headline;
+					$headline = $year." ".$make." ".$model;
 					$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 					$doors = $inventory_item->doors . 'D';
 					if( !empty( $wp_rewrite->rules ) ) {
@@ -114,6 +134,12 @@
 								<p class="exterior-color"><?php echo $exterior_color; ?></p>
 								<p class="odometer"><?php echo number_format($odometer); ?> miles</p>
 							</div>
+							<div class="clear"></div>
+							<?php if(strlen($custom_headline) > 0): ?>
+								<div class="bottom-column">
+									<p class="custom-headline"><?php echo $custom_headline; ?></p>
+								</div>
+							<?php endif; ?>
 							<div class="bottom-column">
 								<p class="icons"><?php echo $icons; ?></p>
 							</div>
@@ -144,5 +170,13 @@
 				 endforeach;
 				} ?>
 		</div>
+		<div class="post nav">
+			<div class="select">
+				<div class="paginate">
+					<p><?php echo paginate_links( $args ); ?></p>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+<link rel="stylesheet" id="dealertrend-inventory-api-css" href="<?php echo $this->plugin_information[ 'PluginURL' ]; ?>/application/views/mobile/websitez/dealertrend-inventory-api.css" type="text/css" media="all">

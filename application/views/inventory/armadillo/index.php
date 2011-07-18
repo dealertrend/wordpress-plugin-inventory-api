@@ -165,3 +165,4 @@
 	flush();
 
 ?>
+<link rel="stylesheet" id="dealertrend-inventory-api-css" href="<?php echo $this->plugin_information[ 'PluginURL' ]; ?>/application/views/mobile/websitez/dealertrend-inventory-api.css" type="text/css" media="all">
