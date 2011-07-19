@@ -12,14 +12,6 @@
 	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
 	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
 
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-mobile-websitez',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/js/slideshow.js',
-		array( 'jquery-cycle' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
 	$site_url = site_url();
 
 	$company_information = $company_information[ 'data' ];

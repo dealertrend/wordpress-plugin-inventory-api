@@ -40,13 +40,63 @@
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
+	$headline = $inventory->headline;
+	if(strlen($headline) == 0)
+		$headline = $year." ".$make." ".$model;
+	$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
+
 ?>
 <div class="websitez-container dealertrend-mobile inventory">
 	<div class="post">
 		<div class="post-wrapper car">
-			<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
+<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
 			<div class="images">
 				<?php
+					if(count($inventory->photos) > 1):
+					?>
+					<script type="text/javascript">
+					var active_image = 1;
+					var total_images = "<?php echo count($inventory->photos);?>";
+					var car_image_rotator;
+					function change_car_image(){
+						jQuery(".car-image").each(function(){jQuery(this).hide()});
+						if(active_image == total_images){
+							jQuery("#car-image-1").show("slow");
+							active_image=1;
+						}else{
+							$("#car-image-"+(active_image+1)).fadeIn('slow', function() {});
+							active_image++;
+						}
+					}
+					function change_car_image_previous(){
+						change_car_image_stop();
+						if(active_image > 2){
+							active_image = active_image - 2;
+						}else{
+							active_image = total_images;
+						}
+						change_car_image();
+						return false;
+					}
+					function change_car_image_next(){
+						change_car_image_stop();
+						change_car_image();
+						return false;
+					}
+					function change_car_image_start(){
+						car_image_rotator = setInterval('change_car_image()',4000);
+						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_stop();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/33_24x24.png\" border=\"0\"></a>");
+						return false;
+					}
+					function change_car_image_stop(){
+						window.clearInterval(car_image_rotator);
+						jQuery("#change_car_image_playpause").html("<a href='' onClick='return change_car_image_start();'><img src=\"<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/31_24x24.png\" border=\"0\"></a>");
+						return false;
+					}
+					change_car_image_start();
+					</script>
+					<?php
+					endif;
 					$i=1;
 					foreach( $inventory->photos as $photo ) {
 						if($i==1)
@@ -56,7 +106,22 @@
 						$i++;
 					}
 				?>
-			</div>
+				</div>
+				<?php
+				if(count($inventory->photos) > 1):
+				?>
+				<div class="images-nav">
+					<a href="" onClick="return change_car_image_previous();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/28_24x24.png" border="0"></a> <span id="change_car_image_playpause"><a href="" onClick="return change_car_image_stop();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/33_24x24.png" border="0"></a></span> <a href="" onClick="return change_car_image_next();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/29_24x24.png" border="0"></a>
+				</div>
+				<?php
+				else:
+				?>
+				<div class="photo">
+					<img src='<?php echo $inventory->photos[0]->small; ?>' alt='<?php echo $generic_vehicle_title;?>'>
+				</div>
+				<?php
+				endif;
+				?>
 			<?php flush(); ?>
 			<div class="right-column">
 				<div class="details">
