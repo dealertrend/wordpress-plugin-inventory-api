@@ -58,6 +58,15 @@ class dealertrend_inventory_api {
 	public $plugin_information = array();
 
 	/**
+	 * Public boolean for if the plugin needs to operate in mobile mode.
+	 *
+	 * @package WordPress
+	 * @since 3.2.1
+	 * @access public
+	 */
+	public $is_mobile = false;
+
+	/**
 	 * Default options. These values are initially set when the plugin is creates a new instance.
 	 *
 	 * This is also the array that ends up storing changed variables wich are later saved.
@@ -73,6 +82,10 @@ class dealertrend_inventory_api {
 				'id' => 0
 			),
 			'host' => NULL,
+			'mobile_theme' => array(
+				'name' => 'websitez',
+				'per_page' => '10'
+			),
 			'theme' => array(
 				'name' => 'armadillo',
 				'per_page' => 10
@@ -149,6 +162,22 @@ class dealertrend_inventory_api {
 	}
 
 	/**
+	 * Reads from the WordPress query variables to see if someone has set the is_mobile flag.
+	 *
+	 * This is a custom way of identifying mobile browsers and will need to be either implemented
+	 * in the WP core or the mobile detection plugin being used.
+	 *
+	 * @package Wordpress
+	 * @since 3.2.1
+	 * @return void
+	 *
+	 */
+	function check_mobile() {
+		global $wp_query;
+		$this->is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
+	}
+
+	/**
 	 * Queues the updater to check for updates anytime WordPress is checking for an update.
 	 *
 	 * @package Wordpress
@@ -192,10 +221,24 @@ class dealertrend_inventory_api {
 		}
 	}
 
+	/**
+	 * Queues up functions in charge of dealing with scripts needed across all themes.
+	 *
+	 * @package Wordpress
+	 * @since 3.2.1
+	 * @return void
+	 */
 	function load_global_scripts() {
 		add_action( 'wp_print_scripts', array( &$this , 'global_scripts' ) , 1 );
 	}
 
+	/**
+	 * Handles how and what scripts need to be included globally on the front end.
+	 *
+	 * @package Wordpress
+	 * @since 3.2.1
+	 * @return void
+	 */
 	function global_scripts() {
 		if( ! is_admin() ) {
 			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
@@ -406,6 +449,8 @@ class dealertrend_inventory_api {
 	function show_inventory_theme() {
 		global $wp_query;
 
+		$this->check_mobile();
+
 		$this->load_global_scripts();
 
 		$this->parameters = $this->get_parameters();
@@ -413,14 +458,16 @@ class dealertrend_inventory_api {
 		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
 
 		switch( $taxonomy ) {
+
 			case 'inventory':
 				$this->fix_bad_wordpress_assumption();
 
+				$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
+				$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
+				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
 				add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 				add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
-
-				$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
-				$current_mobile_theme = 'websitez';
 
 				$vehicle_management_system = new vehicle_management_system(
 					$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -438,13 +485,6 @@ class dealertrend_inventory_api {
 					);
 				}
 
-				$is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
-
-				if( $is_mobile != true ) {
-					$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
-				} else {
-					$theme_path = dirname( __FILE__ ) . '/application/views/mobile/' . $current_mobile_theme;
-				}
 				if( $handle = opendir( $theme_path ) ) {
 					while( false !== ( $file = readdir( $handle ) ) ) {
 						if( $file == 'index.php' ) {
@@ -554,10 +594,12 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function inventory_styles() {
-		$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
+		$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
+		$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
+		$style_path = $this->plugin_information[ 'PluginURL' ] . '/application/views/' . $theme_folder . '/' . $current_theme . '/dealertrend-inventory-api.css';
 		wp_enqueue_style(
 			'dealertrend-inventory-api',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/' . $current_theme . '/dealertrend-inventory-api.css',
+			$style_path,
 			false,
 			$this->plugin_information[ 'Version' ]
 		);
