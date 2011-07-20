@@ -29,11 +29,17 @@
 				$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
 				if(count($makes) > 0):
 					$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
+					if(count($makes) == 1):
+						$only_one_option = " SELECTED";
+					else:
+						$only_one_option = "";
+					endif;
+					
 					foreach( $makes as $make ):
 						if( !empty( $wp_rewrite->rules ) ):
-							$quick_links .= '<option value="/inventory/'. $sale_class . '/' . $make . '/">' . $make . '</option>';
+							$quick_links .= '<option value="/inventory/'. $sale_class . '/' . $make . '/"'.$only_one_option.'>' . $make . '</option>';
 						else:
-							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class . '&amp;make=' . $make . '">' . $make . '</option>';
+							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class . '&amp;make=' . $make . '"'.$only_one_option.'>' . $make . '</option>';
 						endif;
 					endforeach;
 				endif;
@@ -49,11 +55,17 @@
 				$models = $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
 				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Models</option>' : '<option value-"'.@add_query_arg( array( 'make' => $parameters['make'] , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Models</option>';
 				if(is_array($models) && count($models) > 0):
+					if(count($models) == 1):
+						$only_one_option = " SELECTED";
+					else:
+						$only_one_option = "";
+					endif;
+					
 					foreach( $models as $model ):
 						if( !empty( $wp_rewrite->rules ) ):
-							$quick_links .= '<option value="/inventory/'. $sale_class . '/' . $parameters[ 'make'] . '/' . $model . '/">' . $model . '</option>';
+							$quick_links .= '<option value="/inventory/'. $sale_class . '/' . $parameters[ 'make'] . '/' . $model . '/"'.$only_one_option.'>' . $model . '</option>';
 						else:
-							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '">' . $model . '</option>';
+							$quick_links .= '<option value="?taxonomy=inventory&amp;saleclass='. $sale_class . '&amp;make=' . $parameters[ 'make'] . '&amp;model=' . $model . '"'.$only_one_option.'>' . $model . '</option>';
 						endif;
 					endforeach;
 				endif;
@@ -69,8 +81,14 @@
 				$trims = $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
 				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/' . $parameters['model'] . '/All/">View All Trims</option>' : '<option value="' . @add_query_arg( array( 'make' => $parameters['make'], 'model' => $parameters['model'] , 'trim' => 'All' ) ) . '">View All Trims</option>';
 				if(count($trims) > 0):
+					if(count($trims) == 1):
+						$only_one_option = " SELECTED";
+					else:
+						$only_one_option = "";
+					endif;
+					
 					foreach( $trims as $trim ):
-						$quick_links .= '<option value="' . @add_query_arg( array( 'trim' => $trim ) ) . '">' . $trim . '</option>';
+						$quick_links .= '<option value="' . @add_query_arg( array( 'trim' => $trim ) ) . '"'.$only_one_option.'>' . $trim . '</option>';
 					endforeach;
 				endif;
 			else:
@@ -82,7 +100,9 @@
 		?>
 		</div>
 		<div class="paginate">
-			<p><?php echo paginate_links( $args ); ?></p>
+			<div class="numbers"><?php echo paginate_links( $args ); ?></div>
+			<div class="reset"><a href="/?taxonomy=inventory">Reset Search</a></div>
+			<div style="clear: both;"></div>
 		</div>
 	</div>
 	<div class="listing">
