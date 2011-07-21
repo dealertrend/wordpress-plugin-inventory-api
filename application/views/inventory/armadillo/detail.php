@@ -1,7 +1,6 @@
 <?php
 
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	setlocale( LC_MONETARY , 'en_US' );
 	$prices = $inventory->prices;
 	$use_was_now = $prices->{ 'use_was_now?' };
 	$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
@@ -297,6 +296,17 @@ function video_popup(url , title) {
 				<div class="armadillo-header">
 					Vehicle Information
 				</div>
+				<?php
+					$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
+					$incentive_price = 0;
+					if( $ais_incentive != NULL ) {
+						preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
+					}
+					if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
+						echo '<div class="armadillo-msrp"><span>MSRP:</span> ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+					}
+				?>
 				<div><span>Color:</span> <?php echo $exterior_color; ?></div>
 				<div><span>Engine:</span> <?php echo $engine; ?></div>
 				<div><span>Transmission:</span> <?php echo $transmission; ?></div>
@@ -305,17 +315,8 @@ function video_popup(url , title) {
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="armadillo-price">
 				<?php
-					$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
-					$incentive_price = 0;
-					if( $ais_incentive != NULL ) {
-						preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
-						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
-					}
 					if( $on_sale && $sale_price > 0 ) {
 						$now_text = 'Price: ';
-						if( $incentive_price > 0 ) {
-							echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
-						}
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 							if( $incentive_price > 0 ) {

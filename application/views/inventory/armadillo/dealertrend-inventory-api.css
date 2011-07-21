@@ -99,7 +99,7 @@
 .armadillo-price .armadillo-sale-expires { font-size:14px; clear:both; line-height:26px; }
 .armadillo-item .armadillo-price > div { width:200px; float:left; }
 .armadillo-item .armadillo-price .armadillo-asking-price.armadillo-strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
-.armadillo-item .armadillo-price .armadillo-msrp { font-size:14px; line-height:!4px; margin-top:5px; }
+.armadillo-item .armadillo-msrp { margin:5px 0; margin-left:5px; font-size:12px; }
 
 .armadillo-item .armadillo-price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
 .armadillo-item .armadillo-price a:hover { background:#666; }

@@ -219,7 +219,6 @@
 						echo '<div class="armadillo-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2><a onClick="history.go(-1)" title="Return to Previous Search" class="jquery-ui-button">Return to Previous Search</a></div>';
 					} else {
 						foreach( $inventory as $inventory_item ):
-							setlocale( LC_MONETARY , 'en_US' );
 							$prices = $inventory_item->prices;
 							$use_was_now = $prices->{ 'use_was_now?' };
 							$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
@@ -272,9 +271,22 @@
 											<span class="armadillo-body-style"><?php echo $body_style; ?></span>
 										</a>
 									</div>
-									<div class="armadillo-headline">
-										<?php echo $headline; ?>
-									</div>
+									<?php
+										if( strlen( trim( $headline ) ) > 0 ) {
+											echo '<div class="armadillo-headline">' . $headline . '</div>';
+										}
+									?>
+									<?php
+										$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
+										$incentive_price = 0;
+										if( $ais_incentive != NULL ) {
+											preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+											$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
+										}
+										if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
+											echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+										}
+									?>
 									<div class="armadillo-details-left">
 										<?php
 											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : '&nbsp;';
@@ -291,8 +303,6 @@
 										<?php echo $icons; ?>
 									</div>
 									<?php
-										$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
-										$incentive_price = 0;
 										if( $ais_incentive != NULL ) {
 									?>
 									<div class="armadillo-ais-incentive view-available-rebates">
@@ -300,8 +310,6 @@
 											VIEW AVAILABLE INCENTIVES AND REBATES
 										</a>
 										<?php
-											preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
-											$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 										?>
 									</div>
 									<?php } ?>
@@ -309,9 +317,6 @@
 										<?php
 											if( $on_sale && $sale_price > 0 ) {
 												$now_text = 'Price: ';
-												if( $incentive_price > 0 ) {
-													echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
-												}
 												if( $use_was_now ) {
 													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 													if( $incentive_price > 0 ) {

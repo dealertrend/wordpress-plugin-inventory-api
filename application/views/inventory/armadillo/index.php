@@ -4,6 +4,8 @@
 
 	$site_url = site_url();
 
+	setlocale( LC_MONETARY , 'en_US.UTF-8' );
+
 	$company_information = $company_information[ 'data' ];
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
