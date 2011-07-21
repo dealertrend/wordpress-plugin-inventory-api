@@ -309,6 +309,9 @@
 										<?php
 											if( $on_sale && $sale_price > 0 ) {
 												$now_text = 'Price: ';
+												if( $incentive_price > 0 ) {
+													echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+												}
 												if( $use_was_now ) {
 													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 													if( $incentive_price > 0 ) {
@@ -336,7 +339,7 @@
 											} else {
 												if( $asking_price > 0 ) {
 													if( $incentive_price > 0 ) {
-														echo '<div class="armadillo-asking-price" style="font-size:12px;">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+														echo '<div class="armadillo-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 													} else {
