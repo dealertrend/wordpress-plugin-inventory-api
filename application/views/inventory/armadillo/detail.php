@@ -313,6 +313,9 @@ function video_popup(url , title) {
 					}
 					if( $on_sale && $sale_price > 0 ) {
 						$now_text = 'Price: ';
+						if( $incentive_price > 0 ) {
+							echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+						}
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 							if( $incentive_price > 0 ) {
