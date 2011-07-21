@@ -1,5 +1,8 @@
 /* Shared elements. */
-.ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; }
+.ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; position:fixed; z-index:8000 !important; top:0; left:0; }
+.ui-dialog { z-index:9999 !important; position:fixed; }
+.ui-dialog iframe { display:block; position:relative; height:420px; }
+.ui-dialog .ui-state-error { padding: .3em; }
 
 .armadillo-strike-through { text-decoration:line-through; }
 .armadillo-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
@@ -96,6 +99,7 @@
 .armadillo-price .armadillo-sale-expires { font-size:14px; clear:both; line-height:26px; }
 .armadillo-item .armadillo-price > div { width:200px; float:left; }
 .armadillo-item .armadillo-price .armadillo-asking-price.armadillo-strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
+.armadillo-item .armadillo-price .armadillo-msrp { font-size:14px; line-height:!4px; margin-top:5px; }
 
 .armadillo-item .armadillo-price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
 .armadillo-item .armadillo-price a:hover { background:#666; }
@@ -120,7 +124,6 @@
 #armadillo-friend-form textarea { margin-bottom:12px; width:95%; padding: .4em; }
 #armadillo-shcedule-form fieldset,
 #armadillo-friend-form fieldset { padding:0; border:0; margin-top:25px; }
-.ui-dialog .ui-state-error { padding: .3em; }
 .armadillo-validate-tips { border: 1px solid transparent; padding: 0.3em 0; }
 
 #armadillo-detail { background:white; clear:both; font-family: Helvetica, Arial; font-size:12px; line-height:16px; letter-spacing:.9px; }
@@ -169,6 +172,8 @@
 #armadillo-detail .armadillo-helpful-links a#armadillo-calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
 #armadillo-detail .armadillo-helpful-links a:hover { background-position:bottom center !important; }
 
+#armadillo-calculate-form #loan-calculator { font-size:12px !important; }
+
 #armadillo-detail .armadillo-contact-information p { padding:10px; margin:0; }
 
 #armadillo-detail .armadillo-fuel-economy { float:left; background: white url('images/background-gas-pump-59x52.jpg') no-repeat center 20px; width:95%; height:125px; padding-bottom:5px; }
@@ -190,6 +195,3 @@
 #armadillo-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
 #armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
 .armadillo-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
-
-.ui-widget-overlay { opacity:0.3 !important; left:0; position:fixed; top:0; z-index:8000; }
-.ui-overlay iframe { display:block; width:785px; height:615px; position:fixed; z-index:9999; top: 50%; left: 50%; margin-top: -307px; margin-left: -392px; }

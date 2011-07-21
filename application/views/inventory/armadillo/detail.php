@@ -143,7 +143,7 @@ function video_popup(url , title) {
 			<tr>
 				<td colspan="1">
 					<label for="loan-calculator-price">Vehicle Price</label>
-					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo money_format( '%(#0n' , $primary_price ); ?>" />
+					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo trim( money_format( '%(#0n' , $primary_price ) ); ?>" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-interest-rate">Interest Rate</label>
@@ -385,7 +385,7 @@ function video_popup(url , title) {
 				<?php echo $icons; ?>
 			</div>
 			<?php
-				if( ! empty( $dealer_options ) && ! empty( $description ) ) {
+				if( ! empty( $dealer_options ) || ! empty( $description ) ) {
 			?>
 				<div id="armadillo-inventory-tabs">
 					<ul>

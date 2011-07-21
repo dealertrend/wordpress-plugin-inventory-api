@@ -2,54 +2,6 @@
 
 	global $wp_rewrite;
 
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-tabs' );
-	wp_enqueue_script( 'jquery-ui-cycle' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
-	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-slideshow',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/slideshow.js',
-		array( 'jquery-cycle' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-detail-buttons',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/detail-buttons.js',
-		array( 'jquery-ui-dialog' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-sidebar',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/sidebar.js',
-		array( 'jquery' , 'jquery-ui-core' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-	
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-tabs',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/tabs.js',
-		array( 'jquery-ui-tabs' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-misc-ui',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/misc-ui.js',
-		array( 'jquery-ui-core' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
 	$site_url = site_url();
 
 	$company_information = $company_information[ 'data' ];
@@ -69,6 +21,69 @@
 				}
 			}
 		}
+	}
+
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script(
+		'dealertrend-inventory-theme-armadillo-misc-ui',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/misc-ui.js',
+		array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
+		$this->plugin_information[ 'Version' ],
+		true
+	);
+
+	switch( $type ) {
+		case 'list':
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-armadillo-sidebar',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/sidebar.js',
+				array( 'jquery' , 'jquery-ui-core' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+		break;
+		case 'detail':
+			wp_enqueue_script( 'jquery-ui-tabs' );
+			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
+			wp_enqueue_script(
+				'dealertrend-inventory-api-detail-tabs',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/detail-tabs.js',
+				false,
+				$this->plugin_information[ 'Version' ]
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-api-loan-calculator',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				'jquery',
+				$this->plugin_information[ 'Version' ]
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-armadillo-slideshow',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/slideshow.js',
+				array( 'jquery-cycle' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-armadillo-detail-buttons',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/detail-buttons.js',
+				array( 'jquery-ui-dialog' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-armadillo-tabs',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/tabs.js',
+				array( 'jquery-ui-tabs' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+		break;
 	}
 
 	get_header();
@@ -156,7 +171,6 @@
 	echo '-->' . "\n";
 
 	echo '<div id="dealertrend-inventory-api">';
-	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';
 

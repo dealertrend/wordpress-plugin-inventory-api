@@ -212,37 +212,13 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function load_options() {
-		if( !get_option( 'dealertrend_inventory_api' ) ) {
+		$loaded_options = get_option( 'dealertrend_inventory_api' ) ;
+		if( !$loaded_options ) {
 			update_option( 'dealertrend_inventory_api' , $this->options );
 		} else {
-			foreach( get_option( 'dealertrend_inventory_api' ) as $option_group => $option_values ) {
+			foreach( $loaded_options as $option_group => $option_values ) {
 				$this->options[ $option_group ] = $option_values;
 			}
-		}
-	}
-
-	/**
-	 * Queues up functions in charge of dealing with scripts needed across all themes.
-	 *
-	 * @package Wordpress
-	 * @since 3.2.1
-	 * @return void
-	 */
-	function load_global_scripts() {
-		add_action( 'wp_print_scripts', array( &$this , 'global_scripts' ) , 1 );
-	}
-
-	/**
-	 * Handles how and what scripts need to be included globally on the front end.
-	 *
-	 * @package Wordpress
-	 * @since 3.2.1
-	 * @return void
-	 */
-	function global_scripts() {
-		if( ! is_admin() ) {
-			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
-			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/global/js/traffic-sources.js' , array( 'jquery-cookie' ) , $this->plugin_information[ 'Version' ] , true );
 		}
 	}
 
@@ -451,8 +427,6 @@ class dealertrend_inventory_api {
 
 		$this->check_mobile();
 
-		$this->load_global_scripts();
-
 		$this->parameters = $this->get_parameters();
 
 		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
@@ -614,22 +588,10 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function inventory_scripts() {
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-tabs' );
-		wp_register_style(
-			'dealertrend-inventory-api-detail-tabs',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/detail-tabs.js',
-			false,
-			$this->plugin_information[ 'Version' ]
-		);
-		wp_register_style(
-			'dealertrend-inventory-api-loan-calculator',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/loan-calculator.js',
-			false,
-			$this->plugin_information[ 'Version' ]
-		);
+		if( ! is_admin() ) {
+			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
+			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/traffic-sources.js' , array( 'jquery-cookie' ) , $this->plugin_information[ 'Version' ] , true );
+		}
 	}
 
 	/** 

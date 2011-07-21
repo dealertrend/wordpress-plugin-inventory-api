@@ -3,7 +3,7 @@
 // MIT License
 
 function parseUri (str) {
-    var    o   = parseUri.options,
+    var o   = parseUri.options,
         m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
         uri = {},
         i   = 14;

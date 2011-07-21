@@ -1,55 +1,48 @@
 var dealertrend = jQuery.noConflict();
 
 dealertrend(document).ready(
-  function(){
-    dealertrend( '.jquery-ui-button' ).button().each(
-      function() {
-        if( dealertrend( this ).hasClass( 'disabled' ) == true ) {
-          dealertrend( this ).button( "option", "icons", {primary:'ui-icon-triangle-1-e'} );
-          dealertrend( this ).button({ disabled: true } ).click(
-            function() {
-              return false;
-            }
-          );
-        }
-      }
-    );
+	function(){
+		dealertrend( '.jquery-ui-button' ).button().each(
+			function() {
+				if( dealertrend( this ).hasClass( 'disabled' ) == true ) {
+					dealertrend( this ).button( "option", "icons", {primary:'ui-icon-triangle-1-e'} );
+					dealertrend( this ).button({ disabled: true } ).click(
+						function() {
+							return false;
+						}
+					);
+				}
+			}
+		);
 
-    var overlay = dealertrend(
-      '<div class="ui-overlay"><div class="icanhazmodal"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div><div class="ui-widget-overlay"></div></div>'
-    ).hide().appendTo('body');
+		var frame = dealertrend('<div class="icanhazmodal"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 
-    dealertrend( '.icanhazmodal' ).dialog({
-      autoOpen: false,
-      modal: false,
-      resizable: false,
-      width: 820,
-      height: 485,
-      close: function( event , ui ) { overlay.fadeOut(); },
-      title: 'Incentives and Rebates'
-    });
+		frame.appendTo( 'body' );
 
-    dealertrend( '.view-available-rebates > a' ).click(
-      function() {
-        dealertrend( '.ui-widget-overlay' ).height( dealertrend( document ).height() );
-        overlay.fadeIn();
-        dealertrend( '.icanhazmodal' ).dialog( 'open' );
-      }
-    );
+		dealertrend( '.icanhazmodal' ).dialog({
+			autoOpen: false,
+			modal: true,
+			resizable: false,
+			width: 820,
+			height: 485,
+			open: function( event , ui ) { dealertrend( '.ui-widget-overlay').click( function() { dealertrend( '.icanhazmodal' ).dialog( 'close' ); } ); },
+			title: 'Incentives and Rebates'
+		});
 
-    dealertrend( '.ui-widget-overlay').click(
-      function() {
-        dealertrend( '.icanhazmodal' ).dialog( 'close' );;
-      }
-    );
-  }
+		dealertrend( '.view-available-rebates > a' ).click(
+			function() {
+				dealertrend( '.icanhazmodal' ).dialog( 'open' );
+				return false;
+			}
+		);
+	}
 )
 
 function loadIframe( url ) {
-    var iframe = dealertrend( 'iframe' );
-    if ( iframe.length ) {
-        iframe.attr( 'src' , url );
-        return false;
-    }
-    return true;
+		var iframe = dealertrend( 'iframe' );
+		if ( iframe.length ) {
+				iframe.attr( 'src' , url );
+				return false;
+		}
+		return true;
 }
