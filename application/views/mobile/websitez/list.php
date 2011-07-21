@@ -206,7 +206,7 @@
 								} else {
 									if( $asking_price > 0 ) {
 										if( $incentive_price > 0 ) {
-											echo '<div class="websitez-asking-price" style="font-size:12px;">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 											echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 											echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 										} else {

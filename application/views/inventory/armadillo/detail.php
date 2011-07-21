@@ -344,7 +344,7 @@ function video_popup(url , title) {
 					} else {
 						if( $asking_price > 0 ) {
 							if( $incentive_price > 0 ) {
-								echo '<div class="armadillo-asking-price">Retail Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								echo '<div class="armadillo-asking-price">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 								echo '<div class="armadillo-asking-price">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
 							} else {
