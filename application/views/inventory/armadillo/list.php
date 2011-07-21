@@ -283,14 +283,14 @@
 											preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
 											$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 										}
-										if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
-											echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
-										}
 									?>
 									<div class="armadillo-details-left">
 										<?php
-											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : '&nbsp;';
-											echo $exterior_color != NULL ? '<span class="armadillo-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : '&nbsp;';
+										if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
+											echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+										}
+											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : NULL;
+											echo $exterior_color != NULL ? '<span class="armadillo-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : NULL;
 										?>
 										<span class="armadillo-transmission">Trans: <?php echo $transmission; ?></span>
 									</div>
