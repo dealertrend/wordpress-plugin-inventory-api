@@ -132,12 +132,12 @@
 		<div class="post">
 			<div class="post-wrapper">
 				<div class="company-contact">
-					<p><a href="tel:1<?php echo str_replace( array( "(" , ")" , " " , "-" ) , "" , $phone ); ?>">Call: <?php echo $phone; ?></a></p>
 				</div>
 				<div class="company-details">
 					<p><strong><?php echo $company_name; ?></strong></p>
 					<p><?php echo $street; ?></p>
 					<p><?php echo $city . ', ' . $state . ' ' . $zip; ?></p>
+					<p><strong><a href="tel:1<?php echo str_replace( array( "(" , ")" , " " , "-" ) , "" , $phone ); ?>">Call: <?php echo $phone; ?></a></strong></p>
 				</div>
 				<div style="clear: both;"></div>
 			</div>
