@@ -53,12 +53,6 @@
 			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 			wp_enqueue_script(
-				'dealertrend-inventory-api-detail-tabs',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/detail-tabs.js',
-				false,
-				$this->plugin_information[ 'Version' ]
-			);
-			wp_enqueue_script(
 				'dealertrend-inventory-api-loan-calculator',
 				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
 				'jquery',

@@ -4,32 +4,6 @@
 
 	global $wp_rewrite;
 
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-tabs' );
-	wp_enqueue_script( 'jquery-ui-cycle' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
-	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-bobcat-slideshow',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/slideshow.js',
-		array( 'jquery-cycle' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-bobcat-tabs',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/tabs.js',
-		array( 'jquery-ui-tabs' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
-
-	$site_url = site_url();
-
 	$company_information = $company_information[ 'data' ];
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
@@ -48,6 +22,42 @@
 			}
 		}
 	}
+
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-tabs' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+
+	switch( $type ) {
+		case 'detail':
+			wp_enqueue_script( 'jquery-ui-tabs' );
+			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
+			wp_enqueue_script(
+				'dealertrend-inventory-api-loan-calculator',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				'jquery',
+				$this->plugin_information[ 'Version' ]
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-bobcat-slideshow',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/slideshow.js',
+				array( 'jquery-cycle' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+			wp_enqueue_script(
+				'dealertrend-inventory-theme-bobcat-tabs',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/tabs.js',
+				array( 'jquery-ui-tabs' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+		break;
+	}
+
+	$site_url = site_url();
 
 	get_header();
 	flush();
@@ -135,7 +145,6 @@
 
 
 	echo '<div id="dealertrend-inventory-api">';
-	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';
 
