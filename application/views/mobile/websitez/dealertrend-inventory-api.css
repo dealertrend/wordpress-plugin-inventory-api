@@ -51,12 +51,22 @@ List
 	padding-top: 5px;
 	text-align: center;
 }
-.dealertrend-mobile.inventory .nav .paginate .page-numbers{
+.dealertrend-mobile.inventory .nav .paginate .numbers{
+	float: left;
+	width: 65%;
+	text-align: left;
+}
+.dealertrend-mobile.inventory .nav .paginate .reset{
+	float: left;
+	width: 35%;
+	text-align: right;
+}
+.dealertrend-mobile.inventory .nav .paginate .numbers .page-numbers{
 	font-size: 1.1em;
 	padding: 0px 3px;
 	margin-top: 5px;
 }
-.dealertrend-mobile.inventory .nav .paginate .current{
+.dealertrend-mobile.inventory .nav .paginate .numbers .current{
 	font-weight: bold;
 }
 .dealertrend-mobile.inventory .listing .breadcrumbs{
