@@ -114,12 +114,6 @@
 					<a href="" onClick="return change_car_image_previous();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/28_24x24.png" border="0"></a> <span id="change_car_image_playpause"><a href="" onClick="return change_car_image_stop();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/33_24x24.png" border="0"></a></span> <a href="" onClick="return change_car_image_next();"><img src="<?php echo $this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/' ?>images/29_24x24.png" border="0"></a>
 				</div>
 				<?php
-				else:
-				?>
-				<div class="photo">
-					<img src='<?php echo $inventory->photos[0]->small; ?>' alt='<?php echo $generic_vehicle_title;?>'>
-				</div>
-				<?php
 				endif;
 				?>
 			<?php flush(); ?>
@@ -127,21 +121,60 @@
 				<div class="details">
 					<h3>Vehicle Details</h3>
 					<?php
-					if( $on_sale ) {
-						$now_text = '<strong>Price:</strong> ';
-						if( $use_was_now ) {
-							$price_class = ( $use_price_strike_through ) ? 'websitez-strike-through websitez-asking-price' : 'websitez-asking-price';
-							echo '<p class="' . $price_class . '"><strong>Was:</strong> ' . money_format( '%(#0n' , $asking_price ) . '</p>';
-							$now_text = '<strong>Now:</strong> ';
+						$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
+						$incentive_price = 0;
+						if( $ais_incentive != NULL ) {
+							preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+							$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 						}
-						echo '<p class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</p>';
-					} else {
-						if( $asking_price > 0 ) {
-							echo '<p class="websitez-asking-price"><strong>Price:</strong> ' . money_format( '%(#0n' , $asking_price ) . '</p>';
+						if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
+							echo '<div class="websitez-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+						}
+						if( $on_sale && $sale_price > 0 ) {
+							$now_text = 'Price: ';
+							if( $use_was_now ) {
+								$price_class = ( $use_price_strike_through ) ? 'websitez-strike-through websitez-asking-price' : 'websitez-asking-price';
+								if( $incentive_price > 0 ) {
+									echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+								} else {
+									echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								}
+								$now_text = 'Now: ';
+							}
+							if( $incentive_price > 0 ) {
+								echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+								echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+								if( $sale_expire != NULL ) {
+									echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
+								}
+							} else {
+								if( $ais_incentive != NULL ) {
+									echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+								}
+								echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+								if( $sale_expire != NULL ) {
+									echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
+								}
+							}
 						} else {
-							echo $default_price_text;
+							if( $asking_price > 0 ) {
+								if( $incentive_price > 0 ) {
+									echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+									echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+									echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+								} else {
+									if( $ais_incentive != NULL ) {
+										echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+									}
+									echo '<div class="websitez-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								}
+							} else {
+								if( $ais_incentive != NULL ) {
+									echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
+								}
+								echo $default_price_text;
+							}
 						}
-					}
 					?>
 					<p><strong>Stock:</strong> <?php echo $stock_number; ?></p>
 					<p><strong>VIN:</strong> <?php echo $vin; ?></p>
