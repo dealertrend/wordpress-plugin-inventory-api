@@ -10,20 +10,7 @@
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 
-	$check_host = $vehicle_management_system->check_host();
-	status_header( '400' );
-	if( $check_host[ 'status' ] != false ) {
-		$check_company_id = $vehicle_management_system->check_company_id();
-		if( $check_company_id[ 'status' ] != false ) {
-			$check_inventory = $vehicle_management_system->check_inventory();
-			if( $check_inventory[ 'status' ] != false ) {
-				$inventory = $vehicle_management_system->get_inventory( $this->parameters );
-				if( $inventory !== false ) {
-					status_header( '200' );
-				}
-			}
-		}
-	}
+	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
 
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 
