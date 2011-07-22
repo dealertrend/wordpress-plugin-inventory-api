@@ -107,6 +107,9 @@ class vehicle_management_system_widget extends WP_Widget {
 			return false;
 		}
 
+		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
+		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
+
 		if( $title ) {
 			echo '<div class="vms-widget-before-title">' . $before_title . '</div>';
 			echo '<div class="vms-widget-title">' . $title . '</div>';
@@ -217,9 +220,6 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo print_r( $vehicle_management_system , true ) . "\n";
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
-
-		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
-		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
 
 		echo '
 			<div class="vms-widget-content ' . $carousel . '">

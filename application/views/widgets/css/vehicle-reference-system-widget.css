@@ -31,3 +31,4 @@
 .vrs-widget .carousel-control.next { float:left; margin-top:80px; padding:0; }
 
 .vrs-widget .carousel .vrs-widget-item { width:230px; margin:0; padding:0; height:171px; }
+.vrs-widget .carousel .vrs-widget-item span { display:block; }
