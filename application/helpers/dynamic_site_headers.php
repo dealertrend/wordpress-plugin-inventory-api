@@ -135,10 +135,10 @@ class dynamic_site_headers {
 				echo '<meta name="Keywords" content="' . $this->headers[ 'page_keywords' ] . '" />' . "\n";
 			}
 			$robots = array();
-			if( isset( $this->headers[ 'follow' ] ) && !empty( $this->headers[ 'follow' ] ) && $this->headers[ 'follow' ] == false ) {
+			if( isset( $this->headers[ 'follow' ] ) && $this->headers[ 'follow' ] != true ) {
 				$robots[] = 'nofollow';
 			}
-			if( isset( $this->headers[ 'index' ] ) && !empty( $this->headers[ 'index' ] ) && $this->headers[ 'index' ] == false ) {
+			if( isset( $this->headers[ 'index' ] ) && $this->headers[ 'index' ] != true ) {
 				$robots[] = 'noindex';
 			}
 			if( !empty( $robots ) ) {
