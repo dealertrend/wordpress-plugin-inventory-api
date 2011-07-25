@@ -51,7 +51,7 @@ class dealetrend_plugin_updater {
 
 		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
 
-		$url = 'http://github.com/dealertrend/wordpress-plugin-inventory-api/commits/master?action=details&&TB_iframe=true&width=640&height=438';
+		$url = 'http://github.com/dealertrend/wordpress-plugin-inventory-api/commits/production?action=details&&TB_iframe=true&width=640&height=438';
 
 		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
 		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';

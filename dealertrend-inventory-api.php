@@ -186,7 +186,7 @@ class dealertrend_inventory_api {
 	 *
 	 */
 	function check_for_updates() {
-		add_action( 'wp_update_plugins' , array( &$this , 'instantiate_updater' ) );
+		add_action( 'admin_init' , array( &$this , 'instantiate_updater' ) );
 	}
 
 	/**
