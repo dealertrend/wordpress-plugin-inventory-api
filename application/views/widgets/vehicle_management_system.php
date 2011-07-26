@@ -14,6 +14,7 @@ class vehicle_management_system_widget extends WP_Widget {
 
 	public $tags = array(
 		NULL,
+		'certified',
 		'special',
 		'gas-saver',
 		'cherry-deal',
