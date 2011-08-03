@@ -57,6 +57,13 @@ class http_api_wrapper {
 		)
 	);
 
+	/**
+	 * Boolean intended to control whether or not debug information is output.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var boolean
+	 */
 	private $debug = false;
 
 	/**

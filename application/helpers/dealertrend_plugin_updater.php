@@ -4,25 +4,68 @@ if ( class_exists( 'dealetrend_plugin_updater' ) ) {
 	return false;
 }
 
+/**
+ * This is class is in charge of allowing users to maintain updated version of the plugin via the WordPress dashboard.
+ *
+ * It ties in with transient data to allow WordPress to use the GitHub API and check our plugin for updates.
+ * It allows for manual updates and automatic updates.
+ *
+ * @package Wordpress
+ * @since 3.0.0
+ */
 class dealetrend_plugin_updater {
 
 	public $current_plugin_information = array();
 	public $new_plugin_information = array();
 	public $new_version = NULL;
 
-	function __construct( $current_plugin_information ) {
+	/**
+	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
+	 *
+	 * Currently requires the passing of plugin information to it in order to work.
+	 * TODO: Extend primary class and use parent access for data.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
+	function __construct() {
 		$this->load_plugin_information( $current_plugin_information );
 		$this->queue_plugin_updater();
 	}
 
+	/**
+	 * Loads the plugin information using a crufty method. :-(
+	 *
+	 * TODO: Kill this!
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function load_plugin_information( $current_plugin_information ) {
 		$this->current_plugin_information = $current_plugin_information;
 	}
 
+
+	/**
+	 * Hooks the update plugins transient array into our filter so we can inject our information.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function queue_plugin_updater() {
 		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
 	}
 
+	/**
+	 * Display a notice if we have the need to update.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function display_update_notice( $version_check = array() ) {
 		if( $version_check[ 'current' ] < $version_check[ 'latest' ] ) {
 			$update_data = (object) array(
@@ -41,11 +84,25 @@ class dealetrend_plugin_updater {
 		}
 	}
 
+	/**
+	 * This is intended to filter the plugin table rows and allow us to display our notice code.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function filter_plugin_rows() {
 		remove_all_actions( 'after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ] );
 		add_action('after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
 	}
 
+	/**
+	 * This is what generates the code for the displayed notice.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function plugin_row() {
 		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
 
@@ -58,6 +115,13 @@ class dealetrend_plugin_updater {
 		echo '</div></td></tr>';
 	}
 
+	/**
+	 * This does the actual GitHub API request.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function check_for_updates() {
 		# Get the current list of plugins that need to be updated.
 		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
@@ -90,6 +154,13 @@ class dealetrend_plugin_updater {
 		}
 	}
 
+	/**
+	 * If the current version is behind, set the value for the new version in the update array.
+	 *
+	 * @package Wordpress
+	 * @since 3.0.0
+	 * @return void
+	 */
 	function filter_plugin_count( $current_values ) {
 		if( $this->new_version > $this->current_plugin_information[ 'Version' ] ) {
 			$new_values = $current_values;

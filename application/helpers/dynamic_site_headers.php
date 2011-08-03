@@ -52,6 +52,13 @@ class dynamic_site_headers {
 	 */
 		public $headers = array();
 
+	/**
+	 * Public array all requests made within the instance of the object.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 		public $request_stack = array();
 
 	/**

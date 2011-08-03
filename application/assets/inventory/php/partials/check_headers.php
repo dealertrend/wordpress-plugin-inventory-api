@@ -1,4 +1,7 @@
 <?php
+	/*
+			This is intended to be the source of truth for the response header logic.
+	 */
 	$check_host = $vehicle_management_system->check_host();
 	status_header( '400' );
 	if( $check_host[ 'status' ] != false ) {

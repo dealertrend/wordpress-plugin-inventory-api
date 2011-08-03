@@ -2,7 +2,6 @@ var dealertrend = jQuery.noConflict();
 
 dealertrend( document ).ready( function() {
 
-
     if( dealertrend( '#loan-calculator' ).length ) {
         calculateLoan();
 

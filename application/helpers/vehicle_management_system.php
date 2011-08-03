@@ -7,7 +7,7 @@ if ( class_exists( 'vehicle_management_system' ) ) {
 /**
  * This is the primary class for the VMS.
  *
- * It's sole responsibility is to get and return inventory data form the VMS.
+ * It's sole responsibility is to get and return inventory data from the VMS API.
  *
  * @package WordPress
  * @subpackage Plugin
@@ -50,8 +50,26 @@ class vehicle_management_system {
 	 */
 	private $routes = array();
 
+	/**
+	 * Public array all requests made within the instance of the object.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	public $request_stack = array();
 
+	/**
+	 * PHP 5 constructor.
+	 *
+	 * Sets up the routes for the VMS api.
+	 *
+	 * TODO: Requires that you submit the company information to it at the moment. There's a better way to do that...
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function __construct( $host , $company_id ) {
 		$this->host = $host;
 		$this->company_id = $company_id;
@@ -64,6 +82,13 @@ class vehicle_management_system {
 		$this->routes[ 'body_styles' ] = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
 	}
 
+	/**
+	 * Checks to see if the API's host can be reached.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function check_host() {
 		$request_handler = new http_api_wrapper( $this->host , 'vehicle_management_system' );
 		$this->request_stack[] = $this->host;
@@ -75,6 +100,13 @@ class vehicle_management_system {
 		return $data_array;
 	}
 
+	/**
+	 * Checks to see if the company ID is recognized by the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function check_company_id() {
 		$url = $this->routes[ 'company_information' ];
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
@@ -87,6 +119,13 @@ class vehicle_management_system {
 		return $data_array;
 	}
 
+	/**
+	 * Checks to see if the inventory feed can be reached. It makes the smallest request possible to the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function check_inventory() {
 		$url = $this->routes[ 'vehicles' ] . '?photo_view=1&per_page=1';
 		$request_handler = new http_api_wrapper( $url , 'vehicle_management_system' );
@@ -107,6 +146,13 @@ class vehicle_management_system {
 		return $data_array;
 	}
 
+	/**
+	 * Retreives the company information from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_company_information() {
 		$request_handler = new http_api_wrapper( $this->routes[ 'company_information' ] , 'vehicle_management_system' );
 		$this->request_stack[] = $this->routes[ 'company_information' ];
@@ -119,6 +165,13 @@ class vehicle_management_system {
 		return $data_array;
 	}
 
+	/**
+	 * Retreives the inventory from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_inventory( $parameters = array() ) {
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 		$parameter_string = $this->process_parameters( $parameters );
@@ -133,6 +186,13 @@ class vehicle_management_system {
 		}
 	}
 
+	/**
+	 * Retreives all makes avilable within the current context of your inventory request from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_makes( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'makes' ] . $parameter_string;
@@ -142,6 +202,13 @@ class vehicle_management_system {
 		return json_decode( $data[ 'body' ] );
 	}
 
+	/**
+	 * Retreives all models avilable within the current context of your inventory request from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_models( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'models' ] . $parameter_string;
@@ -151,6 +218,13 @@ class vehicle_management_system {
 		return json_decode( $data[ 'body' ] );
 	}
 
+	/**
+	 * Retreives all trims avilable within the current context of your inventory request from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_trims( $parameters = array() ) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'trims' ] . $parameter_string;
@@ -160,6 +234,13 @@ class vehicle_management_system {
 		return json_decode( $data[ 'body' ] );
 	}
 
+	/**
+	 * Retreives all body styles avilable within the current context of your inventory request from the API.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function get_body_styles( $parameters = array()) {
 		$parameter_string = $this->process_parameters( $parameters );
 		$url = $this->routes[ 'body_styles' ] . $parameter_string;
@@ -169,6 +250,15 @@ class vehicle_management_system {
 		return json_decode( $data[ 'body' ] );
 	}
 
+	/**
+	 * Takes the given parameters and sanitizes them before submitting the call to the API.
+	 *
+	 * Also asserts some assumptions for improved performance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var array
+	 */
 	function process_parameters( $parameters ) {
 		unset( $parameters[ 'taxonomy' ] );
 
