@@ -2,8 +2,8 @@
 Contributors: sterlo 
 Donate link:http://www.dealertrend.com
 Tags: api,dealertrend,automotive,cars,custom taxonomy
-Requires at least: 3.1.0
-Tested up to: 3.2
+Requires at least: 3.2
+Tested up to: 3.2.x
 Stable tag: trunk
 
 Integration with the DealerTrend Vehicle Management System and Vehicle Reference System which implements Automotive Information System\'s API.
