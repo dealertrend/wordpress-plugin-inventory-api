@@ -303,9 +303,7 @@ function video_popup(url , title) {
 						preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
 						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 					}
-					if( ( $incentive_price > 0 && $retail_price > 0 ) ) {
-						echo '<div class="armadillo-msrp"><span>MSRP:</span> ' . money_format( '%(#0n' , $retail_price ) . '</div>';
-					}
+					echo '<div class="armadillo-msrp"><span>MSRP:</span> ' . money_format( '%(#0n' , $retail_price ) . '</div>';
 				?>
 				<div><span>Color:</span> <?php echo $exterior_color; ?></div>
 				<div><span>Engine:</span> <?php echo $engine; ?></div>
