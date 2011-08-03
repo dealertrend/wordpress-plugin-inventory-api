@@ -29,7 +29,7 @@ class dealetrend_plugin_updater {
 	 * @since 3.0.0
 	 * @return void
 	 */
-	function __construct() {
+	function __construct( $current_plugin_information ) {
 		$this->load_plugin_information( $current_plugin_information );
 		$this->queue_plugin_updater();
 	}
