@@ -239,6 +239,9 @@ class vehicle_reference_system_widget extends WP_Widget {
 	}
 
 	function form( $instance ) {
+		if( $this->get_field_id( 'id' ) == 'widget-vehicle_reference_system_widget-__i__-id' ) {
+			return false;
+		}
 		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
 		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : false;
