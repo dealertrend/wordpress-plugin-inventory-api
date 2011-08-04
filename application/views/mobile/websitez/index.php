@@ -51,8 +51,8 @@
 	$query = '?' . http_build_query( $_GET );
 
 	$street = $company_information->street;
-	$city = $company_information->city;
-	$state = $company_information->state;
+	$city = $company_information->seo->city;
+	$state = $company_information->seo->state;
 	$zip = $company_information->zip;
 	$phone = $company_information->phone;
 
@@ -123,7 +123,7 @@
 				<div class="company-details">
 					<p><strong><?php echo $company_name; ?></strong></p>
 					<p><?php echo $street; ?></p>
-					<p><?php echo $city . ', ' . $state . ' ' . $zip; ?></p>
+					<p><?php echo $company_information->city . ', ' . $company_information->state . ' ' . $zip; ?></p>
 					<p><strong><a href="tel:1<?php echo str_replace( array( "(" , ")" , " " , "-" ) , "" , $phone ); ?>">Call: <?php echo $phone; ?></a></strong></p>
 				</div>
 				<div style="clear: both;"></div>
