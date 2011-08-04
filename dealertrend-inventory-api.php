@@ -455,7 +455,7 @@ class dealertrend_inventory_api {
 					$dynamic_site_headers = new dynamic_site_headers(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
 						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-						$this->parameters + $seo_hack
+						(array) $this->parameters + (array) $seo_hack
 					);
 				}
 
