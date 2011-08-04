@@ -127,7 +127,9 @@
 							preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
 							$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 						}
-						echo '<div class="websitez-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+						if( $retail_price > 0 ) {
+							echo '<div class="websitez-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+						}
 						if( $on_sale && $sale_price > 0 ) {
 							$now_text = 'Price: ';
 							if( $use_was_now ) {
