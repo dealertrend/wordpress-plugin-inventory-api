@@ -451,7 +451,7 @@ class dealertrend_inventory_api {
 				$company_information = $vehicle_management_system->get_company_information();
 
 				if( $company_information[ 'data' ] != false ) {
-					$seo_hack = array( 'city' => $company_information[ 'data' ]->city , 'state' => $company_information[ 'data' ]->state );
+					$seo_hack = array( 'city' => $company_information[ 'data' ]->seo->city , 'state' => $company_information[ 'data' ]->seo->state );
 					$dynamic_site_headers = new dynamic_site_headers(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
 						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],

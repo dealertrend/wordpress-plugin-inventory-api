@@ -73,8 +73,8 @@
 		return false;
 	}
 
-	$city = $company_information->city;
-	$state = $company_information->state;
+	$city = $company_information->seo->city;
+	$state = $company_information->seo->state;
 
 	$company_name = strtoupper( $company_information->name );
 
