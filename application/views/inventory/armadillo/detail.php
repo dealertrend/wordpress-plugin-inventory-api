@@ -428,7 +428,7 @@ function video_popup(url , title) {
 				<div class="armadillo-images">
 				<?php
 					foreach( $inventory->photos as $photo ) {
-						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="320" height="240" />';
+						echo '<a href="' . str_replace( '&' , '&amp;' , $photo->large ) . '"><img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="320" height="240" /></a>';
 					}
 				?>
 				</div>

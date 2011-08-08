@@ -6,8 +6,12 @@ dealertrend(document).ready(function() {
         slideExpr: 'img',
         fx: 'fade',
         pager: '.armadillo-slideshow .armadillo-navigation',
-        pagerAnchorBuilder: function(idx, slide) { 
-            return '<a href="#"><img src="' + slide.src + '" width="70" height"50" /></a>'; 
-        } 
+        pagerAnchorBuilder: function(idx, slide) {
+            return '<a href="#"><img src="' + slide.src + '" width="70" height"50" /></a>';
+        }
+    });
+    dealertrend('.armadillo-images a')
+    .lightBox({
+        fixedNavigation:true
     });
 });
