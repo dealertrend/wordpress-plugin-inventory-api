@@ -81,7 +81,7 @@ class dealertrend_inventory_api {
 			'company_information' => array(
 				'id' => 0
 			),
-			'host' => NULL,
+			'host' => '',
 			'mobile_theme' => array(
 				'name' => 'websitez',
 				'per_page' => '10'
@@ -92,7 +92,7 @@ class dealertrend_inventory_api {
 			)
 		),
 		'vehicle_reference_system' => array(
-			'host' => NULL
+			'host' => ''
 		),
 		'debug' => array(
 			'logging' => false
@@ -216,10 +216,26 @@ class dealertrend_inventory_api {
 		if( !$loaded_options ) {
 			update_option( 'dealertrend_inventory_api' , $this->options );
 		} else {
+			if( $this->validate_options( &$loaded_options , &$this->options ) ) {
+				update_option( 'dealertrend_inventory_api' , $this->options );
+			}
 			foreach( $loaded_options as $option_group => $option_values ) {
 				$this->options[ $option_group ] = $option_values;
 			}
 		}
+	}
+
+	function validate_options( $options , $defaults , $modified = false ) {
+		foreach( $defaults as $key => $value ) {
+			if( is_array( $value ) ) {
+				$this->validate_options( &$options[ $key ] , &$value , &$modified );
+			} elseif( !isset( $options[ $key ] ) || $options[ $key ] === NULL ) {
+				$options[ $key ] = $defaults[ $key ];
+				$modified = true;
+			}
+		}
+
+		return $modified;
 	}
 
 	/**

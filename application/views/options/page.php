@@ -324,7 +324,7 @@
 				<tr>
 					<td width="125"><label for="debug">Debug Mode:</a></td>
 					<td>
-						<input type="checkbox" name="debug[logging]" id="debug" value="true" <?php echo $dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] == true ? 'checked="checked"' : 'NULL' ?> />
+						<input type="checkbox" name="debug[logging]" id="debug" value="true" <?php echo $dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] == true ? 'checked="checked"' : NULL ?> />
 					</td>
 				</tr>
 			</table>
