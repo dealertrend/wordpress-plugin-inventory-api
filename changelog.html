@@ -272,6 +272,34 @@
 	<body>
 		<div id="content">
 			<h1>Change Log and Update Instructions</h1>
+
+			<h2 id="v390">Version 3.9.0</h2>
+			<p>Release Date August 10, 2011</p>
+			<p>Adding new features and fixing bugs.</p>
+
+			<ul>
+				<li>Fixing bad assumption on array merge. This will help not break inventory pages when bad paramters are passed.</li>
+				<li>Fixing bad assumptions when checking AJAX for saving VRS widget data.</li>
+				<li>Adding a changelog! Isn't it awesome?</li>
+				<li>Adding SEO City and State information.</li>
+				<li>Adding a lightbox to the Armadillo slideshow.</li>
+				<li class="important">Fixing bug where the new introduction of options in the plugin would result in them never being properly populated.</li>
+				<li>Fixing bad markup for debug checkbox on the options page.</li>
+			</ul>
+
+			<h3 class="upgrade">Upgrading from 3.8.1 to 3.9.0</h3>
+			<ul>
+				<li>
+					Go to the Settings page within the DealerTrend API Plugin's options page. Run the <dfn>Clean Uninstall</dfn> procedure. This will clean up the database and deactivate the plugin.
+					<ul>
+						<li class="important">This <kbd>will not delete the plugin</kbd>. You still need to do that. You can do it from the plugin management screen or via FTP.</li>
+					</ul>
+				</li>
+				<li>Delete ALL of the old plugins files. It will be <dfn>/wp-content/plugins/dealertrend-inventory-api</dfn>. Replace with new files and put them into a folder called <dfn>dealertrend-inventory-api</dfn>.</li>
+				<li>Alternatively you can use the automatic updater.</li>
+			</ul>
+
+
 			<h2 id="v381">Version 3.8.1</h2>
 			<p>Release Date: August 3, 2011</p>
 			<p>Maintenance release.</p>
