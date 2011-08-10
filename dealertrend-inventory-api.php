@@ -217,7 +217,7 @@ class dealertrend_inventory_api {
 			update_option( 'dealertrend_inventory_api' , $this->options );
 		} else {
 			if( $this->validate_options( &$loaded_options , &$this->options ) ) {
-				update_option( 'dealertrend_inventory_api' , $this->options );
+				update_option( 'dealertrend_inventory_api' , $loaded_options );
 			}
 			foreach( $loaded_options as $option_group => $option_values ) {
 				$this->options[ $option_group ] = $option_values;
