@@ -51,7 +51,7 @@ dealertrend_admin( document ).ready( function() {
 
 
 dealertrend_admin( 'body' ).ajaxSuccess( function( evt, request, settings ) {
-    if( settings.data.length ) {
+    if( typeof( settings.data ) !== 'undefined' ) {
         if( settings.data.search( '/id_base=vehicle_reference_system_widget.*action=save-widget/ig' ) ) {
             implement_ui();
         }
