@@ -3,6 +3,7 @@
 .ui-dialog { z-index:9999 !important; position:fixed; }
 .ui-dialog iframe { display:block; position:relative; height:420px; }
 .ui-dialog .ui-state-error { padding: .3em; }
+#jquery-overlay { z-index:9999; }
 
 .armadillo-strike-through { text-decoration:line-through; }
 .armadillo-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
