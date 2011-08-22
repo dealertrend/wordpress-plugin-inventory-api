@@ -475,8 +475,8 @@
 
 		$.fn.lightbox.defaults = {
 			allSet: false,
-			fileLoadingImage: 'images/loading.gif',
-			fileBottomNavCloseImage: 'images/closelabel.gif',
+			fileLoadingImage: '/wp-content/plugins/dealertrend-inventory-api/application/assets/jquery-lightbox/1.0/images/loading.gif', // This is bad... -> Should find a better way to get this path.
+			fileBottomNavCloseImage: '/wp-content/plugins/dealertrend-inventory-api/application/assets/jquery-lightbox/1.0/images/closelabel.gif',
 			overlayOpacity: 0.6,
 			borderSize: 10,
 			imageArray: new Array,
