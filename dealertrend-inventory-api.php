@@ -155,7 +155,7 @@ class dealertrend_inventory_api {
 		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
 
 		$plugin_file = pathinfo( __FILE__ );
-		$data[ 'PluginURL' ] = plugins_url( '/' , __FILE__ );
+		$data[ 'PluginURL' ] = plugins_url( '' , __FILE__ );
 		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
 
 		$this->plugin_information = $data;
