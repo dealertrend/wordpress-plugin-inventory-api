@@ -11,7 +11,13 @@ dealertrend(document).ready(function() {
         }
     });
     dealertrend('.armadillo-images a')
-    .lightBox({
-        fixedNavigation:true
+    .lightbox({
+        imageClickClose: false,
+        loopImages: true,
+        fitToScreen: true,
+        scaleImages: true,
+        xScale: 1.0,
+        yScale: 1.0,
+        displayDownloadLink: true
     });
 });
