@@ -136,11 +136,16 @@ class dealetrend_plugin_updater {
 			$tags = $json->tags;
 			# We just want to version numbers.
 			$versions = array_keys( get_object_vars( $tags ) );
-			# Descending.
-			sort( $versions );
-			$versions = array_reverse( $versions );
+			foreach( $versions as $key => $value ) {
+				$filtered_versions[ $key ] = str_replace( 'v' , NULL , $value );
+				$filtered_versions[ $key ] = str_replace( '.' , NULL , $filtered_versions[ $key ] );
+				$reference[ $filtered_versions[ $key ] ] = $value;
+			}
+
+			sort( $filtered_versions , SORT_NUMERIC );
+			$versions = array_reverse( $filtered_versions );
 			if( !empty( $versions ) ) {
-				$latest_version = str_replace( 'v' , NULL , $versions[ 0 ] );
+				$latest_version = str_replace( 'v' , NULL , $reference[ $versions[ 0 ] ] );
 			} else {
 				$latest_version = '0';
 			}
