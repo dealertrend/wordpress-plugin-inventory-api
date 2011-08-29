@@ -108,7 +108,7 @@ class dynamic_site_headers {
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
 			if( $body ) {
-				$this->headers[ 'page_title' ] = $body->page_title;
+				$this->headers[ 'page_title' ] = rawurldecode( $body->page_title );
 				$this->headers[ 'page_description' ] = $body->page_description;
 				$this->headers[ 'page_keywords' ] = $body->page_keywords;
 				$this->headers[ 'follow' ] = $body->follow;
