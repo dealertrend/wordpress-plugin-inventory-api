@@ -93,7 +93,7 @@ function video_popup(url , title) {
 			<label for="formvehicletestdrive-comments">Comments</label>
 			<textarea rows="10" cols="35" name="comments" id="formvehicletestdrive-comments" class="text ui-widget-content ui-corner-all" ></textarea>
 			<label for="formvehicletestdrive-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-			<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" class="text ui-widget-content ui-corner-all" />
+			<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" checked="checked" />
 			<div style="display:none">
 				<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
 			</div>
@@ -127,7 +127,7 @@ function video_popup(url , title) {
 			<label for="formtellafriend-notify" style="float:left; margin-right:10px;">Notify me when e-mail is opened</label>
 			<input id="formtellafriend-notify" type="checkbox" name="notify" value="yes" />
 			<label for="formtellafriend-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-			<input type="checkbox" class="privacy" id="formtellafriend-privacy" name="privacy" value="Yes" />
+			<input type="checkbox" class="privacy" id="formtellafriend-privacy" name="privacy" value="Yes" checked="checked" />
 			<div style="display:none">
 				<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
 			</div>
@@ -249,7 +249,7 @@ function video_popup(url , title) {
 							<tr>
 							<td>
 									<div style="display:none">
-										<input class="privacy" name="privacy" id="vehicle-inquiry-privacy" type="checkbox" value="Yes" />
+										<input class="privacy" name="privacy" id="vehicle-inquiry-privacy" type="checkbox" value="Yes" checked="checked" />
 										<input name="agree_sb" type="checkbox" value="Yes" /> I am a Spam Bot?
 									</div>
 								</td>
