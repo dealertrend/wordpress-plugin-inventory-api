@@ -70,7 +70,7 @@ function video_popup(url , title) {
 			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 			<input type="hidden" name="required_fields" value="name,email,privacy"/>
 			<input type="hidden" name="saleclass" value="<?php echo strtolower($sale_class); ?>"/>
-			<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
+			<input type="hidden" name="return_url" value="<?php echo $site_url; ?>" id="return_url_test_drive"/>
 			<input type="hidden" name="vehicle" value="<?php echo $year . ' ' . $make . ' ' . $model; ?>"/>
 			<input type="hidden" name="year" value="<?php echo $year; ?>"/>
 			<input type="hidden" name="make" value="<?php echo $make; ?>"/>
@@ -108,7 +108,7 @@ function video_popup(url , title) {
 		<fieldset>
 			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
-			<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
+			<input type="hidden" name="return_url" value="<?php echo $site_url; ?>" id="return_url_tellafriend"/>
 			<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
 			<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
 			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
