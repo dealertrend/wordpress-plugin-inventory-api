@@ -60,7 +60,7 @@ class vehicle_management_system_widget extends WP_Widget {
 
 		extract( $args );
 
-		$title = apply_filters( 'widget_title' , $instance[ 'title' ] );
+		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $instance[ 'title' ] ) ? '' : $instance[ 'title' ] , $instance , $this->id_base ) : NULL;
 		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) ? 'float: ' . $instance[ 'float' ] . ';' : NULL;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] != false ? 'carousel' : false;
@@ -111,10 +111,8 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
 		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
 
-		if( $title ) {
-			echo '<div class="vms-widget-before-title">' . $before_title . '</div>';
-			echo '<div class="vms-widget-title">' . $title . '</div>';
-			echo '<div class="vms-widget-after-title">' . $after_title . '</div>';
+		if( ! empty( $title ) ) {
+			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
 		}
 		$sale_class = isset( $instance[ 'saleclass' ] ) ? ucwords( $instance[ 'saleclass' ] ) : 'All';
 
