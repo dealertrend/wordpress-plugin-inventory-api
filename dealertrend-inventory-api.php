@@ -99,7 +99,7 @@ class dealertrend_inventory_api {
 		),
 		'jquery' => array(
 			'ui' => array(
-				'theme' => 'black-tie'
+				'theme' => 'smoothness'
 			)
 		)
 	);
