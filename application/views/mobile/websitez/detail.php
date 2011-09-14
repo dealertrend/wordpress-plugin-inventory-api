@@ -568,7 +568,7 @@
 					?>
 					<h3>Loan Calculator</h3>
 					<div class="form">
-						<form name="loan-calculator" action="#" method="post">
+						<form id="loan-calculator" name="loan-calculator" action="#" method="post">
 							<table style="width:100%">
 								<tr>
 									<td colspan="1">

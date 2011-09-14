@@ -1,24 +1,37 @@
 <?php
 
-	setlocale( LC_MONETARY , 'en_US.UTF-8' );
-
 	global $wp_rewrite;
-
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-tabs' );
-	wp_enqueue_script( 'jquery-ui-cycle' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
-	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
 
 	$site_url = site_url();
 
-	$company_information = $company_information[ 'data' ];
+	setlocale( LC_MONETARY , 'en_US.UTF-8' );
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 
 	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
+
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'jquery-ui-cycle' );
+
+	switch( $type ) {
+		case 'detail':
+			wp_enqueue_script( 'jquery-ui-tabs' );
+			wp_enqueue_script(
+				'dealertrend-inventory-api-loan-calculator',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				'jquery',
+				$this->plugin_information[ 'Version' ]
+			);
+			wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
+			wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
+		break;
+		
+	}
 
 	get_header();
 	flush();
