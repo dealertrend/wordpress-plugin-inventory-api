@@ -303,7 +303,7 @@
 										<?php echo $icons; ?>
 									</div>
 									<?php
-										if( $ais_incentive != NULL ) {
+										if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
 									?>
 									<div class="armadillo-ais-incentive view-available-rebates">
 										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=<?php echo $vin; ?>&wID=<?php echo $company_information->api_keys->ais; ?>&zID=<?php echo $company_information->zip; ?>" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">

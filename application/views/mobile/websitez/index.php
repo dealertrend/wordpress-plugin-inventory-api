@@ -1,24 +1,34 @@
 <?php
 
-	setlocale( LC_MONETARY , 'en_US.UTF-8' );
-
 	global $wp_rewrite;
 
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-tabs' );
-	wp_enqueue_script( 'jquery-ui-cycle' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script( 'dealertrend-inventory-api-detail-tabs' );
-	wp_enqueue_script( 'dealertrend-inventory-api-loan-calculator' );
-
 	$site_url = site_url();
+
+	setlocale( LC_MONETARY , 'en_US.UTF-8' );
 
 	$company_information = $company_information[ 'data' ];
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 
 	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
+
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+
+	switch( $type ) {
+		case 'detail':
+			wp_enqueue_script( 'jquery-ui-cycle' );
+			wp_enqueue_script(
+				'dealertrend-inventory-api-loan-calculator',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				'jquery',
+				$this->plugin_information[ 'Version' ]
+			);
+		break;
+		
+	}
 
 	get_header();
 	flush();
@@ -47,16 +57,13 @@
 		return false;
 	}
 
-	$parameters = $this->parameters;
-	$query = '?' . http_build_query( $_GET );
-
-	$street = $company_information->street;
 	$city = $company_information->seo->city;
 	$state = $company_information->seo->state;
-	$zip = $company_information->zip;
-	$phone = $company_information->phone;
 
 	$company_name = strtoupper( $company_information->name );
+
+	$parameters = $this->parameters;
+	$query = '?' . http_build_query( $_GET );
 
 	$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
 	$put_in_trail = array(
@@ -115,6 +122,7 @@
 
 	flush();
 	?>
+
 	<div class="websitez-container dealertrend-mobile inventory">
 		<div class="post">
 			<div class="post-wrapper">
@@ -130,7 +138,10 @@
 			</div>
 		</div>
 	</div>
+
 	<?php
+
 	get_footer();
 	flush();
+
 ?>

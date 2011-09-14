@@ -13,8 +13,8 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
 		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
 		$plugin_file = pathinfo( __FILE__ );
-		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
-		$this->plugin_information[ 'WidgetURL' ] = WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$this->plugin_information[ 'PluginURL' ] = plugins_url( '' , __FILE__ ) . '/dealertrend-inventory-api';
+		$this->plugin_information[ 'WidgetURL' ] = plugins_url( '' , __FILE__ ) . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 		if( !is_admin() ) {
 			if( is_active_widget( false, $this->id , $this->id_base , true ) ) {
 				add_action( 'wp_print_styles' , array( &$this , 'vrs_front_styles' ) , 1 );
@@ -110,7 +110,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		extract( $args );
 
-		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , $instance[ 'title' ] ) : NULL;
+		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $instance[ 'title' ] ) ? '' : $instance[ 'title' ] , $instance , $this->id_base ) : NULL;
 		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) && $instance[ 'float' ] == true ? 'float: ' . $instance[ 'float' ] . ';' : false;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] == true ? 'carousel' : false;
@@ -137,10 +137,8 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' . $float . '">';
 		echo '<div class="vrs-before-widget">' . $before_widget . '</div>';
-		if( $title ) {
-			echo '<div class="vrs-widget-before-title">' . $before_title . '</div>';
-			echo '<div class="vrs-widget-title">' . $title . '</div>';
-			echo '<div class="vrs-widget-after-title">' . $after_title . '</div>';
+		if( ! empty( $title ) ) { 
+			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
 		}
 		echo '<div class="vrs-widget-content ' . $carousel . '">';
 		echo '<div class="vrs-widget-item-wrapper ' . $carousel . '">';

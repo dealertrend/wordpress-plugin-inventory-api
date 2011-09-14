@@ -40,8 +40,8 @@ class vehicle_management_system_widget extends WP_Widget {
 	function __construct() {
 
 		parent::__construct( false , $name = 'Vehicle Management System' , array( 'description' => 'A customizable widget to display inventory items in widget areas throughout your site. Feeds provided by DealerTrend, Inc.' ) );
-		$this->plugin_information[ 'PluginURL' ] = WP_PLUGIN_URL . '/dealertrend-inventory-api';
-		$this->plugin_information[ 'WidgetURL' ] =	WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
+		$this->plugin_information[ 'PluginURL' ] = plugins_url( '' , __FILE__ ) . '/dealertrend-inventory-api';
+		$this->plugin_information[ 'WidgetURL' ] = plugins_url( '' , __FILE__ ) . '/' . str_replace( basename( __FILE__ ) , '' , plugin_basename( __FILE__ ) );
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
 		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
 
@@ -60,7 +60,7 @@ class vehicle_management_system_widget extends WP_Widget {
 
 		extract( $args );
 
-		$title = apply_filters( 'widget_title' , $instance[ 'title' ] );
+		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $instance[ 'title' ] ) ? '' : $instance[ 'title' ] , $instance , $this->id_base ) : NULL;
 		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
 		$float = isset( $instance[ 'float' ] ) ? 'float: ' . $instance[ 'float' ] . ';' : NULL;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] != false ? 'carousel' : false;
@@ -111,10 +111,8 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
 		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
 
-		if( $title ) {
-			echo '<div class="vms-widget-before-title">' . $before_title . '</div>';
-			echo '<div class="vms-widget-title">' . $title . '</div>';
-			echo '<div class="vms-widget-after-title">' . $after_title . '</div>';
+		if( ! empty( $title ) ) {
+			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
 		}
 		$sale_class = isset( $instance[ 'saleclass' ] ) ? ucwords( $instance[ 'saleclass' ] ) : 'All';
 
