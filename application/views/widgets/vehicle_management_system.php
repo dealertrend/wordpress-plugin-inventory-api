@@ -110,7 +110,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		}
 
 		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
-		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
+		echo $before_widget;
 
 		if( ! empty( $title ) ) {
 			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
