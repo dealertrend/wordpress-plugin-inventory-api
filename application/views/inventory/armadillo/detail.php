@@ -429,7 +429,7 @@ function video_popup(url , title) {
 				<?php
 					foreach( $inventory->photos as $photo ) {
 						echo '<a class="lightbox" rel="slides" href="' . str_replace( '&' , '&amp;' , $photo->large ) . '" title="' . $company_name . '">';
-						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" height="240" alt="" />';
+						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="300" alt="" />';
 						echo '</a>';
 					}
 				?>
