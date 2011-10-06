@@ -52,6 +52,7 @@
 
 			//Car Models
 			if( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ):
+				$parameters[ 'make' ] = isset( $parameters[ 'make'] ) ? $parameters[ 'make'] : 'All';
 				$models = $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
 				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Models</option>' : '<option value-"'.@add_query_arg( array( 'make' => $parameters['make'] , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Models</option>';
 				if(is_array($models) && count($models) > 0):
