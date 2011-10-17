@@ -47,6 +47,9 @@ require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_referenc
  */
 class dealertrend_inventory_api {
 
+	// Objects will need to have a consistant place to look for the taxonomy.
+	public $taxonomy = null;
+
 	/**
 	 * Public plugin information derived from the file header, as well as some custom keys.
 	 *
@@ -279,7 +282,7 @@ class dealertrend_inventory_api {
 	function setup_routing() {
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
-		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
+		add_action( 'init' , array( &$this , 'create_taxonomies' ) );
 	}
 
 	/**
@@ -290,7 +293,7 @@ class dealertrend_inventory_api {
 	 * @return void
 	 */
 	function queue_templates() {
-		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) , 2 );
+		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 2 );
 	}
 
 	/**
@@ -414,10 +417,10 @@ class dealertrend_inventory_api {
 	 * @since 3.0.0
 	 * @return void
 	 */
-	function create_taxonomy() {
+	function create_taxonomies() {
 		$labels = array(
 			'name' => _x( 'Inventory' , 'taxonomy general name' ),
-			'menu_name' => __( 'Inventory' ),
+			'menu_name' => __( 'Inventory' )
 		);
 		register_taxonomy(
 			'inventory',
@@ -438,7 +441,7 @@ class dealertrend_inventory_api {
 	 * @since 3.0.0
 	 * @return void
 	 */
-	function show_inventory_theme() {
+	function show_theme() {
 		global $wp_query;
 
 		$this->check_mobile();
