@@ -1,0 +1,164 @@
+#showcase {
+  background:#f8f8f8;
+  color:#e1e1e1;
+  text-align:center;
+  margin:0 10px;
+  padding:15px;
+  border:1px solid #e1e1e1;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+#showcase hr {
+  background:#fff;
+  clear:both;
+  -webkit-box-shadow: 0px -1px 0px #b2b2b2;
+  box-shadow: 0px -1px 0px #b2b2b2;
+  width:100%;
+  height:1px;
+  margin:0 0 1.45em;
+  border:0;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+#showcase h2, #showcase h3 {
+  color:#6e6e6e;
+  text-align:left;
+}
+#showcase h2 {
+  font-size:24px;
+  line-height:24px;
+}
+#showcase h3 {
+  font-size:18px;
+  line-height:18px;
+}
+#showcase .group .make,
+#showcase .group .model {
+  display:inline-block;
+  width:225px;
+  overflow:hidden;
+}
+#showcase .group .make:hover img,
+#showcase .group .model:hover img {
+  -webkit-box-shadow: 0px 1px 7px #000;
+  box-shadow: 0px 1px 7px #000;
+  cursor:pointer;
+}
+#showcase .group .make img,
+#showcase .group .model img {
+  border:1px solid #e1e1e1;
+  padding:5px;
+  background:white;
+  -webkit-box-shadow: 0px 1px 5px #666;
+  box-shadow: 0px 1px 5px #666;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+}
+#showcase .group .model img {
+  background:white;
+}
+#showcase .group .make a,
+#showcase .group .model a {
+  color:gray;
+  font-size:14px;
+  text-decoration:none;
+}
+#showcase .group .make a:hover,
+#showcase .group .model .name:hover {
+  color:#c1c1c1;
+}
+#showcase .group .make .classifications,
+#showcase .group .model .name {
+  line-height:12px;
+  margin-bottom:25px;
+}
+#showcase .group .model {
+  text-align:center;
+}
+#showcase .group.models {
+  text-align:left;
+}
+#showcase .group.models > div {
+  background:#eee; /* for non-css3 browsers */
+  overflow:hidden;
+  margin-bottom:1.5em;
+  margin-left:0;
+  margin-right:0;
+  margin-top:0.75em;
+  padding-bottom:20px;
+  padding-left:20px;
+  padding-right:20px;
+  padding-top:16px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  border:1px solid #e1e1e1;
+}
+
+#showcase #trim {
+  overflow:hidden;
+  text-align:left;
+  color:#282828;
+  font-family:
+  font-family:'Helvetica Neue','Helvetica',Arial;
+  line-height:1em;
+  font-size:1em;
+}
+#showcase #trim h3 {
+  font-weight:200;
+  color:#282828;
+  font-size:2em;
+  text-transform:uppercase;
+  line-height:1.2em;
+  vertical-align:baseline;
+  margin:.2em 0;
+}
+#showcase #trim #left-side { display:inline-block; width:350px; }
+#showcase #trim #right-side { display:inline-block; padding:10px; vertical-align:top; padding-top:40px; }
+#showcase #trim #pricing {
+  text-align:center;
+  text-transform:uppercase;
+  color:#414141;
+  font-size:1.2em;
+  margin:auto;
+}
+#showcase #trim #pricing #msrp {
+  font-size:2em;
+  line-height:1.2em;
+  font-weight:bold;
+}
+#showcase #trim #fuel { text-align:center; padding:10px; }
+#showcase #trim #fuel div {
+  display:inline-block;
+}
+#showcase #trim #fuel div .number { display:block; font-weight:bold; font-size:1.8em; line-height:1.4em; letter-spacing:.1em; }
+#showcase #trim #disclaimer { text-align:center; width:150px; margin:auto; font-size:.6em; letter-spacing:.1em; font-family:Arial; }
+#showcase #trim #spotlight { margin:0; padding:0; line-height:0; text-align:center; width:350px; }
+#showcase #trim #spotlight {
+  -webkit-box-shadow: 0px 1px 5px #666;
+  box-shadow: 0px 1px 5px #666;
+}
+#showcase #visuals #swatches {
+  padding:10px;
+  width:350px;
+}
+#showcase #visuals .swatch {
+  width:36px;
+  height:30px;
+  display:inline-block;
+  text-indent:-9999px;
+  background-image:url('http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/swatch-on.png');
+  margin:3px;
+  cursor:default;
+}
+#showcase #visuals .swatch:hover,
+#showcase #visuals .swatch.active {
+  background-image:none;
+  border:3px double white;
+  margin:0;
+  cursor:pointer;
+}
+#showcase #visuals #spotlight img { display:none; }
+#showcase #visuals #spotlight img.active { display:inline-block; }
