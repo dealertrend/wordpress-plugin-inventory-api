@@ -17,12 +17,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA	02110-1301, USA.
 */
 
 /** Load the helpers so we can interface with the APIs. */
@@ -393,6 +393,7 @@ class dealertrend_inventory_api {
 	function add_rewrite_rules( $existing_rules ) {
 		$new_rules = array();
 		$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+		$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
 
 		return $new_rules + $existing_rules;
 	}
@@ -433,6 +434,21 @@ class dealertrend_inventory_api {
 				'rewrite' => array( 'slug' => 'inventory' )
 			)
 		);
+		$labels = array(
+			'name' => _x( 'Showcase' , 'taxonomy general name' ),
+			'menu_name' => __( 'Showcase' )
+		);
+		register_taxonomy(
+			'showcase',
+			array( 'page' ),
+			array(
+				'hierarchical' => true,
+				'labels' => $labels,
+				'show_ui' => false,
+				'query_var' => true,
+				'rewrite' => array( 'slug' => 'showcase' )
+			)
+		);
 	}
 
 	/**
@@ -446,11 +462,11 @@ class dealertrend_inventory_api {
 
 		$this->check_mobile();
 
+		$this->taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
+
 		$this->parameters = $this->get_parameters();
 
-		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
-
-		switch( $taxonomy ) {
+		switch( $this->taxonomy ) {
 
 			case 'inventory':
 				$this->fix_bad_wordpress_assumption();
@@ -491,7 +507,31 @@ class dealertrend_inventory_api {
 				}
 
 				$this->stop_wordpress();
+			break;
+			case 'showcase':
+				$this->fix_bad_wordpress_assumption();
 
+				$current_theme = 'default';
+				$theme_folder = 'showcase';
+				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
+				$vehicle_reference_system = new vehicle_reference_system(
+					$this->options[ 'vehicle_reference_system' ][ 'host' ]
+				);
+
+				if( $handle = opendir( $theme_path ) ) {
+					while( false !== ( $file = readdir( $handle ) ) ) {
+						if( $file == 'index.php' ) {
+							include_once( $theme_path . '/index.php' );
+						}
+					}
+					closedir( $handle );
+				} else {
+					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+					return false;
+				}
+
+				$this->stop_wordpress();
 			break;
 		}
 	}
@@ -534,36 +574,52 @@ class dealertrend_inventory_api {
 
 		$permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 		$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
-		$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
 		$parameters = array();
 
-		foreach( $permalink_parameters as $key => $value ) {
-			switch( $key ) {
-				case 0: $index = 'taxonomy'; break;
-				case 1:
-					if( is_numeric( $value ) ) {
-						$index = 'year';
-					} else {
-						$index = 'saleclass';
-					}
-				break;
-				case 2: $index = 'make'; break;
-				case 3: $index = 'model'; break;
-				case 4: $index = 'state'; break;
-				case 5: $index = 'city'; break;
-				case 6: $index = 'vin'; break;
-				default: return; break;
-			}
-			$parameters[ $index ] = $value;
-		}
+		switch( $this->taxonomy ) {
+			case 'inventory';
+				$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
 
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
+						case 1:
+							if( is_numeric( $value ) ) {
+								$index = 'year';
+							} else {
+								$index = 'saleclass';
+							}
+						break;
+						case 2: $index = 'make'; break;
+						case 3: $index = 'model'; break;
+						case 4: $index = 'state'; break;
+						case 5: $index = 'city'; break;
+						case 6: $index = 'vin'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+			case 'showcase':
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
+						case 1: $index = 'make'; break;
+						case 2: $index = 'model'; break;
+						case 3: $index = 'trim'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+		}
 		return array_merge( $parameters , $server_parameters );
 	}
 
 	/**
 	 * Never trust the user.
 	 *
-	 * Recursive funciton intended to tranverse both scalar and non-scalar values to sanitize them usins kses.
+	 * Recursive function intended to tranverse both scalar and non-scalar values to sanitize them usins kses.
 	 *
 	 * @since 3.0.0
 	 * @return mixed The sanitized given values.
