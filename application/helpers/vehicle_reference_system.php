@@ -1,12 +1,11 @@
 <?php
 
-if ( class_exists( 'vehicle_reference_system' ) ) {
-	return false;
-}
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 class vehicle_reference_system {
 
 	public $host = NULL;
+	public $tracer = NULL;
 	public $request_stack = array();
 
 	private $url = NULL;
@@ -65,6 +64,11 @@ class vehicle_reference_system {
 		return $this;
 	}
 
+	public function get_review( $id ) {
+		$this->url = $this->host . '/review_titles/' . $id . '.json';
+		return $this;
+	}
+
 	public function get_features( $acode ) {
 		$this->url = $this->host . '/acode_feature_datas.json';
 		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
@@ -98,16 +102,21 @@ class vehicle_reference_system {
 	public function please( $parameters = array() ) {
 		$parameters = array_merge( $this->parameters , $parameters );
 		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
+
 		$request = $this->url . $parameter_string;
-		$request_handler = new http_api_wrapper( $request , 'vehicle_reference_system' );
-		$this->request_stack[] = $request;
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
-		$data_array = array( 'status' => false , 'data' => $body );
-		if( isset( $data[ 'body' ] ) ) {
-			$data_array[ 'status' ] = true;
+		$request_handler = new http_request( $request , 'vehicle_reference_system' );
+
+		if( $this->tracer !== NULL ) {
+			$this->request_stack[] = array( $request , $this->tracer );
+			$this->tracer = NULL;
+		} else {
+			$this->request_stack[] = $request;
 		}
-		return $data_array;
+
+		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+
+		$this->parameters = array();
+		return $data;
 	}
 
 	private function process_parameters( $parameters ) {

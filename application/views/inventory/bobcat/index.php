@@ -1,25 +1,30 @@
 <?php
 
-	setlocale( LC_MONETARY , 'en_US.UTF-8' );
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 	global $wp_rewrite;
 
-	$company_information = $company_information[ 'data' ];
+	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
+	$inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters );
 
+	$inventory = json_decode( $inventory_information[ 'body' ] );
+
+	$site_url = site_url();
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-
-	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
-
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-tabs' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
+	$default_scripts = array(
+		'jquery',
+		'jquery-ui-core',
+		'jquery-ui-tabs'
+	);
+
+	foreach( $default_scripts as $key => $value ) {
+		wp_enqueue_script( $value );
+	}
 
 	switch( $type ) {
 		case 'detail':
-			wp_enqueue_script( 'jquery-ui-tabs' );
 			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 			wp_enqueue_script(
 				'dealertrend-inventory-api-loan-calculator',
@@ -44,35 +49,23 @@
 		break;
 	}
 
-	$site_url = site_url();
-
 	get_header();
 	flush();
 
-	if( $check_host[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
-		return false;
+	switch( $status ) {
+		case 200:
+		case 404:
+		break;
+		case 503:
+			echo $generic_error_message;
+			echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
+		default:
+			get_footer();
+			return false;
+		break;
 	}
 
-	if( $check_company_id[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the company information feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the inventory feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $inventory === false ) {
-		echo $generic_error_message;
-		echo '<p>We were able to retreive the inventory feed, but while requesting the full feed the connecion timed out. Please refresh the page.</p>';
-		return false;
-	}
-
+	$company_information = json_decode( $company_information[ 'body' ] );
 	$city = $company_information->seo->city;
 	$state = $company_information->seo->state;
 
@@ -119,6 +112,10 @@
 
 	$breadcrumbs = '<div class="bobcat-breadcrumbs">' . $breadcrumbs . '</div>';
 
+	echo '<div id="dealertrend-inventory-api">';
+	include( dirname( __FILE__ ) . '/' . $type . '.php' );
+	echo '</div>';
+
 	echo "\n" . '<!--' . "\n";
 	echo '##################################################' . "\n";
 	echo print_r( $this , true ) . "\n";
@@ -129,11 +126,6 @@
 	}
 	echo '##################################################' . "\n";
 	echo '-->' . "\n";
-
-
-	echo '<div id="dealertrend-inventory-api">';
-	include( dirname( __FILE__ ) . '/' . $type . '.php' );
-	echo '</div>';
 
 	flush();
 	get_footer();

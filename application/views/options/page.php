@@ -1,11 +1,13 @@
 <?php
 
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
+
 	global $dealertrend_inventory_api;
 	global $wp_rewrite;
 
 	if( $_POST ) {
 
-		if( !wp_verify_nonce( $_POST[ '_wpnonce' ], 'dealertrend_inventory_api' ) ) die( 'Security check failed.' );
+		if( ! wp_verify_nonce( $_POST[ '_wpnonce' ], 'dealertrend_inventory_api' ) ) die( 'Security check failed.' );
 
 		$uninstall = isset( $_POST[ 'uninstall' ][ 0 ] ) ? $_POST[ 'uninstall' ][ 0 ] : false;
 
@@ -49,7 +51,7 @@
 		$this->options[ 'vehicle_reference_system' ][ 'host' ]
 	);
 
-	$check_vms_host = $vehicle_management_system->check_host();
+	$check_vms_host = $vehicle_management_system->check_host()->please();
 
 	?>
 
@@ -86,13 +88,14 @@
 					<?php
 						if( ! empty( $this->options[ 'vehicle_management_system' ][ 'host' ] ) ) {
 							$start = timer_stop();
-							$check_inventory = $vehicle_management_system->check_inventory();
+							$check_inventory = $vehicle_management_system->check_inventory()->please();
 							$stop = timer_stop();
-							if( $check_inventory[ 'status' ] == true ) {
+							$response_code = isset( $check_inventory[ 'response' ][ 'code' ] ) ? $check_inventory[ 'response' ][ 'code' ] : false;
+							if( $response_code === 200 ) {
 								echo '<span class="success">Loaded</span>';
 							} else {
 								echo '<span class="fail">Unavailable</span>';
-								echo '<br/><small>Returned Message: ' . $check_inventory[ 'data' ][ 'message' ] . '</small>';
+								echo '<br/><small>Returned Message: ' . $check_inventory[ 'message' ] . '</small>';
 							}
 							$time = $stop - $start;
 							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
@@ -112,9 +115,10 @@
 					<?php
 						if( ! empty( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) ) {
 							$start = timer_stop();
-							$check_feed = $vehicle_reference_system->check_feed();
+							$check_feed = $vehicle_reference_system->check_feed()->please();
+							$response_code = isset( $check_feed[ 'response' ][ 'code' ] ) ? $check_feed[ 'response' ][ 'code' ] : false;
 							$stop = timer_stop();
-							if( $check_feed[ 'status' ] == true ) {
+							if( $response_code === 200 ) {
 								echo '<span class="success">Loaded</span>';
 							} else {
 								echo '<span class="fail">Unavailable</span>';
@@ -138,20 +142,22 @@
 				<td>
 					<?php
 						if( $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] != 0 ) {
-							if( $check_vms_host[ 'status' ] == true ) {
+							$response_code = isset( $check_vms_host[ 'response' ][ 'code' ] ) ? $check_vms_host[ 'response' ][ 'code' ] : false;
+							if( $response_code === 200 ) {
 								$start = timer_stop();
-								$check_company = $vehicle_management_system->check_company_id();
+								$check_company = $vehicle_management_system->check_company_id()->please();
+								$response_code = isset( $check_company[ 'response' ][ 'code' ] ) ? $check_company[ 'response' ][ 'code' ] : false;
 								$stop = timer_stop();
-								if( $check_company[ 'status' ] == true ) {
+								if( $response_code === 200 ) {
 									echo '<span class="success">Loaded</span>';
 									} else {
 									echo '<span class="fail">Unavailable</span>';
-									echo '<br/><small>Returned Message: ' . $check_company[ 'data' ][ 'message' ] . '</small>';
+									echo '<br/><small>Returned Message: ' . $check_company[ 'message' ] . '</small>';
 								}
 								$time = $stop - $start;
 								echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
 							} else {
-								echo '<span class="fail">' . $check_vms_host[ 'data' ][ 'message' ] . '</span>';
+								echo '<span class="fail">' . $check_vms_host[ 'message' ] . '</span>';
 							}
 						} else {
 							echo '<span class="fail">Not Configured</span>';
@@ -159,10 +165,10 @@
 					?>
 				</td>
 			</tr>
-			<?php if( isset( $check_company ) && $check_company[ 'status' ] == true ): ?>
+			<?php if( isset( $check_company ) && $check_company[ 'response' ][ 'code' ] === 200 ): ?>
 			<?php
-				$company_information = $vehicle_management_system->get_company_information();
-				$company_information = $company_information[ 'data' ];
+				$company_information = $vehicle_management_system->get_company_information()->please();
+				$company_information = json_decode( $company_information[ 'body' ] );
 			?>
 			<tr>
 				<td>Name:</td>

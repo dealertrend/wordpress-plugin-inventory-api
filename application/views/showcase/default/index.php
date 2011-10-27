@@ -58,12 +58,15 @@
 	if( $make === false ) {
 
 		$make_data[ $last_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
+		$make_data[ $last_year ] = json_decode( $make_data[ $last_year ][ 'body' ] );
 		$make_data[ $current_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
+		$make_data[ $current_year ] = json_decode( $make_data[ $current_year ][ 'body' ] );
 		$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
+		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
 
-		$make_data[ 'data' ] = array_merge( $make_data[ $last_year ][ 'data' ] , $make_data[ $current_year ][ 'data' ] , $make_data[ $next_year ][ 'data' ] );
+		$make_data = array_merge( $make_data[ $last_year ] , $make_data[ $current_year ] , $make_data[ $next_year ] );
 
-		$makes = $make_data[ 'data' ];
+		$makes = $make_data;
 
 		echo '<h2><a href="/showcase/">Showcase</a> &rsaquo; All Makes</h2>';
 		echo '<hr />';
@@ -86,16 +89,19 @@
 	} elseif( $model === false ) {
 
 		$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
+		$model_data[ $last_year ] = json_decode( $model_data[ $last_year ][ 'body' ] );
 		$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
+		$model_data[ $current_year ] = json_decode( $model_data[ $current_year ][ 'body' ] );
 		$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
+		$model_data[ $next_year ] = json_decode( $model_data[ $next_year ][ 'body' ] );
 
-		$model_data[ $last_year ][ 'data' ] = is_array( $model_data[ $last_year ][ 'data' ] ) ? $model_data[ $last_year ][ 'data' ] : array();
-		$model_data[ $current_year ][ 'data' ] = is_array( $model_data[ $current_year ][ 'data' ] ) ? $model_data[ $current_year ][ 'data' ] : array();
-		$model_data[ $next_year ][ 'data' ] = is_array( $model_data[ $next_year ][ 'data' ] ) ? $model_data[ $next_year ][ 'data' ] : array();
+		$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
+		$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
+		$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
 
-		$model_data[ 'data' ] = array_merge( $model_data[ $last_year ][ 'data' ] , $model_data[ $current_year ][ 'data' ] , $model_data[ $next_year ][ 'data' ] );
+		$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
 
-		$models = $model_data[ 'data' ];
+		$models = $model_data;
 		usort( $models , 'sort_models' );
 
 		$classifications = array(
@@ -137,29 +143,36 @@
 	} elseif( $trim === false ) {
 
 		$trim_data[ $last_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $last_year , 'api' => 2 ) );
+		$trim_data[ $last_year ] = json_decode( $trim_data[ $last_year ][ 'body' ] );
 		$trim_data[ $current_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $current_year , 'api' => 2 ) );
+		$trim_data[ $current_year ] = json_decode( $trim_data[ $current_year ][ 'body' ] );
 		$trim_data[ $next_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $next_year , 'api' => 2 ) );
+		$trim_data[ $next_year ] = json_decode( $trim_data[ $next_year ][ 'body' ] );
 
-		$trim_data[ $last_year ][ 'data' ] = is_array( $trim_data[ $last_year ][ 'data' ] ) ? $trim_data[ $last_year ][ 'data' ] : array();
-		$trim_data[ $current_year ][ 'data' ] = is_array( $trim_data[ $current_year ][ 'data' ] ) ? $trim_data[ $current_year ][ 'data' ] : array();
-		$trim_data[ $next_year ][ 'data' ] = is_array( $trim_data[ $next_year ][ 'data' ] ) ? $trim_data[ $next_year ][ 'data' ] : array();
+		$trim_data[ $last_year ] = is_array( $trim_data[ $last_year ] ) ? $trim_data[ $last_year ] : array();
+		$trim_data[ $current_year ] = is_array( $trim_data[ $current_year ] ) ? $trim_data[ $current_year ] : array();
+		$trim_data[ $next_year ] = is_array( $trim_data[ $next_year ] ) ? $trim_data[ $next_year ] : array();
 
-		$trim_data[ 'data' ] = array_merge( $trim_data[ $last_year ][ 'data' ] , $trim_data[ $current_year ][ 'data' ] , $trim_data[ $next_year ][ 'data' ] );
+		$trim_data = array_merge( $trim_data[ $last_year ] , $trim_data[ $current_year ] , $trim_data[ $next_year ] );
 
-		$trims = $trim_data[ 'data' ];
+		$trims = $trim_data;
 
 		usort( $trims , 'sort_trims' );
 
 		echo '<h2><a href="/showcase/">Showcase</a> &rsaquo; <a href="/showcase/' . $make . '">' . $make . '</a> &rsaquo; ' . $model . '</h2>';
 		echo '<hr />';
 
+print_r($trims);
+
 		$trim = $trims[ 0 ];
 
 		$trim->msrp = '$' . number_format( $trim->msrp , 2 , '.' , ',' );
 		$fuel_economy = $vehicle_reference_system->get_fuel_economy( $trim->acode )->please();
-		$fuel_economy = $fuel_economy[ 'data' ][ 0 ];
+
+		$fuel_economy = json_decode( $fuel_economy[ 'body' ] );
+		$fuel_economy = $fuel_economy[ 0 ];
 		$colors = $vehicle_reference_system->get_colors( $trim->acode )->please();
-		$colors = $colors[ 'data' ];
+		$colors = json_decode( $colors[ 'body' ] );
 
 		function make_transparent( $url ) {
 			return preg_replace( '/IMG=(.*)\.\w{3,4}/i', 'IMG=\1.png' , $url );
@@ -199,12 +212,17 @@
     <div>
       <div id="swatches">
 				<?php
-          $active = true;
+					$active = true;
+					$options = array();
+					echo '<div id="color-text">Color: ' . $colors[ 0 ]->name . '</div>';
 					foreach( $colors as $color ) {
-							if( ! empty( $color->file ) ) {
+						if( ! empty( $color->file ) ) {
+							if( ! in_array( $color->rgb , $colors ) ) {
+								$colors[] = $color->rgb;
 								( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
 								echo '<a id="swatch-' . $color->code .'" title="' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style=background-color:rgb(' . $color->rgb .')">' . $color->name . '</a>';
 							}
+						}
 					}
 				?>
       </div>
@@ -215,9 +233,41 @@
       <li><a href="#overview">Overview</a></li>
       <li><a href="#trims">Trims</a></li>
     </ul>
-    <div id="overview">
-     <?php $videos = $vehicle_reference_system->get_videos( $trim->acode )->please(); ?>
-     <?php $reviews = $vehicle_reference_system->get_reviews( $trim->acode )->please(); ?>
+    <div id="overview" style="overflow:hidden;">
+     <div id="video" style="float:right;border:3px double #333;">
+			<?php
+				$videos = $vehicle_reference_system->get_videos( $trim->acode )->please();
+				if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] === 200 ) {
+					$videos = json_decode( $videos[ 'body' ] );
+					if( $videos != false ) {
+						echo '<iframe src="http://player.dealertrend.com/player.html?t=Test%20Player&autoplay=0&v=' . $videos[ 0 ]->flash_video_url . '" height="300" width="400"></iframe>';
+					}
+				}
+			?>
+     </div>
+			<?php
+				$reviews = $vehicle_reference_system->get_reviews( $trim->acode )->please();
+				$reviews = json_decode( $reviews[ 'body' ] );
+				$options = array();
+				foreach( $reviews as $review ) {
+					foreach( $review->titles as $title_object ) {
+						if( $title_object->title === 'LIKED_MOST' ) {
+							$options[] = $title_object->id;
+						}
+					}
+				}
+				$index = mt_rand(0, count( $options ) - 1 );
+				$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
+				$review = json_decode( $review[ 'body' ] );
+				echo '<div id="reviews" style="line-height:24px;">';
+				echo '<h4 style="display:inline-block; clear:none; margin-bottom:1.2em;">What people are saying:</h4>';
+				echo '<blockquote>';
+				foreach( $review->content as $paragraph ) {
+					echo '<p>' . $paragraph . '</p>';
+				}
+				echo '</blockquote>';
+				echo '</div>';
+			?>
      <?php $features = $vehicle_reference_system->get_features( $trim->acode )->please(); ?>
      <?php $equipment = $vehicle_reference_system->get_equipment( $trim->acode )->please(); ?>
      <?php $options = $vehicle_reference_system->get_options( $trim->acode )->please(); ?>
@@ -226,6 +276,7 @@
     <div id="trims">
     </div>
   </div>
+  <p>* Although every reasonable effort has been made to insure the accuracy of the information contained on this site, absolute accuracy cannot be guaranteed. This site, and all information and materials appearing on it, are presented to the user "as is" without warranty of any kind, either express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, title or non-infringement. All vehicles are subject to prior sale. Price does not include applicable tax, title, and license. Not responsible for typographical errors.</p>
 </div>
 
 <?php

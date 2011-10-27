@@ -17,13 +17,10 @@
 
 	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
-	if( empty( $inventory ) ) {
-		$total_found = 0;
-	} elseif ( $inventory[ 0 ]->pagination->total == 1 ) {
-		$total_found = $inventory[ 0 ]->pagination->total * count( $inventory );
-	} else {
-		$total_found = $inventory[ 0 ]->pagination->total * $inventory[ 0 ]->pagination->per_page;
-	}
+	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
+	$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => '1' ) ) );
+	$total_found = json_decode( $total_found[ 'body' ] );
+	$total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
 
 	$do_not_carry = remove_query_arg( 'page' , $query );
 
@@ -87,7 +84,9 @@
 					<?php
 						endif;
 						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
-							$makes = $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
+							$vehicle_management_system->tracer = 'Obtaining a list of makes for the sidebar.';
+							$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
+							$makes = json_decode( $makes[ 'body' ] );
 							$make_count = count ( $makes );
 							if( $make_count > 1 ) {
 					?>
@@ -96,12 +95,13 @@
 						<ul>
 							<?php
 								foreach( $makes as $make ) {
+									$make_safe = str_replace( '/' , '%252' , $make );
 									if( !empty( $wp_rewrite->rules ) ) {
-										$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/';
+										$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 										echo '<li><a href="' . $url . '">' . $make . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'make' => $make ) , $do_not_carry ) . '">' . $make . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '">' . $make . '</a></li>';
 									}
 								}
 							?>
@@ -117,7 +117,8 @@
 						if( ( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ) && isset( $parameters[ 'make' ] ) ) {
 							$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
 							$make_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class ) , $tmp_do_not_carry );
-							$models = $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
+							$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
+							$models = json_decode( $models[ 'body' ] );
 							$model_count = count( $models );
 							if( $model_count > 1 ) {
 					?>
@@ -126,11 +127,12 @@
 						<ul>
 							<?php
 								foreach( $models as $model ) {
+									$model_safe = str_replace( '/' , '%252' , $model );
 									if( !empty( $wp_rewrite->rules ) ) {
-										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/';
+										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model_safe . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $model ) , $do_not_carry ) . '">' . $model . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $mode_safel ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
 								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Previous</a></span></li>';
@@ -147,7 +149,8 @@
 						if( ( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) && isset( $parameters[ 'model' ] ) ) {
 							$tmp_do_not_carry = remove_query_arg( 'model' , $do_not_carry );
 							$model_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $tmp_do_not_carry );
-							$trims = $vehicle_management_system->get_trims( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+							$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+							$trims = json_decode( $trims[ 'body' ] );
 							$trim_count = count( $trims );
 							if( $trim_count > 1 ) {
 					?>
@@ -156,7 +159,8 @@
 						<ul>
 							<?php
 								foreach( $trims as $trim ) {
-									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim ) , $do_not_carry ) . '">' . $trim . '</a></li>';
+									$trim_safe = str_replace( '/' , '%252' , $trim_safe );
+									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim_safe ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
 								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Previous</a></span></li>';
 							?>
@@ -230,9 +234,12 @@
 							$asking_price = $prices->asking_price;
 							$year = $inventory_item->year;
 							$make = urldecode( $inventory_item->make );
+							$make_safe = str_replace( '/' , '%252' ,  $make );
 							$model = urldecode( $inventory_item->model_name );
+							$model_safe = str_replace( '/' , '%252' ,  $model );
 							$vin = $inventory_item->vin;
 							$trim = urldecode( $inventory_item->trim );
+							$trim_safe = str_replace( '/' , '%252' ,  $trim );
 							$engine = $inventory_item->engine;
 							$transmission = $inventory_item->transmission;
 							$exterior_color = $inventory_item->exterior_color;
@@ -246,9 +253,9 @@
 							$doors = $inventory_item->doors;
 							$headline = $inventory_item->headline;
 							if( !empty( $wp_rewrite->rules ) ) {
-								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
+								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
-								$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
+								$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make_safe . '&amp;model=' . $model_safe . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 							}
 							$contact_information = $inventory_item->contact_info;
 							$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
@@ -287,7 +294,7 @@
 									<div class="armadillo-details-left">
 										<?php
 											if( $retail_price > 0 ) {
-												echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+												echo '<div class="armadillo-msrp">MSRP: ' . '$' . number_format( $retail_price , 2 , '.' , ',' ) . '</div>';
 											}
 											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : NULL;
 											echo $exterior_color != NULL ? '<span class="armadillo-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : NULL;
@@ -320,15 +327,15 @@
 												if( $use_was_now ) {
 													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 													if( $incentive_price > 0 ) {
-														echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+														echo '<div class="' . $price_class . '">Was: ' . '$' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 													} else {
-														echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+														echo '<div class="' . $price_class . '">Was: ' . '$' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 													}
 													$now_text = 'Now: ';
 												}
 												if( $incentive_price > 0 ) {
 													echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+													echo '<div class="armadillo-sale-price">' . $now_text . '$' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 													if( $sale_expire != NULL ) {
 														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 													}
@@ -336,7 +343,7 @@
 													if( $ais_incentive != NULL ) {
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 													}
-													echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+													echo '<div class="armadillo-sale-price">' . $now_text . '$' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 													if( $sale_expire != NULL ) {
 														echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 													}
@@ -344,14 +351,14 @@
 											} else {
 												if( $asking_price > 0 ) {
 													if( $incentive_price > 0 ) {
-														echo '<div class="armadillo-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+														echo '<div class="armadillo-asking-price" style="font-size:12px;">Asking Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: $' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 													} else {
 														if( $ais_incentive != NULL ) {
 															echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 														}
-														echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+														echo '<div class="armadillo-asking-price">Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 													}
 												} else {
 													if( $ais_incentive != NULL ) {

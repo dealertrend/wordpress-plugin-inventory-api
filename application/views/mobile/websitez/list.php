@@ -176,22 +176,22 @@
 									$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 								}
 								if( $retail_price > 0 ) {
-									echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+									echo '<div class="armadillo-msrp">MSRP: $' . number_format( $retail_price , 2 , '.' , ',' ) . '</div>';
 								}
 								if( $on_sale && $sale_price > 0 ) {
 									$now_text = 'Price: ';
 									if( $use_was_now ) {
 										$price_class = ( $use_price_strike_through ) ? 'websitez-strike-through websitez-asking-price' : 'websitez-asking-price';
 										if( $incentive_price > 0 ) {
-											echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+											echo '<div class="' . $price_class . '">Was: $' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 										} else {
-											echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="' . $price_class . '">Was: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 										}
 										$now_text = 'Now: ';
 									}
 									if( $incentive_price > 0 ) {
 										echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-										echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+										echo '<div class="websitez-sale-price">' . $now_text . '$' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 										if( $sale_expire != NULL ) {
 											echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 										}
@@ -199,7 +199,7 @@
 										if( $ais_incentive != NULL ) {
 											echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 										}
-										echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+										echo '<div class="websitez-sale-price">' . $now_text . '$' . number_format( $sale_price , 2 , '.' , ',' ). '</div>';
 										if( $sale_expire != NULL ) {
 											echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 										}
@@ -207,14 +207,14 @@
 								} else {
 									if( $asking_price > 0 ) {
 										if( $incentive_price > 0 ) {
-											echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 											echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-											echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+											echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: $' . number_format( $asking_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 										} else {
 											if( $ais_incentive != NULL ) {
 												echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 											}
-											echo '<div class="websitez-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="websitez-asking-price">Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 										}
 									} else {
 										if( $ais_incentive != NULL ) {

@@ -2,7 +2,7 @@
 	# Easy to use variables.
 	$headline = $inventory->headline;
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	$price = money_format( '%(#0n' , $inventory->prices->asking_price );
+	$price = number_format( $inventory->prices->asking_price , 2 , '.' , ',' );
 	$vin = $inventory->vin;
 
 	$odometer = empty( $inventory->odometer ) ? 0 : $inventory->odometer;
@@ -42,7 +42,7 @@
 			<div class="header">
 				<strong>Vehicle Information</strong>
 			</div>
-			<div class="row"><strong>Price:</strong> <?php echo $price; ?></div>
+			<div class="row"><strong>Price:</strong> $<?php echo $price; ?></div>
 			<div class="row"><strong>Stock:</strong> <?php echo $stock; ?></div>
 			<div class="row"><strong>VIN:</strong> <?php echo $vin; ?></div>
 			<div class="row"><strong>Odometer:</strong> <?php echo $odometer; ?></div>
@@ -68,7 +68,7 @@
 				<input name="stock" type="hidden" value="<?php echo $stock; ?>" />
 				<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
 				<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
-				<input name="price" type="hidden" value="<?php echo $price; ?>" />
+				<input name="price" type="hidden" value="$<?php echo $price; ?>" />
 				<input name="name" type="hidden" value="" />
 				<table>
 					<tr>
@@ -195,7 +195,7 @@
 					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
 					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-					<input type="hidden" name="price" value="<?php echo $price; ?>"/>
+					<input type="hidden" name="price" value="$<?php echo $price; ?>"/>
 					<table style="width:100%">
 						<tr>
 							<td class="required" style="width:50%;" colspan="1">
@@ -259,7 +259,7 @@
 					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
 					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
 					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-					<input type="hidden" name="price" value="<?php echo $price; ?>"/>
+					<input type="hidden" name="price" value="$<?php echo $price; ?>"/>
 					<table style="width:100%">
 						<tr>
 							<td class="required" colspan="1" style="width:50%;">
@@ -443,7 +443,7 @@
 						<tr>
 							<td colspan="1">
 								<label for="loan-calculator-price">Vehicle Price</label>
-								<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo $html_free_price; ?>" />
+								<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="$<?php echo $html_free_price; ?>" />
 							</td>
 							<td colspan="1">
 								<label for="loan-calculator-interest-rate">Interest Rate</label>

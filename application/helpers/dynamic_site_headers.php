@@ -1,8 +1,6 @@
 <?php
 
-if ( class_exists( 'dynamic_site_headers' ) ) {
-	return false;
-}
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 /**
  * This is the primary class for the SEO Helpers.
@@ -103,7 +101,7 @@ class dynamic_site_headers {
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
-			$request_handler = new http_api_wrapper( $url , 'dynamic_site_headers' );
+			$request_handler = new http_request( $url , 'dynamic_site_headers' );
 			$this->request_stack[] = $url;
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;

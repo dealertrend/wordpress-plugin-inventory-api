@@ -156,9 +156,12 @@
 #showcase #visuals .swatch:hover,
 #showcase #visuals .swatch.active {
   background-image:none;
-  border:3px double white;
   margin:0;
   cursor:pointer;
+  -webkit-box-shadow: 0px 1px 8px #666;
+  box-shadow: 0px 1px 8px #666;
+  margin:6px;
 }
 #showcase #visuals #spotlight img { display:none; }
 #showcase #visuals #spotlight img.active { display:inline-block; }
+#showcase #color-text { font-size:12px; color:#333; padding:5px; }
