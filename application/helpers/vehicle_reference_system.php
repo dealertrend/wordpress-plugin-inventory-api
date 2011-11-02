@@ -81,6 +81,12 @@ class vehicle_reference_system {
 		return $this;
 	}
 
+	public function get_standard_equipment( $acode ) {
+		$this->url = $this->host . '/equipment/standard.json';
+		$this->parameters = array( 'acode' => $acode );
+		return $this;
+	}
+
 	public function get_options( $acode ) {
 		$this->url = $this->host . '/trim_options.json';
 		$this->parameters = array( 'acode' => $acode , 'api' => 2 );

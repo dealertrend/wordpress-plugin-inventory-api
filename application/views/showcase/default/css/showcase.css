@@ -134,7 +134,7 @@
   display:inline-block;
 }
 #showcase #trim #fuel div .number { display:block; font-weight:bold; font-size:1.8em; line-height:1.4em; letter-spacing:.1em; }
-#showcase #trim #disclaimer { text-align:center; width:150px; margin:auto; font-size:.6em; letter-spacing:.1em; font-family:Arial; }
+#showcase #trim #disclaimer { text-align:center; width:150px; margin:10px auto; font-size:.6em; letter-spacing:.1em; font-family:Arial; }
 #showcase #trim #spotlight { margin:0; padding:0; line-height:0; text-align:center; width:350px; }
 #showcase #trim #spotlight {
   -webkit-box-shadow: 0px 1px 5px #666;
@@ -155,13 +155,60 @@
 }
 #showcase #visuals .swatch:hover,
 #showcase #visuals .swatch.active {
-  background-image:none;
   margin:0;
   cursor:pointer;
-  -webkit-box-shadow: 0px 1px 8px #666;
-  box-shadow: 0px 1px 8px #666;
-  margin:6px;
+  border:3px red dashed;
 }
 #showcase #visuals #spotlight img { display:none; }
 #showcase #visuals #spotlight img.active { display:inline-block; }
-#showcase #color-text { font-size:12px; color:#333; padding:5px; }
+#showcase #color-text { font-size:14px; color:#333; height:40px; line-height:14px; display: table-cell; vertical-align: middle; padding-bottom:5px; }
+
+table           { display: table }
+tr              { display: table-row }
+thead           { display: table-header-group }
+tbody           { display: table-row-group }
+tfoot           { display: table-footer-group }
+col             { display: table-column }
+colgroup        { display: table-column-group }
+td, th          { display: table-cell }
+caption         { display: table-caption }
+th              { font-weight: bolder; text-align: center }
+caption         { text-align: center }
+table           { border-spacing: 2px; }
+thead, tbody,
+tfoot           { vertical-align: middle }
+td, th, tr      { vertical-align: inherit }
+
+#trims table {
+  border-spacing: 10px;
+  font-size:12px;
+  width:100%;
+  overflow:auto;
+}
+#trims table tr > td {
+  font-size:10px;
+  text-align:center;
+}
+#trims table tbody th {
+  text-align:left;
+}
+
+#showcase #overview-tabs { margin:auto; clear:both; position:relative; top:10px; }
+#showcase #overview-tabs .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+#showcase #overview-tabs .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; white-space: normal; }
+#showcase #overview-tabs .ui-tabs-nav li a { display:block; font-size:12px;  }
+#showcase #overview-tabs .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+#showcase #overview-tabs .ui-tabs-panel { padding: 1em; float: left; }
+#showcase #overview-tabs  > div ul li { line-height:16px; font-size:12px; }
+
+#showcase #overview-tabs .group {
+  background:#f8f8f8;
+  color:#000;
+  text-align:left;
+  margin:10px;
+  padding:15px;
+  border:1px solid #e1e1e1;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}

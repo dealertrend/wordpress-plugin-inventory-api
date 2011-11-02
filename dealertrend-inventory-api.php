@@ -12,6 +12,7 @@
 namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
@@ -202,6 +203,7 @@ class Plugin {
 		$new_rules = array();
 		$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
 		$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
+		$new_rules[ '^(dealertrend-ajax)' ] = 'index.php?taxonomy=dealertrend-ajax';
 
 		return $new_rules + $existing_rules;
 	}
@@ -241,6 +243,21 @@ class Plugin {
 				'show_ui' => false,
 				'query_var' => true,
 				'rewrite' => array( 'slug' => 'showcase' )
+			)
+		);
+		$labels = array(
+			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' ),
+			'menu_name' => __( 'DealerTrend AJAX' )
+		);
+		register_taxonomy(
+			'showcase',
+			array( 'page' ),
+			array(
+				'hierarchical' => true,
+				'labels' => $labels,
+				'show_ui' => false,
+				'query_var' => true,
+				'rewrite' => array( 'slug' => 'dealertrend-ajax' )
 			)
 		);
 	}
@@ -325,6 +342,11 @@ class Plugin {
 
 				$this->stop_wordpress();
 			break;
+			case 'dealertrend-ajax':
+				$this->fix_bad_wordpress_assumption();
+				$ajax = new ajax( $this->parameters );
+				$this->stop_wordpress();
+			break;
 		}
 	}
 
@@ -381,6 +403,15 @@ class Plugin {
 						case 1: $index = 'make'; break;
 						case 2: $index = 'model'; break;
 						case 3: $index = 'trim'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+			case 'dealertrend-ajax':
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
 						default: return; break;
 					}
 					$parameters[ $index ] = $value;
