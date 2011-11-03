@@ -39,7 +39,12 @@ class Plugin {
 			)
 		),
 		'vehicle_reference_system' => array(
-			'host' => ''
+			'host' => '',
+			'data' => arraY(
+				'makes' => 'all',
+				'models' => 'all',
+				'trims' => 'all'
+			)
 		),
 		'debug' => array(
 			'logging' => false

@@ -36,21 +36,25 @@
 ?>
 
 <script type="text/javascript">
-    var dealertrend = jQuery.noConflict();
-    dealertrend(document).ready(function () {
-      dealertrend( '#showcase .jquery-ui-button' ).button();
-      dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
-          dealertrend.ajax(
-          {
-            url: '/dealertrend-ajax/?_ajax_nonce=<?php echo $ajax_nonce; ?>&request=http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $last_year; ?>',
-            context: document.body,
-            success: function(data) {
-              
-            }
-          });
-          e.preventDefault();
-      } );
-    });
+		var dealertrend = jQuery.noConflict();
+		dealertrend(document).ready(function () {
+			dealertrend( '#showcase .jquery-ui-button' ).button();
+			dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
+					stuff_i_need = [ 'acode_last_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $last_year; ?>&api=2';
+					stuff_i_need = [ 'acode_current_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $current_year; ?>&api=2';
+					stuff_i_need = [ 'acode_next_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $next_year; ?>&api=2';
+
+					dealertrend.ajax(
+					{
+						url: '/dealertrend-ajax/?_ajax_nonce=<?php echo $ajax_nonce; ?>&request=http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $last_year; ?>&api=2',
+						context: document.body,
+						success: function(data) {
+							
+						}
+					});
+					e.preventDefault();
+			} );
+		});
 </script>
 
 <?php
@@ -61,6 +65,14 @@
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';
 
+	echo "\n" . '<!--' . "\n";
+	echo '##################################################' . "\n";
+	echo print_r( $this , true ) . "\n";
+	echo print_r( $vehicle_reference_system , true ) . "\n";
+	echo '##################################################' . "\n";
+	echo '-->' . "\n";
+
+	flush();
 	get_footer();
 	flush();
 
