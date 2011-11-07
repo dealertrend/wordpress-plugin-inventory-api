@@ -168,7 +168,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
 			$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
 
-			$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
+			$model_data = array_merge( $model_data[ $next_year ] , $model_data[ $current_year ] , $model_data[ $last_year ] );
 
 			$i_can_haz_model = array();
 			foreach( $model_data as $key => $value ) {
@@ -268,7 +268,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
 		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
 
-		$make_data = array_merge( $make_data[ $last_year ] , $make_data[ $current_year ] , $make_data[ $next_year ] );
+		$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
 
 		# It would be cool if there was a better way to do this.
 		$i_can_haz_make = array();
