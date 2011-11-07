@@ -180,7 +180,7 @@ tfoot           { vertical-align: middle }
 td, th, tr      { vertical-align: inherit }
 
 #showcase #trims {
-  overflow:scroll-x;
+overflow: scroll;
 }
 #trims table {
   border-spacing: 10px;
