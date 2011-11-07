@@ -23,15 +23,18 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 		}
 
 		if( isset( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'update' ) {
-			if( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
-				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' );
-				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
-				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' );
-				$dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] =  isset( $_POST[ 'debug' ][ 'logging' ] ) ? $_POST[ 'debug' ][ 'logging' ] : false;
+			if( isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ) {
+				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'makes' ] : array();
+				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'models' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'models' ] : array();
+			} elseif( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
+				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
+				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ] : 0;
+				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
+				$dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] = isset( $_POST[ 'debug' ][ 'logging' ] ) ? $_POST[ 'debug' ][ 'logging' ] : false;
 			} elseif( isset( $_POST[ 'theme' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
-				$dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] =  isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] : 'black-tie';
+				$dealertrend_inventory_api->options[ 'jquery' ][ 'ui' ][ 'theme' ] = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ] : 'black-tie';
 				echo '<script type="text/javascript">window.location.replace("admin.php?page=dealertrend_inventory_api");</script>';
 			}
 			$dealertrend_inventory_api->save_options();
@@ -132,6 +135,92 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					?>
 				</td>
 			</tr>
+			<?php
+				if( isset( $response_code ) && $response_code === 200 ) {
+					echo '<form method="post" action="#">';
+					$makes = isset( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ? $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] : array();
+					$models = isset( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] ) ? $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] : array();
+
+					$current_year = date( 'Y' );
+					$last_year = $current_year - 1;
+					$next_year = $current_year + 1;
+
+					$make_data[ $last_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
+					$make_data[ $last_year ] = json_decode( $make_data[ $last_year ][ 'body' ] );
+					$make_data[ $current_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
+					$make_data[ $current_year ] = json_decode( $make_data[ $current_year ][ 'body' ] );
+					$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
+					$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
+
+					$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
+
+					# It would be cool if there was a better way to do this.
+					$i_can_haz_make = array();
+					foreach( $make_data as $key => $value ) {
+						$existing_data = array_search( $value->name , $i_can_haz_make );
+						if( $existing_data === false ) {
+							$i_can_haz_make[ $key ] = $value->name;
+						} else {
+							$make_data[ $existing_data ] = $value;
+							unset( $make_data[ $key ] );
+						}
+					}
+
+					$make_values = $make_data;
+
+					echo '<tr><td><label for="makes">Makes: </label></td>';
+					echo '<td><select id="makes" name="vehicle_reference_system[makes][]" class="vrs-makes" size="4" multiple="multiple">';
+					foreach( $make_values as $make ) {
+						$selected = in_array( $make->name , $makes ) ? 'selected' : NULL;
+						echo '<option value="' . $make->name . '" ' . $selected . '>' . $make->name . '</option>';
+					}
+					echo '</select></td></tr>';
+					echo '<tr><td><input type="hidden" name="action" value="update" /></td></tr>';
+
+					if( count( $makes ) > 0 ) {
+						echo '<tr><td><label for="models">Models: </label></td>';
+						echo '<td><select id="models" name="vehicle_reference_system[models][]" class="vrs-models" size="4" multiple="multiple">';
+						foreach( $makes as $make ) {
+							$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
+							$model_data[ $last_year ] = isset( $model_data[ $last_year ][ 'body' ] ) ? json_decode( $model_data[ $last_year ][ 'body' ] ) : NULL;
+							$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
+							$model_data[ $current_year ] = isset( $model_data[ $current_year ][ 'body' ] ) ?json_decode( $model_data[ $current_year ][ 'body' ] ) : NULL;
+							$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
+							$model_data[ $next_year ] = isset( $model_data[ $next_year ][ 'body' ] ) ? json_decode( $model_data[ $next_year ][ 'body' ] ) : NULL;
+
+							$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
+							$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
+							$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
+
+							$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
+
+							# It would be cool if there was a better way to do this.
+							$i_can_haz_model = array();
+							foreach( $model_data as $key => $value ) {
+								$existing_data = array_search( $value->name , $i_can_haz_model );
+								if( $existing_data === false ) {
+									$i_can_haz_model[ $key ] = $value->name;
+								} else {
+									$model_data[ $existing_data ] = $value;
+									unset( $model_data[ $key ] );
+								}
+							}
+							$model_values = $model_data;
+							echo '<optgroup label="' . $make . '">';
+							foreach( $model_values as $model ) {
+								$selected = in_array( $model->name , $models ) ? 'selected' : NULL;
+								echo '<option value="' . $model->name . '" ' . $selected . '>' . $model->name . '</option>';
+							}
+							echo '</optgroup>';
+						}
+						echo '</select></td></tr>';
+					}
+					echo '<tr><td></td><td style="padding-left:175px;"><input type="submit" class="button-primary" value="Save"></td></tr>';
+				}
+
+				wp_nonce_field( 'dealertrend_inventory_api' );
+				echo '</form>';
+			?>
 		</table>
 		<table width="450">
 			<tr>
@@ -182,10 +271,12 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 				<td>Phone:</td>
 				<td><strong><?php echo $company_information->phone; ?></strong></td>
 			</tr>
+			<?php if( strlen( $company_information->fax ) > 0 ) { ?>
 			<tr>
 				<td>Fax:</td>
 				<td><strong><?php echo $company_information->fax; ?></strong></td>
 			</tr>
+			<?php } ?>
 			<tr>
 				<td>Country Code:</td>
 				<td><strong><?php echo $company_information->country_code; ?></strong></td>
@@ -228,7 +319,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 						<select name="theme">
 							<?php
 								$themes = $dealertrend_inventory_api->get_themes( 'inventory' );
-								foreach( $themes as $key => $value  ) {
+								foreach( $themes as $key => $value	) {
 									$selected = ( $value == $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] ) ? 'selected' : NULL;
 									echo '<option ' . $selected . ' value="' . $value . '">' . ucwords( $value ) .'</option>';
 								}
