@@ -1,17 +1,19 @@
 <?php
 
 	function sort_trims( $a , $b ) {
-		if( $a->msrp === 0 ) {
-			return -1;
+		if( $a->msrp == 0 ) {
+			return 1;
+		} 
+		if( $b->msrp == 0 ) {
+			return 0;
 		}
-		if( $a->year > $b->year ) {
-			if( $a->msrp > $b->msrp ) {
-				return +1;
-			} else {
-				return -1;
+		if( $a->year >= $b->year ) {
+			if( $a->year == $b->year && $a->msrp > $b->msrp ) {
+				return 1;
 			}
+			return -1;
 		} else {
-			return +1;
+			return 1;
 		}
 	}
 
@@ -325,11 +327,13 @@
 						<th>Transmission</th>
 						<?php
 							foreach( $trim_acodes as $acode ) {
+								echo '<td>';
 								foreach( $equipment[ $acode ] as $item ) {
 									if( $item->name === 'Transmission' ) {
-										echo '<td>' . $item->data . '</td>';
+										echo '<div>' . $item->data . '</div>';
 									}
 								}
+								echo '</td>';
 							}
 						?>
 					</tr>
