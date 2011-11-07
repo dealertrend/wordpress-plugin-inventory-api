@@ -40,10 +40,9 @@ class Plugin {
 		),
 		'vehicle_reference_system' => array(
 			'host' => '',
-			'data' => arraY(
-				'makes' => 'all',
-				'models' => 'all',
-				'trims' => 'all'
+			'data' => array(
+				'makes' => array(),
+				'models' => array()
 			)
 		),
 		'debug' => array(
@@ -176,6 +175,18 @@ class Plugin {
 			wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
 		}
+    wp_enqueue_style(
+      'jquery-ui-multiselect',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
+      false,
+      '1.10'
+    );
+    wp_enqueue_style(
+      'jquery-ui-multiselect-filter',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
+      false,
+      '1.10'
+    );
 	}
 
 	function add_plugin_links( $links ) {
@@ -196,9 +207,23 @@ class Plugin {
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
+    wp_enqueue_script(
+      'jquery-ui-multiselect',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.min.js',
+      array( 'jquery' ),
+      '1.10',
+      true
+    );
+    wp_enqueue_script(
+      'jquery-ui-multiselect-filter',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
+      array( 'jquery' , 'jquery-ui-multiselect' ),
+      '1.10',
+      true
+    );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-admin' ,
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
