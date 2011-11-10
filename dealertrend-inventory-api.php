@@ -8,7 +8,6 @@
  * Version: 3.11.1
  * License: GPLv2 or later
  */
-
 namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
@@ -323,7 +322,7 @@ class Plugin {
 				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 				$company_information = $vehicle_management_system->get_company_information()->please();
 
-				if( $company_information[ 'response' ][ 'code' ] === 200 ) {
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
 					$data = json_decode( $company_information[ 'body' ] );
 					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
 					$dynamic_site_headers = new dynamic_site_headers(
@@ -374,7 +373,7 @@ class Plugin {
 			break;
 			case 'dealertrend-ajax':
 				$this->fix_bad_wordpress_assumption();
-				$ajax = new ajax( $this->parameters );
+				$ajax = new ajax( $this->parameters , $this );
 				$this->stop_wordpress();
 			break;
 		}
@@ -442,6 +441,16 @@ class Plugin {
 				foreach( $permalink_parameters as $key => $value ) {
 					switch( $key ) {
 						case 0: $index = 'taxonomy'; break;
+						case 1: $index = 'meta-taxonomy'; break;
+						case ( $key == 2 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'year'; break;
+						case ( $key == 3 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'make'; break;
+						case ( $key == 4 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'model'; break;
+						case ( $key == 5 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'state'; break;
+						case ( $key == 6 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'city'; break;
+						case ( $key == 7 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'vin'; break;
+						case ( $key == 2 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'make'; break;
+						case ( $key == 3 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'model'; break;
+						case ( $key == 4 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'trim'; break;
 						default: return; break;
 					}
 					$parameters[ $index ] = $value;
