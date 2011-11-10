@@ -2,12 +2,13 @@
   background:#f8f8f8;
   color:#e1e1e1;
   text-align:center;
-  margin:0 10px;
+  margin:0 auto;
   padding:15px;
   border:1px solid #e1e1e1;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
+  overflow:hidden;
 }
 #showcase hr {
   background:#fff;
@@ -33,9 +34,12 @@
   font-size:18px;
   line-height:18px;
 }
+#showcase .makes { margin:auto; }
 #showcase .group .make,
 #showcase .group .model {
   display:inline-block;
+  zoom:1;
+  *display:inline;
   width:225px;
   overflow:hidden;
 }
