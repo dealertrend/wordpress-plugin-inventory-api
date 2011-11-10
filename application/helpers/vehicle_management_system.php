@@ -23,7 +23,7 @@ class vehicle_management_system {
 		$this->tracer = 'Checking API hosting address.';
 		$check_host = $this->check_host()->please();
 		$status = 400;
-		if( $check_host[ 'response' ][ 'code' ] === 200 ) {
+		if( isset( $check_host[ 'response' ][ 'code' ] ) && $check_host[ 'response' ][ 'code' ] === 200 ) {
 			$this->tracer = 'Validating company information.';
 			$check_company_id = $this->check_company_id()->please();
 			if( $check_company_id[ 'response' ][ 'code' ] === 200 ) {

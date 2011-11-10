@@ -7,7 +7,7 @@
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 	$inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters );
 
-	$inventory = json_decode( $inventory_information[ 'body' ] );
+	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
 	$site_url = site_url();
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
