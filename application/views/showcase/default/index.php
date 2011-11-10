@@ -119,7 +119,7 @@ function addCommas(nStr)
 							var color_history = null;
 							json.forEach( function( color ) {
 								if( color.rgb != null ) {
-									if( color_history === null || color_history.search( color.rgb , color_history ) == -1 ) {
+									if( color_history === null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
 										color_history += '[' + color.rgb + ']';
 										var image = document.createElement('img');
 										var link = document.createElement('a');
