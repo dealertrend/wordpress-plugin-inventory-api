@@ -11,6 +11,9 @@
 			if( $a->year == $b->year && $a->msrp > $b->msrp ) {
 				return 1;
 			}
+			if( $a->image_filename === NULL ) {
+				return 1;
+			}
 			return -1;
 		} else {
 			return 1;
@@ -56,13 +59,27 @@
 	$header = '<h2><a href="/showcase/">Showcase</a> &rsaquo; <a href="/showcase/' . $make . '">' . $make . '</a> &rsaquo; ' . $model . '</h2>';
 	
 	$fuel_economy = $vehicle_reference_system->get_fuel_economy( $trim->acode )->please();
-	
+
+  function sort_fuel_economies( $a , $b ) {
+    $a_sum = $a->city_mpg + $a->highway_mpg;
+    $b_sum = $b->city_mpg + $b->highway_mpg;
+    if( $a_sum > $b_sum ) {
+      return -1;
+    } elseif( $a_sum < $b_sum ) {
+      return 1;
+    }
+    return 0;
+  }
+
 	if( isset( $fuel_economy[ 'body' ] ) ) {
 		$fuel_economy = json_decode( $fuel_economy[ 'body' ] );
+		usort( $fuel_economy , 'sort_fuel_economies' );
 		$fuel_economy = $fuel_economy[ 0 ];
 	} else {
 		$fuel_economy = false;
 	}
+
+
 	$colors = $vehicle_reference_system->get_colors( $trim->acode )->please();
 	$colors = isset( $colors[ 'body' ] ) ? json_decode( $colors[ 'body' ] ) : NULL;
 	
@@ -79,7 +96,7 @@
 			$active = true;
 			$count = 0;
 			foreach( $colors as $color ) {
-				if( isset( $color->image_urls ) ) {
+				if( isset( $color->image_urls ) && $color->type === 'Pri' ) {
 					$count++;
 					( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
 					echo '<img id="' . $color->code . '" src="' . make_transparent( $color->image_urls->medium ) . '" class="' . $class . '" />';
@@ -120,14 +137,16 @@
 						if( ! empty( $color->file ) ) {
 							if( ! in_array( $color->rgb , $colors ) ) {
 								$type = $color->type === 'Pri' ? 'Exterior' : 'Interior';
-								$colors[] = $color->rgb;
-								if( $default_set === false ) {
-									echo '<div id="color-text">' . $type . ' Color: ' . $color->name . '</div>';
-									$default_set = true;
+								if( $type === 'Exterior' ) {
+									$colors[] = $color->rgb;
+									if( $default_set === false ) {
+										echo '<div id="color-text">Color: ' . $color->name . '</div>';
+										$default_set = true;
+									}
+									( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
+									echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
+									echo $color->name . '</a>';
 								}
-								( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
-								echo '<a id="swatch-' . $color->code .'" title="' . $type . ' Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style=background-color:rgb(' . $color->rgb .')">';
-								echo $color->name . '</a>';
 							}
 						}
 					}
@@ -184,39 +203,15 @@
 			$equipment = $vehicle_reference_system->get_equipment( $trim->acode )->please();
 			$equipment = isset( $equipment[ 'body' ] ) ? json_decode( $equipment[ 'body' ] ) : NULL;
 
-			$features = $vehicle_reference_system->get_features( $trim->acode )->please();
-			$features = isset( $features[ 'body' ] ) ? json_decode( $features[ 'body' ] ) : NULL;
-
-			$options = $vehicle_reference_system->get_options( $trim->acode )->please();
-			$options = isset( $options[ 'body' ] ) ? json_decode( $options[ 'body' ] ) : NULL;
-
 			$photos = $vehicle_reference_system->get_photos( $trim->acode )->please( array( 'type' => 'all' ) );
 			$photos = isset( $photos[ 'body' ] ) ? json_decode( $photos[ 'body' ] ) : NULL;
 
-			function sort_features( $a , $b ) {
-				return ( $a->row_group > $b->row_group ) ? +1 : -1;
-			}
 			function sort_equipment( $a , $b ) {
 				return ( $a->group > $b->group ) ? +1 : -1;
 			}
-			function sort_options( $a , $b ) {
-				return ( $a->cluster > $b->cluster ) ? +1 : -1;
-			}
 
-			usort( $features , 'sort_features' );
 			usort( $equipment , 'sort_equipment' );
-			usort( $options , 'sort_options' );
 
-			$feature_groups = array();
-			$feature_data = array();
-			foreach( $features as $feature ) {
-				if( $feature->row_data !== 'Not Available' ) {
-					$feature_data[ $feature->row_group ][] = $feature;
-					if( ! in_array( $feature->row_group , $feature_groups ) ) {
-						$feature_groups[] = $feature->row_group;
-					}
-				}
-			}
 			$equipment_groups = array();
 			$equipment_data = array();
 			foreach( $equipment as $item ) {
@@ -225,20 +220,8 @@
 					$equipment_groups[] = $item->group;
 				}
 			}
-			$options_groups = array();
-			$options_data = array();
-			foreach( $options as $item ) {
-				if( $item->description !== '' ) {
-					$options_data[ $item->cluster ][] = $item;
-					if( ! in_array( $item->cluster , $options_groups ) ) {
-						$options_groups[] = $item->cluster;
-					}
-				}
-			}
 			echo '<div id="overview-tabs" style="overflow:hidden; clear:both;"><ul>';
 			echo '<li><a href="#equipment">Equipment</a></li>';
-			echo '<li><a href="#features">Features</a></li>';
-			echo '<li><a href="#options">Options</a></li>';
 			echo '<li><a href="#photos">Photos</a></li>';
 			echo '</ul>';
 			echo '<div id="equipment">';
@@ -250,30 +233,6 @@
 					echo '<li>' . $data->name;
 					echo ! empty( $data->data ) ? ': ' . $data->data : NULL;
 					echo '</li>';
-				}
-				echo '</ul>';
-				echo '</div>';
-			}
-			echo '</div>';
-			echo '<div id="options">';
-			foreach( $options_groups as $group ) {
-				echo '<div class="group">';
-				echo '<h4>' . $group . '</h4>';
-				echo '<ul>';
-				foreach( $options_data[ $group ] as $data ) {
-					echo '<li>' . $data->option_short_description . '</li>';
-				}
-				echo '</ul>';
-				echo '</div>';
-			}
-			echo '</div>';
-			echo '<div id="features">';
-			foreach( $feature_groups as $group ) {
-				echo '<div class="group">';
-				echo '<h4>' . $group . '</h4>';
-				echo '<ul>';
-				foreach( $feature_data[ $group ] as $data ) {
-					echo '<li>' . $data->row_title . ': ' . $data->row_data . '</li>';
 				}
 				echo '</ul>';
 				echo '</div>';
@@ -316,8 +275,8 @@
 					<tr>
 						<td>&nbsp;</td>
 						<?php
-							foreach( $trim_names as $key => $name ) {
-								echo '<td><a href="#" id="' . $key . '" class="jquery-ui-button">Load</a></td>';
+							foreach( $trim_names as $name ) {
+								echo '<td><a href="#" id="' . $name . '" class="jquery-ui-button">Load</a></td>';
 							}
 						?>
 					</tr>

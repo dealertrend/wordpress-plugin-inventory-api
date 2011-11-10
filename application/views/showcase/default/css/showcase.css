@@ -225,3 +225,9 @@ overflow: scroll;
 	margin:10px auto;
 	font-weight:bold;
 }
+
+#loader { text-align:center; border:0; background-image:url('http://nagawickarealty.com/loading.gif'); background-repeat:no-repeat; background-position:center center; }
+#loader img { margin:auto; }
+.ui-dialog-titlebar { display:none; }
+.ui-widget-overlay { background:#000; opacity: .50; }
+.ui-widget-content { background:transparent; border:0; }

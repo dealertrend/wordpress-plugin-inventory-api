@@ -14,10 +14,9 @@
 	);
 	wp_enqueue_style( 'dealertrend-showcase' , $this->plugin_information[ 'PluginURL' ] . '/application/views/showcase/default/css/showcase.css' , false );
 	wp_enqueue_script( 'jquery-ui-tabs' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_script( 'jquery-ui-button' );
 	wp_enqueue_script( 'dealertrend-showcase', $this->plugin_information[ 'PluginURL' ] . '/application/views/showcase/default/js/showcase.js', array( 'jquery-ui-tabs' ) );
-
-	get_header();
 
 	$ajax_nonce = wp_create_nonce( 'ajax!' );
 	$parameters = $this->parameters;
@@ -29,31 +28,174 @@
 
 	$type = ( $make === false ) ? 'makes' : ( ( $model === false ) ? 'models' : 'trims' );
 
+	if(
+		( isset( $makes ) && $makes !== false && ! in_array( $make , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ) ||
+		( isset( $models ) && $models !== false && ! in_array( $model , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] ) )
+	) {
+		status_header( 400 );
+		$type = false;
+	}
+
+	get_header();
+
 	$current_year = date( 'Y' );
 	$last_year = $current_year - 1;
 	$next_year = $current_year + 1;
 
 ?>
-
+<div id="loader" style="display:none; height:50px; width:50px;"></div>
 <script type="text/javascript">
+function addCommas(nStr)
+{
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
 		var dealertrend = jQuery.noConflict();
 		dealertrend(document).ready(function () {
+			dealertrend('#loader').hide();
+
+		dealertrend( '#loader' ).dialog({
+			autoOpen: false,
+			modal: true,
+			resizable: false,
+			position: 'center',
+			maxHeight: 50,
+			maxWidth: 50,
+			title: false
+		});
+
 			dealertrend( '#showcase .jquery-ui-button' ).button();
 			dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
-					stuff_i_need = [ 'acode_last_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $last_year; ?>&api=2';
-					stuff_i_need = [ 'acode_current_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $current_year; ?>&api=2';
-					stuff_i_need = [ 'acode_next_year' ] = 'http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $next_year; ?>&api=2';
+					button = dealertrend(this);
+		 			dealertrend('#loader').dialog('open');
+
+					button.css('cursor','wait');
+					// trims
+					dealertrend.ajax(
+					{
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default',
+						context: document.body,
+						success: function(data) {
+							var json = JSON.parse(data);
+							dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation );
+							dealertrend( '#pricing #msrp' ).html( '$' + addCommas( json[ 0 ].msrp ) );
+							dealertrend( '#trim' ).addClass( json[ 0 ].acode );
+							button.css('cursor','pointer');
+							populate_page( json[ 0 ].acode );
+						}
+					});
+
+					function populate_page( acode ) {
+						button.css('cursor','wait');
+						// fuel economy
+						dealertrend.ajax(
+						{
+							url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode,
+							context: document.body,
+							success: function(data) {
+								var json = JSON.parse(data);
+								dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_mpg );
+								dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_mpg );
+								button.css('cursor','pointer');
+							}
+						});
 
 					dealertrend.ajax(
 					{
-						url: '/dealertrend-ajax/?_ajax_nonce=<?php echo $ajax_nonce; ?>&request=http://vrs.dealertrend.com/trims/' + e.target.parentNode.id + '.json&year=<?php echo $last_year; ?>&api=2',
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode,
 						context: document.body,
 						success: function(data) {
-							
+							var json = JSON.parse(data);
+							dealertrend( '#spotlight' ).html('');
+							var count = 0;
+							var color_history = null;
+							json.forEach( function( color ) {
+								if( color.rgb != null ) {
+									if( color_history === null || color_history.search( color.rgb , color_history ) == -1 ) {
+										color_history += '[' + color.rgb + ']';
+										var image = document.createElement('img');
+										var link = document.createElement('a');
+										var text = document.createTextNode( color.name );
+										link.href = '#' + color.code;
+										link.title = 'Color: ' + color.name;
+										link.id = '#swatch-' + color.code;
+										link.className = 'swatch';
+										link.style.backgroundColor = 'rgb(' + color.rgb + ')';
+										link.appendChild(text);
+										image.src = color.image_urls.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+											return 'IMG=' + b + '.png';
+										});
+										image.id = color.code;
+										if( count === 0 ) {
+											image.className = 'active';
+											link.className += ' active';
+											var color_text = dealertrend( '#color-text' ).html( 'Color: ' + color.name );
+											dealertrend( '#swatches' ).html( color_text );
+											count++;
+										}
+										dealertrend( '#spotlight' ).append( image );
+										dealertrend( '#swatches' ).append( link );
+									}
+								}
+							});
+		 					dealertrend('#loader').dialog('close');
+				var current_image, next_image, color_text;
+				color_text = dealertrend('#color-text');
+				dealertrend('#swatches a').click(function (e) {
+						current_image = dealertrend('#spotlight .active');
+						next_image = dealertrend('#spotlight ' + e.target.hash);
+						current_image.removeClass('active').hide();
+
+						color_text.text(e.target.title);
+
+						next_image.show().addClass('active');
+						current_image = next_image;
+						dealertrend('#swatches .active').removeClass('active');
+						dealertrend('#' + e.target.id).addClass('active');
+						e.preventDefault();
+				});
+				dealertrend('#swatches a').hover(function (e) {
+						current_image = dealertrend('#spotlight .active');
+						next_image = dealertrend('#spotlight ' + e.target.hash);
+						current_image.removeClass('active').hide();
+						next_image.show().addClass('active');
+						color_text.text(e.target.title);
+				}, function (e) {
+						next_image.removeClass('active').hide();
+						current_image.show().addClass('active');
+						color_text.text(dealertrend('#swatches .active').attr('title'));
+				});
 						}
 					});
+
+				dealertrend.ajax(
+				{
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment',
+					context: document.body,
+					success: function( data ) {
+					}
+				});
+
+				dealertrend.ajax(
+				{
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos',
+					context: document.body,
+					success: function( data ) {
+					}
+				});
+
+					}
 					e.preventDefault();
 			} );
+
 		});
 </script>
 
@@ -61,9 +203,11 @@
 
 	flush();
 
-	echo '<div id="showcase">';
-	include( dirname( __FILE__ ) . '/' . $type . '.php' );
-	echo '</div>';
+	if( $type ) {
+		echo '<div id="showcase">';
+		include( dirname( __FILE__ ) . '/' . $type . '.php' );
+		echo '</div>';
+	}
 
 	echo "\n" . '<!--' . "\n";
 	echo '##################################################' . "\n";
