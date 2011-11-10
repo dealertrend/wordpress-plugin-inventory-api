@@ -52,6 +52,8 @@ class ajax {
 					$trims = array_merge( $trim_data[ $next_year ] , $trim_data[ $current_year ] , $trim_data[ $last_year ] );
 					usort( $trims , array( &$this , 'sort_trims' ) );
 
+					$trim = str_replace( '_' , '/' , $trim );
+
 					foreach( $trims as $trim_data ) {
 						if( $trim_data->name_variation === $trim ) {
 							$json[] = $trim_data;

@@ -80,11 +80,10 @@ function addCommas(nStr)
 					button.css('cursor','wait');
 					// trims
 
-					
 
 					dealertrend.ajax(
 					{
-						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + escape(e.target.parentNode.id) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default',
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default',
 						context: document.body,
 						success: function(data) {
 							var json = JSON.parse(data);
@@ -101,7 +100,7 @@ function addCommas(nStr)
 						// fuel economy
 						dealertrend.ajax(
 						{
-							url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + escape(e.target.parentNode.id) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode,
+							url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode,
 							context: document.body,
 							success: function(data) {
 								var json = JSON.parse(data);
@@ -113,7 +112,7 @@ function addCommas(nStr)
 
 					dealertrend.ajax(
 					{
-						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + escape(e.target.parentNode.id) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode,
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode,
 						context: document.body,
 						success: function(data) {
 							var json = JSON.parse(data);
