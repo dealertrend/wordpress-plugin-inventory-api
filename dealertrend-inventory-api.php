@@ -349,6 +349,23 @@ class Plugin {
 			case 'showcase':
 				$this->fix_bad_wordpress_assumption();
 
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
+					$data = json_decode( $company_information[ 'body' ] );
+					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
+					$dynamic_site_headers = new dynamic_site_headers(
+						$this->options[ 'vehicle_management_system' ][ 'host' ],
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+						(array) $this->parameters + (array) $seo_hack
+					);
+				}
+
 				$current_theme = 'default';
 				$theme_folder = 'showcase';
 				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;

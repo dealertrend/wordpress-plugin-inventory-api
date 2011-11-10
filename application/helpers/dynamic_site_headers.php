@@ -83,6 +83,8 @@ class dynamic_site_headers {
 	 * @return void
 	 */
 		function get_headers() {
+
+			$taxonomy = isset( $this->parameters[ 'taxonomy' ] ) ? $this->parameters[ 'taxonomy' ] : 'inventory';
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
 			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false;
 			$make = isset( $this->parameters[ 'make' ] ) ? urlencode( $this->parameters[ 'make' ] ) : 'All';
@@ -93,9 +95,9 @@ class dynamic_site_headers {
 			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
 			$base = $year != false ? $year : $sale_class;
 			if( $year == false ) {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/' . $taxonomy . '/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
 			} else {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/' . $taxonomy . '/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
 			}
 
 			if( strtolower( $trim ) != 'all' ) {
