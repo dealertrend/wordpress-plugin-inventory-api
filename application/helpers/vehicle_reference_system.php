@@ -17,6 +17,7 @@ class vehicle_reference_system {
 	}
 
 	function create_sidebar() {
+		add_filter( 'widget_text' , 'do_shortcode' );
 		register_sidebar(array(
 			'name' => 'Showcase Trim Page',
 			'id' => 'showcase-trim-page',
