@@ -13,6 +13,19 @@ class vehicle_reference_system {
 
 	public function __construct( $host ) {
 		$this->host = $host;
+		$this->create_sidebar();
+	}
+
+	function create_sidebar() {
+		register_sidebar(array(
+			'name' => 'Showcase Trim Page',
+			'id' => 'showcase-trim-page',
+			'description' => 'Widgets in this area will show up on the trim page within Showcase.',
+			'before_title' => '<h1>',
+			'after_title' => '</h1>',
+			'before_widget' => '<div class="showcase widget">',
+			'after_widget' => '</div>'
+		));
 	}
 
 	public function check_host() {
