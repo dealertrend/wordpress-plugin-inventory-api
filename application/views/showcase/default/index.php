@@ -90,6 +90,10 @@ function addCommas(nStr)
 							dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation );
 							dealertrend( '#pricing #msrp' ).html( '$' + addCommas( json[ 0 ].msrp ) );
 							dealertrend( '#trim' ).addClass( json[ 0 ].acode );
+							var default_photo = json[ 0 ].images.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+								return 'IMG=' + b + '.png';
+							});
+							dealertrend( '#spotlight' ).html('<img src="' + default_photo  + '" class="active" />');
 							button.css('cursor','pointer');
 							populate_page( json[ 0 ].acode );
 						}
@@ -116,38 +120,42 @@ function addCommas(nStr)
 						context: document.body,
 						success: function(data) {
 							var json = JSON.parse(data);
-							dealertrend( '#spotlight' ).html('');
 							var count = 0;
 							var color_history = null;
-							json.forEach( function( color ) {
-								if( color.rgb != null ) {
-									if( color_history === null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
-										color_history += '[' + color.rgb + ']';
-										var image = document.createElement('img');
-										var link = document.createElement('a');
-										var text = document.createTextNode( color.name );
-										link.href = '#' + color.code;
-										link.title = 'Color: ' + color.name;
-										link.id = '#swatch-' + color.code;
-										link.className = 'swatch';
-										link.style.backgroundColor = 'rgb(' + color.rgb + ')';
-										link.appendChild(text);
-										image.src = color.image_urls.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
-											return 'IMG=' + b + '.png';
-										});
-										image.id = color.code;
-										if( count === 0 ) {
-											image.className = 'active';
-											link.className += ' active';
-											var color_text = dealertrend( '#color-text' ).html( 'Color: ' + color.name );
-											dealertrend( '#swatches' ).html( color_text );
-											count++;
+							if( json.length > 0 ) {
+								dealertrend( '#spotlight' ).html('');
+								json.forEach( function( color ) {
+									if( color.rgb != null ) {
+										if( color_history === null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
+											color_history += '[' + color.rgb + ']';
+											var image = document.createElement('img');
+											var link = document.createElement('a');
+											var text = document.createTextNode( color.name );
+											link.href = '#' + color.code;
+											link.title = 'Color: ' + color.name;
+											link.id = '#swatch-' + color.code;
+											link.className = 'swatch';
+											link.style.backgroundColor = 'rgb(' + color.rgb + ')';
+											link.appendChild(text);
+											image.src = color.image_urls.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+												return 'IMG=' + b + '.png';
+											});
+											image.id = color.code;
+											if( count === 0 ) {
+												image.className = 'active';
+												link.className += ' active';
+												var color_text = dealertrend( '#color-text' ).html( 'Color: ' + color.name );
+												dealertrend( '#swatches' ).html( color_text );
+												count++;
+											}
+											dealertrend( '#spotlight' ).append( image );
+											dealertrend( '#swatches' ).append( link );
 										}
-										dealertrend( '#spotlight' ).append( image );
-										dealertrend( '#swatches' ).append( link );
 									}
-								}
-							});
+								});
+							} else {
+								
+							}
 		 					dealertrend('#loader').dialog('close');
 				var current_image, next_image, color_text;
 				color_text = dealertrend('#color-text');
@@ -200,7 +208,6 @@ function addCommas(nStr)
 					context: document.body,
 					success: function( data ) {
 						var json = JSON.parse(data);
-						dealertrend( '#trim #photos' ).html( '' );
 						json.forEach( function( photo ) {
 							dealertrend('#trim #photos').append( '<img src="' + photo.image_urls.small + '" />' );
 						});
