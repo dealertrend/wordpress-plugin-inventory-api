@@ -126,6 +126,13 @@
 				<div id="disclaimer">Actual rating will vary with options, driving conditions, habits and vehicle condition.</div>
 			<?php } ?>
 			</div>
+			<?php
+				if ( is_active_sidebar( 'showcase-trim-page' ) ) :
+					echo '<div id="sidebar-widget-area" class="sidebar">';
+						dynamic_sidebar( 'showcase-trim-page' );
+					echo '</div>';
+				endif;
+			?>
 			<div>
 				<div id="swatches">
 					<?php

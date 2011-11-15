@@ -119,7 +119,7 @@
   vertical-align:baseline;
   margin:.2em 0;
 }
-#showcase #trim #left-side { display:inline-block; width:350px; }
+#showcase #trim #left-side { display:inline-block; width:350px; vertical-align:top; }
 #showcase #trim #right-side { display:inline-block; padding:10px; vertical-align:top; }
 #showcase #trim #pricing {
   text-align:center;
@@ -227,3 +227,5 @@ overflow: scroll;
 .ui-dialog-titlebar { display:none; }
 .ui-widget-overlay { background:#000; opacity: .50; }
 .ui-widget-content { background:transparent; border:0; }
+
+#showcase #trim #sidebar-widget-area { display:inline-block; }
