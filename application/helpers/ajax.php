@@ -71,6 +71,22 @@ class ajax {
 							$json[] = $color;
 						}
 					}
+				} elseif( $mode === 'equipment' ) {
+				} elseif( $mode === 'photos' ) {
+					$data = $vehicle_reference_system->get_photos( $acode )->please( array( 'type' => 'oem_exterior_standard' ) );
+					$json = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : array();
+				} elseif( $mode === 'reviews' ) {
+					$data = $vehicle_reference_system->get_reviews( $acode )->please();
+					$json = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : array();
+					foreach( $json as $key => $value ) {
+						if( $json->titles->titles != 'LIKED_MOST' ) {
+							unset( $json[ $key ] );
+						}
+					}
+					$index = mt_rand( 0 , count( $json ) - 1 );
+					$json = $json[ $index ];
+					$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
+					
 				}
 				echo json_encode( $json );
 			}

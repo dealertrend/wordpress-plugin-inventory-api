@@ -86,131 +86,144 @@
 	echo $header; ?>
 	<hr />
 	<div id="trim">
-	<div id="visuals">
-		<div>
-			<h3><?php echo "$trim->year $make $model"; ?></h3>
-		</div>
-		<div id="left-side">
-		<div id="spotlight" class="ui-widget-header ui-corner-top">
-			<?php
-			$active = true;
-			$count = 0;
-			foreach( $colors as $color ) {
-				if( isset( $color->image_urls ) && $color->type === 'Pri' ) {
-					$count++;
-					( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
-					echo '<img id="' . $color->code . '" src="' . make_transparent( $color->image_urls->medium ) . '" class="' . $class . '" />';
-				}
-			}
-			if( $count === 0 ) {
-				echo '<img src="' . make_transparent( $trim->images->medium ) . '" class="active" />';
-			}
-			?>
-		</div>
-	</div>
-	<div id="right-side">
-		<div id="variation">
-			Trim: <?php echo $trim->name_variation; ?>
-		</div>
-		<div id="pricing">
-			<span>Starting at:</span>
-			<div id="msrp"><?php echo $trim->msrp; ?></div>
-		</div>
-		<?php
-			if( $fuel_economy !== false ) {
-		?>
-		<div id="fuel">
-			<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_mpg; ?></div></div>
-			<div id="icon"><img src="http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/mpg.gif" /></div>
-			<div id="hwy"><div class="label">HWY:</div><div class="number"><?php echo $fuel_economy->highway_mpg; ?></div></div>
-		</div>
-		<div id="disclaimer">Actual rating will vary with options, driving conditions, habits and vehicle condition.</div>
-		<?php } ?>
-		</div>
-		<div>
-			<div id="swatches">
+		<div id="visuals">
+			<div>
+				<h3><?php echo "$trim->year $make $model"; ?></h3>
+			</div>
+			<div id="left-side">
+				<div id="spotlight" class="ui-widget-header ui-corner-top">
+					<?php
+						$active = true;
+						$count = 0;
+						foreach( $colors as $color ) {
+							if( isset( $color->image_urls ) && $color->type === 'Pri' ) {
+								$count++;
+								( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
+								echo '<img id="' . $color->code . '" src="' . make_transparent( $color->image_urls->medium ) . '" class="' . $class . '" />';
+							}
+						}
+						if( $count === 0 ) {
+							echo '<img src="' . make_transparent( $trim->images->medium ) . '" class="active" />';
+						}
+					?>
+				</div>
+			</div>
+			<div id="right-side">
+				<div id="variation">
+					Trim: <?php echo $trim->name_variation; ?>
+				</div>
+				<div id="pricing">
+					<span>Starting at:</span>
+					<div id="msrp"><?php echo $trim->msrp; ?></div>
+				</div>
 				<?php
-					$active = true;
-					$options = array();
-					$default_set = false;
-					foreach( $colors as $color ) {
-						if( ! empty( $color->file ) ) {
-							if( ! in_array( $color->rgb , $colors ) ) {
-								$type = $color->type === 'Pri' ? 'Exterior' : 'Interior';
-								if( $type === 'Exterior' ) {
-									$colors[] = $color->rgb;
-									if( $default_set === false ) {
-										echo '<div id="color-text">Color: ' . $color->name . '</div>';
-										$default_set = true;
+					if( $fuel_economy !== false ) {
+				?>
+				<div id="fuel">
+					<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_mpg; ?></div></div>
+					<div id="icon"><img src="http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/mpg.gif" /></div>
+					<div id="hwy"><div class="label">HWY:</div><div class="number"><?php echo $fuel_economy->highway_mpg; ?></div></div>
+				</div>
+				<div id="disclaimer">Actual rating will vary with options, driving conditions, habits and vehicle condition.</div>
+			<?php } ?>
+			</div>
+			<div>
+				<div id="swatches">
+					<?php
+						$active = true;
+						$options = array();
+						$default_set = false;
+						foreach( $colors as $color ) {
+							if( ! empty( $color->file ) ) {
+								if( ! in_array( $color->rgb , $colors ) ) {
+									$type = $color->type === 'Pri' ? 'Exterior' : 'Interior';
+									if( $type === 'Exterior' ) {
+										$colors[] = $color->rgb;
+										if( $default_set === false ) {
+											echo '<div id="color-text">Color: ' . $color->name . '</div>';
+											$default_set = true;
+										}
+										( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
+										echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
+										echo $color->name . '</a>';
 									}
-									( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
-									echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
-									echo $color->name . '</a>';
 								}
 							}
 						}
-					}
-				?>
+					?>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div id="showcase-tabs">
+		<div id="showcase-tabs">
 		<ul>
-		<li><a href="#overview">Overview</a></li>
 		<?php
 			if( count( $trims ) > 1 ) {
 				echo '<li><a href="#trims">Trims</a></li>';
 			}
+			echo '<li><a href="#overview">Reviews and Video</a></li>';
+			echo '<li><a href="#equipment">Equipment</a></li>';
+			echo '<li><a href="#photos">Photos</a></li>';
 		?>
 		</ul>
 		<div id="overview" style="overflow:hidden;">
-		<?php
-			$videos = $vehicle_reference_system->get_videos( $trim->acode )->please();
-			if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] === 200 ) {
-				$videos = json_decode( $videos[ 'body' ] );
-				if( $videos != false ) {
-					echo '<div id="video" style="float:right;border:3px double #333;">';
-					echo '<iframe src="http://player.dealertrend.com/player.html?t=Test%20Player&autoplay=0&v=' . $videos[ 0 ]->flash_video_url . '" height="300" width="400"></iframe>';
-					echo '</div>';
-				}
-			}
-			$reviews = $vehicle_reference_system->get_reviews( $trim->acode )->please();
-			$reviews = isset( $reviews[ 'body' ] ) ? json_decode( $reviews[ 'body' ] ) : NULL;
-			$options = array();
-			if( count( $reviews ) > 0 ) {
-				foreach( $reviews as $review ) {
-					foreach( $review->titles as $title_object ) {
-						if( $title_object->title === 'LIKED_MOST' ) {
-							$options[] = $title_object->id;
-						}
+			<?php
+				$videos = $vehicle_reference_system->get_videos( $trim->acode )->please();
+				if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] === 200 ) {
+					$videos = json_decode( $videos[ 'body' ] );
+					if( $videos != false ) {
+						echo '<div id="video" style="float:right;border:3px double #333;">';
+							echo '<iframe src="http://player.dealertrend.com/player.html?t=Test%20Player&autoplay=0&v=' . $videos[ 0 ]->flash_video_url . '" height="300" width="400"></iframe>';
+						echo '</div>';
 					}
 				}
-				if( count( $options ) > 0 ) {
-					$index = mt_rand( 0 , count( $options ) - 1 );
-					$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
-					$review = json_decode( $review[ 'body' ] );
-					echo '<div id="reviews" style="line-height:24px;">';
-					echo '<h4 style="display:inline-block; clear:none; margin-bottom:1.2em;">What people are saying:</h4>';
-					echo '<blockquote>';
-					foreach( $review->content as $paragraph ) {
-						echo '<p>' . $paragraph . '</p>';
-					} 
-					echo '</blockquote>';
-					echo '</div>';
+				$reviews = $vehicle_reference_system->get_reviews( $trim->acode )->please();
+				$reviews = isset( $reviews[ 'body' ] ) ? json_decode( $reviews[ 'body' ] ) : NULL;
+				$options = array();
+				if( count( $reviews ) > 0 ) {
+					foreach( $reviews as $review ) {
+						foreach( $review->titles as $title_object ) {
+							if( $title_object->title === 'LIKED_MOST' ) {
+								$options[] = $title_object->id;
+							}
+						}
+					}
+					if( count( $options ) > 0 ) {
+						$index = mt_rand( 0 , count( $options ) - 1 );
+						$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
+						$review = json_decode( $review[ 'body' ] );
+						echo '<div id="reviews" style="line-height:24px;">';
+							echo '<h4 style="display:inline-block; clear:none; margin-bottom:1.2em;">What people are saying:</h4>';
+							echo '<blockquote>';
+							foreach( $review->content as $paragraph ) {
+								echo '<p>' . $paragraph . '</p>';
+							} 
+							echo '</blockquote>';
+							echo '<p style="font-size:14px; margin-left:15px;"> - ' . $reviews[ $index ]->review_by . '</p>';
+						echo '</div>';
+					}
 				}
-			}
+		echo '</div>';
+				$equipment = $vehicle_reference_system->get_equipment( $trim->acode )->please();
+				$equipment = isset( $equipment[ 'body' ] ) ? json_decode( $equipment[ 'body' ] ) : NULL;
 
-			$equipment = $vehicle_reference_system->get_equipment( $trim->acode )->please();
-			$equipment = isset( $equipment[ 'body' ] ) ? json_decode( $equipment[ 'body' ] ) : NULL;
-
-			$photos = $vehicle_reference_system->get_photos( $trim->acode )->please( array( 'type' => 'all' ) );
-			$photos = isset( $photos[ 'body' ] ) ? json_decode( $photos[ 'body' ] ) : NULL;
+				$photos = $vehicle_reference_system->get_photos( $trim->acode )->please( array( 'type' => 'oem_exterior_standard' ) );
+				$photos = isset( $photos[ 'body' ] ) ? json_decode( $photos[ 'body' ] ) : NULL;
 
 			function sort_equipment( $a , $b ) {
 				return ( $a->group > $b->group ) ? +1 : -1;
 			}
 
+			function sort_photos( $a , $b ) {
+				if( $a->filename > $b->filename ) {
+					return -1;
+				}
+				if( $a->filename == $b->filename ) {
+					return 1;
+				}
+			}
+
 			usort( $equipment , 'sort_equipment' );
+			usort( $photos , 'sort_photos' );
 
 			$equipment_groups = array();
 			$equipment_data = array();
@@ -220,10 +233,6 @@
 					$equipment_groups[] = $item->group;
 				}
 			}
-			echo '<div id="overview-tabs" style="overflow:hidden; clear:both;"><ul>';
-			echo '<li><a href="#equipment">Equipment</a></li>';
-			echo '<li><a href="#photos">Photos</a></li>';
-			echo '</ul>';
 			echo '<div id="equipment">';
 			foreach( $equipment_groups as $group ) {
 				echo '<div class="group">';
@@ -239,13 +248,15 @@
 			}
 			echo '</div>';
 			echo '<div id="photos">';
+			$shown = array();
 			foreach( $photos as $photo ) {
-				echo '<img src="' . $photo->image_urls->small . '" />';
+				if( ! in_array( $photo->filename , $shown ) ) {
+					$shown[] = $photo->filename;
+					echo '<img src="' . $photo->image_urls->small . '" />';
+				}
 			}
 			echo '</div>';
-			echo '</div>';
 		?>
-		</div>
 		<?php
 			if( count( $trims ) > 1 ) {
 		?>

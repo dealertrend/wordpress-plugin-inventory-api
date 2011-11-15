@@ -180,7 +180,7 @@ function addCommas(nStr)
 
 				dealertrend.ajax(
 				{
-					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment',
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=reviews&acode=' + acode,
 					context: document.body,
 					success: function( data ) {
 					}
@@ -188,9 +188,22 @@ function addCommas(nStr)
 
 				dealertrend.ajax(
 				{
-					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos',
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment&acode=' + acode,
 					context: document.body,
 					success: function( data ) {
+					}
+				});
+
+				dealertrend.ajax(
+				{
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos&acode=' + acode,
+					context: document.body,
+					success: function( data ) {
+						var json = JSON.parse(data);
+						dealertrend( '#trim #photos' ).html( '' );
+						json.forEach( function( photo ) {
+							dealertrend('#trim #photos').append( '<img src="' + photo.image_urls.small + '" />' );
+						});
 					}
 				});
 
