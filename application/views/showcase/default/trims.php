@@ -79,10 +79,9 @@
 		$fuel_economy = false;
 	}
 
-
 	$colors = $vehicle_reference_system->get_colors( $trim->acode )->please();
 	$colors = isset( $colors[ 'body' ] ) ? json_decode( $colors[ 'body' ] ) : NULL;
-	
+
 	echo $header; ?>
 	<hr />
 	<div id="trim">
