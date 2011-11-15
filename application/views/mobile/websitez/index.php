@@ -6,11 +6,13 @@
 
 	setlocale( LC_MONETARY , 'en_US.UTF-8' );
 
-	$company_information = $company_information[ 'data' ];
+	$company_information = json_decode( $company_information[ 'body' ] );
+
+  $vehicle_management_system->tracer = 'Obtaining requested inventory.';
+  $inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters );
+  $inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-
-	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
 
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 
@@ -33,29 +35,18 @@
 	get_header();
 	flush();
 
-	if( $check_host[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $check_company_id[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the company information feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the inventory feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $inventory === false ) {
-		echo $generic_error_message;
-		echo '<p>We were able to retreive the inventory feed, but while requesting the full feed the connecion timed out. Please refresh the page.</p>';
-		return false;
-	}
+  switch( $status ) { 
+    case 200:
+    case 404:
+    break;
+    case 503:
+      echo $generic_error_message;
+      echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
+    default:
+      get_footer();
+      return false;
+    break;
+  }
 
 	$city = $company_information->seo->city;
 	$state = $company_information->seo->state;
@@ -121,6 +112,14 @@
 	echo '</div>';
 
 	flush();
+
+	$name = isset( $company_information->name ) ? $company_information->name : NULL;
+	$street = isset( $company_information->street ) ? $company_information->street : NULL;
+	$city = isset( $company_information->city ) ? $company_information->city : NULL;
+	$state = isset( $company_information->state ) ? $company_information->state : NULL;
+	$zip = isset( $company_information->zip ) ? $company_information->zip : NULL;
+	$phone = isset( $company_information->phone ) ? $company_information->phone : NULL;
+
 	?>
 
 	<div class="websitez-container dealertrend-mobile inventory">
@@ -129,9 +128,9 @@
 				<div class="company-contact">
 				</div>
 				<div class="company-details">
-					<p><strong><?php echo $company_name; ?></strong></p>
+					<p><strong><?php echo $name; ?></strong></p>
 					<p><?php echo $street; ?></p>
-					<p><?php echo $company_information->city . ', ' . $company_information->state . ' ' . $zip; ?></p>
+					<p><?php echo $city . ', ' . $state . ' ' . $zip; ?></p>
 					<p><strong><a href="tel:1<?php echo str_replace( array( "(" , ")" , " " , "-" ) , "" , $phone ); ?>">Call: <?php echo $phone; ?></a></strong></p>
 				</div>
 				<div style="clear: both;"></div>

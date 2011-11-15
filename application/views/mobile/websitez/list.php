@@ -24,9 +24,11 @@
 		<div class="select">
 			<p><select name='' onchange='window.location=this.value'><option value='/inventory/All/'>View All Cars</option><option value='/inventory/New/' <?php if($sale_class == "New") echo "selected";?>>View New Cars</option><option value='/inventory/Used/' <?php if($sale_class == "Used") echo "selected";?>>View Used Cars</option></select></p>
 		<?php
+
 			//Car Makes
 			if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ):
-				$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
+				$makes = $vehicle_management_system->get_makes()->please( array( 'saleclass' => $sale_class ) );
+				$makes = json_decode( $makes[ 'body' ] );
 				if(count($makes) > 0):
 					$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Makes</option>' : '<option value-"'.@add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Makes</option>';
 					if(count($makes) == 1):
@@ -52,7 +54,9 @@
 
 			//Car Models
 			if( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ):
-				$models = $vehicle_management_system->get_models( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+				$parameters[ 'make' ] = isset( $parameters[ 'make'] ) ? $parameters[ 'make'] : 'All';
+				$models = $vehicle_management_system->get_models()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+				$models = json_decode( $models[ 'body' ] );
 				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/'.$sale_class.'">View All Models</option>' : '<option value-"'.@add_query_arg( array( 'make' => $parameters['make'] , 'model' => 'All' , 'trim' => 'All' ) ).'">View All Models</option>';
 				if(is_array($models) && count($models) > 0):
 					if(count($models) == 1):
@@ -78,7 +82,10 @@
 
 			//Car Trims
 			if( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ):
-				$trims = $vehicle_management_system->get_trims( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+				$parameters[ 'make' ] = isset( $parameters[ 'make'] ) ? $parameters[ 'make'] : 'All';
+				$parameters[ 'model' ] = isset( $parameters[ 'model'] ) ? $parameters[ 'model'] : 'All';
+				$trims = $vehicle_management_system->get_trims()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+				$trims = json_decode( $trims[ 'body' ] );
 				$quick_links = !empty( $wp_rewrite->rules ) ? '<option value="/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/' . $parameters['model'] . '/All/">View All Trims</option>' : '<option value="' . @add_query_arg( array( 'make' => $parameters['make'], 'model' => $parameters['model'] , 'trim' => 'All' ) ) . '">View All Trims</option>';
 				if(count($trims) > 0):
 					if(count($trims) == 1):
@@ -175,22 +182,22 @@
 									$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 								}
 								if( $retail_price > 0 ) {
-									echo '<div class="armadillo-msrp">MSRP: ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+									echo '<div class="armadillo-msrp">MSRP: $' . number_format( $retail_price , 2 , '.' , ',' ) . '</div>';
 								}
 								if( $on_sale && $sale_price > 0 ) {
 									$now_text = 'Price: ';
 									if( $use_was_now ) {
 										$price_class = ( $use_price_strike_through ) ? 'websitez-strike-through websitez-asking-price' : 'websitez-asking-price';
 										if( $incentive_price > 0 ) {
-											echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+											echo '<div class="' . $price_class . '">Was: $' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 										} else {
-											echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="' . $price_class . '">Was: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 										}
 										$now_text = 'Now: ';
 									}
 									if( $incentive_price > 0 ) {
 										echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-										echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+										echo '<div class="websitez-sale-price">' . $now_text . '$' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 										if( $sale_expire != NULL ) {
 											echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 										}
@@ -198,7 +205,7 @@
 										if( $ais_incentive != NULL ) {
 											echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 										}
-										echo '<div class="websitez-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+										echo '<div class="websitez-sale-price">' . $now_text . '$' . number_format( $sale_price , 2 , '.' , ',' ). '</div>';
 										if( $sale_expire != NULL ) {
 											echo '<div class="websitez-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
 										}
@@ -206,14 +213,14 @@
 								} else {
 									if( $asking_price > 0 ) {
 										if( $incentive_price > 0 ) {
-											echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="websitez-asking-price" style="font-size:12px;">Asking Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 											echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-											echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+											echo '<div class="websitez-asking-price" style="font-size:16px;">Your Price: $' . number_format( $asking_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 										} else {
 											if( $ais_incentive != NULL ) {
 												echo '<div class="websitez-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 											}
-											echo '<div class="websitez-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+											echo '<div class="websitez-asking-price">Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 										}
 									} else {
 										if( $ais_incentive != NULL ) {
@@ -224,6 +231,9 @@
 								}
 							?>
 							</div>
+                  <div class="websitez-contact-information">
+                    <?php echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $contact_information->phone : NULL; ?>
+                  </div>
 							<div style="clear: both;"></div>
 						</div>
 					</div>

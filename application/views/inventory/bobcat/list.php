@@ -2,8 +2,6 @@
 
 	global $wp_rewrite;
 
-	$parameters = $this->parameters;
-
 	$args = array(
 		'base' => @add_query_arg('page','%#%'),
 		'current' => $inventory[ 0 ]->pagination->on_page,
@@ -18,7 +16,8 @@
 	$quick_links = $quick_links_end = null;
 
 	if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
-		$makes = $vehicle_management_system->get_makes( array( 'saleclass' => $sale_class ) );
+		$makes = $vehicle_management_system->get_makes()->please( array( 'saleclass' => $sale_class ) );
+		$makes = json_decode( $makes[ 'body' ] );
 		foreach( $makes as $make ) {
 			if( !empty( $wp_rewrite->rules ) ) {
 				$quick_links .= '<a href="' . $site_url . '/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</a>';
@@ -27,7 +26,8 @@
 			}
 		}
 	} elseif( !isset( $parameters[ 'model' ] ) || $parameters[ 'model' ] == 'All' ) {
-		$models = $vehicle_management_system->get_models(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+		$models = $vehicle_management_system->get_models()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] ) );
+		$models = json_decode( $models[ 'body' ] );
 		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 		foreach( $models as $model ) {
 			if( !empty( $wp_rewrite->rules ) ) {
@@ -37,7 +37,8 @@
 			}
 		}
 	} elseif( !isset( $parameters[ 'trim' ] ) || $parameters[ 'trim' ] == 'All' ) {
-		$trims = $vehicle_management_system->get_trims(  array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+		$trims = $vehicle_management_system->get_trims()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make'] , 'model' => $parameters[ 'model'] ) );
+		$trims = json_decode( $trims[ 'body' ] );
 		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/All/">View All Makes</a>' : '<a href="' . @add_query_arg( array( 'make' => 'All' , 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Makes</a>';
 		$quick_links_end .= !empty( $wp_rewrite->rules ) ? '<a href="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make'] . '/All/">View All Models</a>' : '<a href="' . @add_query_arg( array( 'model' => 'All' , 'trim' => 'All' ) ) . '">View All Models</a>';
 		foreach( $trims as $trim ) {
@@ -79,7 +80,7 @@
 					$transmission = $inventory_item->transmission;
 					$exterior_color = $inventory_item->exterior_color;
 					$prices = $inventory_item->prices;
-					$asking_price = money_format( '%(#0n' , $prices->asking_price );
+					$asking_price = number_format( $prices->asking_price , 2 , '.' , ',' );
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
@@ -110,7 +111,7 @@
 								<span class="engine"><?php echo $engine; ?></span>
 								<span class="transmission"><?php echo $transmission; ?></span>
 								<span class="exterior-color">Color: <?php echo $exterior_color; ?></span>
-								<span class="pricing"><?php echo $asking_price; ?></span>
+								<span class="pricing">$<?php echo $asking_price; ?></span>
 							</a>
 						</div>
 						<div class="middle-column">

@@ -8,74 +8,20 @@
  * Version: 3.11.1
  * License: GPLv2 or later
  */
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
-/*
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
-
-/** Load the helpers so we can interface with the APIs. */
-require_once( dirname( __FILE__ ) . '/application/helpers/http_api_wrapper.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
-require_once( dirname( __FILE__ ) . '/application/helpers/dealertrend_plugin_updater.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/updater.php' );
 
-/** Widgets */
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_reference_system.php' );
 
-/**
- * This is the primary class for the plugin.
- *
- * It uses standard WordPress hooks and helpers for the different APIs it interfaces with.
- * It also utilizes several custom helpers to incorporate the API itself and some extended functionality of the WordPress core.
- *
- * @package Wordpress
- * @since 3.0.0
- */
-class dealertrend_inventory_api {
+class Plugin {
 
-	/**
-	 * Public plugin information derived from the file header, as well as some custom keys.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	public $plugin_information = array();
-
-	/**
-	 * Public boolean for if the plugin needs to operate in mobile mode.
-	 *
-	 * @package WordPress
-	 * @since 3.2.1
-	 * @access public
-	 */
-	public $is_mobile = false;
-
-	/**
-	 * Default options. These values are initially set when the plugin is creates a new instance.
-	 *
-	 * This is also the array that ends up storing changed variables wich are later saved.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @access private
-	 * @var array
-	 */
 	public $options = array(
 		'vehicle_management_system' => array(
 			'company_information' => array(
@@ -92,7 +38,11 @@ class dealertrend_inventory_api {
 			)
 		),
 		'vehicle_reference_system' => array(
-			'host' => ''
+			'host' => '',
+			'data' => array(
+				'makes' => array(),
+				'models' => array()
+			)
 		),
 		'debug' => array(
 			'logging' => false
@@ -104,23 +54,11 @@ class dealertrend_inventory_api {
 		)
 	);
 
-	/**
-	 * Public variable for all the parameters the plugin is currently working with.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
+	public $plugin_information = array();
 	public $parameters = array();
+	public $taxonomy = null;
+	public $is_mobile = false;
 
-	/**
-	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function __construct() {
 		$this->load_plugin_information();
 		$this->check_for_updates();
@@ -131,15 +69,6 @@ class dealertrend_inventory_api {
 		$this->queue_templates();
 	}
 
-	/**
-	 * Retreives standard WordPress file headers from this plugin's header.
-	 *
-	 * Adds some custom keys that are plugin related data that are used frequently.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return array
-	 */
 	function load_plugin_information() {
 		$data = array();
 
@@ -161,56 +90,16 @@ class dealertrend_inventory_api {
 		$this->plugin_information = $data;
 	}
 
-	/**
-	 * Reads from the WordPress query variables to see if someone has set the is_mobile flag.
-	 *
-	 * This is a custom way of identifying mobile browsers and will need to be either implemented
-	 * in the WP core or the mobile detection plugin being used.
-	 *
-	 * @package Wordpress
-	 * @since 3.2.1
-	 * @return void
-	 *
-	 */
-	function check_mobile() {
-		global $wp_query;
-		$this->is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
-	}
-
-	/**
-	 * Queues the updater to check for updates anytime WordPress is checking for an update.
-	 *
-	 * @package Wordpress
-	 * @since 3.2
-	 * @return void
-	 *
-	 */
 	function check_for_updates() {
 		add_action( 'admin_init' , array( &$this , 'instantiate_updater' ) );
 	}
 
-	/**
-	 * Uses a helper to check for plugin updates. This looks up tags via GitHub and then if a new version is avilable, allows us to do an auto-install.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.1
-	 * @return void;
-	 */
 	function instantiate_updater() {
-		$update_handler = new dealetrend_plugin_updater( $this->plugin_information );
+		$update_handler = new Updater( $this->plugin_information );
 		$version_comparison = $update_handler->check_for_updates();
 		$update_handler->display_update_notice( $version_comparison );
 	}
 
-	/**
-	 * Load the plugins options from the database into the current scope.
-	 *
-	 * If there are no settings, it will instantiate them with the plugin defaults.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function load_options() {
 		$loaded_options = get_option( 'dealertrend_inventory_api' ) ;
 		if( !$loaded_options ) {
@@ -238,15 +127,6 @@ class dealertrend_inventory_api {
 		return $modified;
 	}
 
-	/**
-	 * Load the widgets! (Must read this description in Frau Farbissina's voice)
-	 *
-	 * The widgets should only load if they have the settings they need to work.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function load_widgets() {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vehicle_management_system_widget" );' ) );
@@ -257,63 +137,26 @@ class dealertrend_inventory_api {
 		}
 	}
 
-	/**
-	 * Load the stylesheets and scripts for the administration area.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function load_admin_assets() {
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
 	}
 
-	/**
-	 * Take the quasinecessary steps to get our plugin to assert dominance within a specific taxonomy and URL structure.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function setup_routing() {
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
-		add_action( 'init' , array( &$this , 'create_taxonomy' ) );
+		add_action( 'init' , array( &$this , 'create_taxonomies' ) );
 	}
 
-	/**
-	 * When loading the standard content WordPress would try to serve, under a specific instance we want to inject our own content.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function queue_templates() {
-		add_action( 'template_redirect' , array( &$this , 'show_inventory_theme' ) , 2 );
+		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 2 );
 	}
 
-	/**
-	 * Saves the current options to the database then load them back into the plugin.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function save_options() {
 		update_option( 'dealertrend_inventory_api' , $this->options );
 		$this->load_options();
 	}
 
-	/**
-	 * A persistent implementation of a funciton to add a few access points to the plugin's options page.
-	 *
-	 * It also checks to see if we are on the options page for the plugin, if so, load the CSS for it.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function admin_styles() {
 		$network_admin = is_network_admin();
 		$prefix = $network_admin ? 'network_admin_' : '';
@@ -331,15 +174,20 @@ class dealertrend_inventory_api {
 			wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
 		}
+    wp_enqueue_style(
+      'jquery-ui-multiselect',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
+      false,
+      '1.10'
+    );
+    wp_enqueue_style(
+      'jquery-ui-multiselect-filter',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
+      false,
+      '1.10'
+    );
 	}
 
-	/**
-	 * Add shortcut links to the settings page for our plugin.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return array The array of links to be added in the plugin management page.
-	 */
 	function add_plugin_links( $links ) {
 		$settings_link = '<a href="admin.php?page=dealertrend_inventory_api#settings">Settings</a>';
 		$readme_link = '<a href="admin.php?page=dealertrend_inventory_api#help">Documentation</a>';
@@ -349,75 +197,56 @@ class dealertrend_inventory_api {
 		return $links;
 	}
 
-	/**
-	 * Load the plugin options page.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function create_options_page() {
 		include( dirname( __FILE__ ) . '/application/views/options/page.php' );
 	}
 
-	/**
-	 * Add the Javascript for the options page.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function admin_scripts() {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
+    wp_enqueue_script(
+      'jquery-ui-multiselect',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.min.js',
+      array( 'jquery' ),
+      '1.10',
+      true
+    );
+    wp_enqueue_script(
+      'jquery-ui-multiselect-filter',
+      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
+      array( 'jquery' , 'jquery-ui-multiselect' ),
+      '1.10',
+      true
+    );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-admin' ,
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' ),
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
 	}
 
-	/**
-	 * Add our custom rewrite rules to the WordPress Rewrite Object.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return array The old rewrite rules with our prefixed to them.
-	 */
 	function add_rewrite_rules( $existing_rules ) {
 		$new_rules = array();
 		$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+		$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
+		$new_rules[ '^(dealertrend-ajax)' ] = 'index.php?taxonomy=dealertrend-ajax';
 
 		return $new_rules + $existing_rules;
 	}
 
-	/**
-	 * Remove rewrite rules and then recreate rewrite rules.
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return bool False on failure.
-	 */
 	function flush_rewrite_rules() {
 		global $wp_rewrite;
 
 		return $wp_rewrite->flush_rules();
 	}
 
-	/**
-	 * Allows us to create our own taxonomy, see: {@link http://codex.wordpress.org/Taxonomies#What_is_a_taxonomy.3F Taxonomies: What is a taxonomy?}
-	 *
-	 * @package WordPress
-	 * @since 3.0.0
-	 * @return void
-	 */
-	function create_taxonomy() {
+	function create_taxonomies() {
 		$labels = array(
 			'name' => _x( 'Inventory' , 'taxonomy general name' ),
-			'menu_name' => __( 'Inventory' ),
+			'menu_name' => __( 'Inventory' )
 		);
 		register_taxonomy(
 			'inventory',
@@ -430,24 +259,48 @@ class dealertrend_inventory_api {
 				'rewrite' => array( 'slug' => 'inventory' )
 			)
 		);
+		$labels = array(
+			'name' => _x( 'Showcase' , 'taxonomy general name' ),
+			'menu_name' => __( 'Showcase' )
+		);
+		register_taxonomy(
+			'showcase',
+			array( 'page' ),
+			array(
+				'hierarchical' => true,
+				'labels' => $labels,
+				'show_ui' => false,
+				'query_var' => true,
+				'rewrite' => array( 'slug' => 'showcase' )
+			)
+		);
+		$labels = array(
+			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' ),
+			'menu_name' => __( 'DealerTrend AJAX' )
+		);
+		register_taxonomy(
+			'showcase',
+			array( 'page' ),
+			array(
+				'hierarchical' => true,
+				'labels' => $labels,
+				'show_ui' => false,
+				'query_var' => true,
+				'rewrite' => array( 'slug' => 'dealertrend-ajax' )
+			)
+		);
 	}
 
-	/**
-	 * Runs before the determination of the template file to be used to display the requested page, so that the plugin can override the template file choice.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
-	function show_inventory_theme() {
+	function show_theme() {
 		global $wp_query;
 
 		$this->check_mobile();
 
+		$this->taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
+
 		$this->parameters = $this->get_parameters();
 
-		$taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
-
-		switch( $taxonomy ) {
+		switch( $this->taxonomy ) {
 
 			case 'inventory':
 				$this->fix_bad_wordpress_assumption();
@@ -464,10 +317,14 @@ class dealertrend_inventory_api {
 					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 				);
 
-				$company_information = $vehicle_management_system->get_company_information();
+				$status = $vehicle_management_system->set_headers( $this->parameters );
 
-				if( $company_information[ 'data' ] != false ) {
-					$seo_hack = array( 'city' => $company_information[ 'data' ]->seo->city , 'state' => $company_information[ 'data' ]->seo->state );
+				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
+					$data = json_decode( $company_information[ 'body' ] );
+					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
 					$dynamic_site_headers = new dynamic_site_headers(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
 						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
@@ -488,83 +345,138 @@ class dealertrend_inventory_api {
 				}
 
 				$this->stop_wordpress();
+			break;
+			case 'showcase':
+				$this->fix_bad_wordpress_assumption();
 
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
+					$data = json_decode( $company_information[ 'body' ] );
+					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
+					$dynamic_site_headers = new dynamic_site_headers(
+						$this->options[ 'vehicle_management_system' ][ 'host' ],
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+						(array) $this->parameters + (array) $seo_hack
+					);
+				}
+
+				$current_theme = 'default';
+				$theme_folder = 'showcase';
+				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
+				$vehicle_reference_system = new vehicle_reference_system(
+					$this->options[ 'vehicle_reference_system' ][ 'host' ]
+				);
+
+				if( $handle = opendir( $theme_path ) ) {
+					while( false !== ( $file = readdir( $handle ) ) ) {
+						if( $file == 'index.php' ) {
+							include_once( $theme_path . '/index.php' );
+						}
+					}
+					closedir( $handle );
+				} else {
+					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+					return false;
+				}
+
+				$this->stop_wordpress();
+			break;
+			case 'dealertrend-ajax':
+				$this->fix_bad_wordpress_assumption();
+				$ajax = new ajax( $this->parameters , $this );
+				$this->stop_wordpress();
 			break;
 		}
 	}
 
-	/**
-	 * There are instances where we need to stop the execution of WordPress.
-	 *
-	 * One such instance is when we are overriding the content output.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
+	function check_mobile() {
+		global $wp_query;
+		$this->is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
+	}
+
 	function stop_wordpress() {
 		exit;
 	}
 
-	/**
-	 * There's an issue where WordPress is labeling our taxonomy as a home page. Which it is not.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function fix_bad_wordpress_assumption() {
 		global $wp_query;
 		$wp_query->is_home = false;
 	}
 
-	/**
-	 * Take the current parameters, including the URL structure and query strings and assemble them into an array.
-	 *
-	 * @package Wordpress
-	 * @since 3.0.0
-	 * @return array The processed parameters.
-	 */
 	function get_parameters() {
 		global $wp;
 		global $wp_rewrite;
 
 		$permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 		$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
-		$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
 		$parameters = array();
 
-		foreach( $permalink_parameters as $key => $value ) {
-			switch( $key ) {
-				case 0: $index = 'taxonomy'; break;
-				case 1:
-					if( is_numeric( $value ) ) {
-						$index = 'year';
-					} else {
-						$index = 'saleclass';
-					}
-				break;
-				case 2: $index = 'make'; break;
-				case 3: $index = 'model'; break;
-				case 4: $index = 'state'; break;
-				case 5: $index = 'city'; break;
-				case 6: $index = 'vin'; break;
-				default: return; break;
-			}
-			$parameters[ $index ] = $value;
-		}
+		switch( $this->taxonomy ) {
+			case 'inventory';
+				$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
 
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
+						case 1:
+							if( is_numeric( $value ) ) {
+								$index = 'year';
+							} else {
+								$index = 'saleclass';
+							}
+						break;
+						case 2: $index = 'make'; break;
+						case 3: $index = 'model'; break;
+						case 4: $index = 'state'; break;
+						case 5: $index = 'city'; break;
+						case 6: $index = 'vin'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+			case 'showcase':
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
+						case 1: $index = 'make'; break;
+						case 2: $index = 'model'; break;
+						case 3: $index = 'trim'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+			case 'dealertrend-ajax':
+				foreach( $permalink_parameters as $key => $value ) {
+					switch( $key ) {
+						case 0: $index = 'taxonomy'; break;
+						case 1: $index = 'meta-taxonomy'; break;
+						case ( $key == 2 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'year'; break;
+						case ( $key == 3 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'make'; break;
+						case ( $key == 4 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'model'; break;
+						case ( $key == 5 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'state'; break;
+						case ( $key == 6 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'city'; break;
+						case ( $key == 7 && $parameters[ 'meta-taxonomy' ] == 'inventory' ): $index = 'vin'; break;
+						case ( $key == 2 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'make'; break;
+						case ( $key == 3 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'model'; break;
+						case ( $key == 4 && $parameters[ 'meta-taxonomy' ] == 'showcase' ): $index = 'trim'; break;
+						default: return; break;
+					}
+					$parameters[ $index ] = $value;
+				}
+			break;
+		}
 		return array_merge( $parameters , $server_parameters );
 	}
 
-	/**
-	 * Never trust the user.
-	 *
-	 * Recursive funciton intended to tranverse both scalar and non-scalar values to sanitize them usins kses.
-	 *
-	 * @since 3.0.0
-	 * @return mixed The sanitized given values.
-	 */
 	function sanitize_inputs( $input ) {
 		if( is_array( $input ) ) {
 			foreach( $input as $key => $value ) {
@@ -577,12 +489,6 @@ class dealertrend_inventory_api {
 		return $input;
 	}
 
-	/**
-	 * Load the CSS styles for inventory themes.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function inventory_styles() {
 		$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
 		$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
@@ -597,12 +503,6 @@ class dealertrend_inventory_api {
 		wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 	}
 
-	/**
-	 * Load the Javascript for inventory themes.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
 	function inventory_scripts() {
 		if( ! is_admin() ) {
 			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
@@ -610,13 +510,6 @@ class dealertrend_inventory_api {
 		}
 	}
 
-	/** 
-	 * Get a list of a specific type of theme. Example: 'inventory' or 'showcase'.
-	 *
-	 * @since 3.0.0
-	 * @param string $type The name of the folder to look in for themes.
-	 * @return array The collected list of folders available to choose form.
-	 */
 	function get_themes( $type ) { 
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
 		$ignore = array( '.' , '..' );
@@ -631,8 +524,8 @@ class dealertrend_inventory_api {
 
 }
 
-if ( class_exists( 'dealertrend_inventory_api' ) and !isset( $dealertrend_inventory_api ) ) {
-	$dealertrend_inventory_api = new dealertrend_inventory_api();
-}
+global $dealertrend_inventory_api;
+
+$dealertrend_inventory_api = new Plugin();
 
 ?>

@@ -1,153 +1,145 @@
 <?php
 
-if ( class_exists( 'vehicle_reference_system' ) ) {
-	return false;
-}
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
-/**
- * This is the primary class for the VRS.
- *
- * It's sole responsibility is to get and return resarch data from the VRS API.
- *
- * @package WordPress
- * @subpackage Plugin
- * @since 3.0.0
- */
 class vehicle_reference_system {
 
-	/**
-	 * This is the address of the API we'll be querying against.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var string
-	 */
 	public $host = NULL;
-
-	/**
-	 * Public array all requests made within the instance of the object.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
+	public $tracer = NULL;
 	public $request_stack = array();
 
-	/**
-	 * Private variable containing the routes for making API calls.
-	 *
-	 * @since 3.0.0
-	 * @access private
-	 * @var array
-	 */
-	private $routes = array();
+	private $url = NULL;
+	private $parameters = array();
 
-	/**
-	 * PHP 5 constructor.
-	 *
-	 * Sets up the routes for the VMS api.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function __construct( $host ) {
+	public function __construct( $host ) {
 		$this->host = $host;
-
-		$this->routes[ 'makes' ] = $this->host . '/makes.json';
-		$this->routes[ 'models' ] = $this->host . '/models.json';
-		$this->routes[ 'trims' ] = $this->host . '/trims.json';
+		$this->create_sidebar();
 	}
 
-	/**
-	 * Checks to see if the API's host can be reached.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function check_host() {
-		$request_handler = new http_api_wrapper( $this->host , 'vehicle_reference_system' );
-		$this->request_stack[] = $this->host;
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$data_array = array( 'status' => false , 'data' => $data );
-		if( isset( $data[ 'body' ] ) ) {
-			$data_array[ 'status' ] = true;
+	function create_sidebar() {
+		add_filter( 'widget_text' , 'do_shortcode' );
+		register_sidebar(array(
+			'name' => 'Showcase Trim Page',
+			'id' => 'showcase-trim-page',
+			'description' => 'Widgets in this area will show up on the trim page within Showcase.',
+			'before_title' => '<h1>',
+			'after_title' => '</h1>',
+			'before_widget' => '<div class="showcase widget">',
+			'after_widget' => '</div>'
+		));
+	}
+
+	public function check_host() {
+		$this->url = $this->host;
+		return $this;
+	}
+
+	public function check_feed() {
+		$this->url = $this->host . '/makes.json';
+		return $this;
+	}
+
+	public function get_makes() {
+		$this->url = $this->host . '/makes.json';
+		return $this;
+	}
+
+	public function get_models() {
+		$this->url = $this->host . '/models.json';
+		return $this;
+	}
+
+	public function get_trims() {
+		$this->url = $this->host . '/trims.json';
+		$this->parameters = array( 'api' => 2 );
+		return $this;
+	}
+
+	public function get_trim_details( $acode ) {
+		$this->url = $this->host . '/trims/' . $acode . '.json';
+		return $this;
+	}
+
+	public function get_videos( $acode ) {
+		$this->url = $this->host . '/extra_vehicle_infos.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_fuel_economy( $acode ) {
+		$this->url = $this->host . '/fuel_economies.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_reviews( $acode ) {
+		$this->url = $this->host . '/reviews.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_review( $id ) {
+		$this->url = $this->host . '/review_titles/' . $id . '.json';
+		return $this;
+	}
+
+	public function get_features( $acode ) {
+		$this->url = $this->host . '/acode_feature_datas.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_equipment( $acode ) {
+		$this->url = $this->host . '/trim_equipments.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_standard_equipment( $acode ) {
+		$this->url = $this->host . '/equipment/standard.json';
+		$this->parameters = array( 'acode' => $acode );
+		return $this;
+	}
+
+	public function get_options( $acode ) {
+		$this->url = $this->host . '/trim_options.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_colors( $acode ) {
+		$this->url = $this->host . '/colorizations.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function get_photos( $acode ) {
+		$this->url = $this->host . '/photos.json';
+		$this->parameters = array( 'acode' => $acode , 'api' => 2 );
+		return $this;
+	}
+
+	public function please( $parameters = array() ) {
+		$parameters = array_merge( $this->parameters , $parameters );
+		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
+
+		$request = $this->url . $parameter_string;
+		$request_handler = new http_request( $request , 'vehicle_reference_system' );
+
+		if( $this->tracer !== NULL ) {
+			$this->request_stack[] = array( $request , $this->tracer );
+			$this->tracer = NULL;
+		} else {
+			$this->request_stack[] = $request;
 		}
-		return $data_array;
-	}
 
-	/**
-	 * Checks to see if data can be retreived from the API. Smallest request possible.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function check_feed() {
-		$url = $this->routes[ 'makes' ];
-		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
-		$this->request_stack[] = $url;
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$data_array = array( 'status' => false , 'data' => $data );
-		if( isset( $data[ 'body' ] ) ) {
-			$data_array[ 'status' ] = true;
-		}
-		return $data_array;
+
+		$this->parameters = array();
+		return $data;
 	}
 
-	/**
-	 * Retreives all makes avilable within the current context of the current request from the API.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function get_makes( $parameters = array() ) {
-		$parameter_string = $this->process_parameters( $parameters );
-		$url = $this->routes[ 'makes' ] . $parameter_string;
-		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
-		$this->request_stack[] = $url;
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
-		$data_array = array ( 'status' => false, 'data' => $body );
-		if( isset( $request_hander[ 'body ' ] ) ) {
-			$data_array[ 'status' ] = true;
-		}
-		return $data_array;
-	}
-
-	/**
-	 * Retreives all models avilable within the current context of the current request from the API.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function get_models( $parameters = array() ) {
-		$parameter_string = $this->process_parameters( $parameters );
-		$url = $this->routes[ 'models' ] . $parameter_string;
-		$request_handler = new http_api_wrapper( $url , 'vehicle_reference_system' );
-		$this->request_stack[] = $url;
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
-		$data_array = array ( 'status' => false, 'data' => $body );
-		if( isset( $request_hander[ 'body ' ] ) ) {
-			$data_array[ 'status' ] = true;
-		}
-		return $data_array;
-	}
-
-	/**
-	 * Takes the given parameters and sanitizes them before submitting the call to the API.
-	 *
-	 * Also asserts some assumptions for improved performance.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
-	function process_parameters( $parameters ) {
+	private function process_parameters( $parameters ) {
 		$parameters = array_map( 'urldecode' , $parameters );
 
 		return !empty( $parameters ) ? '?' . http_build_query( $parameters , '' , '&' ) : false;

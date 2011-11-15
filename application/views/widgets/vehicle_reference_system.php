@@ -119,19 +119,19 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
 
-		$vehicle_reference_system = new vehicle_reference_system(
+		$vehicle_reference_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ]
 		);
 
-		$check_host = $vehicle_reference_system->check_host();
-		if( $check_host[ 'status' ] == false ) {
+		$check_host = $vehicle_reference_system->check_host()->please();
+		if( $check_host[ 'response' ][ 'code' ] !== 200 ) {
 			echo '<p>Unable to connect to API.</p>';
 			return false;
 		}
 
-		$check_feed = $vehicle_reference_system->check_feed();
+		$check_feed = $vehicle_reference_system->check_feed()->please();
 
-		if( $check_feed[ 'status' ] == false && $check_feed[ 'code' ] != 200 ) {
+		if( $check_feed[ 'response' ][ 'code' ] !== 200 ) {
 			echo '<p>Unable to retrieve feed.</p>';
 			return false;
 		}
@@ -157,28 +157,31 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$last_year = $current_year - 1;
 			$next_year = $current_year + 1;
 
-			$model_data[ $last_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $last_year ) );
-			$model_data[ $current_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $current_year ) );
-			$model_data[ $next_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $next_year ) );
+			$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
+			$model_data[ $last_year ] = json_decode( $model_data[ $last_year ][ 'body' ] );
+			$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
+			$model_data[ $current_year ] = json_decode( $model_data[ $current_year ][ 'body' ] );
+			$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
+			$model_data[ $next_year ] = json_decode( $model_data[ $next_year ][ 'body' ] );
 
-			$model_data[ $last_year ][ 'data' ] = is_array( $model_data[ $last_year ][ 'data' ] ) ? $model_data[ $last_year ][ 'data' ] : array();
-			$model_data[ $current_year ][ 'data' ] = is_array( $model_data[ $current_year ][ 'data' ] ) ? $model_data[ $current_year ][ 'data' ] : array();
-			$model_data[ $next_year ][ 'data' ] = is_array( $model_data[ $next_year ][ 'data' ] ) ? $model_data[ $next_year ][ 'data' ] : array();
+			$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
+			$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
+			$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
 
-			$model_data[ 'data' ] = array_merge( $model_data[ $last_year ][ 'data' ] , $model_data[ $current_year ][ 'data' ] , $model_data[ $next_year ][ 'data' ] );
+			$model_data = array_merge( $model_data[ $next_year ] , $model_data[ $current_year ] , $model_data[ $last_year ] );
 
 			$i_can_haz_model = array();
-			foreach( $model_data[ 'data' ] as $key => $value ) {
+			foreach( $model_data as $key => $value ) {
 				$existing_data = array_search( $value->name , $i_can_haz_model );
 				if( $existing_data === false ) {
 					$i_can_haz_model[ $key ] = $value->name;
 				} else {
-					$model_data[ 'data' ][ $existing_data ] = $value;
-					unset( $model_data[ 'data' ][ $key ] );
+					$model_data[ $existing_data ] = $value;
+					unset( $model_data[ $key ] );
 				}
 			}
 
-			$model_values = $model_data[ 'data' ];
+			$model_values = $model_data;
 			echo '<div>';
 			if( isset( $model_values ) && is_array( $model_values) ) {
 				foreach( $model_values as $model ) {
@@ -245,7 +248,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
 
-		$vehicle_reference_system = new vehicle_reference_system(
+		$vehicle_reference_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ]
 		);
 
@@ -258,25 +261,28 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$last_year = $current_year - 1;
 		$next_year = $current_year + 1;
 
-		$make_data[ $last_year ] = $vehicle_reference_system->get_makes( array( 'year' => $last_year ) );
-		$make_data[ $current_year ] = $vehicle_reference_system->get_makes( array( 'year' => $current_year ) );
-		$make_data[ $next_year ] = $vehicle_reference_system->get_makes( array( 'year' => $next_year ) );
+		$make_data[ $last_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
+		$make_data[ $last_year ] = json_decode( $make_data[ $last_year ][ 'body' ] );
+		$make_data[ $current_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
+		$make_data[ $current_year ] = json_decode( $make_data[ $current_year ][ 'body' ] );
+		$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
+		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
 
-		$make_data[ 'data' ] = array_merge( $make_data[ $last_year ][ 'data' ] , $make_data[ $current_year ][ 'data' ] , $make_data[ $next_year ][ 'data' ] );
+		$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
 
 		# It would be cool if there was a better way to do this.
 		$i_can_haz_make = array();
-		foreach( $make_data[ 'data' ] as $key => $value ) {
+		foreach( $make_data as $key => $value ) {
 			$existing_data = array_search( $value->name , $i_can_haz_make );
 			if( $existing_data === false ) {
 				$i_can_haz_make[ $key ] = $value->name;
 			} else {
-				$make_data[ 'data' ][ $existing_data ] = $value;
-				unset( $make_data[ 'data' ][ $key ] );
+				$make_data[ $existing_data ] = $value;
+				unset( $make_data[ $key ] );
 			}
 		}
 
-		$make_values = $make_data[ 'data' ];
+		$make_values = $make_data;
 
 		echo '<p>';
 		echo '<label for="' . $this->get_field_id( 'makes' ) . '">' . _e( 'Makes:' ) . '</label>';
@@ -293,28 +299,31 @@ class vehicle_reference_system_widget extends WP_Widget {
 			echo '<label for="' . $this->get_field_id( 'models' ) . '">' . _e( 'Models:' ) . '</label>';
 			echo '<select id="' . $this->get_field_id( 'models' ) . '" name="' . $this->get_field_name( 'models' ) . '[]" class="vrs-models" size="4" multiple="multiple">';
 			foreach( $makes as $make ) {
-				$model_data[ $last_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $last_year ) );
-				$model_data[ $current_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $current_year ) );
-				$model_data[ $next_year ] = $vehicle_reference_system->get_models( array( 'make' => $make , 'year' => $next_year ) );
+				$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
+				$model_data[ $last_year ] = json_decode( $model_data[ $last_year ][ 'body' ] );
+				$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
+				$model_data[ $current_year ] = json_decode( $model_data[ $current_year ][ 'body' ] );
+				$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
+				$model_data[ $next_year ] = json_decode( $model_data[ $next_year ][ 'body' ] );
 
-				$model_data[ $last_year ][ 'data' ] = is_array( $model_data[ $last_year ][ 'data' ] ) ? $model_data[ $last_year ][ 'data' ] : array();
-				$model_data[ $current_year ][ 'data' ] = is_array( $model_data[ $current_year ][ 'data' ] ) ? $model_data[ $current_year ][ 'data' ] : array();
-				$model_data[ $next_year ][ 'data' ] = is_array( $model_data[ $next_year ][ 'data' ] ) ? $model_data[ $next_year ][ 'data' ] : array();
+				$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
+				$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
+				$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
 
-				$model_data[ 'data' ] = array_merge( $model_data[ $last_year ][ 'data' ] , $model_data[ $current_year ][ 'data' ] , $model_data[ $next_year ][ 'data' ] );
+				$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
 
 				# It would be cool if there was a better way to do this.
 				$i_can_haz_model = array();
-				foreach( $model_data[ 'data' ] as $key => $value ) {
+				foreach( $model_data as $key => $value ) {
 					$existing_data = array_search( $value->name , $i_can_haz_model );
 					if( $existing_data === false ) {
 						$i_can_haz_model[ $key ] = $value->name;
 					} else {
-						$model_data[ 'data' ][ $existing_data ] = $value;
-						unset( $model_data[ 'data' ][ $key ] );
+						$model_data[ $existing_data ] = $value;
+						unset( $model_data[ $key ] );
 					}
 				}
-				$model_values = $model_data[ 'data' ];
+				$model_values = $model_data;
 				echo '<optgroup label="' . $make . '">';
 				foreach( $model_values as $model ) {
 					$selected = in_array( $model->name , $models ) ? 'selected' : NULL;

@@ -1,8 +1,6 @@
 <?php
 
-if ( class_exists( 'dynamic_site_headers' ) ) {
-	return false;
-}
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 /**
  * This is the primary class for the SEO Helpers.
@@ -85,6 +83,8 @@ class dynamic_site_headers {
 	 * @return void
 	 */
 		function get_headers() {
+
+			$taxonomy = isset( $this->parameters[ 'taxonomy' ] ) ? $this->parameters[ 'taxonomy' ] : 'inventory';
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
 			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false;
 			$make = isset( $this->parameters[ 'make' ] ) ? urlencode( $this->parameters[ 'make' ] ) : 'All';
@@ -95,15 +95,15 @@ class dynamic_site_headers {
 			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
 			$base = $year != false ? $year : $sale_class;
 			if( $year == false ) {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/' . $taxonomy . '/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
 			} else {
-				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/inventory/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
+				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/' . $taxonomy . '/' . $base . '/' . $make . '/' . $model . '/' . $vin . '/' . $city . '/' . $state . '/';
 			}
 
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
-			$request_handler = new http_api_wrapper( $url , 'dynamic_site_headers' );
+			$request_handler = new http_request( $url , 'dynamic_site_headers' );
 			$this->request_stack[] = $url;
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;

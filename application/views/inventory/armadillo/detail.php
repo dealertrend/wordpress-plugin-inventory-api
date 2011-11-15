@@ -142,7 +142,7 @@ function video_popup(url , title) {
 			<tr>
 				<td colspan="1">
 					<label for="loan-calculator-price">Vehicle Price</label>
-					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo trim( money_format( '%(#0n' , $primary_price ) ); ?>" />
+					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="$<?php echo trim( number_format( $primary_price , 2 , '.' , ',' ) ); ?>" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-interest-rate">Interest Rate</label>
@@ -304,7 +304,7 @@ function video_popup(url , title) {
 						$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 					}
 					if( $retail_price > 0 ) {
-						echo '<div class="armadillo-msrp"><span>MSRP:</span> ' . money_format( '%(#0n' , $retail_price ) . '</div>';
+						echo '<div class="armadillo-msrp"><span>MSRP:</span> $' . number_format( $retail_price , 2 , '.' , ',' ) . '</div>';
 					}
 				?>
 				<div><span>Color:</span> <?php echo $exterior_color; ?></div>
@@ -320,23 +320,23 @@ function video_popup(url , title) {
 						if( $use_was_now ) {
 							$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
 							if( $incentive_price > 0 ) {
-								echo '<div class="armadillo-sale-price">Was: ' . money_format( '%(#0n' , $sale_price ) . '</div>';
+								echo '<div class="armadillo-sale-price">Was: $' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 								if( $sale_expire != NULL ) {
 									echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
 								}
 							} else {
-								echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								echo '<div class="' . $price_class . '">Was: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 							}
 							$now_text = 'Now: ';
 						}
 						if( $incentive_price > 0 ) {
 							echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price - $incentive_price ) . '</div>';
+							echo '<div class="armadillo-sale-price">' . $now_text . '$' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 						} else {
 							if( $ais_incentive != NULL ) {
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 							}
-							echo '<div class="armadillo-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+							echo '<div class="armadillo-sale-price">' . $now_text . '$' . number_format( $sale_price , 2 , '.' , ',' ) . '</div>';
 							if( $sale_expire != NULL ) {
 								echo '<div class="armadillo-sale-expires">Sale Expires: ' . $sale_expire  . '</div>';
 							}
@@ -344,14 +344,14 @@ function video_popup(url , title) {
 					} else {
 						if( $asking_price > 0 ) {
 							if( $incentive_price > 0 ) {
-								echo '<div class="armadillo-asking-price">Asking Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								echo '<div class="armadillo-asking-price">Asking Price: ' . '$' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 								echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-								echo '<div class="armadillo-asking-price">Your Price: ' . money_format( '%(#0n' , $asking_price - $incentive_price ) . '</div>';
+								echo '<div class="armadillo-asking-price">Your Price: ' . '$' . number_format( $asking_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 							} else {
 								if( $ais_incentive != NULL ) {
 									echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 								}
-								echo '<div class="armadillo-asking-price">Price: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
+								echo '<div class="armadillo-asking-price">Price: ' . '$' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 							}
 						} else {
 							if( $ais_incentive != NULL ) {
@@ -429,7 +429,7 @@ function video_popup(url , title) {
 				<?php
 					foreach( $inventory->photos as $photo ) {
 						echo '<a class="lightbox" rel="slides" href="' . str_replace( '&' , '&amp;' , $photo->large ) . '" title="' . $company_name . '">';
-						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" height="240" alt="" />';
+						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="300" alt="" />';
 						echo '</a>';
 					}
 				?>

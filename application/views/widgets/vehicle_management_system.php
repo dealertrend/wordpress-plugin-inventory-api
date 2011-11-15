@@ -66,51 +66,47 @@ class vehicle_management_system_widget extends WP_Widget {
 		$float = isset( $instance[ 'float' ] ) ? 'float: ' . $instance[ 'float' ] . ';' : NULL;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] != false ? 'carousel' : false;
 
-		$vehicle_management_system = new vehicle_management_system(
+		$vehicle_management_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_management_system(
 			$this->options[ 'vehicle_management_system' ][ 'host' ],
 			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 		);
 
-		$check_host = $vehicle_management_system->check_host();
-		if( $check_host[ 'status' ] == false ) {
+		$check_host = $vehicle_management_system->check_host()->please();
+		if( $check_host[ 'response' ][ 'code' ] !== 200 ) {
 			echo '<p>Unable to connect to API.</p>';
 			return false;
 		}
 
-		$check_company_id = $vehicle_management_system->check_company_id();
-		if( $check_company_id[ 'status' ] == false ) {
+		$check_company_id = $vehicle_management_system->check_company_id()->please();
+		if( $check_company_id[ 'response' ][ 'code' ] !== 200 ) {
 			echo '<p>Unable to validate company information.</p>';
 			return false;
 		}
 
-		$company_information = $vehicle_management_system->get_company_information();
-		$company_information = $company_information[ 'data' ];
+		$company_information = $vehicle_management_system->get_company_information()->please();
+		$company_information = json_decode( $company_information[ 'body' ] );
 		$state = $company_information->state;
 		$city = $company_information->city;
 
-		$check_inventory = $vehicle_management_system->check_inventory();
+		$check_inventory = $vehicle_management_system->check_inventory()->please();
 
-		if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
+		if( $check_inventory[ 'response' ][ 'code' ] !== 200 ) {
 			echo '<p>Unable to retrieve inventory.</p>';
 			return false;
 		}
 
-		$inventory = $vehicle_management_system->get_inventory(
-			array(
-				'photo_view' => 1,
-				'per_page' => vehicle_management_system_widget::limit,
-				'icons' => $instance[ 'tag' ],
-				'saleclass' => $instance[ 'saleclass' ]
-			)
+		$query = array(
+			'photo_view' => 1,
+			'per_page' => vehicle_management_system_widget::limit,
+			'icons' => $instance[ 'tag' ],
+			'saleclass' => $instance[ 'saleclass' ]
 		);
 
-		if( $inventory === false ) {
-			echo '<p>The inventory feed timed out while trying to display. Please refresh the page. If the feed refuses to return data, then the given parameters may be invalid.</p>';
-			return false;
-		}
+		$inventory = $vehicle_management_system->get_inventory()->please( $query );
+		$inventory = json_decode( $inventory[ 'body' ] );
 
 		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';
-		echo '<div class="vms-before-widget">' . $before_widget . '</div>';
+		echo $before_widget;
 
 		if( ! empty( $title ) ) {
 			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';

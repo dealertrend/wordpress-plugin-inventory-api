@@ -1,8 +1,6 @@
 <?php
 
-if ( class_exists( 'dealetrend_plugin_updater' ) ) { 
-	return false;
-}
+namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 /**
  * This is class is in charge of allowing users to maintain updated version of the plugin via the WordPress dashboard.
@@ -13,7 +11,7 @@ if ( class_exists( 'dealetrend_plugin_updater' ) ) {
  * @package Wordpress
  * @since 3.0.0
  */
-class dealetrend_plugin_updater {
+class Updater {
 
 	public $current_plugin_information = array();
 	public $new_plugin_information = array();
@@ -127,7 +125,7 @@ class dealetrend_plugin_updater {
 		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
 		# This is where we check for new versions.
 		$url = 'http://github.com/api/v2/json/repos/show/dealertrend/wordpress-plugin-inventory-api/tags';
-		$request_handler = new http_api_wrapper( $url , 'dealetrend_plugin_updater' );
+		$request_handler = new http_request( $url , 'dealetrend_plugin_updater' );
 
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
