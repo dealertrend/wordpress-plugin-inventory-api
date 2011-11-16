@@ -124,14 +124,14 @@ class vehicle_reference_system_widget extends WP_Widget {
 		);
 
 		$check_host = $vehicle_reference_system->check_host()->please();
-		if( $check_host[ 'response' ][ 'code' ] !== 200 ) {
+		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to connect to API.</p>';
 			return false;
 		}
 
 		$check_feed = $vehicle_reference_system->check_feed()->please();
 
-		if( $check_feed[ 'response' ][ 'code' ] !== 200 ) {
+		if( $check_feed[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to retrieve feed.</p>';
 			return false;
 		}

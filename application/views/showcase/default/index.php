@@ -29,8 +29,8 @@
 	$type = ( $make == false ) ? 'makes' : ( ( $model == false ) ? 'models' : 'trims' );
 
 	if(
-		( isset( $makes ) && $makes !== false && ! in_array( $make , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ) ||
-		( isset( $models ) && $models !== false && ! in_array( $model , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] ) )
+		( isset( $makes ) && $makes != false && ! in_array( $make , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ) ||
+		( isset( $models ) && $models != false && ! in_array( $model , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] ) )
 	) {
 		status_header( 400 );
 		$type = false;
