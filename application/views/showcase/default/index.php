@@ -26,7 +26,7 @@
 	$model = isset( $parameters[ 'model' ] ) ? urldecode( $parameters[ 'model' ] ) : false;
 	$trim = isset( $parameters[ 'trim' ] ) ? urldecode( $parameters[ 'trim' ] ) : false;
 
-	$type = ( $make === false ) ? 'makes' : ( ( $model === false ) ? 'models' : 'trims' );
+	$type = ( $make == false ) ? 'makes' : ( ( $model == false ) ? 'models' : 'trims' );
 
 	if(
 		( isset( $makes ) && $makes !== false && ! in_array( $make , $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ) ||
@@ -126,7 +126,7 @@ function addCommas(nStr)
 								dealertrend( '#spotlight' ).html('');
 								json.forEach( function( color ) {
 									if( color.rgb != null ) {
-										if( color_history === null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
+										if( color_history == null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
 											color_history += '[' + color.rgb + ']';
 											var image = document.createElement('img');
 											var link = document.createElement('a');
@@ -141,7 +141,7 @@ function addCommas(nStr)
 												return 'IMG=' + b + '.png';
 											});
 											image.id = color.code;
-											if( count === 0 ) {
+											if( count == 0 ) {
 												image.className = 'active';
 												link.className += ' active';
 												var color_text = dealertrend( '#color-text' ).html( 'Color: ' + color.name );

@@ -23,13 +23,13 @@ class vehicle_management_system {
 		$this->tracer = 'Checking API hosting address.';
 		$check_host = $this->check_host()->please();
 		$status = 400;
-		if( isset( $check_host[ 'response' ][ 'code' ] ) && $check_host[ 'response' ][ 'code' ] === 200 ) {
+		if( isset( $check_host[ 'response' ][ 'code' ] ) && $check_host[ 'response' ][ 'code' ] == 200 ) {
 			$this->tracer = 'Validating company information.';
 			$check_company_id = $this->check_company_id()->please();
-			if( $check_company_id[ 'response' ][ 'code' ] === 200 ) {
+			if( $check_company_id[ 'response' ][ 'code' ] == 200 ) {
 				$this->tracer = 'Checking inventory feed.';
 				$check_inventory = $this->check_inventory()->please( $parameters );
-				if( $check_inventory[ 'response' ][ 'code' ] === 200 ) {
+				if( $check_inventory[ 'response' ][ 'code' ] == 200 ) {
 					$inventory_json = json_decode( $check_inventory[ 'body' ] );
 					if( count( $inventory_json ) > 0 ) {
 						$status = 200;

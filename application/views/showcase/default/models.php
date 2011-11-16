@@ -1,7 +1,7 @@
 <?php
 
 	function sort_models( $a , $b ) {
-		if( $a->classification === $b->classification ) {
+		if( $a->classification == $b->classification ) {
 			if( $a->name > $b->name ) {
 				return +1;
 			} else {

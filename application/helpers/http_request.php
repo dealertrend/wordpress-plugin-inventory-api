@@ -45,7 +45,7 @@ class http_request {
 			error_log( 'Requested file: ' . $this->url . ' , Response Time: ' . $response_time , 0 );
 		}
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
-			if( $sanitize === true ) {
+			if( $sanitize == true ) {
 				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
 			}
 			return $response;

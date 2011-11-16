@@ -173,7 +173,7 @@
 					<li class="armadillo-expanded">
 						<span>Price</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from === "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
+							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from == "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>" <?php echo $price_from == 10001 ? 'class="active"' : NULL; ?>>$10,001 - $20,000</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>" <?php echo $price_from == 20001 ? 'class="active"' : NULL; ?>>$20,001 - $30,000</a></li>
 							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>" <?php echo $price_from == 30001 ? 'class="active"' : NULL; ?>>$30,001 - $40,000</a></li>

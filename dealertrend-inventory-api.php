@@ -8,6 +8,7 @@
  * Version: 3.12.0
  * License: GPLv2 or later
  */
+
 namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
@@ -118,7 +119,7 @@ class Plugin {
 		foreach( $defaults as $key => $value ) {
 			if( is_array( $value ) ) {
 				$this->validate_options( &$options[ $key ] , &$value , &$modified );
-			} elseif( !isset( $options[ $key ] ) || $options[ $key ] === NULL ) {
+			} elseif( !isset( $options[ $key ] ) || $options[ $key ] == NULL ) {
 				$options[ $key ] = $defaults[ $key ];
 				$modified = true;
 			}
@@ -322,7 +323,7 @@ class Plugin {
 				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 				$company_information = $vehicle_management_system->get_company_information()->please();
 
-				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
 					$data = json_decode( $company_information[ 'body' ] );
 					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
 					$dynamic_site_headers = new dynamic_site_headers(
@@ -356,7 +357,7 @@ class Plugin {
 				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 				$company_information = $vehicle_management_system->get_company_information()->please();
 
-				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] === 200 ) {
+				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
 					$data = json_decode( $company_information[ 'body' ] );
 					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
 					$dynamic_site_headers = new dynamic_site_headers(
