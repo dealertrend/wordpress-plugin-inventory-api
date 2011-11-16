@@ -48,7 +48,7 @@
 	echo '<div class="items">';
 	foreach( $models as $model ) {
 		if( in_array( $model->name , $selected_models ) ) {
-			if( $model->name != $previous_name && $model->image_urls->small !== NULL ) {
+			if( $model->name != $previous_name && $model->image_urls->small != NULL ) {
 				$previous_name = $model->name;
 				if( $model->classification != $previous_classification) {
 					$previous_classification = $model->classification;

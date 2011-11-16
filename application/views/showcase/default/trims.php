@@ -116,7 +116,7 @@
 					<div id="msrp"><?php echo $trim->msrp; ?></div>
 				</div>
 				<?php
-					if( $fuel_economy !== false ) {
+					if( $fuel_economy != false ) {
 				?>
 				<div id="fuel">
 					<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_mpg; ?></div></div>

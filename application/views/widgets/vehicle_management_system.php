@@ -72,13 +72,13 @@ class vehicle_management_system_widget extends WP_Widget {
 		);
 
 		$check_host = $vehicle_management_system->check_host()->please();
-		if( $check_host[ 'response' ][ 'code' ] !== 200 ) {
+		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to connect to API.</p>';
 			return false;
 		}
 
 		$check_company_id = $vehicle_management_system->check_company_id()->please();
-		if( $check_company_id[ 'response' ][ 'code' ] !== 200 ) {
+		if( $check_company_id[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to validate company information.</p>';
 			return false;
 		}
@@ -90,7 +90,7 @@ class vehicle_management_system_widget extends WP_Widget {
 
 		$check_inventory = $vehicle_management_system->check_inventory()->please();
 
-		if( $check_inventory[ 'response' ][ 'code' ] !== 200 ) {
+		if( $check_inventory[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to retrieve inventory.</p>';
 			return false;
 		}
