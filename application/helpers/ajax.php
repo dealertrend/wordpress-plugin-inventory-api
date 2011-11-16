@@ -29,7 +29,7 @@ class ajax {
 		$trim = isset( $parameters[ 'trim' ] ) ? urldecode( $parameters[ 'trim' ] ) : false;
 		$acode = isset( $parameters[ 'acode' ] ) ? urldecode( $parameters[ 'acode' ] ) : false;
 		$mode = isset( $parameters[ 'mode' ] ) ? urldecode( $parameters[ 'mode' ] ) : 'default';
-		$type = ( $make === false ) ? 'makes' : ( ( $model === false ) ? 'models' : 'trims' );
+		$type = ( $make == false ) ? 'makes' : ( ( $model == false ) ? 'models' : 'trims' );
 
 		$current_year = date( 'Y' );
 		$last_year = $current_year - 1;
@@ -38,8 +38,8 @@ class ajax {
 		if( $meta == 'showcase' ) {
 			$json = array();
 			$vehicle_reference_system = new vehicle_reference_system( $instance->options[ 'vehicle_reference_system' ][ 'host' ] );
-			if( $type === 'trims' ) {
-				if( $mode === 'default' ) {
+			if( $type == 'trims' ) {
+				if( $mode == 'default' ) {
 					$trim_data[ $last_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $last_year , 'api' => 2 ) );
 					$trim_data[ $last_year ] = isset( $trim_data[ $last_year ][ 'body' ] ) ? json_decode( $trim_data[ $last_year ][ 'body' ] ) : NULL; 
 					$trim_data[ $current_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $current_year , 'api' => 2 ) );
@@ -55,27 +55,27 @@ class ajax {
 					$trim = str_replace( '_' , '/' , $trim );
 
 					foreach( $trims as $trim_data ) {
-						if( $trim_data->name_variation === $trim ) {
+						if( $trim_data->name_variation == $trim ) {
 							$json[] = $trim_data;
 						}
 					}
-				} elseif( $mode === 'fuel_economy' ) {
+				} elseif( $mode == 'fuel_economy' ) {
 					$data = $vehicle_reference_system->get_fuel_economy( $acode )->please();
 					$json = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : NULL;
 					usort( $json , array( &$this , 'sort_fuel_economies' ) );
-				} elseif( $mode === 'colors' ) {
+				} elseif( $mode == 'colors' ) {
 					$colors = $vehicle_reference_system->get_colors( $acode )->please();
 					$colors = isset( $colors[ 'body' ] ) ? json_decode( $colors[ 'body' ] ) : NULL;
 					foreach( $colors as $color ) {
-						if( isset( $color->file ) && $color->file != NULL && $color->type === 'Pri' ) {
+						if( isset( $color->file ) && $color->file != NULL && $color->type == 'Pri' ) {
 							$json[] = $color;
 						}
 					}
-				} elseif( $mode === 'equipment' ) {
-				} elseif( $mode === 'photos' ) {
+				} elseif( $mode == 'equipment' ) {
+				} elseif( $mode == 'photos' ) {
 					$data = $vehicle_reference_system->get_photos( $acode )->please( array( 'type' => 'oem_exterior_standard' ) );
 					$json = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : array();
-				} elseif( $mode === 'reviews' ) {
+				} elseif( $mode == 'reviews' ) {
 					$data = $vehicle_reference_system->get_reviews( $acode )->please();
 					$json = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : array();
 					foreach( $json as $key => $value ) {

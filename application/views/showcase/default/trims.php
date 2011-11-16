@@ -11,7 +11,7 @@
 			if( $a->year == $b->year && $a->msrp > $b->msrp ) {
 				return 1;
 			}
-			if( $a->image_filename === NULL ) {
+			if( $a->image_filename == NULL ) {
 				return 1;
 			}
 			return -1;
@@ -95,13 +95,13 @@
 						$active = true;
 						$count = 0;
 						foreach( $colors as $color ) {
-							if( isset( $color->image_urls ) && $color->type === 'Pri' ) {
+							if( isset( $color->image_urls ) && $color->type == 'Pri' ) {
 								$count++;
-								( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
+								( $active == false ) ? $class = NULL : $class = 'active'; $active = false;
 								echo '<img id="' . $color->code . '" src="' . make_transparent( $color->image_urls->medium ) . '" class="' . $class . '" />';
 							}
 						}
-						if( $count === 0 ) {
+						if( $count == 0 ) {
 							echo '<img src="' . make_transparent( $trim->images->medium ) . '" class="active" />';
 						}
 					?>
@@ -142,14 +142,14 @@
 						foreach( $colors as $color ) {
 							if( ! empty( $color->file ) ) {
 								if( ! in_array( $color->rgb , $colors ) ) {
-									$type = $color->type === 'Pri' ? 'Exterior' : 'Interior';
-									if( $type === 'Exterior' ) {
+									$type = $color->type == 'Pri' ? 'Exterior' : 'Interior';
+									if( $type == 'Exterior' ) {
 										$colors[] = $color->rgb;
-										if( $default_set === false ) {
+										if( $default_set == false ) {
 											echo '<div id="color-text">Color: ' . $color->name . '</div>';
 											$default_set = true;
 										}
-										( $active === false ) ? $class = NULL : $class = 'active'; $active = false;
+										( $active == false ) ? $class = NULL : $class = 'active'; $active = false;
 										echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
 										echo $color->name . '</a>';
 									}
@@ -174,7 +174,7 @@
 		<div id="overview" style="overflow:hidden;">
 			<?php
 				$videos = $vehicle_reference_system->get_videos( $trim->acode )->please();
-				if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] === 200 ) {
+				if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] == 200 ) {
 					$videos = json_decode( $videos[ 'body' ] );
 					if( $videos != false ) {
 						echo '<div id="video" style="float:right;border:3px double #333;">';
@@ -188,7 +188,7 @@
 				if( count( $reviews ) > 0 ) {
 					foreach( $reviews as $review ) {
 						foreach( $review->titles as $title_object ) {
-							if( $title_object->title === 'LIKED_MOST' ) {
+							if( $title_object->title == 'LIKED_MOST' ) {
 								$options[] = $title_object->id;
 							}
 						}
@@ -305,7 +305,7 @@
 							foreach( $trim_acodes as $acode ) {
 								echo '<td>';
 								foreach( $equipment[ $acode ] as $item ) {
-									if( $item->name === 'Transmission' ) {
+									if( $item->name == 'Transmission' ) {
 										echo '<div>' . $item->data . '</div>';
 									}
 								}
@@ -317,7 +317,7 @@
 						<th>MSRP</th>
 						<?php
 							foreach( $trim_acodes as $acode ) {
-								$trim_acode_data[ $acode ]->msrp = strpos( $trim_acode_data[ $acode ]->msrp , '$' ) === false ? '$' . number_format( $trim_acode_data[ $acode ]->msrp , 0 , '.' , ',' ) : $trim_acode_data[ $acode ]->msrp; 
+								$trim_acode_data[ $acode ]->msrp = strpos( $trim_acode_data[ $acode ]->msrp , '$' ) == false ? '$' . number_format( $trim_acode_data[ $acode ]->msrp , 0 , '.' , ',' ) : $trim_acode_data[ $acode ]->msrp; 
 								echo '<td>' . $trim_acode_data[ $acode ]->msrp . '</td>';
 							}
 						?>
@@ -328,7 +328,7 @@
 							foreach( $trim_acodes as $acode ) {
 								echo '<td>';
 								foreach( $equipment[ $acode ] as $item ) {
-									if( $item->name === 'Engine displacement' ) {
+									if( $item->name == 'Engine displacement' ) {
 										echo ' <div>' . $item->data . '</div> ';
 									}
 								}
@@ -341,9 +341,9 @@
 						<?php
 							foreach( $trim_acodes as $acode ) {
 								foreach( $equipment[ $acode ] as $item ) {
-									if( $item->name === 'Fuel economy city' ) {
+									if( $item->name == 'Fuel economy city' ) {
 										echo '<td>CTY: ' . $item->data;
-									} elseif( $item->name === 'Fuel economy highway' ) {
+									} elseif( $item->name == 'Fuel economy highway' ) {
 										echo ' HWY:' . $item->data . '</td>';
 									}
 								}

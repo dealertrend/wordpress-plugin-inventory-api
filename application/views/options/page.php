@@ -94,7 +94,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 							$check_inventory = $vehicle_management_system->check_inventory()->please();
 							$stop = timer_stop();
 							$response_code = isset( $check_inventory[ 'response' ][ 'code' ] ) ? $check_inventory[ 'response' ][ 'code' ] : false;
-							if( $response_code === 200 ) {
+							if( $response_code == 200 ) {
 								echo '<span class="success">Loaded</span>';
 							} else {
 								echo '<span class="fail">Unavailable</span>';
@@ -116,12 +116,13 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 				<td width="125">Feed Status:</td>
 				<td>
 					<?php
+						$response_code = false;
 						if( ! empty( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) ) {
 							$start = timer_stop();
 							$check_feed = $vehicle_reference_system->check_feed()->please();
 							$response_code = isset( $check_feed[ 'response' ][ 'code' ] ) ? $check_feed[ 'response' ][ 'code' ] : false;
 							$stop = timer_stop();
-							if( $response_code === 200 ) {
+							if( $response_code == 200 ) {
 								echo '<span class="success">Loaded</span>';
 							} else {
 								echo '<span class="fail">Unavailable</span>';
@@ -136,7 +137,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 				</td>
 			</tr>
 			<?php
-				if( isset( $response_code ) && $response_code === 200 ) {
+				if( isset( $response_code ) && $response_code == 200 ) {
 					echo '<form method="post" action="#">';
 					$makes = isset( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) ? $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] : array();
 					$models = isset( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] ) ? $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] : array();
@@ -158,7 +159,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					$i_can_haz_make = array();
 					foreach( $make_data as $key => $value ) {
 						$existing_data = array_search( $value->name , $i_can_haz_make );
-						if( $existing_data === false ) {
+						if( $existing_data == false ) {
 							$i_can_haz_make[ $key ] = $value->name;
 						} else {
 							$make_data[ $existing_data ] = $value;
@@ -198,7 +199,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 							$i_can_haz_model = array();
 							foreach( $model_data as $key => $value ) {
 								$existing_data = array_search( $value->name , $i_can_haz_model );
-								if( $existing_data === false ) {
+								if( $existing_data == false ) {
 									$i_can_haz_model[ $key ] = $value->name;
 								} else {
 									$model_data[ $existing_data ] = $value;
@@ -232,12 +233,12 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					<?php
 						if( $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] != 0 ) {
 							$response_code = isset( $check_vms_host[ 'response' ][ 'code' ] ) ? $check_vms_host[ 'response' ][ 'code' ] : false;
-							if( $response_code === 200 ) {
+							if( $response_code == 200 ) {
 								$start = timer_stop();
 								$check_company = $vehicle_management_system->check_company_id()->please();
 								$response_code = isset( $check_company[ 'response' ][ 'code' ] ) ? $check_company[ 'response' ][ 'code' ] : false;
 								$stop = timer_stop();
-								if( $response_code === 200 ) {
+								if( $response_code == 200 ) {
 									echo '<span class="success">Loaded</span>';
 									} else {
 									echo '<span class="fail">Unavailable</span>';
@@ -254,7 +255,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					?>
 				</td>
 			</tr>
-			<?php if( isset( $check_company ) && $check_company[ 'response' ][ 'code' ] === 200 ): ?>
+			<?php if( isset( $check_company ) && $check_company[ 'response' ][ 'code' ] == 200 ): ?>
 			<?php
 				$company_information = $vehicle_management_system->get_company_information()->please();
 				$company_information = json_decode( $company_information[ 'body' ] );

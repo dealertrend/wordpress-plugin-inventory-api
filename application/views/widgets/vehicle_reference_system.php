@@ -173,7 +173,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$i_can_haz_model = array();
 			foreach( $model_data as $key => $value ) {
 				$existing_data = array_search( $value->name , $i_can_haz_model );
-				if( $existing_data === false ) {
+				if( $existing_data == false ) {
 					$i_can_haz_model[ $key ] = $value->name;
 				} else {
 					$model_data[ $existing_data ] = $value;
@@ -274,7 +274,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$i_can_haz_make = array();
 		foreach( $make_data as $key => $value ) {
 			$existing_data = array_search( $value->name , $i_can_haz_make );
-			if( $existing_data === false ) {
+			if( $existing_data == false ) {
 				$i_can_haz_make[ $key ] = $value->name;
 			} else {
 				$make_data[ $existing_data ] = $value;
@@ -316,7 +316,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 				$i_can_haz_model = array();
 				foreach( $model_data as $key => $value ) {
 					$existing_data = array_search( $value->name , $i_can_haz_model );
-					if( $existing_data === false ) {
+					if( $existing_data == false ) {
 						$i_can_haz_model[ $key ] = $value->name;
 					} else {
 						$model_data[ $existing_data ] = $value;
