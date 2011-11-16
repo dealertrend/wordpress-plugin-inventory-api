@@ -5,7 +5,7 @@
  * Author: DealerTrend, Inc.
  * Author URI: http://www.dealertrend.com
  * Description: Provides access to the Vehicle Management System and Vehicle Reference System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
- * Version: 3.12.1
+ * Version: 3.12.2
  * License: GPLv2 or later
  */
 
@@ -334,7 +334,7 @@ class Plugin {
 				}
 
 				if( $handle = opendir( $theme_path ) ) {
-					while( false !== ( $file = readdir( $handle ) ) ) {
+					while( false != ( $file = readdir( $handle ) ) ) {
 						if( $file == 'index.php' ) {
 							include_once( $theme_path . '/index.php' );
 						}
@@ -376,7 +376,7 @@ class Plugin {
 				);
 
 				if( $handle = opendir( $theme_path ) ) {
-					while( false !== ( $file = readdir( $handle ) ) ) {
+					while( false != ( $file = readdir( $handle ) ) ) {
 						if( $file == 'index.php' ) {
 							include_once( $theme_path . '/index.php' );
 						}
