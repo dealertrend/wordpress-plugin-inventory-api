@@ -280,36 +280,40 @@ class Plugin {
 	}
 
 	function create_taxonomies() {
-		$labels = array(
-			'name' => _x( 'Inventory' , 'taxonomy general name' ),
-			'menu_name' => __( 'Inventory' )
-		);
-		register_taxonomy(
-			'inventory',
-			array( 'page' ),
-			array(
-				'hierarchical' => false,
-				'labels' => $labels,
-				'show_ui' => false,
-				'query_var' => true,
-				'rewrite' => array( 'slug' => 'inventory' )
-			)
-		);
-		$labels = array(
-			'name' => _x( 'Showcase' , 'taxonomy general name' ),
-			'menu_name' => __( 'Showcase' )
-		);
-		register_taxonomy(
-			'showcase',
-			array( 'page' ),
-			array(
-				'hierarchical' => false,
-				'labels' => $labels,
-				'show_ui' => false,
-				'query_var' => true,
-				'rewrite' => array( 'slug' => 'showcase' )
-			)
-		);
+		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
+			$labels = array(
+				'name' => _x( 'Inventory' , 'taxonomy general name' ),
+				'menu_name' => __( 'Inventory' )
+			);
+			register_taxonomy(
+				'inventory',
+				array( 'page' ),
+				array(
+					'hierarchical' => false,
+					'labels' => $labels,
+					'show_ui' => false,
+					'query_var' => true,
+					'rewrite' => array( 'slug' => 'inventory' )
+				)
+			);
+		}
+		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+			$labels = array(
+				'name' => _x( 'Showcase' , 'taxonomy general name' ),
+				'menu_name' => __( 'Showcase' )
+			);
+			register_taxonomy(
+				'showcase',
+				array( 'page' ),
+				array(
+					'hierarchical' => false,
+					'labels' => $labels,
+					'show_ui' => false,
+					'query_var' => true,
+					'rewrite' => array( 'slug' => 'showcase' )
+				)
+			);
+		}
 		$labels = array(
 			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' )
 		);
