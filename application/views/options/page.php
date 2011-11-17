@@ -41,7 +41,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 	}
 
-	$inventory_link = !empty( $wp_rewrite->rules ) ? '/inventory/' : '?taxonomy=inventory';
+	$inventory_link = ! empty( $wp_rewrite->rules ) ? '/inventory/' : '?taxonomy=inventory';
 	$site_link = '<span style="white-space:nowrap;"><a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a></span>';
 
 	$vehicle_management_system = new vehicle_management_system(
@@ -437,7 +437,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 		<p>After you've received a valid VMS and Company ID, you'll need to go to the <a id="settings-link" href="#settings" title="DealerTrend API Settings">settings page</a> and fill in their respective fields. Once you click "Save Changes" it will start pulling in your Inventory and Company Feeds.</p>
 		<h3 class="title">Viewing Inventory</h3>
 		<?php
-			if( isset( $check_inventory ) && $check_inventory[ 'status' ] == false ) {
+			if( isset( $check_inventory[ 'status' ] ) && $check_inventory[ 'status' ] == false ) {
 				echo '<div class="ui-widget"><div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"><p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span><strong>Alert:</strong> Inventory is not working. Please check your settings.</p></div></div>';
 			}
 		?>
