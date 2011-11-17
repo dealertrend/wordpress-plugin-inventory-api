@@ -245,7 +245,7 @@ class Plugin {
 
 	function add_plugin_links( $links ) {
 		$settings_link = '<a href="admin.php?page=dealertrend_inventory_api#settings">Settings</a>';
-		$readme_link = '<a href="admin.php?page=dealertrend_inventory_api#help">Documentation</a>';
+		$readme_link = '<a href="admin.php?page=dealertrend_inventory_api#help">Help</a>';
 		array_unshift( $links , $settings_link );
 		array_unshift( $links , $readme_link );
 
