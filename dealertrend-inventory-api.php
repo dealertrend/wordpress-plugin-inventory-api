@@ -262,8 +262,12 @@ class Plugin {
 
 	function add_rewrite_rules( $existing_rules ) {
 		$new_rules = array();
-		$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
-		$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
+		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
+			$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+		}
+		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+			$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
+		}
 		$new_rules[ '^(dealertrend-ajax)' ] = 'index.php?taxonomy=dealertrend-ajax';
 
 		return $new_rules + $existing_rules;
@@ -334,90 +338,94 @@ class Plugin {
 		switch( $this->taxonomy ) {
 
 			case 'inventory':
-				$this->fix_bad_wordpress_assumption();
+				if( $this->options[ 'vehicle_management_system' ][ 'host' ] ) {	
+					$this->fix_bad_wordpress_assumption();
 
-				$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
-				$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
-				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+					$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
+					$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
+					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 
-				add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
-				add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
+					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
+					add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 
-				$vehicle_management_system = new vehicle_management_system(
-					$this->options[ 'vehicle_management_system' ][ 'host' ],
-					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-				);
-
-				$status = $vehicle_management_system->set_headers( $this->parameters );
-
-				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
-				$company_information = $vehicle_management_system->get_company_information()->please();
-
-				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-					$data = json_decode( $company_information[ 'body' ] );
-					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
-					$dynamic_site_headers = new dynamic_site_headers(
+					$vehicle_management_system = new vehicle_management_system(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
-						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-						(array) $this->parameters + (array) $seo_hack
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 					);
-				}
 
-				if( $handle = opendir( $theme_path ) ) {
-					while( false != ( $file = readdir( $handle ) ) ) {
-						if( $file == 'index.php' ) {
-							include_once( $theme_path . '/index.php' );
-						}
+					$status = $vehicle_management_system->set_headers( $this->parameters );
+
+					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
+					$company_information = $vehicle_management_system->get_company_information()->please();
+
+					if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
+						$data = json_decode( $company_information[ 'body' ] );
+						$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state , 'country_code' => $data->country_code );
+						$dynamic_site_headers = new dynamic_site_headers(
+							$this->options[ 'vehicle_management_system' ][ 'host' ],
+							$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+							(array) $this->parameters + (array) $seo_hack
+						);
 					}
-					closedir( $handle );
-				} else {
-					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
-					return false;
-				}
 
-				$this->stop_wordpress();
+					if( $handle = opendir( $theme_path ) ) {
+						while( false != ( $file = readdir( $handle ) ) ) {
+							if( $file == 'index.php' ) {
+								include_once( $theme_path . '/index.php' );
+							}
+						}
+						closedir( $handle );
+					} else {
+						echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+						return false;
+					}
+
+					$this->stop_wordpress();
+				}
 			break;
 			case 'showcase':
-				$this->fix_bad_wordpress_assumption();
+				if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+					$this->fix_bad_wordpress_assumption();
 
-				$vehicle_management_system = new vehicle_management_system(
-					$this->options[ 'vehicle_management_system' ][ 'host' ],
-					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-				);
-				$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
-				$company_information = $vehicle_management_system->get_company_information()->please();
-
-				if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-					$data = json_decode( $company_information[ 'body' ] );
-					$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
-					$dynamic_site_headers = new dynamic_site_headers(
+					$vehicle_management_system = new vehicle_management_system(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
-						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-						(array) $this->parameters + (array) $seo_hack
+						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 					);
-				}
+					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
+					$company_information = $vehicle_management_system->get_company_information()->please();
 
-				$current_theme = 'default';
-				$theme_folder = 'showcase';
-				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
-
-				$vehicle_reference_system = new vehicle_reference_system(
-					$this->options[ 'vehicle_reference_system' ][ 'host' ]
-				);
-
-				if( $handle = opendir( $theme_path ) ) {
-					while( false != ( $file = readdir( $handle ) ) ) {
-						if( $file == 'index.php' ) {
-							include_once( $theme_path . '/index.php' );
-						}
+					if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
+						$data = json_decode( $company_information[ 'body' ] );
+						$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
+						$dynamic_site_headers = new dynamic_site_headers(
+							$this->options[ 'vehicle_management_system' ][ 'host' ],
+							$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+							(array) $this->parameters + (array) $seo_hack
+						);
 					}
-					closedir( $handle );
-				} else {
-					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
-					return false;
-				}
 
-				$this->stop_wordpress();
+					$current_theme = 'default';
+					$theme_folder = 'showcase';
+					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
+					$vehicle_reference_system = new vehicle_reference_system(
+						$this->options[ 'vehicle_reference_system' ][ 'host' ]
+					);
+
+					if( $handle = opendir( $theme_path ) ) {
+						while( false != ( $file = readdir( $handle ) ) ) {
+							if( $file == 'index.php' ) {
+								include_once( $theme_path . '/index.php' );
+							}
+						}
+						closedir( $handle );
+					} else {
+						echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+						return false;
+					}
+
+					$this->stop_wordpress();
+				}
 			break;
 			case 'dealertrend-ajax':
 				$this->fix_bad_wordpress_assumption();
