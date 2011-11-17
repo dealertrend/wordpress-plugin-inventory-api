@@ -416,11 +416,6 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 			</table>
 			<table>
 				<tr>
-					<td colspan="2"><h3 class="title">Plugin Settings</h3></td>
-				</tr>
-			</table>
-			<table>
-				<tr>
 					<td>
 						<input type="hidden" name="action" value="update" />
 						<p class="submit">
