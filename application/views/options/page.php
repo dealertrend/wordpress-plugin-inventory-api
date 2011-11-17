@@ -30,7 +30,6 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ] : 0;
 				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
-				$dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] = isset( $_POST[ 'debug' ][ 'logging' ] ) ? $_POST[ 'debug' ][ 'logging' ] : false;
 			} elseif( isset( $_POST[ 'theme' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
@@ -329,7 +328,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					</td>
 				</tr>
 				<tr>
-					<td width="125"><label for="debug">jQuery UI Theme:</a></td>
+					<td width="125"><label for="jquery-ui-theme">jQuery UI Theme:</a></td>
 					<td>
 						<select id="jquery-ui-theme" name="jquery[ui][theme]">
 						<?php
@@ -418,12 +417,6 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 			<table>
 				<tr>
 					<td colspan="2"><h3 class="title">Plugin Settings</h3></td>
-				</tr>
-				<tr>
-					<td width="125"><label for="debug">Debug Mode:</a></td>
-					<td>
-						<input type="checkbox" name="debug[logging]" id="debug" value="true" <?php echo $dealertrend_inventory_api->options[ 'debug' ][ 'logging' ] == true ? 'checked="checked"' : NULL ?> />
-					</td>
 				</tr>
 			</table>
 			<table>

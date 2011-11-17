@@ -45,9 +45,6 @@ class Plugin {
 				'models' => array()
 			)
 		),
-		'debug' => array(
-			'logging' => false
-		),
 		'jquery' => array(
 			'ui' => array(
 				'theme' => 'smoothness'

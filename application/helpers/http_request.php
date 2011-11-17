@@ -19,14 +19,11 @@ class http_request {
 		)
 	);
 
-	private $debug = false;
-
 	function __construct( $url , $group ) {
 		global $wp , $wp_version , $dealertrend_inventory_api;
 		$this->url = $url;
 		$this->group = $group;
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
-		$this->debug = $plugin_options[ 'debug' ][ 'logging' ];
 		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . '/' . $wp->request;
 		$this->request_parameters[ 'headers' ][ 'X-WordPress-Version' ] = $wp_version;
 		$this->request_parameters[ 'headers' ][ 'X-Plugin-Version' ] = $dealertrend_inventory_api->plugin_information[ 'Version' ];
@@ -41,9 +38,6 @@ class http_request {
 		$response = wp_remote_request( $this->url , $this->request_parameters );
 		$stop = timer_stop();
 		$response_time = $stop - $start;
-		if( $this->debug == true ) {
-			error_log( 'Requested file: ' . $this->url . ' , Response Time: ' . $response_time , 0 );
-		}
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
 			if( $sanitize == true ) {
 				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
@@ -53,15 +47,9 @@ class http_request {
 			if( is_wp_error( $response) ) {
 				$error_message = $response->get_error_message();
 				$error_code = $response->get_error_message();
-				if( $this->debug == true ) {
-					error_log( get_bloginfo( 'url' ) . ' , WP Error: ' . $error_message , 0 );
-				}
 			} else {
 				$error_code = wp_remote_retrieve_response_code( $response );
 				$error_message = wp_remote_retrieve_response_message( $response );
-				if( $this->debug == true ) {
-					error_log( get_bloginfo( 'url' ) . ' , HTTP Error: ' . $error_message , 0 );
-				}
 			}
 			$error_array = array( 'code' => $error_code , 'message' => $error_message );
 			return $error_array;
