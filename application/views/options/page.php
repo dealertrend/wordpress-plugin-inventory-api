@@ -28,7 +28,13 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'models' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'models' ] : array();
 			} elseif( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'host' ] = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
-				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ] : 0;
+				if(
+					isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ] ) && 
+					isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) &&
+					$_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] != NULL
+				) {
+					$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
+				}
 				$dealertrend_inventory_api->options[ 'vehicle_reference_system' ][ 'host' ] = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
 			} elseif( isset( $_POST[ 'theme' ] ) ) {
 				$dealertrend_inventory_api->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
@@ -71,7 +77,7 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 <div id="icon-dealertrend" class="icon32"><br /></div>
 <h2><?php echo $this->plugin_information[ 'Name' ]; ?></h2>
 <?php flush(); ?>
-<div id="option-tabs" style="clear:both;">
+<div id="option-tabs" style="clear:both; margin-right:20px;">
 	<ul>
 		<li><a href="#feeds">Feeds</a></li>
 		<li><a href="#themes">Themes</a></li>
@@ -97,7 +103,11 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 								echo '<span class="success">Loaded</span>';
 							} else {
 								echo '<span class="fail">Unavailable</span>';
-								echo '<br/><small>Returned Message: ' . $check_inventory[ 'message' ] . '</small>';
+								echo '<br /><small>Returned Message: ' . $check_inventory[ 'message' ] . '</small>';
+								if( $check_inventory[ 'message' ] == 'Forbidden' ) {
+									echo '<br /><small style="color: red; font-weight:bold;">Check your <a id="settings-link" href="#settings" title="DealerTrend API Settings">Company ID</a>.';
+									echo '<br />Your current Company ID is "' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '" and appears to not exist or be suspended.</small>';
+								}
 							}
 							$time = $stop - $start;
 							echo '</td></tr><tr><td>&nbsp;</td><td><small>Response time: ' . $time . ' seconds</small></td>';
@@ -135,6 +145,8 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 					?>
 				</td>
 			</tr>
+		<table>
+		<table width="450">
 			<?php
 				if( isset( $response_code ) && $response_code == 200 ) {
 					echo '<form method="post" action="#">';
@@ -168,7 +180,10 @@ namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
 					$make_values = $make_data;
 
-					echo '<tr><td><label for="makes">Makes: </label></td>';
+					echo '<tr>';
+					echo '<td colspan="2"><h3 class="title">Showcase</h3></td>';
+					echo '</tr>';
+					echo '<tr><td width="125"><label for="makes">Makes: </label></td>';
 					echo '<td><select id="makes" name="vehicle_reference_system[makes][]" class="vrs-makes" size="4" multiple="multiple">';
 					foreach( $make_values as $make ) {
 						$selected = in_array( $make->name , $makes ) ? 'selected' : NULL;
