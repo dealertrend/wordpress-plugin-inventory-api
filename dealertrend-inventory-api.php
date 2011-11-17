@@ -62,6 +62,7 @@ class Plugin {
 
 	function __construct() {
 		$this->load_plugin_information();
+		$this->queue_registrations();
 		$this->check_for_updates();
 		$this->load_options();
 		$this->load_widgets();
@@ -71,6 +72,7 @@ class Plugin {
 	}
 
 	function load_plugin_information() {
+
 		$data = array();
 
 		$file_headers = array (
@@ -90,6 +92,74 @@ class Plugin {
 
 		$this->plugin_information = $data;
 	}
+
+	function queue_registrations() {
+		add_action( 'init' , array( &$this , 'register_assets' ) );
+	}
+
+	function register_assets() {
+			$current_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'theme' ];
+			wp_register_style(
+				$current_jquery_ui_theme,
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $current_jquery_ui_theme . '/jquery-ui.css',
+				false,
+				'1.8.11'
+			);
+			wp_register_style(
+				'dealertrend-inventory-api-admin',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css',
+				array( $current_jquery_ui_theme , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
+				$this->plugin_information[ 'Version' ]
+			);
+			wp_register_style(
+				'jquery-ui-multiselect',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
+				array( $current_jquery_ui_theme ),
+				'1.10'
+			);
+			wp_register_style(
+				'jquery-ui-multiselect-filter',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
+				array( 'jquery-ui-multiselect' ),
+				'1.10'
+			);
+
+			wp_register_script(
+				'jquery-ui-multiselect',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.min.js',
+				array( 'jquery' ),
+				'1.10',
+				true
+			);
+			wp_register_script(
+				'jquery-ui-multiselect-filter',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
+				array( 'jquery' , 'jquery-ui-multiselect' ),
+				'1.10',
+				true
+			);
+			wp_register_script(
+				'dealertrend-inventory-api-admin' ,
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js',
+				array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+			wp_register_script(
+				'jquery-cookie',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js',
+				array( 'jquery' ),
+				'1.0',
+				true
+			);
+			wp_register_script(
+				'dealertrend_inventory_api_traffic_source',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/traffic-sources.js',
+				array( 'jquery-cookie' ),
+				$this->plugin_information[ 'Version' ],
+				true
+			);
+		}
 
 	function check_for_updates() {
 		add_action( 'admin_init' , array( &$this , 'instantiate_updater' ) );
@@ -172,21 +242,8 @@ class Plugin {
 		);
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
-			wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
-			wp_enqueue_style( 'dealertrend-inventory-api-admin' , $this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css' , false , $this->plugin_information[ 'Version' ] );
+			wp_enqueue_style( 'dealertrend-inventory-api-admin' );
 		}
-    wp_enqueue_style(
-      'jquery-ui-multiselect',
-      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
-      false,
-      '1.10'
-    );
-    wp_enqueue_style(
-      'jquery-ui-multiselect-filter',
-      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
-      false,
-      '1.10'
-    );
 	}
 
 	function add_plugin_links( $links ) {
@@ -203,30 +260,7 @@ class Plugin {
 	}
 
 	function admin_scripts() {
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-tabs' );
-		wp_enqueue_script( 'jquery-ui-dialog' );
-    wp_enqueue_script(
-      'jquery-ui-multiselect',
-      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.min.js',
-      array( 'jquery' ),
-      '1.10',
-      true
-    );
-    wp_enqueue_script(
-      'jquery-ui-multiselect-filter',
-      $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
-      array( 'jquery' , 'jquery-ui-multiselect' ),
-      '1.10',
-      true
-    );
-		wp_enqueue_script(
-			'dealertrend-inventory-api-admin' ,
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js' , array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
+		wp_enqueue_script( 'dealertrend-inventory-api-admin' );
 	}
 
 	function add_rewrite_rules( $existing_rules ) {
@@ -253,7 +287,7 @@ class Plugin {
 			'inventory',
 			array( 'page' ),
 			array(
-				'hierarchical' => true,
+				'hierarchical' => false,
 				'labels' => $labels,
 				'show_ui' => false,
 				'query_var' => true,
@@ -268,7 +302,7 @@ class Plugin {
 			'showcase',
 			array( 'page' ),
 			array(
-				'hierarchical' => true,
+				'hierarchical' => false,
 				'labels' => $labels,
 				'show_ui' => false,
 				'query_var' => true,
@@ -276,14 +310,13 @@ class Plugin {
 			)
 		);
 		$labels = array(
-			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' ),
-			'menu_name' => __( 'DealerTrend AJAX' )
+			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' )
 		);
 		register_taxonomy(
 			'showcase',
 			array( 'page' ),
 			array(
-				'hierarchical' => true,
+				'hierarchical' => false,
 				'labels' => $labels,
 				'show_ui' => false,
 				'query_var' => true,
@@ -497,17 +530,15 @@ class Plugin {
 		wp_enqueue_style(
 			'dealertrend-inventory-api',
 			$style_path,
-			false,
+			array( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] ),
 			$this->plugin_information[ 'Version' ]
 		);
-		
-		wp_enqueue_style( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] . '/jquery-ui.css' , false , '1.8.11' );
 	}
 
 	function inventory_scripts() {
 		if( ! is_admin() ) {
-			wp_enqueue_script( 'jquery-cookie' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cookie/1.0/js/jquery.cookie.js' , array( 'jquery' ) , '1.0' , true );
-			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/traffic-sources.js' , array( 'jquery-cookie' ) , $this->plugin_information[ 'Version' ] , true );
+			wp_enqueue_script( 'jquery-cookie' );
+			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' );
 		}
 	}
 
