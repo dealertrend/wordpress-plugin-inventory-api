@@ -11,8 +11,9 @@ class vehicle_reference_system {
 	private $url = NULL;
 	private $parameters = array();
 
-	public function __construct( $host ) {
+	public function __construct( $host , $country_code = 'US' ) {
 		$this->host = $host;
+		$this->country_code = $country_code;
 		$this->create_sidebar();
 	}
 
@@ -41,17 +42,19 @@ class vehicle_reference_system {
 
 	public function get_makes() {
 		$this->url = $this->host . '/makes.json';
+		$this->parameters = array( 'country_code' => $this->country_code );
 		return $this;
 	}
 
 	public function get_models() {
 		$this->url = $this->host . '/models.json';
+		$this->parameters = array( 'country_code' => $this->country_code );
 		return $this;
 	}
 
 	public function get_trims() {
 		$this->url = $this->host . '/trims.json';
-		$this->parameters = array( 'api' => 2 );
+		$this->parameters = array( 'api' => 2 , 'country_code' => $this->country_code );
 		return $this;
 	}
 
