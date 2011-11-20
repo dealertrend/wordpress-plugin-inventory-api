@@ -310,7 +310,7 @@ function video_popup(url , title) {
 				<div><span>Color:</span> <?php echo $exterior_color; ?></div>
 				<div><span>Engine:</span> <?php echo $engine; ?></div>
 				<div><span>Transmission:</span> <?php echo $transmission; ?></div>
-				<div><span>Mileage:</span> <?php echo $odometer; ?></div>
+				<div><span>Odometer:</span> <?php echo $odometer; ?></div>
 				<div><span>Stock Number:</span> <?php echo $stock_number; ?></div>
 				<div><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="armadillo-price">
@@ -369,6 +369,7 @@ function video_popup(url , title) {
 				</div>
 			</div>
 			<?php
+				if( $company_information->country_code != 'CA' ) {
 				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
 				$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
 				if( $fuel_city != false && $fuel_highway != false ) {
@@ -384,7 +385,7 @@ function video_popup(url , title) {
 				</div>
 				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
 			</div>
-			<?php } ?>
+			<?php } } ?>
 			<div class="armadillo-icons">
 				<?php echo $icons; ?>
 			</div>

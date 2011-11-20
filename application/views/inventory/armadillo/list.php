@@ -299,11 +299,13 @@
 											echo $interior_color != NULL ? '<span class="armadillo-interior-color">Int. Color: ' . $interior_color . '</span>' : NULL;
 											echo $exterior_color != NULL ? '<span class="armadillo-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : NULL;
 										?>
+										<?php if( $transmission != NULL ) { ?>
 										<span class="armadillo-transmission">Trans: <?php echo $transmission; ?></span>
+										<?php } ?>
 									</div>
 									<div class="armadillo-details-right">
 										<span class="armadillo-stock-number">Stock #: <?php echo $stock_number; ?></span>
-										<span class="armadillo-odometer">Mileage: <?php echo $odometer; ?></span>
+										<span class="armadillo-odometer">Odometer: <?php echo $odometer; ?></span>
 										<span class="armadillo-vin">VIN: <?php echo $vin; ?></span>
 									</div>
 									<div class="armadillo-icons">
@@ -353,7 +355,7 @@
 													if( $incentive_price > 0 ) {
 														echo '<div class="armadillo-asking-price" style="font-size:12px;">Asking Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
-														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: $' . number_format( $sale_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
+														echo '<div class="armadillo-asking-price" style="font-size:16px;">Your Price: $' . number_format( $asking_price - $incentive_price , 2 , '.' , ',' ) . '</div>';
 													} else {
 														if( $ais_incentive != NULL ) {
 															echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
