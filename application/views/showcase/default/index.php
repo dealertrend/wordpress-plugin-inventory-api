@@ -83,7 +83,7 @@ function addCommas(nStr)
 
 					dealertrend.ajax(
 					{
-						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default',
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default&country_code=<?php echo $data->country_code; ?>,
 						context: document.body,
 						success: function(data) {
 							var json = JSON.parse(data);
@@ -104,7 +104,7 @@ function addCommas(nStr)
 						// fuel economy
 						dealertrend.ajax(
 						{
-							url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode,
+							url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode&country_code=<?php echo $data->country_code; ?>,
 							context: document.body,
 							success: function(data) {
 								var json = JSON.parse(data);
@@ -116,7 +116,7 @@ function addCommas(nStr)
 
 					dealertrend.ajax(
 					{
-						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode,
+						url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode&country_code=<?php echo $data->country_code; ?>,
 						context: document.body,
 						success: function(data) {
 							var json = JSON.parse(data);
@@ -188,7 +188,7 @@ function addCommas(nStr)
 
 				dealertrend.ajax(
 				{
-					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=reviews&acode=' + acode,
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=reviews&acode=' + acode&country_code=<?php echo $data->country_code; ?>,
 					context: document.body,
 					success: function( data ) {
 					}
@@ -196,7 +196,7 @@ function addCommas(nStr)
 
 				dealertrend.ajax(
 				{
-					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment&acode=' + acode,
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment&acode=' + acode&country_code=<?php echo $data->country_code; ?>,
 					context: document.body,
 					success: function( data ) {
 					}
@@ -204,7 +204,7 @@ function addCommas(nStr)
 
 				dealertrend.ajax(
 				{
-					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos&acode=' + acode,
+					url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos&acode=' + acode&country_code=<?php echo $data->country_code; ?>,
 					context: document.body,
 					success: function( data ) {
 						var json = JSON.parse(data);

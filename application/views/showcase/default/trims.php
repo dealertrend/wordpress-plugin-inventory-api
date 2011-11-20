@@ -119,9 +119,21 @@
 					if( $fuel_economy != false ) {
 				?>
 				<div id="fuel">
+					<?php
+						if( $data->country_code == 'CA' ) {
+					?>
+					<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_lp_100km; ?></div></div>
+					<div id="icon"><img src="http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/mpg.gif" /></div>
+					<div id="hwy"><div class="label">HWY:</div><div class="number"><?php echo $fuel_economy->highway_lp_100km; ?></div></div>
+					<?php
+						} else {
+					?>
 					<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_mpg; ?></div></div>
 					<div id="icon"><img src="http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/mpg.gif" /></div>
 					<div id="hwy"><div class="label">HWY:</div><div class="number"><?php echo $fuel_economy->highway_mpg; ?></div></div>
+					<?php
+						}
+					?>
 				</div>
 				<div id="disclaimer">Actual rating will vary with options, driving conditions, habits and vehicle condition.</div>
 			<?php } ?>

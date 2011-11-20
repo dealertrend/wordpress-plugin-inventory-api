@@ -30,6 +30,7 @@ class ajax {
 		$acode = isset( $parameters[ 'acode' ] ) ? urldecode( $parameters[ 'acode' ] ) : false;
 		$mode = isset( $parameters[ 'mode' ] ) ? urldecode( $parameters[ 'mode' ] ) : 'default';
 		$type = ( $make == false ) ? 'makes' : ( ( $model == false ) ? 'models' : 'trims' );
+		$country_code = $parameters[ 'country_code' ] ? $parameters[ 'country_code' ] : 'US';
 
 		$current_year = date( 'Y' );
 		$last_year = $current_year - 1;
@@ -37,7 +38,7 @@ class ajax {
 
 		if( $meta == 'showcase' ) {
 			$json = array();
-			$vehicle_reference_system = new vehicle_reference_system( $instance->options[ 'vehicle_reference_system' ][ 'host' ] );
+			$vehicle_reference_system = new vehicle_reference_system( $instance->options[ 'vehicle_reference_system' ][ 'host' ] , $country_code );
 			if( $type == 'trims' ) {
 				if( $mode == 'default' ) {
 					$trim_data[ $last_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $last_year , 'api' => 2 ) );

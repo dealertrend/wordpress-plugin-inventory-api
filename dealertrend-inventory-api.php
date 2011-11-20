@@ -265,7 +265,7 @@ class Plugin {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
 		}
-		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] && count( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) > 0 ) {
 			$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
 		}
 		$new_rules[ '^(dealertrend-ajax)' ] = 'index.php?taxonomy=dealertrend-ajax';
@@ -398,8 +398,8 @@ class Plugin {
 					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 					$company_information = $vehicle_management_system->get_company_information()->please();
 
+					$data = json_decode( $company_information[ 'body' ] );
 					if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-						$data = json_decode( $company_information[ 'body' ] );
 						$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
 						$dynamic_site_headers = new dynamic_site_headers(
 							$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -413,7 +413,8 @@ class Plugin {
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 
 					$vehicle_reference_system = new vehicle_reference_system(
-						$this->options[ 'vehicle_reference_system' ][ 'host' ]
+						$this->options[ 'vehicle_reference_system' ][ 'host' ],
+						$data->country_code
 					);
 
 					if( $handle = opendir( $theme_path ) ) {
@@ -539,7 +540,7 @@ class Plugin {
 		wp_enqueue_style(
 			'dealertrend-inventory-api',
 			$style_path,
-			array( 'jquery-ui-' . $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] ),
+			array( $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] ),
 			$this->plugin_information[ 'Version' ]
 		);
 	}
