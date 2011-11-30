@@ -1,4 +1,9 @@
 <?php
+
+	function sort_makes( $a , $b ) {
+		return ( strtolower( $a->name ) < strtolower( $b->name ) ) ? -1 : 1;
+	}
+
 	$make_data[ $last_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
 	$make_data[ $last_year ] = isset( $make_data[ $last_year ][ 'body' ] ) ? json_decode( $make_data[ $last_year ][ 'body' ] ) : NULL;
 	$make_data[ $current_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
@@ -19,14 +24,18 @@
 		if( in_array( $make->name , $selected_makes ) ) {
 			if( ! in_array( $make->id , $bucket ) ) {
 				$bucket[] = $make->id;
-				if( ! empty( $make->image_url ) ) { 
-					echo '<div class="make">';
-					echo '<a href="/showcase/' . $make->name . '/" title="' . $make->name . '"><img src="' . $make->image_url . '" /></a>';
-					echo '<div class="classifications">';
-					echo '</div>';
-					echo '</div>';
-				}
+				$display[] = $make;
 			}
+		}
+	}
+	usort( $display , 'sort_makes' );
+	foreach( $display as $make ) {
+		if( ! empty( $make->image_url ) ) {
+			echo '<div class="make">';
+			echo '<a href="/showcase/' . $make->name . '/" title="' . $make->name . '"><img src="' . $make->image_url . '" /></a>';
+			echo '<div class="classifications">';
+			echo '</div>';
+			echo '</div>';
 		}
 	}
 	echo '</div>';
