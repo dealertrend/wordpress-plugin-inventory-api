@@ -159,6 +159,7 @@
 						<ul>
 							<?php
 								foreach( $trims as $trim ) {
+									$trim_safe = $trim;
 									$trim_safe = str_replace( '/' , '%252' , $trim_safe );
 									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim_safe ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
@@ -173,12 +174,12 @@
 					<li class="armadillo-expanded">
 						<span>Price</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from == "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>" <?php echo $price_from == 10001 ? 'class="active"' : NULL; ?>>$10,001 - $20,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>" <?php echo $price_from == 20001 ? 'class="active"' : NULL; ?>>$20,001 - $30,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>" <?php echo $price_from == 30001 ? 'class="active"' : NULL; ?>>$30,001 - $40,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>" <?php echo $price_from == 40001 ? 'class="active"' : NULL; ?>>$40,001 - $50,000</a></li>
-							<li><a href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>" <?php echo $price_from == 50001 ? 'class="active"' : NULL; ?>>$50,001 - &amp; Above</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from == "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>" <?php echo $price_from == 10001 ? 'class="active"' : NULL; ?>>$10,001 - $20,000</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>" <?php echo $price_from == 20001 ? 'class="active"' : NULL; ?>>$20,001 - $30,000</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>" <?php echo $price_from == 30001 ? 'class="active"' : NULL; ?>>$30,001 - $40,000</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>" <?php echo $price_from == 40001 ? 'class="active"' : NULL; ?>>$40,001 - $50,000</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>" <?php echo $price_from == 50001 ? 'class="active"' : NULL; ?>>$50,001 - &amp; Above</a></li>
 						</ul>
 					</li>
 					<?php
@@ -187,7 +188,7 @@
 					<li class="armadillo-expanded">
 						<span>Other</span>
 						<ul>
-							<li><a href="<?php echo @add_query_arg( array( 'certified' => 'yes' ) , $do_not_carry ); ?>">Certified Pre-Owned</a></li>
+							<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'certified' => 'yes' ) , $do_not_carry ); ?>">Certified Pre-Owned</a></li>
 						</ul>
 					</li>
 					<?php endif; ?>
