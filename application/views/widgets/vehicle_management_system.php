@@ -44,9 +44,9 @@ class vehicle_management_system_widget extends WP_Widget {
 		$this->plugin_information[ 'PluginURL' ] = preg_replace( '/(\/application.*)/i' , NULL , $this->plugin_information[ 'PluginURL' ] );
 		$this->plugin_information[ 'WidgetURL' ] = plugins_url( '' , __FILE__ ) . '/';
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
-		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
+		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ];
 
-		if( !is_admin() ) {
+		if( ! is_admin() ) {
 			if( is_active_widget( false, $this->id , $this->id_base , true ) ) {
 				add_action( 'wp_print_styles' , array( &$this , 'vms_styles' ) , 1 );
 				add_action( 'wp_print_scripts', array( &$this , 'vms_scripts' ) , 1 );

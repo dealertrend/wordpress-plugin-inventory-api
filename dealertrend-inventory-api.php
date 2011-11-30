@@ -47,7 +47,9 @@ class Plugin {
 		),
 		'jquery' => array(
 			'ui' => array(
-				'theme' => 'smoothness'
+				'admin-theme' => 'dealertrend',
+				'inventory-theme' => 'smoothness',
+				'showcase-theme' => 'smoothness'
 			)
 		)
 	);
@@ -95,23 +97,37 @@ class Plugin {
 	}
 
 	function register_assets() {
-			$current_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'theme' ];
+			$admin_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'admin-theme' ];
+			$inventory_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ];
+			$showcase_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ];
 			wp_register_style(
-				$current_jquery_ui_theme,
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $current_jquery_ui_theme . '/jquery-ui.css',
+				$admin_jquery_ui_theme,
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $admin_jquery_ui_theme . '/jquery-ui.css',
+				array( 'colors' ),
+				'1.8.11'
+			);
+			wp_register_style(
+				$inventory_jquery_ui_theme,
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $inventory_jquery_ui_theme . '/jquery-ui.css',
+				false,
+				'1.8.11'
+			);
+			wp_register_style(
+				$showcase_jquery_ui_theme,
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui/1.8.11/themes/' . $showcase_jquery_ui_theme . '/jquery-ui.css',
 				false,
 				'1.8.11'
 			);
 			wp_register_style(
 				'dealertrend-inventory-api-admin',
 				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css',
-				array( $current_jquery_ui_theme , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
+				array( $admin_jquery_ui_theme , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 				$this->plugin_information[ 'Version' ]
 			);
 			wp_register_style(
 				'jquery-ui-multiselect',
 				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
-				array( $current_jquery_ui_theme ),
+				array( $admin_jquery_ui_theme ),
 				'1.10'
 			);
 			wp_register_style(
@@ -398,14 +414,18 @@ class Plugin {
 					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 					$company_information = $vehicle_management_system->get_company_information()->please();
 
-					$data = json_decode( $company_information[ 'body' ] );
-					if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-						$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
-						$dynamic_site_headers = new dynamic_site_headers(
-							$this->options[ 'vehicle_management_system' ][ 'host' ],
-							$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-							(array) $this->parameters + (array) $seo_hack
-						);
+					$country_code = 'US';
+					if( isset( $company_information[ 'body' ] ) ) {
+						$data = json_decode( $company_information[ 'body' ] );
+						if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
+							$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
+							$dynamic_site_headers = new dynamic_site_headers(
+								$this->options[ 'vehicle_management_system' ][ 'host' ],
+								$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
+								(array) $this->parameters + (array) $seo_hack
+							);
+						}
+						$country_code = $data->country_code;
 					}
 
 					$current_theme = 'default';
@@ -414,7 +434,7 @@ class Plugin {
 
 					$vehicle_reference_system = new vehicle_reference_system(
 						$this->options[ 'vehicle_reference_system' ][ 'host' ],
-						$data->country_code
+						$country_code
 					);
 
 					if( $handle = opendir( $theme_path ) ) {
@@ -540,7 +560,7 @@ class Plugin {
 		wp_enqueue_style(
 			'dealertrend-inventory-api',
 			$style_path,
-			array( $this->options[ 'jquery' ][ 'ui' ][ 'theme' ] ),
+			array( $this->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] ),
 			$this->plugin_information[ 'Version' ]
 		);
 	}

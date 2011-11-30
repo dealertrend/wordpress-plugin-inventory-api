@@ -1,3 +1,176 @@
+<div id="loader" style="display:none; height:50px; width:50px;"></div>
+<script type="text/javascript">
+function addCommas(nStr)
+{
+  nStr += '';
+  x = nStr.split('.');
+  x1 = x[0];
+  x2 = x.length > 1 ? '.' + x[1] : '';
+  var rgx = /(\d+)(\d{3})/;
+  while (rgx.test(x1)) {    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  }
+  return x1 + x2;
+}
+
+    var dealertrend = jQuery.noConflict();
+    dealertrend(document).ready(function () {
+      dealertrend('#loader').hide();
+
+    dealertrend( '#loader' ).dialog({      autoOpen: false,
+      modal: true,
+      resizable: false,
+			position: 'center',
+      maxHeight: 50,
+      maxWidth: 50,
+      title: false
+    });
+      dealertrend( '#showcase .jquery-ui-button' ).button();
+      dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
+          button = dealertrend(this);
+          dealertrend('#loader').dialog('open');
+
+          button.css('cursor','wait');
+          // trims
+
+          dealertrend.ajax(
+          {
+            url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default&country_code=<?php echo $country_code; ?>',
+            context: document.body,
+            success: function(data) {
+              var json = JSON.parse(data);
+              dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation );
+              dealertrend( '#pricing #msrp' ).html( '$' + addCommas( json[ 0 ].msrp ) );
+              dealertrend( '#trim' ).addClass( json[ 0 ].acode );
+              var default_photo = json[ 0 ].images.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+                return 'IMG=' + b + '.png';
+              });
+              dealertrend( '#spotlight' ).html('<img src="' + default_photo  + '" class="active" />');
+              button.css('cursor','pointer');
+              populate_page( json[ 0 ].acode );
+            }
+          });
+          function populate_page( acode ) {
+            button.css('cursor','wait');
+            // fuel economy
+            dealertrend.ajax(
+            {
+              url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode + '&country_code=<?php echo $country_code; ?>',
+              context: document.body,
+              success: function(data) {
+                var json = JSON.parse(data);
+                dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_mpg );
+                dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_mpg );
+                button.css('cursor','pointer');
+              }
+            });
+
+          dealertrend.ajax(
+          {
+            url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=colors&acode=' + acode + '&country_code=<?php echo $country_code; ?>',
+            context: document.body,
+            success: function(data) {
+              var json = JSON.parse(data);
+              var count = 0;
+              var color_history = null;
+              if( json.length > 0 ) {
+                dealertrend( '#spotlight' ).html('');
+                json.forEach( function( color ) {
+                  if( color.rgb != null ) {
+                    if( color_history == null || color_history.search( /color.rgb/i , color_history ) == -1 ) {
+                      color_history += '[' + color.rgb + ']';
+                      var image = document.createElement('img');
+                      var link = document.createElement('a');
+                      var text = document.createTextNode( color.name );
+                      link.href = '#' + color.code;
+                      link.title = 'Color: ' + color.name;
+                      link.id = '#swatch-' + color.code;
+                      link.className = 'swatch';
+                      link.style.backgroundColor = 'rgb(' + color.rgb + ')';
+                      link.appendChild(text);
+                      image.src = color.image_urls.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+                        return 'IMG=' + b + '.png';
+                      });
+                      image.id = color.code;
+                      if( count == 0 ) {
+                        image.className = 'active';
+                        link.className += ' active';
+                        var color_text = dealertrend( '#color-text' ).html( 'Color: ' + color.name );
+                        dealertrend( '#swatches' ).html( color_text );
+                        count++;
+                      }
+                      dealertrend( '#spotlight' ).append( image );
+                      dealertrend( '#swatches' ).append( link );
+                    }
+                  }
+                });
+              } else {
+                
+              }
+              dealertrend('#loader').dialog('close');
+        var current_image, next_image, color_text;
+        color_text = dealertrend('#color-text');
+        dealertrend('#swatches a').click(function (e) {
+            current_image = dealertrend('#spotlight .active');
+            next_image = dealertrend('#spotlight ' + e.target.hash);
+            current_image.removeClass('active').hide();
+
+            color_text.text(e.target.title);
+            next_image.show().addClass('active');
+            current_image = next_image;
+            dealertrend('#swatches .active').removeClass('active');
+            dealertrend('#' + e.target.id).addClass('active');
+            e.preventDefault();
+        });
+        dealertrend('#swatches a').hover(function (e) {
+            current_image = dealertrend('#spotlight .active');
+            next_image = dealertrend('#spotlight ' + e.target.hash);
+            current_image.removeClass('active').hide();
+            next_image.show().addClass('active');
+            color_text.text(e.target.title);
+        }, function (e) {
+            next_image.removeClass('active').hide();
+            current_image.show().addClass('active');
+            color_text.text(dealertrend('#swatches .active').attr('title'));
+        });
+            }
+          });
+
+        dealertrend.ajax(
+        {
+          url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=reviews&acode=' + acode + '&country_code=<?php echo $country_code; ?>',
+          context: document.body,
+          success: function( data ) {
+          }
+        });
+
+        dealertrend.ajax(
+        {
+          url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=equipment&acode=' + acode + '&country_code=<?php echo     $country_code; ?>',
+          context: document.body,
+          success: function( data ) {
+          }
+        });
+
+        dealertrend.ajax(
+        {
+          url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=photos&acode=' + acode + '&country_code=<?php echo $country_code; ?>',
+          context: document.body,
+          success: function( data ) {
+            var json = JSON.parse(data);
+            json.forEach( function( photo ) {
+              dealertrend('#trim #photos').append( '<img src="' + photo.image_urls.small + '" />' );
+            });
+          }
+        });
+
+          }
+          e.preventDefault();
+      } );
+
+    });
+</script>
+
+
 <?php
 
 	function sort_trims( $a , $b ) {
@@ -120,7 +293,7 @@
 				?>
 				<div id="fuel">
 					<?php
-						if( $data->country_code == 'CA' ) {
+						if( $country_code == 'CA' ) {
 					?>
 					<div id="city"><div class="label">CITY:</div><div class="number"><?php echo $fuel_economy->city_lp_100km; ?></div></div>
 					<div id="icon"><img src="http://static.dealer.com/v8/tools/automotive/showroom/v4/images/white/mpg.gif" /></div>
@@ -329,7 +502,7 @@
 						<th>MSRP</th>
 						<?php
 							foreach( $trim_acodes as $acode ) {
-								$trim_acode_data[ $acode ]->msrp = strpos( $trim_acode_data[ $acode ]->msrp , '$' ) == false ? '$' . number_format( $trim_acode_data[ $acode ]->msrp , 0 , '.' , ',' ) : $trim_acode_data[ $acode ]->msrp; 
+								$trim_acode_data[ $acode ]->msrp = strpos( $trim_acode_data[ $acode ]->msrp , '$' ) === false ? '$' . number_format( $trim_acode_data[ $acode ]->msrp , 0 , '.' , ',' ) : $trim_acode_data[ $acode ]->msrp;
 								echo '<td>' . $trim_acode_data[ $acode ]->msrp . '</td>';
 							}
 						?>

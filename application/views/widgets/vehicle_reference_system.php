@@ -11,19 +11,21 @@ class vehicle_reference_system_widget extends WP_Widget {
 	function __construct() {
 		parent::__construct( false , $name = 'Vehicle Reference System' , array( 'description' => 'A customizable widget to display vehicle reference information for research purposes. Feeds provided by DealerTrend, Inc.' ) );
 		$plugin_options = get_option( 'dealertrend_inventory_api' );
-		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'theme' ];
+		$this->jquery_theme = $plugin_options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ];
 		$plugin_file = pathinfo( __FILE__ );
 		$this->plugin_information[ 'PluginURL' ] = plugins_url( '' , __FILE__) . '/';
 		$this->plugin_information[ 'PluginURL' ] = preg_replace( '/(\/application.*)/i' , NULL , $this->plugin_information[ 'PluginURL' ] );
 		$this->plugin_information[ 'WidgetURL' ] = plugins_url( '' , __FILE__ ) . '/';
-		if( !is_admin() ) {
+		if( ! is_admin() ) {
 			if( is_active_widget( false, $this->id , $this->id_base , true ) ) {
 				add_action( 'wp_print_styles' , array( &$this , 'vrs_front_styles' ) , 1 );
 				add_action( 'wp_print_scripts', array( &$this , 'vrs_front_scripts' ) , 1 );
 			}
 		} else {
-			add_action( 'admin_print_styles' , array( &$this , 'vrs_admin_styles' ) , 1 );
-			add_action( 'admin_print_scripts', array( &$this , 'vrs_admin_scripts' ) , 1 );
+			if( ! ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) ) {
+				add_action( 'admin_print_styles' , array( &$this , 'vrs_admin_styles' ) , 1 );
+				add_action( 'admin_print_scripts', array( &$this , 'vrs_admin_scripts' ) , 1 );
+			}
 		}
 		$this->load_options();
 	}
