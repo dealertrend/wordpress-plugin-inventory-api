@@ -126,10 +126,17 @@
 		if( in_array( $key , $put_in_trail ) ) {
 			if( ! empty( $wp_rewrite->rules ) ) {
 				$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
-				$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				if( $key == 'city' || $key == 'state' | $key == 'vin' ) {
+					$breadcrumbs .= '<a href=""><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				} else {
+					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				}
 			} else {
-				$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
-				$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				if( $key == 'city' || $key == 'state' | $key == 'vin' ) {
+					$breadcrumbs .= '<a href=""><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				} else {
+					$breadcrumbs .= '<a href=' . $crumb_trail . '><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
+				}
 			}
 		}
 	}
