@@ -44,11 +44,9 @@ if(
     (
         cookie_value === null ||
         cookie_value === '' ||
-        cookie_value === undefined ||
-        cookie_value.length < 1 ||
-        ( cookie_value != document.referrer && request_uri.host != cookie_uri.host )
-    ) &&
-    request_uri.host != current_uri.host ) {
+        cookie_value === undefined
+    )
+  ) {
     var new_value = null
 
     if( document.referrer != null && document.referrer.length > 0 ) {
@@ -57,5 +55,5 @@ if(
         new_value = 'direct';
     }
 
-    dealertrend.cookie( cookie_name , new_value );
+    dealertrend.cookie( cookie_name , new_value , { expires: 30 } );
 }
