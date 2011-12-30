@@ -18,7 +18,7 @@
 	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
 	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
-	$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => '1' ) ) );
+	$total_found = $vehicle_management_system->get_inventory()->please( $this->parameters + array( 'per_page' => 1 , 'photo_view' => 1 ) );
 	$total_found = json_decode( $total_found[ 'body' ] );
 	$total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
 
