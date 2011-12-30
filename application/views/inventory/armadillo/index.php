@@ -5,7 +5,7 @@
 	global $wp_rewrite;
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-	$inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters + array( 'photo_view' => 1  ) );
+	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1  ) ) );
 
 	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
