@@ -355,6 +355,8 @@ class Plugin {
 
 		$this->parameters = $this->get_parameters();
 
+		wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' );
+
 		switch( $this->taxonomy ) {
 
 			case 'inventory':
@@ -366,7 +368,6 @@ class Plugin {
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
-					add_action( 'wp_print_scripts', array( &$this , 'inventory_scripts' ) , 1 );
 
 					$vehicle_management_system = new vehicle_management_system(
 						$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -563,13 +564,6 @@ class Plugin {
 			array( $this->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] ),
 			$this->plugin_information[ 'Version' ]
 		);
-	}
-
-	function inventory_scripts() {
-		if( ! is_admin() ) {
-			wp_enqueue_script( 'jquery-cookie' );
-			wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' );
-		}
 	}
 
 	function get_themes( $type ) { 
