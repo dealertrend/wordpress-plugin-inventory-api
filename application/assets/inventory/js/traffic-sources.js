@@ -42,12 +42,13 @@ var current_uri = parseUri( window.location );
 
 if(
     (
-        cookie_value == null ||
+        cookie_value === null ||
+        cookie_value === '' ||
+        cookie_value === undefined ||
         cookie_value.length < 1 ||
         ( cookie_value != document.referrer && request_uri.host != cookie_uri.host )
     ) &&
     request_uri.host != current_uri.host ) {
-
     var new_value = null
 
     if( document.referrer != null && document.referrer.length > 0 ) {
