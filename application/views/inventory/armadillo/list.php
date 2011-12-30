@@ -325,7 +325,8 @@
 									<?php } ?>
 									<div class="armadillo-price">
 										<?php
-											if( $on_sale && $sale_price > 0 ) {
+											$bad_data = $sale_price < $asking_price ? true : false;
+											if( $on_sale && $sale_price > 0 && ! $bad_data ) {
 												$now_text = 'Price: ';
 												if( $use_was_now ) {
 													$price_class = ( $use_price_strike_through ) ? 'armadillo-strike-through armadillo-asking-price' : 'armadillo-asking-price';
@@ -352,7 +353,7 @@
 													}
 												}
 											} else {
-												if( $asking_price > 0 ) {
+												if( $asking_price > 0 && ! $bad_data ) {
 													if( $incentive_price > 0 ) {
 														echo '<div class="armadillo-asking-price" style="font-size:12px;">Asking Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
@@ -364,7 +365,7 @@
 														echo '<div class="armadillo-asking-price">Price: $' . number_format( $asking_price , 2 , '.' , ',' ) . '</div>';
 													}
 												} else {
-													if( $ais_incentive != NULL ) {
+													if( $ais_incentive != NULL && ! $bad_data ) {
 														echo '<div class="armadillo-ais-incentive">Savings: ' . $ais_incentive . '</div>';
 													}
 													echo $default_price_text;
