@@ -297,6 +297,16 @@ class Plugin {
 
 	function create_taxonomies() {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
+			add_filter( 'widget_text' , 'do_shortcode' );
+			register_sidebar(array(
+				'name' => 'Inventory Vehicle Detail Page',
+				'id' => 'vehicle-detail-page',
+				'description' => 'Widgets in this area will show up on the trim page within Vehicle Detail Pages.',
+				'before_title' => '<h1>',
+				'after_title' => '</h1>',
+				'before_widget' => '<div class="inventory widget">',
+				'after_widget' => '</div>'
+			));
 			$labels = array(
 				'name' => _x( 'Inventory' , 'taxonomy general name' ),
 				'menu_name' => __( 'Inventory' )
