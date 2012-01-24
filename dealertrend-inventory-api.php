@@ -314,6 +314,16 @@ class Plugin {
 			);
 		}
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+			add_filter( 'widget_text' , 'do_shortcode' );
+			register_sidebar(array(
+				'name' => 'Showcase Trim Page',
+				'id' => 'showcase-trim-page',
+				'description' => 'Widgets in this area will show up on the trim page within Showcase.',
+				'before_title' => '<h1>',
+				'after_title' => '</h1>',
+				'before_widget' => '<div class="showcase widget">',
+				'after_widget' => '</div>'
+			));
 			$labels = array(
 				'name' => _x( 'Showcase' , 'taxonomy general name' ),
 				'menu_name' => __( 'Showcase' )

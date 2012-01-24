@@ -14,20 +14,6 @@ class vehicle_reference_system {
 	public function __construct( $host , $country_code = 'US' ) {
 		$this->host = $host;
 		$this->country_code = $country_code;
-		$this->create_sidebar();
-	}
-
-	function create_sidebar() {
-		add_filter( 'widget_text' , 'do_shortcode' );
-		register_sidebar(array(
-			'name' => 'Showcase Trim Page',
-			'id' => 'showcase-trim-page',
-			'description' => 'Widgets in this area will show up on the trim page within Showcase.',
-			'before_title' => '<h1>',
-			'after_title' => '</h1>',
-			'before_widget' => '<div class="showcase widget">',
-			'after_widget' => '</div>'
-		));
 	}
 
 	public function check_host() {
