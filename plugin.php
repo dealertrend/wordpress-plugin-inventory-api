@@ -1,13 +1,4 @@
 <?php
-/**
- * Plugin Name: DealerTrend Inventory API
- * Plugin URI: https://github.com/dealertrend/wordpress-plugin-inventory-api
- * Author: DealerTrend, Inc.
- * Author URI: http://www.dealertrend.com
- * Description: Provides access to the Vehicle Management System and Vehicle Reference System provided by <a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a>
- * Version: 3.14.0
- * License: GPLv2 or later
- */
 
 namespace WordPress\Plugins\DealerTrend\InventoryAPI;
 
@@ -599,9 +590,5 @@ class Plugin {
 	}
 
 }
-
-global $dealertrend_inventory_api;
-
-$dealertrend_inventory_api = new Plugin();
 
 ?>
