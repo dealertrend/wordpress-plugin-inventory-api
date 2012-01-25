@@ -1,6 +1,6 @@
 <?php
 
-namespace WordPress\Plugins\DealerTrend\InventoryAPI;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 /**
  * This is class is in charge of allowing users to maintain updated version of the plugin via the WordPress dashboard.

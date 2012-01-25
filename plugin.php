@@ -1,6 +1,6 @@
 <?php
 
-namespace WordPress\Plugins\DealerTrend\InventoryAPI;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );

@@ -1,18 +1,6 @@
 <?php
 
-# XXXX ..... Need to make a call
-# XXXX ..... Construct call
-# XXXX ..... Send to ajax handler via XMLHTTPRequest
-# XXXX ..... Handler makes server side request.
-# XXXX ..... Handler returns result.
-# XXXX ..... ???
-# XXXX ..... Profit!
-
-# examples:
-# http://core.wordpress.local/dealertrend-ajax/inventory/2001/Honda/Prelude/AB/Calgary/JHMBB61721C803053/
-# http://core.wordpress.local/dealertrend-ajax/showcase/BMW/335/i%20xDrive
-
-namespace WordPress\Plugins\DealerTrend\InventoryAPI;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 class ajax {
 
