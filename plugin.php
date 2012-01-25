@@ -50,7 +50,7 @@ class Plugin {
 	public $taxonomy = null;
 	public $is_mobile = false;
 
-	function __construct() {
+	public function execute() {
 		$this->load_plugin_information();
 		$this->queue_registrations();
 		$this->check_for_updates();
@@ -59,6 +59,14 @@ class Plugin {
 		$this->load_admin_assets();
 		$this->setup_routing();
 		$this->queue_templates();
+	}
+
+	private function get_master_file() {
+		return dirname( __FILE__ ) . '/loader.php';
+	}
+
+	private function get_plugin_basename() {
+		return plugin_basename( $this->get_master_file() );
 	}
 
 	function load_plugin_information() {
@@ -78,7 +86,7 @@ class Plugin {
 
 		$plugin_file = pathinfo( __FILE__ );
 		$data[ 'PluginURL' ] = plugins_url( '' , __FILE__ );
-		$data[ 'PluginBaseName' ] = plugin_basename( __FILE__ );
+		$data[ 'PluginBaseName' ] = $this->get_plugin_basename();
 
 		$this->plugin_information = $data;
 	}
@@ -235,7 +243,7 @@ class Plugin {
 	function admin_styles() {
 		$network_admin = is_network_admin();
 		$prefix = $network_admin ? 'network_admin_' : '';
-		add_filter( $prefix . 'plugin_action_links_' . $this->plugin_information[ 'PluginBaseName' ] , array( $this , 'add_plugin_links' ) );
+		add_filter( $prefix . 'plugin_action_links_' . $this->get_plugin_basename() , array( $this , 'add_plugin_links' ) );
 		add_menu_page(
 			'Dealertrend API',
 			'Dealertrend API',

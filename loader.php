@@ -21,5 +21,6 @@ if( $helper->has_been_checked() === false ) {
 
 require_once( dirname( __FILE__ ) . '/plugin.php' );
 $dealertrend_inventory_api = new WordPress\Plugins\DealerTrend\InventoryAPI\Plugin();
+$dealertrend_inventory_api->execute();
 
 ?>
