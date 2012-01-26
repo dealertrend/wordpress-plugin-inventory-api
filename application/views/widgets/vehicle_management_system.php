@@ -66,7 +66,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		$float = isset( $instance[ 'float' ] ) ? 'float: ' . $instance[ 'float' ] . ';' : NULL;
 		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] != false ? 'carousel' : false;
 
-		$vehicle_management_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_management_system(
+		$vehicle_management_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_management_system(
 			$this->options[ 'vehicle_management_system' ][ 'host' ],
 			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 		);

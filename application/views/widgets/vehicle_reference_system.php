@@ -121,7 +121,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
 
-		$vehicle_reference_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_reference_system(
+		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ]
 		);
 
@@ -250,7 +250,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
 
-		$vehicle_reference_system = new WordPress\Plugins\DealerTrend\InventoryAPI\vehicle_reference_system(
+		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ]
 		);
 
