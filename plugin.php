@@ -82,10 +82,10 @@ class Plugin {
 			'AuthorURI' => 'Author URI'
 		);
 
-		$data = get_file_data( __FILE__ , $file_headers , 'plugin' );
+		$data = get_file_data( $this->get_master_file() , $file_headers , 'plugin' );
 
-		$plugin_file = pathinfo( __FILE__ );
-		$data[ 'PluginURL' ] = plugins_url( '' , __FILE__ );
+		$plugin_file = pathinfo( $this->get_master_file() );
+		$data[ 'PluginURL' ] = plugins_url( '' , $this->get_master_file() );
 		$data[ 'PluginBaseName' ] = $this->get_plugin_basename();
 
 		$this->plugin_information = $data;
