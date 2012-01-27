@@ -144,7 +144,7 @@ class vehicle_management_system_widget extends WP_Widget {
 
 			$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
 			$incentive_price = 0;
-			preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+			preg_match( '/\$\d*(\s)?/' , $ais_incentive , $incentive );
 			$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 
 			if( $on_sale && $sale_price > 0 ) {

@@ -178,7 +178,7 @@
 								$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
 								$incentive_price = 0;
 								if( $ais_incentive != NULL ) {
-									preg_match( '/\$\d*\s/' , $ais_incentive , $incentive );
+									preg_match( '/\$\d*(\s)?/' , $ais_incentive , $incentive );
 									$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 								}
 								if( $retail_price > 0 ) {
