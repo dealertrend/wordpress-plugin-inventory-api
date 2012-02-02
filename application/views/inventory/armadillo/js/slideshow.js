@@ -7,7 +7,7 @@ dealertrend(document).ready(function() {
         fx: 'fade',
         pager: '.armadillo-slideshow .armadillo-navigation',
         pagerAnchorBuilder: function(idx, slide) {
-            return '<a href="#"><img src="' + slide.src + '" width="70" height"50" /></a>';
+            return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
         }
     });
     dealertrend('.armadillo-images a')

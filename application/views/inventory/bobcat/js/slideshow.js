@@ -7,7 +7,7 @@ dealertrend(document).ready(function() {
 		fx: 'fade',
 		pager: '.slideshow .navigation',
 		pagerAnchorBuilder: function(idx, slide) { 
-			return '<a href="#"><img src="' + slide.src + '" width="60" height"50" /></a>';
+			return '<a href="#"><img src="' + slide.src + '" width="60" height="50" /></a>';
 		} 
 	});
 });
