@@ -1,12 +1,12 @@
 	var dealertrend = jQuery.noConflict();
 
-	dealertrend('#psm-quick-links > ul > li > span').click(function() {
-		if(dealertrend(this).parent().hasClass('psm-collapsed')) {
-			dealertrend(this).parent().removeClass('psm-collapsed');
-			dealertrend(this).parent().addClass('psm-expanded');
+	dealertrend('#cobra-quick-links > ul > li > span').click(function() {
+		if(dealertrend(this).parent().hasClass('cobra-collapsed')) {
+			dealertrend(this).parent().removeClass('cobra-collapsed');
+			dealertrend(this).parent().addClass('cobra-expanded');
 		} else {
-			dealertrend(this).parent().addClass('psm-collapsed');
-			dealertrend(this).parent().removeClass('psm-expanded');
+			dealertrend(this).parent().addClass('cobra-collapsed');
+			dealertrend(this).parent().removeClass('cobra-expanded');
 		}
 		if( dealertrend(this).parent().children('ul').is(":hidden")) {
 			dealertrend(this).parent().children('ul').slideDown('slow', function() {});

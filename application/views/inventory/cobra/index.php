@@ -17,7 +17,7 @@ wp_enqueue_script( 'jquery-ui-core' );
 wp_enqueue_script( 'jquery-ui-button' );
 wp_enqueue_script( 'jquery-ui-dialog' );
 wp_enqueue_script(
-	'dealertrend-inventory-theme-psm-misc-ui',
+	'dealertrend-inventory-theme-cobra-misc-ui',
 	$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/misc-ui.js',
 	array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
 	$this->plugin_information[ 'Version' ],
@@ -27,7 +27,7 @@ wp_enqueue_script(
 switch( $type ) {
 	case 'list':
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-psm-sidebar',
+			'dealertrend-inventory-theme-cobra-sidebar',
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/sidebar.js',
 			array( 'jquery' , 'jquery-ui-core' ),
 			$this->plugin_information[ 'Version' ],
@@ -46,21 +46,21 @@ switch( $type ) {
 			$this->plugin_information[ 'Version' ]
 		);
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-psm-slideshow',
+			'dealertrend-inventory-theme-cobra-slideshow',
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/slideshow.js',
 			array( 'jquery-cycle' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-psm-detail-buttons',
+			'dealertrend-inventory-theme-cobra-detail-buttons',
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/detail-buttons.js',
 			array( 'jquery-ui-dialog' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-psm-tabs',
+			'dealertrend-inventory-theme-cobra-tabs',
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/tabs.js',
 			array( 'jquery-ui-tabs' ),
 			$this->plugin_information[ 'Version' ],
@@ -130,7 +130,7 @@ $company_information = json_decode( $company_information[ 'body' ] );
 		}
 	}
 
-	$breadcrumbs = '<div class="psm-breadcrumbs">' . $breadcrumbs . '</div>';
+	$breadcrumbs = '<div class="cobra-breadcrumbs">' . $breadcrumbs . '</div>';
 
 	echo "\n" . '<!--' . "\n";
 	echo '##################################################' . "\n";

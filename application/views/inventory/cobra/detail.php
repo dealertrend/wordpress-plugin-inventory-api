@@ -55,9 +55,9 @@ function video_popup(url , title) {
 }
 </script>
 
-<div id="psm-schedule-form"	title="Schedule a Test Drive">
+<div id="cobra-schedule-form"	title="Schedule a Test Drive">
 	<h3>Schedule a Test Drive</h3>
-	<p class="psm-validate-tips">Name, email and phone number fields are required.</p>
+	<p class="cobra-validate-tips">Name, email and phone number fields are required.</p>
 	<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
 		<fieldset>
 			<input type="hidden" name="required_fields" value="name,email,privacy"/>
@@ -93,9 +93,9 @@ function video_popup(url , title) {
 	</form>
 </div>
 
-<div id="psm-friend-form" title="Send to a Friend">
+<div id="cobra-friend-form" title="Send to a Friend">
 	<h3>Send to a Friend</h3>
-	<p class="psm-validate-tips">Name, email and phone number fields are required.</p>
+	<p class="cobra-validate-tips">Name, email and phone number fields are required.</p>
 	<form name="formtellafriend" id="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
 		<fieldset>
 			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
@@ -126,29 +126,29 @@ function video_popup(url , title) {
 	</form>
 </div>
 
-<div id="psm-wrapper">
-	<div id="psm-detail">
-		<div class="psm-detail-top">
-			<div class="psm-detail-top-wrapper">
-				<div class="psm-detail-year"><?php echo $year ?></div>
-				<div class="psm-detail-vehicle"><?php echo $make . ' ' . $model ?></div>
-				<div class="psm-detail-price">
+<div id="cobra-wrapper">
+	<div id="cobra-detail">
+		<div class="cobra-detail-top">
+			<div class="cobra-detail-top-wrapper">
+				<div class="cobra-detail-year"><?php echo $year ?></div>
+				<div class="cobra-detail-vehicle"><?php echo $make . ' ' . $model ?></div>
+				<div class="cobra-detail-price">
 					<?php if ($sale_class == 'New'):?>
 					<span>MSRP</span>
 					<?php endif; ?>
-					<div class="psm-price">
+					<div class="cobra-price">
 					<?php
 					if( $on_sale && $sale_price > 0 ) {
 						$now_text = 'Price: ';
 						if( $use_was_now ) {
-							$price_class = ( $use_price_strike_through ) ? 'psm-strike-through psm-asking-price' : 'psm-asking-price';
+							$price_class = ( $use_price_strike_through ) ? 'cobra-strike-through cobra-asking-price' : 'cobra-asking-price';
 							echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 $now_text = 'Now: ';
 						}
-						echo '<div class="psm-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+						echo '<div class="cobra-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 					} else {
 						if( $asking_price > 0 ) {
-							echo '<div class="psm-asking-price"><span>' . substr( money_format( '%(#0n' , $asking_price ) , 1 , 1) . '</span>' . substr( money_format( '%(#0.0n' , $asking_price ) , 2) . '</div>';
+							echo '<div class="cobra-asking-price"><span>' . substr( money_format( '%(#0n' , $asking_price ) , 1 , 1) . '</span>' . substr( money_format( '%(#0.0n' , $asking_price ) , 2) . '</div>';
 						} else {
 							echo '<div>' . $default_price_text . '</div>';
 						}
@@ -156,16 +156,16 @@ $now_text = 'Now: ';
 					?>
 					</div>
 				</div>
-				<div class="psm-detail-cpo">
+				<div class="cobra-detail-cpo">
 					<?php if ($inventory->certified) { ?>
 					<img src="<?php echo plugin_dir_url(__FILE__); ?>images/<?php echo $make; ?>-cpo.png" />
 					<?php } ?>
 				</div>
 			</div>
 		</div>
-		<div class="psm-column-left">
-			<div class="psm-vehicle-information">
-				<div class="psm-header">
+		<div class="cobra-column-left">
+			<div class="cobra-vehicle-information">
+				<div class="cobra-header">
 					Vehicle Information
 				</div>
 				<div><span>Trim Level:</span> <?php echo $trim; ?></div>
@@ -177,10 +177,10 @@ $now_text = 'Now: ';
 				<div><span>Transmission:</span> <?php echo $transmission; ?></div>
 				<div><span>Drivetrain:</span> <?php echo $drivetrain; ?></div>
 			</div>
-			<div class="psm-detail-make-offer">
-				<a href="#psm-make-offer"></a>
+			<div class="cobra-detail-make-offer">
+				<a href="#cobra-make-offer"></a>
 			</div>
-			<div class="psm-sticker">
+			<div class="cobra-sticker">
 				<?php if ($sale_class == 'New'):?>
 				<a href="http://fordlabels.webview.biz/webviewhybrid/WindowSticker.aspx?vin=<?php echo $vin; ?>" target="_blank">
 					<img src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/cobra/images/btn-detail-window-sticker.png" />
@@ -192,24 +192,24 @@ $now_text = 'Now: ';
 				$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
 				if( $fuel_city != false && $fuel_highway != false ) {
 			?>
-			<div class="psm-fuel-economy">
-				<div id="psm-fuel-city">
+			<div class="cobra-fuel-economy">
+				<div id="cobra-fuel-city">
 					<p>City</p>
 					<p><strong><?php echo $fuel_city; ?></strong></p>
 				</div>
-				<div id="psm-fuel-highway">
+				<div id="cobra-fuel-highway">
 					<p>Hwy</p>
 					<p><strong><?php echo $fuel_highway; ?></strong></p>
 				</div>
 				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
 			</div>
 			<?php } ?>
-			<div class="psm-detail-buttons">
-				<a id="psm-calculate" href="">Payment Calculator</a>
+			<div class="cobra-detail-buttons">
+				<a id="cobra-calculate" href="">Payment Calculator</a>
 			</div>
-			<!--<div class="psm-request-form">
-				<div class="psm-form">
-					<div class="psm-header">
+			<!--<div class="cobra-request-form">
+				<div class="cobra-form">
+					<div class="cobra-header">
 						Request a Quote
 					</div>
 					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
@@ -241,11 +241,11 @@ $now_text = 'Now: ';
 					</form>
 				</div>
 			</div>-->
-			<br class="psm-clear" />
+			<br class="cobra-clear" />
 		</div>
-		<div class="psm-column-right">
-			<div class="psm-slideshow">
-				<div class="psm-images">
+		<div class="cobra-column-right">
+			<div class="cobra-slideshow">
+				<div class="cobra-images">
 				<?php
 					foreach( $inventory->photos as $photo ) {
 						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->large ) . '" />';
@@ -254,19 +254,19 @@ $now_text = 'Now: ';
 				</div>
 				<?php
 					if( $video_url ) {
-						echo '<a onClick="return video_popup(this, \'' . $year_make_model . '\')" href="' . $video_url . '" class="psm-video-button">Watch Video for this Vehicle</a>';
+						echo '<a onClick="return video_popup(this, \'' . $year_make_model . '\')" href="' . $video_url . '" class="cobra-video-button">Watch Video for this Vehicle</a>';
 					}
 					if( count( $inventory->photos > 1 ) ) {
-						echo '<div class="psm-navigation"></div>';
+						echo '<div class="cobra-navigation"></div>';
 					}
 				?>
 			</div>
 			<?php if (count($dealer_options) > 0){ ?>
-			<div id="psm-inventory-tabs">
+			<div id="cobra-inventory-tabs">
 				<ul>
-					<li><a href="#psm-dealer">Equipment / Features</a></li>
+					<li><a href="#cobra-dealer">Equipment / Features</a></li>
 				</ul>
-				<div id="psm-dealer">
+				<div id="cobra-dealer">
 					<ul>
 					<?php
 						foreach( $dealer_options as $option ) {
@@ -277,21 +277,21 @@ $now_text = 'Now: ';
 				</div>
 			</div>
 			<?php } ?>
-			<br class="psm-clear" />
+			<br class="cobra-clear" />
 		</div>
-		<div class="psm-contact-information">
+		<div class="cobra-contact-information">
 				<?php echo '<p>CALL US TODAY AT 800-241-5712</p>'; ?>
 		</div>
 	</div>
 	<div style="display: none;">
-		<div id="psm-make-offer">
+		<div id="cobra-make-offer">
 			<h1>Make us an Offer</h1>
 			<div class="required">*Required information</div>
 			<?php echo do_shortcode('[contact-form-7 id="200" title="Make Offer Form"]'); ?>
 		</div>
 	</div>
 </div>
-<div id="psm-calculate-form" title="Calculate Payments">
+<div id="cobra-calculate-form" title="Calculate Payments">
 	<h3>Loan Calculator</h3>
 	<form id="loan-calculator" name="loan-calculator" action="#" method="post">
 		<table style="width:100%">

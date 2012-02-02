@@ -2,7 +2,7 @@ var dealertrend = jQuery.noConflict();
 
 dealertrend(document).ready(function(){
 
-    tips = dealertrend( ".psm-validate-tips" );
+    tips = dealertrend( ".cobra-validate-tips" );
 
     function updateTips( t ) {
         tips.text( t ).addClass( "ui-state-highlight" );
@@ -31,7 +31,7 @@ dealertrend(document).ready(function(){
             }
         }
 
-    dealertrend('#psm-schedule').click(function() {
+    dealertrend('#cobra-schedule').click(function() {
 
         var name = dealertrend( "#formvehicletestdrive-name" ),
         email = dealertrend( "#formvehicletestdrive-email" ),
@@ -39,7 +39,7 @@ dealertrend(document).ready(function(){
         comments = dealertrend( "#formvehicletestdrive-comments" ),
         allFields = dealertrend( [] ).add( name ).add( email ).add( phone ).add( comments );
 
-        dealertrend('#psm-schedule-form').dialog({
+        dealertrend('#cobra-schedule-form').dialog({
             autoOpen: true,
             height: 500,
             width: 400,
@@ -73,7 +73,7 @@ dealertrend(document).ready(function(){
 
     });
 
-    dealertrend('#psm-friend').click(function() {
+    dealertrend('#cobra-friend').click(function() {
         var fromName = dealertrend( "#formtellafriend-from-name" ),
         toName = dealertrend( "#formtellafriend-friend-name" ),
         fromEmail = dealertrend( "#formtellafriend-from-email" ),
@@ -81,7 +81,7 @@ dealertrend(document).ready(function(){
         comments = dealertrend( "#formtellafriend-comments" ),
         allFields = dealertrend( [] ).add( fromName ).add( toName ).add( fromEmail ).add( toEmail ).add( comments );
 
-        dealertrend('#psm-friend-form').dialog({
+        dealertrend('#cobra-friend-form').dialog({
             autoOpen: true,
             height: 500,
             width: 400,
@@ -117,9 +117,9 @@ dealertrend(document).ready(function(){
 
     });
 
-    dealertrend('#psm-calculate').click(function() {
+    dealertrend('#cobra-calculate').click(function() {
 
-        dealertrend('#psm-calculate-form').dialog({
+        dealertrend('#cobra-calculate-form').dialog({
             autoOpen: true,
             height: 300,
             width: 500,

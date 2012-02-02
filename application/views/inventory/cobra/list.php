@@ -31,11 +31,11 @@
 
 ?>
 
-<div id="psm-wrapper">
-	<br class="psm-clear" id="psm-top" />
-	<div id="psm-listing">
-		<div id="psm-listing-top">
-			<div id="psm-quick-links">
+<div id="cobra-wrapper">
+	<br class="cobra-clear" id="cobra-top" />
+	<div id="cobra-listing">
+		<div id="cobra-listing-top">
+			<div id="cobra-quick-links">
 <?php
 				$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
 				$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
@@ -98,16 +98,16 @@
 <?php
 				endif;
 ?>
-				<form action="<?php echo $site_url; ?>/inventory/" method="GET" id="psm-search">
-					<input id="psm-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
-					<input id="psm-search-submit" value="Go" type="submit" />
+				<form action="<?php echo $site_url; ?>/inventory/" method="GET" id="cobra-search">
+					<input id="cobra-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
+					<input id="cobra-search-submit" value="Go" type="submit" />
 				</form>
 			</div>
-			<div id="psm-total-found">Found <?php echo $total_found; ?> Exact Matches:&nbsp;</div><?php echo $breadcrumbs; ?>
-			<div class="psm-pager">
+			<div id="cobra-total-found">Found <?php echo $total_found; ?> Exact Matches:&nbsp;</div><?php echo $breadcrumbs; ?>
+			<div class="cobra-pager">
 				<?php echo paginate_links( $args ); ?>
 			</div>
-			<div id="psm-sorting-columns">
+			<div id="cobra-sorting-columns">
 <?php
 				$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
 				switch( $sort ) {
@@ -129,11 +129,11 @@
 				<a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a>
 			</div>
 		</div>
-		<div id="psm-listing-content">
-			<div id="psm-listing-items">
+		<div id="cobra-listing-content">
+			<div id="cobra-listing-items">
 <?php
 				if( empty( $inventory ) ) {
-					echo '<div class="psm-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
+					echo '<div class="cobra-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 				} else {
 					foreach( $inventory as $inventory_item ):
 						$sale_class = $inventory_item->saleclass;
@@ -171,42 +171,42 @@
 						$contact_information = $inventory_item->contact_info;
 						$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
 ?>
-						<div class="psm-item" id="<?php echo $vin; ?>">
-							<div class="psm-listing-photo">
+						<div class="cobra-item" id="<?php echo $vin; ?>">
+							<div class="cobra-listing-photo">
 								<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
 									<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 								</a>
-								<a class="psm-listing-moreinfo" href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">Click here to view details</a>
+								<a class="cobra-listing-moreinfo" href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">Click here to view details</a>
 							</div>
-							<div class="psm-listing-left">
-								<div class="psm-main-line">
+							<div class="cobra-listing-left">
+								<div class="cobra-main-line">
 									<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
-										<span class="psm-year"><?php echo $year; ?></span>
-										<span class="psm-make"><?php echo $make; ?></span>
-										<span class="psm-model"><?php echo $model; ?></span><br />
-										<span class="psm-trim"><?php echo $trim; ?></span>
+										<span class="cobra-year"><?php echo $year; ?></span>
+										<span class="cobra-make"><?php echo $make; ?></span>
+										<span class="cobra-model"><?php echo $model; ?></span><br />
+										<span class="cobra-trim"><?php echo $trim; ?></span>
 									</a>
 								</div>
-								<div class="psm-stock-vin">
+								<div class="cobra-stock-vin">
 									Stock #: <?php echo $stock_number; ?> - VIN: <?php echo $vin; ?>
 								</div>
 							</div>
-							<div class="psm-listing-right">
-								<div class="psm-listing-price">
+							<div class="cobra-listing-right">
+								<div class="cobra-listing-price">
 									<span class="listing-msrp"><?php if ($sale_class == 'New'):?>MSRP<?php endif; ?></span>
-									<div class="psm-price">
+									<div class="cobra-price">
 <?php
 										if( $on_sale && $sale_price > 0 ) {
 											$now_text = 'Price: ';
 											if( $use_was_now ) {
-												$price_class = ( $use_price_strike_through ) ? 'psm-strike-through psm-asking-price' : 'psm-asking-price';
+												$price_class = ( $use_price_strike_through ) ? 'cobra-strike-through cobra-asking-price' : 'cobra-asking-price';
 												echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
 												$now_text = 'Now: ';
 											}
-											echo '<div class="psm-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
+											echo '<div class="cobra-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 										} else {
 											if( $asking_price > 0 ) {
-												echo '<div class="psm-asking-price"><span>' . substr( money_format( '%(#0n' , $asking_price ) , 1 , 1) . '</span>' . substr( money_format( '%(#0.0n' , $asking_price ) , 2) . '</div>';
+												echo '<div class="cobra-asking-price"><span>' . substr( money_format( '%(#0n' , $asking_price ) , 1 , 1) . '</span>' . substr( money_format( '%(#0.0n' , $asking_price ) , 2) . '</div>';
 											} else {
 												echo '<div>' . $default_price_text . '</div>';
 											}
@@ -214,14 +214,14 @@
 ?>
 									</div>
 								</div>
-								<a class="psm-listing-moreinfo-btn" href="<?php echo $inventory_url; ?>"></a>
+								<a class="cobra-listing-moreinfo-btn" href="<?php echo $inventory_url; ?>"></a>
 							</div>
-							<div class="psm-listing-info">
-								<span class="psm-exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
-								<span class="psm-interior-color">Int. Color: <?php echo $interior_color; ?></span>
-								<span class="psm-engine">Engine: <?php echo $engine; ?></span>
+							<div class="cobra-listing-info">
+								<span class="cobra-exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
+								<span class="cobra-interior-color">Int. Color: <?php echo $interior_color; ?></span>
+								<span class="cobra-engine">Engine: <?php echo $engine; ?></span>
 							</div>
-							<div class="psm-listing-cpo">
+							<div class="cobra-listing-cpo">
 <?php
 								if ($inventory_item->certified) {
 ?>
@@ -230,7 +230,7 @@
 								}
 ?>
 							</div>
-							<!--<div class="psm-icons">
+							<!--<div class="cobra-icons">
 <?php
 								if (strpos($icons,'assets0')) {
 									$iconLink = 'assets0';
@@ -240,28 +240,28 @@
 								echo str_replace('http://'.$iconLink.'.dealertrend.com/images/themes/vehicle_inventory/silver_surfer/icons/',get_bloginfo('wpurl').'/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/cobra/images/icons/',$icons);
 ?>
 							</div>-->
-							<br class="psm-clear" />
+							<br class="cobra-clear" />
 					</div>
 <?php
 					endforeach;
 				}
 ?>
-					<div class="psm-pager-bottom">
+					<div class="cobra-pager-bottom">
 				<?php echo paginate_links( $args ); ?>
 			</div>
 				</div>
-				<br class="psm-clear" />
+				<br class="cobra-clear" />
 			</div>
 		</div>
-		<div id="psm-disclaimer">
+		<div id="cobra-disclaimer">
 			<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
 		</div>
 	</div>
-	<br class="psm-clear" />
+	<br class="cobra-clear" />
 </div>
-<br class="psm-clear" />
+<br class="cobra-clear" />
 <div style="display: none;">
-	<div id="psm-make-offer">
+	<div id="cobra-make-offer">
 		<h1>Make us an Offer</h1>
 		<div class="required">*Required information</div>
 		<?php echo do_shortcode('[contact-form-7 id="200" title="Make Offer Form"]'); ?>
