@@ -183,7 +183,7 @@ $now_text = 'Now: ';
 			<div class="psm-sticker">
 				<?php if ($sale_class == 'New'):?>
 				<a href="http://fordlabels.webview.biz/webviewhybrid/WindowSticker.aspx?vin=<?php echo $vin; ?>" target="_blank">
-					<img src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/psm/images/btn-detail-window-sticker.png" />
+					<img src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/cobra/images/btn-detail-window-sticker.png" />
 				</a>
 				<?php endif; ?>
 			</div>

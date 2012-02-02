@@ -237,7 +237,7 @@
 								} else {
 									$iconLink = 'assets3';
 								}
-								echo str_replace('http://'.$iconLink.'.dealertrend.com/images/themes/vehicle_inventory/silver_surfer/icons/',get_bloginfo('wpurl').'/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/psm/images/icons/',$icons);
+								echo str_replace('http://'.$iconLink.'.dealertrend.com/images/themes/vehicle_inventory/silver_surfer/icons/',get_bloginfo('wpurl').'/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/cobra/images/icons/',$icons);
 ?>
 							</div>-->
 							<br class="psm-clear" />
