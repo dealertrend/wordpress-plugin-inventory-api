@@ -1,7 +1,6 @@
 <?php
 
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	setlocale( LC_MONETARY , 'en_US' );
 	$prices = $inventory->prices;
 	$use_was_now = $prices->{ 'use_was_now?' };
 	$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
@@ -136,7 +135,7 @@ function video_popup(url , title) {
 				<div class="psm-detail-price">
 					<?php if ($sale_class == 'New'):?>
 					<span>MSRP</span>
-					<? endif; ?>
+					<?php endif; ?>
 					<div class="psm-price">
 					<?php
 					if( $on_sale && $sale_price > 0 ) {
@@ -183,7 +182,7 @@ $now_text = 'Now: ';
 			</div>
 			<div class="psm-sticker">
 				<?php if ($sale_class == 'New'):?>
-				<a href="http://fordlabels.webview.biz/webviewhybrid/WindowSticker.aspx?vin=<?=$vin?>" target="_blank">
+				<a href="http://fordlabels.webview.biz/webviewhybrid/WindowSticker.aspx?vin=<?php echo $vin; ?>" target="_blank">
 					<img src="<?php echo bloginfo('wpurl'); ?>/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/psm/images/btn-detail-window-sticker.png" />
 				</a>
 				<?php endif; ?>

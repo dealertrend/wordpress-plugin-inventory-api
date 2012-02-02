@@ -1,106 +1,94 @@
 <?php
 
-	global $wp_rewrite;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-	$site_url = site_url();
+global $wp_rewrite;
 
-	setlocale( LC_MONETARY , 'en_US.UTF-8' );
+$vehicle_management_system->tracer = 'Obtaining requested inventory.';
+$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1  ) ) );
+$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
-	$company_information = $company_information[ 'data' ];
+$site_url = site_url();
+$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
+$type = isset( $inventory->vin ) ? 'detail' : 'list';
 
-	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
+wp_enqueue_script( 'jquery' );
+wp_enqueue_script( 'jquery-ui-core' );
+wp_enqueue_script( 'jquery-ui-button' );
+wp_enqueue_script( 'jquery-ui-dialog' );
+wp_enqueue_script(
+	'dealertrend-inventory-theme-psm-misc-ui',
+	$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/misc-ui.js',
+	array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
+	$this->plugin_information[ 'Version' ],
+	true
+);
 
-	include_once( ABSPATH . 'wp-content/plugins/' . dirname( $this->plugin_information[ 'PluginBaseName' ] ) . '/application/assets/inventory/php/partials/check_headers.php' );
+switch( $type ) {
+	case 'list':
+		wp_enqueue_script(
+			'dealertrend-inventory-theme-psm-sidebar',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/sidebar.js',
+			array( 'jquery' , 'jquery-ui-core' ),
+			$this->plugin_information[ 'Version' ],
+			true
+		);
+	break;
+	case 'detail':
+		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
+		wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
+		wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
+		wp_enqueue_script(
+			'dealertrend-inventory-api-loan-calculator',
+			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+			'jquery',
+			$this->plugin_information[ 'Version' ]
+		);
+		wp_enqueue_script(
+			'dealertrend-inventory-theme-psm-slideshow',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/slideshow.js',
+			array( 'jquery-cycle' ),
+			$this->plugin_information[ 'Version' ],
+			true
+		);
+		wp_enqueue_script(
+			'dealertrend-inventory-theme-psm-detail-buttons',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/detail-buttons.js',
+			array( 'jquery-ui-dialog' ),
+			$this->plugin_information[ 'Version' ],
+			true
+		);
+		wp_enqueue_script(
+			'dealertrend-inventory-theme-psm-tabs',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/tabs.js',
+			array( 'jquery-ui-tabs' ),
+			$this->plugin_information[ 'Version' ],
+			true
+		);
+	break;
+}
 
-	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+get_header();
+flush();
 
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'jquery-ui-core' );
-	wp_enqueue_script( 'jquery-ui-button' );
-	wp_enqueue_script( 'jquery-ui-dialog' );
-	wp_enqueue_script(
-		'dealertrend-inventory-theme-psm-misc-ui',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/misc-ui.js',
-		array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
-		$this->plugin_information[ 'Version' ],
-		true
-	);
+  switch( $status ) {
+    case 200:
+    case 404:
+    break;
+    case 503:
+      echo $generic_error_message;
+      echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
+    default:
+      get_footer();
+      return false;
+    break;
+  }
 
-	switch( $type ) {
-		case 'list':
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-psm-sidebar',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/sidebar.js',
-				array( 'jquery' , 'jquery-ui-core' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-		break;
-		case 'detail':
-			wp_enqueue_script( 'jquery-ui-tabs' );
-			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
-			wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
-			wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
-			wp_enqueue_script(
-				'dealertrend-inventory-api-loan-calculator',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
-				'jquery',
-				$this->plugin_information[ 'Version' ]
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-psm-slideshow',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/slideshow.js',
-				array( 'jquery-cycle' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-psm-detail-buttons',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/detail-buttons.js',
-				array( 'jquery-ui-dialog' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-psm-tabs',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/psm/js/tabs.js',
-				array( 'jquery-ui-tabs' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-		break;
-	}
-
-	get_header();
-	flush();
-
-	if( $check_host[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $check_company_id[ 'status' ] == false ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the company information feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $check_inventory[ 'status' ] == false && $check_inventory[ 'code' ] != 200 ) {
-		echo $generic_error_message;
-		echo '<p>We were unable to retreive the inventory feed. Refreshing the page may resolve this.</p>';
-		return false;
-	}
-
-	if( $inventory === false ) {
-		echo $generic_error_message;
-		echo '<p>We were able to retreive the inventory feed, but while requesting the full feed the connecion timed out. Please refresh the page.</p>';
-		return false;
-	}
+$company_information = json_decode( $company_information[ 'body' ] );
 
 	$city = $company_information->seo->city;
 	$state = $company_information->seo->state;
-
 	$company_name = strtoupper( $company_information->name );
 
 	$parameters = $this->parameters;

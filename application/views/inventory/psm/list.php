@@ -35,9 +35,8 @@
 	<br class="psm-clear" id="psm-top" />
 	<div id="psm-listing">
 		<div id="psm-listing-top">
-			<h1>Remember, if you don't find what you're looking for, we can usually get it in 24 hours or less. Just give us a call: <span style="color: #D41D2A;">800-241-5712</span>.</h1>
 			<div id="psm-quick-links">
-				<?php
+<?php
 				$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
 				$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
 				$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
@@ -48,50 +47,57 @@
 					'price_from' => $price_from,
 					'certified' => $certified
 				);
-				if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): ?>
-					<?php
+				if( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ): 
 					if( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ):
 						$do_not_carry = remove_query_arg( 'page' , $query );
-					?>
-					<?php
 					endif;
-					?>
+?>
 					<span>Make</span>
-					<select onchange="window.location = this.value;" class="styled">
-						<?php
-						if( isset( $parameters[ 'saleclass' ] ) ) {
-							echo '<option value="' . $site_url . '/inventory/' . $parameters['saleclass'] . '/">All</option>';
-						}
-						foreach( $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) ) as $make ) {
-							if( !empty( $wp_rewrite->rules ) ) {
-								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/';
-								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;?>
-								<option value="<?=$url?>"<?php if ($make == $parameters['make']) {echo ' selected="selected"';} ?>><?=$make?></option>
-								<?php } else { ?>
-								<option value="<?=@add_query_arg( array( 'make' => $make ) , $do_not_carry )?>"<?php if ($make == $parameters['make']) {echo ' selected="selected"';} ?>><?=$make?></option>
-								<?php }
-						}
-						?>
-					</select>
-					<span>Model</span>
-					<select onchange="window.location = this.value;">
-						<?php
-						if( !empty( $wp_rewrite->rules ) ) { ?>
-							<option value="<?=$site_url?>/inventory/<?=$sale_class?>/">View <?=$sale_class?> Vehicles</option>
-						<?php } else { ?>
-							<option value="<?=@add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry )?>">View <?=$sale_class?> Vehicles</option>
-						<?php }
-						foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
-							if( !empty( $wp_rewrite->rules ) ) {
-								$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/'; ?>
-								<option value="<?=$url?>"<?php if ($model == $parameters['model']) {echo ' selected="selected"';} ?>><?=$model?></option>
-							<?php } else { ?>
-								<option value="<?=@add_query_arg( array( 'model' => $model ) , $do_not_carry )?><?php if ($model == $parameters['model']) {echo ' selected="selected"';} ?>"><?=$model?></option>
-							<?php }
+						<select onchange="window.location = this.value;" class="styled">
+<?php
+							if( isset( $parameters[ 'saleclass' ] ) ) {
+								echo '<option value="' . $site_url . '/inventory/' . $parameters['saleclass'] . '/">All</option>';
+							}
+							foreach( $vehicle_management_system->get_makes( array_merge( array( 'saleclass' => $sale_class ) , $filters ) ) as $make ) {
+								if( !empty( $wp_rewrite->rules ) ) {
+									$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/';
+									$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;?>
+									<option value="<?=$url?>"<?php if ($make == $parameters['make']) {echo ' selected="selected"';} ?>><?=$make?></option>
+<?php
+								} else {
+?>
+									<option value="<?=@add_query_arg( array( 'make' => $make ) , $do_not_carry )?>"<?php if ($make == $parameters['make']) {echo ' selected="selected"';} ?>><?=$make?></option>
+<?php
+								}
+							}
+?>
+						</select>
+						<span>Model</span>
+						<select onchange="window.location = this.value;">
+<?php
+							if( !empty( $wp_rewrite->rules ) ) { ?>
+								<option value="<?=$site_url?>/inventory/<?=$sale_class?>/">View <?=$sale_class?> Vehicles</option>
+<?php
+							} else {
+?>
+								<option value="<?=@add_query_arg( array( 'saleclass' => $sale_class ) , $do_not_carry )?>">View <?=$sale_class?> Vehicles</option>
+<?php
+							}
+							foreach( $vehicle_management_system->get_models( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) ) as $model ) {
+								if( !empty( $wp_rewrite->rules ) ) {
+									$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model . '/'; ?>
+									<option value="<?=$url?>"<?php if ($model == $parameters['model']) {echo ' selected="selected"';} ?>><?=$model?></option>
+<?php
+								} else {
+?>
+									<option value="<?=@add_query_arg( array( 'model' => $model ) , $do_not_carry )?><?php if ($model == $parameters['model']) {echo ' selected="selected"';} ?>"><?=$model?></option>
+<?php
+								}
 						} ?>
 					</select>
-			
-				<?php endif; ?>
+<?php
+				endif;
+?>
 				<form action="<?php echo $site_url; ?>/inventory/" method="GET" id="psm-search">
 					<input id="psm-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 					<input id="psm-search-submit" value="Go" type="submit" />
@@ -102,7 +108,7 @@
 				<?php echo paginate_links( $args ); ?>
 			</div>
 			<div id="psm-sorting-columns">
-				<?php
+<?php
 				$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
 				switch( $sort ) {
 					case 'year_asc': $sort_year_class = 'asc'; break;
@@ -116,7 +122,7 @@
 				$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
 				$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 				$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
-				?>
+?>
 				Sort options: 
 				<a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a> / 
 				<a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a> / 
@@ -125,12 +131,11 @@
 		</div>
 		<div id="psm-listing-content">
 			<div id="psm-listing-items">
-				<?php
+<?php
 				if( empty( $inventory ) ) {
 					echo '<div class="psm-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 				} else {
 					foreach( $inventory as $inventory_item ):
-						setlocale( LC_MONETARY , 'en_US' );
 						$sale_class = $inventory_item->saleclass;
 						$prices = $inventory_item->prices;
 						$use_was_now = $prices->{ 'use_was_now?' };
@@ -164,7 +169,8 @@
 							$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
 						}
 						$contact_information = $inventory_item->contact_info;
-						$generic_vehicle_title = $year . ' ' . $make . ' ' . $model; ?>
+						$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
+?>
 						<div class="psm-item" id="<?php echo $vin; ?>">
 							<div class="psm-listing-photo">
 								<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
@@ -187,15 +193,15 @@
 							</div>
 							<div class="psm-listing-right">
 								<div class="psm-listing-price">
-									<span class="listing-msrp"><?php if ($sale_class == 'New'):?>MSRP<? endif; ?></span>
+									<span class="listing-msrp"><?php if ($sale_class == 'New'):?>MSRP<?php endif; ?></span>
 									<div class="psm-price">
-										<?php
+<?php
 										if( $on_sale && $sale_price > 0 ) {
 											$now_text = 'Price: ';
 											if( $use_was_now ) {
 												$price_class = ( $use_price_strike_through ) ? 'psm-strike-through psm-asking-price' : 'psm-asking-price';
 												echo '<div class="' . $price_class . '">Was: ' . money_format( '%(#0n' , $asking_price ) . '</div>';
-$now_text = 'Now: ';
+												$now_text = 'Now: ';
 											}
 											echo '<div class="psm-sale-price">' . $now_text . money_format( '%(#0n' , $sale_price ) . '</div>';
 										} else {
@@ -205,10 +211,10 @@ $now_text = 'Now: ';
 												echo '<div>' . $default_price_text . '</div>';
 											}
 										}
-										?>
+?>
 									</div>
 								</div>
-								<a class="psm-listing-moreinfo-btn" href="<?php echo $inventory_url; ?>"></a>									
+								<a class="psm-listing-moreinfo-btn" href="<?php echo $inventory_url; ?>"></a>
 							</div>
 							<div class="psm-listing-info">
 								<span class="psm-exterior-color">Ext. Color: <?php echo $exterior_color; ?></span>
@@ -216,28 +222,30 @@ $now_text = 'Now: ';
 								<span class="psm-engine">Engine: <?php echo $engine; ?></span>
 							</div>
 							<div class="psm-listing-cpo">
-								<?php if ($inventory_item->certified) { ?>
+<?php
+								if ($inventory_item->certified) {
+?>
 								<img src="<?php echo plugin_dir_url(__FILE__); ?>images/<?php echo $make; ?>-cpo-white.png" />
-								<?php } ?>
+<?php
+								}
+?>
 							</div>
 							<!--<div class="psm-icons">
-								<?php
+<?php
 								if (strpos($icons,'assets0')) {
 									$iconLink = 'assets0';
 								} else {
 									$iconLink = 'assets3';
 								}
 								echo str_replace('http://'.$iconLink.'.dealertrend.com/images/themes/vehicle_inventory/silver_surfer/icons/',get_bloginfo('wpurl').'/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/psm/images/icons/',$icons);
-								?>
+?>
 							</div>-->
 							<br class="psm-clear" />
-						
 					</div>
-					<?php
-					flush();
+<?php
 					endforeach;
-					}
-					?>
+				}
+?>
 					<div class="psm-pager-bottom">
 				<?php echo paginate_links( $args ); ?>
 			</div>
