@@ -94,7 +94,7 @@ $company_name = strtoupper( $company_information->name );
 $parameters = $this->parameters;
 $query = '?' . http_build_query( $_GET );
 
-$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page">' . ucwords( strtolower( urldecode( $company_name ) ) ) . '</a> ';
+$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page">' . ucwords( strtolower( urldecode( $company_name ) ) ) . '</a>';
 $put_in_trail = array(
 	'saleclass',
 	'make',
@@ -122,10 +122,10 @@ foreach( $parameters as $key => $value ) {
 	if( in_array( $key , $put_in_trail ) ) {
 		if( ! empty( $wp_rewrite->rules ) ) {
 			$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
-			$breadcrumbs .= '<span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+			$breadcrumbs .= ' <span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
 		} else {
 			$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
-			$breadcrumbs .= '<span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
+			$breadcrumbs .= ' <span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
 		}
 	}
 }

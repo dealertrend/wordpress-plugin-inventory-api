@@ -58,7 +58,7 @@ $filters = array(
 	'price_from' => $price_from,
 	'certified' => $certified
 );
-$vehicle_management_system->tracer = 'Obtaining a list of makes for the sidebar.';
+$vehicle_management_system->tracer = 'Obtaining a list of makes for the quick-links.';
 $makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
 $makes = json_decode( $makes[ 'body' ] );
 $make_count = count ( $makes );
@@ -90,21 +90,23 @@ echo '
 					foreach( $makes as $make ) {
 						$make_safe = str_replace( '/' , '%252' , $make );
 						$make_safe = ucwords( strtolower( $make_safe ) );
-						if( !empty( $wp_rewrite->rules ) ) {
-							$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
-							$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
-							echo '<option value="' . $url . '"';
-							if( $make == $parameters[ 'make' ] ) {
-								echo ' selected="selected" ';
+						if( ! in_array( $make_safe , $shown_makes ) ) {
+							$shown_makes[] = $make_safe;
+							if( !empty( $wp_rewrite->rules ) ) {
+								$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
+								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
+								echo '<option value="' . $url . '"';
+								if( $make == $parameters[ 'make' ] ) {
+									echo ' selected="selected" ';
+								}
+							} else {
+								echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
+								if( $make == $parameters[ 'make' ] ) {
+									echo ' selected="selected" ';
+								}
 							}
-							echo '>' . $make . '</option>';
-						} else {
-							echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
-							if( $make == $parameters[ 'make' ] ) {
-								echo ' selected="selected" ';
-							}
+							echo '>' . ucwords( strtolower( $make ) ) . '</option>';
 						}
-						echo '>' . ucwords( strtolower( $make ) ) . '</option>';
 					}
 				echo '
 				</select>
@@ -123,17 +125,36 @@ echo '
 				$model_count = count( $models );
 			}
 
+			$make = $parameters[ 'make' ];
 			if( $make_count > 0 ) {
 				echo '
 				<span>Models: </span>
 				<select onchange="window.location = this.value;" class="styled"';
-				if( ! isset( $parameters[ 'make' ] ) ) {
+				if( ! isset( $parameters[ 'make' ] ) || $model_count == 0 ) {
 					echo ' disabled="disabled" ';
 				}
-				echo '
-				>
+				echo '>
 					<option value="' . $site_url . '/inventory/' . $parameters['saleclass'] . '/">View All Models</option>';
 					if( $model_count > 1 ) {
+						foreach( $models as $model ) {
+							$model_safe = str_replace( '/' , '%252' , $model );
+							$model_safe = ucwords( strtolower( $model_safe ) );
+							if( !empty( $wp_rewrite->rules ) ) {
+								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model_safe . '/';
+								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
+								echo '<option value="' . $url . '"';
+								if( rawurlencode( $model_safe ) == $parameters[ 'model' ] ) {
+									echo ' selected="selected" ';
+								}
+								echo '>' . ucwords( strtolower( $model ) ) . '</option>';
+							} else {
+								echo '<option value="' . @add_query_arg( array( 'model' => $model_safe ) , $do_not_carry ) . '"';
+								if( rawurlencode( $model_safe ) == $parameters[ 'model' ] ) {
+									echo ' selected="selected" ';
+								}
+							}
+							echo '>' . ucwords( strtolower( $model ) ) . '</option>';
+						}
 					}
 				echo '
 				</select>';
@@ -214,9 +235,11 @@ echo '
 						<div class="left">
 							<div class="main">
 								<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '" class="details">
-									<span class="year">' . $year . '</span>
-									<span class="make">' . $make . '</span>
-									<span class="model">' . $model . '</span><br />
+									<div style="overflow:hidden; width:260px; height:24px; line-height:24px; margin-top:-5px;">
+										<span class="year">' . $year . '</span>
+										<span class="make">' . $make . '</span>
+										<span class="model">' . $model . '</span>
+									</div>
 									<span class="trim">' . $trim . '&nbsp;</span>
 								</a>
 							</div>
@@ -227,7 +250,7 @@ echo '
 						<div class="right">
 							<div class="price">
 								<span class="msrp">';
-									if( strtolower( $sale_class ) == 'new' ) { echo 'MSRP'; }
+									if( strtolower( $sale_class ) == 'new' && ! $use_was_now ) { echo 'MSRP'; }
 								echo '
 									&nbsp;
 								</span>';
