@@ -83,7 +83,7 @@
 					</li>
 					<?php
 						endif;
-						if( !isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
+						if( ! isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
 							$vehicle_management_system->tracer = 'Obtaining a list of makes for the sidebar.';
 							$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
 							$makes = json_decode( $makes[ 'body' ] );
@@ -132,7 +132,7 @@
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model_safe . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
 									} else {
-										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $mode_safel ) , $do_not_carry ) . '">' . $model . '</a></li>';
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $mode_safe ) , $do_not_carry ) . '">' . $model . '</a></li>';
 									}
 								}
 								echo '<li><span class="no-style"><a href="' . $make_url . '" class="jquery-ui-button" title="View ' . $sale_class . ' Vehicles">Previous</a></span></li>';
