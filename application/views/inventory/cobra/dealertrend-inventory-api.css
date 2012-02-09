@@ -1,297 +1,530 @@
-/* Shared elements. */
-
-.ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; }
-
-.cobra-strike-through { text-decoration:line-through; }
-.cobra-clear { clear:both; display:block; width:100%; height:0; line-height:0; }
-.cobra-return-to-top { float:right; text-transform:uppercase; text-align:right; margin-bottom:10px; height:25px; line-height:25px; }
-.cobra-pager { text-align:left; clear:both; float: left; }
-.cobra-pager-bottom { text-align:left; clear:both; float: left; margin: 0 0 15px 10px; }
-.cobra-pager a, .cobra-pager-bottom a { font-size:12px; color:#333; text-decoration:none; }
-.cobra-pager a:hover, .cobra-pager-bottom a:hover { color:#cc0000; }
-.cobra-breadcrumbs { float:left; }
-.cobra-breadcrumbs a { text-decoration:none; color:#cc0000; font-size:13px; }
-
-#cobra-wrapper { font-family: Arial; font-size:12px; line-height:16px; letter-spacing:.9px; width:885px; margin:auto; margin-top:10px; position:relative;  }
-
-/* Listing Page */
-#cobra-listing { clear:both; background:#fff; padding:14px 0 0 0; }
-
-#cobra-search { display: inline; float:right; }
-#cobra-search label { margin-left:50px; margin-right:5px; }
-#cobra-search-box { width:180px; border:none; background:url(images/search-bg.png); width:234px; padding:7px 0 2px 25px; }
-#cobra-search-submit { background:url(images/btn-inventory-go.png) right; border:none; color:#fff; height:21px; width:28px; position:relative; bottom:1px; right:5px; cursor:pointer; }
-
-#cobra-listing-top { z-index:3; position:relative; color:#666; width:868px; margin:0 auto; }
-#cobra-listing-top h1 { font-size:25px; color:#393e42; line-height: 26px; letter-spacing: 0; padding: 0 10px; }
-#cobra-total-found { float: left; font-size:13px; color:#333; margin:0 0 15px 0; }
-#cobra-quick-links { background:url("images/bg-inventory-top.png"); height:32px; font-family: Arial; font-size:12px; line-height:16px; letter-spacing:.9px; margin: 0 0 10px 0; padding:16px 0 0 10px; color:#fff; }
-#cobra-quick-links select { margin: 0 10px 0 0; }
-ul.selectBox-options a { color:#000; }
-#cobra-quick-links > h3 { line-height:25px; height:25px; text-align:left; text-transform:uppercase; font-size:12px; font-weight:bold; margin-left:10px; padding-top:4px; }
-#cobra-quick-links > ul { list-style:none; padding:0; margin:0; }
-#cobra-quick-links li { list-style:none; }
-#cobra-quick-links > ul > li { color: #fff; font-weight:bold; text-transform:uppercase; margin:0; }
-#cobra-quick-links > ul > li span { width:165px; display:block; cursor:pointer; padding-left:10px; border-bottom:1px solid #a8a8a8; height:20px; line-height:20px; }
-#cobra-quick-links > ul > li.cobra-collapsed span { background: transparent url('images/button-expand-13x13.jpg') no-repeat 150px 3px; }
-#cobra-quick-links > ul > li.cobra-expanded span { background: transparent url('images/button-collapse-13x13.jpg') no-repeat 150px 3px;  }
-#cobra-quick-links > ul > li > ul { list-style:none; padding:0; margin:0; background:white; border-bottom:1px solid #a8a8a8; padding:10px; }
-#cobra-quick-links > ul > li > ul > li { margin:0; }
-#cobra-quick-links > ul > li > ul > li > a { color:black; text-transform:capitalize; line-height:20px; }
-#cobra-quick-links > ul > li > ul > li > a:hover { color:#9f0300; }
-
-#cobra-sorting-columns { float: right; color:#333; font-size:13px; }
-#cobra-sorting-columns a { color:#333; font-size:13px; text-decoration:none; }
-#cobra-sorting-columns a:hover { color:#cc0000; }
-#cobra-sorting-columns > div > a { color:black; text-decoration:none; background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left; padding-left:15px;  }
-#cobra-sorting-columns > div > a.asc { color:black; text-decoration:none; background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left; padding-left:15px;  }
-#cobra-sorting-columns > div > a.desc { color:black; text-decoration:none; background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left; padding-left:15px; }
-#cobra-sorting-columns > div > a:hover { color:#9f0300; }
-#cobra-sorting-columns > div { float:left; width:185px; border-right:1px solid #a8a8a8; text-align:center; line-height:50px; }
-#cobra-sorting-columns > div.last { border-right:0; }
-
-#cobra-listing-items { position:relative; z-index:2; position:relative; margin-bottom:10px; }
-
-.cobra-not-found h2 { border-bottom: 1px solid #a8a8a8; padding:20px; text-align:center; font-size:16px; }
-
-#cobra-listing-items > h2 { display:block; line-height:20px; padding:10px; }
-
-.cobra-item { clear:both; height:128px; padding:24px 8px 0; margin:0 auto 20px; position:relative; overflow:hidden; }
-
-.cobra-item .cobra-listing-left { background:url(images/bg-listing.png); width:294px; height:65px; float:left; padding:15px 0 0 15px; position:relative; z-index:2; }
-.cobra-item .cobra-listing-right { position:relative; background:url(images/bg-listing.png) -309px 0; float: left; width:301px; height:65px; padding:15px 0 0 15px; }
-
-.cobra-item .cobra-listing-info { font-size:10px; line-height:10px; color:#000; float:left; padding: 10px 0 0 15px; }
-.cobra-item .cobra-listing-cpo img { height:45px; margin:2px 0 0 20px; }
-.cobra-item .cobra-listing-price { float: left; width: 160px; }
-.cobra-item .cobra-listing-price span { font-size:10px; }
-.cobra-item .cobra-listing-price span.listing-msrp { display:block; height:16px; }
-.cobra-item .cobra-listing-price .cobra-price span { font-size:20px; position: relative; bottom:11px; }
-.cobra-item .cobra-listing-moreinfo-btn { display:block; background:url(images/btn-listings-moreinfo.png); float:right; width:115px; height:32px; margin:10px 15px 0 0; }
-.cobra-item .cobra-listing-autocheck { position:relative; }
-.cobra-item .cobra-listing-autocheck a { display:none; position:absolute; right:135px; top:57px; }
-.cobra-item:hover .cobra-listing-autocheck a { display:block; }
-.cobra-item .cobra-listing-make-offer { position:relative; }
-.cobra-item .cobra-listing-make-offer a { display:none; background:url("images/btn-inventory-make-offer.png"); height:52px; position:absolute; right:10px; top:66px; width: 110px; }
-.cobra-item:hover .cobra-listing-make-offer a { display:block; }
-.cobra-item a { text-decoration:none; }
-.cobra-item .cobra-listing-photo { float: left;width: 244px; height: 158px; position: relative; bottom: 24px; }
-.cobra-item .cobra-listing-photo img { width:200px; padding: 0 21px; border: 1px solid #e6e6e6; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-.cobra-item .cobra-listing-photo .cobra-listing-moreinfo { display:none; background:rgba(0,0,0,.61); height:79px; position:absolute; top:0; width:244px; padding:73px 0 0 0; font-size:14px; text-align:center; }
-.cobra-item .cobra-listing-photo:hover .cobra-listing-moreinfo { display:block; }
-.cobra-item .cobra-listing-photo .cobra-listing-moreinfo:hover { color:#fff; }
-.cobra-item .cobra-main-line { font-size:19px; font-weight:bold; position:relative; }
-.cobra-item .cobra-main-line a span { color:#fff; text-shadow:1px 1px 1px #000; }
-.cobra-item .cobra-main-line a span.cobra-trim { font-size:14px; font-weight:normal; }
-.cobra-item .cobra-stock-vin { font-size:10px; color:#fff; margin: 8px 0 0 0; }
-.cobra-item .cobra-headline { color:#9f0300; font-weight:bold; line-height:14px; font-size:12px; padding:5px 0; word-wrap: break-word; margin-left:5px; }
-
-.cobra-item .cobra-exterior-color,
-.cobra-item .cobra-interior-color,
-.cobra-item .cobra-transmission,
-.cobra-item .cobra-stock-number,
-.cobra-item .cobra-odometer,
-.cobra-item .cobra-vin { display:block; }
-
-.cobra-item .cobra-details-left,
-.cobra-item .cobra-details-right { font-size:10px; overflow:hidden; margin-left:5px; }
-.cobra-item .cobra-details-left { float:left; padding-right:10px; }
-.cobra-item .cobra-details-right { float:left; padding-left:10px; width:250px; }
-
-.cobra-item .cobra-icons { height: 40px; left: 22px; overflow: hidden; position: absolute; top: 84px; width: 150px; z-index: 1; }
-.cobra-item .cobra-price { font-size:26px; font-weight:lighter; letter-spacing: -1px; }
-.cobra-item .cobra-price .cobra-asking-price,
-.cobra-item .cobra-price .cobra-sale-price { color:#000; clear:both; line-height:26px; font-size: 38px }
-.cobra-item .cobra-price > div { width:200px; float:left; }
-.cobra-item .cobra-price .cobra-asking-price.cobra-strike-through { font-size:14px; color:gray; font-weight:normal; line-height:14px; margin-top:5px; }
-
-.cobra-item .cobra-price a { text-align:center; display:block; height:30px; width:155px; float:right; background:#9f0300; font-size:12px; color:white; line-height:30px; border-radius: 15px; -moz-border-radius: 15px; }
-.cobra-item .cobra-price a:hover { background:#666; }
-
-.cobra-item .cobra-contact-information { float:left; margin-left:5px; font-size:14px; }
-
-#cobra-disclaimer { float:right; width:750px; font-size:10px; }
-
-.cobra-sticker { margin:0 0 10px 0; }
-
-/* Fancybox Make Offer Styles */
-#fancybox-content { background:#000; border-color:#000; }
-#cobra-make-offer { font-size: 13px; }
-
-#cobra-make-offer h1 { font-size:33px; color:#fff; }
-#cobra-make-offer .required { color:#ec1c25; }
-#cobra-make-offer div.required { font-size:13px; position:absolute; right:10px; top:60px; }
-
-
-#cobra-make-offer .wpcf7 { background:#fff; padding: 10px; }
-#cobra-make-offer .wpcf7 input { width:200px; -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset; -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset; -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px; -ms-border-radius: 4px; -khtml-border-radius: 4px; border-radius: 4px; border:1px solid #999; padding: 3px; }
-#cobra-make-offer .make-offer-year { float:left;text-align:center; margin:0 10px 15px 0; }
-#cobra-make-offer .make-offer-make { float:left;text-align:center; margin:0 10px 0 0; }
-#cobra-make-offer .make-offer-model { float:left;text-align:center; margin:0 10px 0 0; }
-#cobra-make-offer .make-offer-year select, #cobra-make-offer .make-offer-make select, #cobra-make-offer .make-offer-model select { padding:2px; }
-#cobra-make-offer .make-offer-trim { float:left;text-align:center; }
-#cobra-make-offer .make-offer-trim input { width:140px; }
-#cobra-make-offer .make-offer-offer { clear:left; margin:0 0 15px 0; }
-#cobra-make-offer .make-offer-first { float:left; margin:0 10px 15px 0; }
-#cobra-make-offer .make-offer-last { float:left; }
-#cobra-make-offer .make-offer-email { clear:left; margin:0 0 15px 0; }
-#cobra-make-offer .make-offer-email input { width: 416px; }
-#cobra-make-offer .make-offer-phone { float:left; margin:0 10px 15px 0; }
-#cobra-make-offer .make-offer-mobile { float:left; }
-#cobra-make-offer .make-offer-method { clear:left; margin:0 0 15px 0; }
-#cobra-make-offer .make-offer-method select { width:206px; margin:0 6px 0 0; }
-#cobra-make-offer textarea { width:520px;height:55px; }
-
-/* Custom select boxes for listings page */
-/* Dropdown control */
-.selectBox-dropdown { width:100px; height:16px; padding-right:40px; position:relative; bottom:1px; line-height:1.5; text-decoration:none; color:#000; outline:none; vertical-align:middle; background:url(images/bg-inventory-drop.png); display:inline-block; cursor:pointer; border-top:1px solid #b3b3b3; border-bottom:1px solid #b3b3b3; border-left:1px solid #b3b3b3; margin:0 10px 0 0; }
-
-.selectBox-dropdown .selectBox-label { width:100%; padding:.2em .3em; display:inline-block; white-space:nowrap; overflow:hidden; font-size:11px; }
-
-.selectBox-dropdown .selectBox-arrow { position:absolute; top:-1px; right:0; width:22px; height:18px; background:url(images/btn-inventory-drop.png); border-left:solid 1px #BBB; }
-
-
-/* Dropdown menu */
-.selectBox-dropdown-menu { position:absolute; z-index:99999; max-height:200px; border:solid 1px #BBB; background:#FFF; -moz-box-shadow:0 2px 6px rgba(0, 0, 0, .2); -webkit-box-shadow:0 2px 6px rgba(0, 0, 0, .2); box-shadow:0 2px 6px rgba(0, 0, 0, .2); overflow:auto; }
-
-
-/* Inline control */
-.selectBox-inline {	width:250px; outline:none; border:solid 1px #BBB; background:#FFF; display:inline-block; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; overflow:auto; }
-
-.selectBox-inline:focus { border-color:#666; }
-
-
-/* Options */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+#cobra, #cobra a, #cobra abbr, #cobra acronym, #cobra address,
+#cobra applet, #cobra article, #cobra aside, #cobra audio, #cobra b,
+#cobra big, #cobra blockquote, #cobra canvas, #cobra caption, #cobra center,
+#cobra cite, #cobra code, #cobra dd, #cobra details, #cobra del,
+#cobra dfn, #cobra div, #cobra dl, #cobra dt, #cobra em,
+#cobra embed, #cobra fieldset, #cobra figure, #cobra figcaption, #cobra footer,
+#cobra form, #cobra h1, #cobra h2, #cobra h3, #cobra h4,
+#cobra h5, #cobra h6, #cobra header, #cobra hgroup, #cobra i,
+#cobra iframe, #cobra img, #cobra ins, #cobra kbd, #cobra label,
+#cobra legend, #cobra li, #cobra mark, #cobra menu, #cobra nav,
+#cobra object, #cobra ol, #cobra output, #cobra p, #cobra pre,
+#cobra q, #cobra ruby, #cobra s, #cobra samp, #cobra section,
+#cobra small, #cobra span, #cobra strike, #cobra strong, #cobra sub,
+#cobra summary, #cobra sup, #cobra table, #cobra tbody, #cobra td,
+#cobra tfoot, #cobra th, #cobra thead, #cobra time, #cobra tr,
+#cobra tt, #cobra u, #cobra ul, #cobra var, #cobra video {
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+#cobra article, #cobra aside, #cobra details, #cobra figcaption, #cobra figure,
+#cobra footer, #cobra header, #cobra hgroup, #cobra menu, #cobra nav, #cobra section {
+	display: block;
+}
+#cobra {
+	line-height: 1;
+}
+#cobra ol, #cobra ul {
+	list-style: none;
+}
+#cobra blockquote, #cobra q {
+	quotes: none;
+}
+#cobra blockquote:after, #cobra blockquote:before,
+#cobra q:after, #cobra q:before {
+	content: '';
+	content: none;
+}
+#cobra table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+#cobra {
+	font-family: 'arial';
+	font-size: 12px;
+	letter-spacing .9px;
+	line-height: 16px;
+	margin: auto;
+	margin-top: 10px;
+	position: relative;
+	width: 885px;
+}
+#cobra .clear {
+	clear: both;
+	display: block;
+	height: 0;
+	line-height: 0;
+	width: 100%;
+}
+#cobra #listing {
+	background-color: #FFF;
+	clear: both;
+	padding-top: 14px;
+}
+#cobra #quick-links {
+	background-image: url('images/bg-inventory-top.png');
+	color: #FFF;
+	font-family: 'arial';
+	font-size: 12px;
+	float: left;
+	height: 32px;
+	letter-spacing: .9px;
+	line-height: 16px;
+	margin: 0 0 10px 0;
+	padding: 16px 0 0 10px;
+	width: 100%;
+}
+#cobra #quick-links select {
+	margin-right: 10px;
+}
+#cobra #search {
+	display: inline;
+	float: right;
+}
+#cobra #search-box {
+	background: transparent url('images/search-bg.png') no-repeat;
+	border: none;
+	height: 21px;
+	padding: 7px 0 2px 25px;
+	width: 234px;
+}
+#cobra #search-submit {
+	background: transparent url('images/btn-inventory-go.png') right;
+	border: none;
+	bottom: 6px;
+	color: #FFF;
+	cursor: pointer;
+	height: 21px;
+	line-height: 10px;
+	margin-right: 5px;
+	position: relative;
+	right: 5px;
+	width: 28px;
+}
+#cobra #total-found {
+	color: #333;
+	float: left;
+	font-size: 13px;
+	margin: 0 0 15px 0;
+}
+#cobra #sorting-columns {
+	color: #333;
+	float: right;
+	font-size: 13px;
+	position: relative;
+	z-index: 3;
+}
+#cobra #sorting-columns a {
+	color: #333;
+	font-size: 13px;
+	text-decoration: none;
+}
+#cobra #sorting-columns a:hover {
+	color: #CC0000;
+}
+#cobra #sorting-columns > div > a {
+	background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left;
+	color: #000;
+	padding-left: 15px;
+	text-decoration: none;
+}
+#cobra #sorting-columns > div > a.asc {
+	background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left;
+	color: #000;
+	padding-left: 15px;
+	text-decoration: none;
+}
+#cobra #sorting-columns > div > a.desc {
+	background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left;
+	color: #000;
+	padding-left: 15px;
+	text-decoration: none;
+}
+#cobra #sorting-columns > div > a:hover {
+	color: #9F0300;
+}
+#cobra #sorting-columns > div {
+	border-right: 1px solid #a8a8a8;
+	float: left;
+	line-height: 50px;
+	text-align: center;
+	width: 185px;
+}
+#cobra #sorting-columns > div.last {
+	border-right: 0;
+}
+#cobra .pager {
+	clear: both;
+	float: left;
+	margin-bottom: 5px;
+	position: relative;
+	text-align: left;
+	z-index: 3;
+}
+#cobra .pager a {
+	color: #333;
+	font-size: 12px;
+	text-decoration: none;
+}
+#cobra .pager a:hover {
+	color: #CC0000;
+}
+#cobra .pager .next {
+	margin-left: 5px;
+}
+#cobra .pager .prev {
+	margin-right: 5px;
+}
+#cobra #content {
+	width: auto;
+}
+#cobra #items {
+	margin-bottom: 10px;
+	position: relative;
+	z-index: 2;
+}
+#cobra .not-found h2 {
+	border-bottom: 1px solid #A8A8A8;
+	font-size: 16px;
+	padding: 20px;
+	text-align: center;
+}
+#cobra .item .photo {
+	bottom: 24px;
+	float: left;
+	height: 158px;
+	position: relative;
+	width: 244px;
+}
+#cobra .item .photo img {
+	background: transparent url('images/no-image-376x260.jpg') no-repeat center;
+	border: 1px solid #E6E6E6;
+	display: block;
+	padding: 0 21px;
+	text-indent: -9999px;
+	width: 200px;
+}
+#cobra .item .photo .info {
+	background: rgba(0,0,0,.61);
+	display: none;
+	font-size: 14px;
+	height: 79px;
+	padding: 73px 0 0 0;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 244px;
+}
+#cobra .item .photo:hover .info {
+	display: block;
+}
+#cobra .item .photo .info:hover {
+	color: #FFF;
+}
+#cobra .item {
+	clear: both;
+	height: 128px;
+	margin: 0 auto 20px;
+	overflow: hidden;
+	padding: 24px 0 0 0;
+	position: relative;
+}
+#cobra .item .left {
+	background-image: url('images/bg-listing.png');
+	float: left;
+	height: 65px;
+	padding: 15px 0 0 15px;
+	position: relative;
+	width: 294px;
+	z-index: 2;
+}
+#cobra .item .right {
+	background: url('images/bg-listing.png') -309px 0;
+	float: left;
+	height: 65px;
+	padding: 15px 0 0 15px;
+	position: relative;
+	width: 301px;
+}
+#cobra .item .info {
+	color: #000;
+	float: left;
+	font-size: 10px;
+	line-height: 10px;
+	padding: 10px 0 0 15px;
+}
+#cobra .item .cerfitied-pre-owned img {
+	height: 45px;
+	margin: 2px 0 0 20px;
+}
+#cobra .item .info-button {
+	display: block;
+	background: url('images/btn-listings-moreinfo.png');
+	float: right;
+	width: 115px;
+	height: 32px;
+	margin: 10px 15px 0 0;
+}
+#cobra .item:hover .autocheck a {
+	display: block;
+}
+#cobra .item .offer {
+	position: relative;
+}
+#cobra .item .offer a {
+	display: none;
+	background: url('images/btn-inventory-make-offer.png');
+	height: 52px;
+	position: absolute;
+	right: 10px;
+	top: 66px;
+	width: 110px;
+}
+#cobra .item:hover .offer a {
+	display: block;
+}
+#cobra .item a {
+	text-decoration: none;
+}
+#cobra .item .main {
+	font-size: 19px;
+	font-weight: bold;
+	position: relative;
+}
+#cobra .item .main a span {
+	color: #FFF;
+	text-shadow: 1px 1px 1px #000;
+}
+#cobra .item .main a span.trim {
+	display:block;
+	font-size: 14px;
+	font-weight: normal;
+	margin-bottom:6px;
+}
+#cobra .item .stock-n-vin {
+	clear:both;
+	color: #FFF;
+	font-size: 10px;
+}
+#cobra .item .headline {
+	color: #9f0300;
+	font-weight: bold;
+	line-height: 14px;
+	font-size: 12px;
+	padding: 5px 0;
+	word-wrap: break-word;
+	margin-left: 5px;
+}
+#cobra .item .exterior-color,
+#cobra .item .interior-color,
+#cobra .item .transmission,
+#cobra .item .stock-number,
+#cobra .item .odometer,
+#cobra .item .vin {
+	display:block;
+}
+#cobra .item .left .details {
+	float: left;
+	padding-right: 10px;
+}
+#cobra .item .right .details {
+	float: left;
+	padding-left: 10px;
+	width: 250px;
+}
+#cobra .item .icons {
+	height: 40px;
+	left: 22px;
+	overflow: hidden;
+	position: absolute;
+	top: 84px;
+	width: 150px;
+	z-index: 1;
+}
+#cobra .item .price {
+	float: left;
+	width: 160px;
+	font-size:38px;
+	line-height:36px;
+	font-weight:bold;
+}
+#cobra .item .price .was {
+	font-size:16px;
+	line-height:16px;
+	margin-top:-15px;
+	padding-bottom:5px;
+}
+#cobra .item .price span.msrp {
+	display: block;
+	font-size:10px;
+	font-weight:lighter;
+	line-height:10px;
+	position:relative;
+	top:-5px;
+}
+#cobra .item .price {
+	font-weight: bold;
+}
+#cobra .item .price .asking-price,
+#cobra .item .price .sale-price {
+	clear: both;
+	color: #000;
+}
+#cobra .item .price > div {
+	width: 200px;
+	float:left;
+}
+#cobra .item .price .asking-price.strike-through {
+	color: #808080;
+	font-weight: normal;
+}
+#cobra .item .price a {
+	-moz-border-radius: 15px;
+	background: #9F0300;
+	border-radius: 15px;
+	color: #FFF;
+	display: block;
+	float: right;
+	text-align: center;
+	width: 155px;
+}
+#cobra .item .price a:hover {
+	background: #666;
+}
+#cobra .item .contact-information {
+	float: left;
+	margin-left: 5px;
+}
+#cobra #disclaimer {
+	clear: both;
+	font-size: .5em;
+}
+/* Unable to properly namespace due to how the selectBox plugin was written. */
+#cobra .selectBox-dropdown {
+	background: url('images/bg-inventory-drop.png');
+	border: 1px solid #B3B3B3;
+	border-right: 0;
+	bottom: 1px;
+	color: #000;
+	cursor: pointer;
+	display: inline-block;
+	height: 16px;
+	line-height: 1.5;
+	margin: 0 10px 0 0;
+	outline: none;
+	padding-right: 40px;
+	position: relative;
+	text-decoration: none;
+	vertical-align: middle;
+	width: 100px;
+}
+#cobra .selectBox-dropdown .selectBox-label {
+	display: inline-block;
+	font-size: 11px;
+	line-height:7px;
+	overflow: hidden;
+	padding: .2em .3em;
+	white-space: nowrap;
+	width: 100%;
+}
+.selectBox-dropdown .selectBox-arrow {
+	background: url('images/btn-inventory-drop.png');
+	border-left: solid 1px #BBB;
+	height: 18px;
+	position: absolute;
+	right: 0;
+	top: -1px;
+	width: 22px;
+}
+.selectBox-dropdown-menu {
+	-moz-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	-webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	background: #FFF;
+	border: solid 1px #BBB;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+	max-height: 200px;
+	position: absolute;
+	overflow: auto;
+	z-index: 9999;
+}
+.selectBox-inline {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	background: #FFF;
+	border: solid 1px #BBB;
+	border-radius: 4px;
+	display: inline-block;
+	outline: none;
+	overflow: auto;
+	width: 250px;
+}
+.selectBox-inline:focus {
+	border-color:#666;
+}
 .selectBox-options,
-.selectBox-options LI,
-.selectBox-options LI A { list-style:none; display:block; cursor:default; padding:0; margin:0; }
+.selectBox-options li,
+.selectBox-options li a {
+	cursor: default;
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.selectBox-options a {
+	color: #000;
+}
+ul.selectBox-options a:hover {
+	color: #FF0000;
+	text-decoration: none;
+}
+.selectBox-options li a {
+	background: 6px center no-repeat;
+	font-size: 11px;
+	line-height: 1.5;
+	overflow: hidden;
+	padding: 0 .5em;
+	white-space: nowrap;
+}
 
-.selectBox-options LI A { line-height:1.5; padding:0 .5em; white-space:nowrap; overflow:hidden; background:6px center no-repeat; font-size:11px; }
+.selectBox-options li.selectBox-hover a {
+	background-color: #EEE;
+}
+.selectBox-options li.selectBox-disabled a {
+	color: #888;
+	background-color: transparent;
+}
+.selectBox-options li.selectBox-selected a {
+	background-color: #C8DEF4;
+}
+.selectBox-options .selectBox-optgroup {
+	color: #666;
+	background: #EEE;
+	font-weight: bold;
+	line-height: 1.5;
+	padding: 0 .3em;
+	white-space: nowrap;
+}
+.selectBox.selectBox-disabled {
+	color: #888 !important;
+}
 
-.selectBox-options LI.selectBox-hover A { background-color:#EEE; }
-
-.selectBox-options LI.selectBox-disabled A { color:#888; background-color:transparent; }
-
-.selectBox-options LI.selectBox-selected A { background-color:#C8DEF4; }
-
-.selectBox-options .selectBox-optgroup { color:#666; background:#EEE; font-weight:bold; line-height:1.5; padding:0 .3em; white-space:nowrap; }
-
-
-/* Disabled state */
-.selectBox.selectBox-disabled { color:#888 !important; }
-
-.selectBox-dropdown.selectBox-disabled .selectBox-arrow { opacity:.5; filter:alpha(opacity=50); border-color:#666; }
-
-.selectBox-inline.selectBox-disabled { color:#888 !important; }
-
-.selectBox-inline.selectBox-disabled .selectBox-options A { background-color:transparent !important; }
-
-
-/* Detail Page */
-#cobra-schedule-form,
-#cobra-friend-form,
-#cobra-calculate-form { display:none; }
-
-#cobra-schedule-form label,
-#cobra-schedule-form input,
-#cobra-friend-form label,
-#cobra-friend-form input { display:block; }
-#cobra-schedule-form input.text,
-#cobra-schedule-form textarea,
-#cobra-friend-form input.text,
-#cobra-friend-form textarea { margin-bottom:12px; width:95%; padding: .4em; }
-#cobra-shcedule-form fieldset,
-#cobra-friend-form fieldset { padding:0; border:0; margin-top:25px; }
-.ui-dialog .ui-state-error { padding: .3em; }
-.cobra-validate-tips { border: 1px solid transparent; padding: 0.3em 0; }
-
-#cobra-detail { background:url(images/detail-bg.png) no-repeat #fff; clear:both; font-family: Arial; font-size:12px; letter-spacing:.9px; }
-
-.cobra-detail-top { background:url(images/bg-detail-top.png); height:163px; padding:12px 0 0 27px; position:relative; }
-.cobra-detail-top .cobra-detail-top-wrapper { width:305px; }
-.cobra-detail-top .cobra-detail-year { font-size:22px; color:#fff; margin:0; }
-.cobra-detail-top .cobra-detail-vehicle { font-size:29px; font-weight:bold; color:#fff; border-bottom:1px solid #fff; padding:0 0 10px; margin:0 0 10px; width:305px; line-height:32px; }
-.cobra-detail-top .cobra-detail-price { color:#fff; padding:1px; }
-.cobra-detail-top .cobra-detail-price span { font-size:10px; margin:0 0 0 13px; }
-.cobra-detail-top .cobra-detail-price .cobra-price span { position:relative; margin:0; bottom:13px; font-size:20px; }
-.cobra-detail-top .cobra-detail-cpo { float:right; position:relative; bottom:17px; }
-
-#cobra-detail .cobra-header { color:#333; font-size:20px; height:30px; line-height:30px; font-weight:bold; text-align:left; }
-#cobra-detail .cobra-column-left { width:328px; float:left; padding:0 0 0 27px; }
-#cobra-detail .cobra-column-right { float:left; width:530px; margin:14px 0 0 0; position:relative; bottom:176px; }
-
-#cobra-detail .cobra-icons { float:left; width:300px; text-align:left; padding:10px; }
-
-#cobra-detail .cobra-slideshow { }
-#cobra-detail .cobra-slideshow .cobra-images { height:372px; width:497px; border: 4px solid #E1E4E4; -moz-box-shadow: 0 0 10px #333; }
-#cobra-detail .cobra-slideshow .cobra-images > img { width:497px !important; height:372px !important; clear:both; }
-#cobra-detail .cobra-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
-#cobra-detail .cobra-slideshow .cobra-navigation { display:block; margin:5px 0 0 10px; width:505px; height:auto !important; clear:both; text-align:left; }
-#cobra-detail .cobra-slideshow .cobra-navigation a img { border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:auto; width:60px; }
-#cobra-detail .cobra-slideshow .cobra-navigation a img:hover { border:3px solid #9f0300; }
-#cobra-detail .cobra-slideshow .cobra-navigation a.activeSlide img { border-color:#55CCe6; }
-#cobra-detail .cobra-slideshow .cobra-navigation a.activeSlide img:hover { border-color:#9f0300; }
-
-#cobra-detail .cobra-request-form { clear:both; }
-#cobra-detail .cobra-request-form .submit { background: url('images/submit-btn.png') no-repeat top center; width:98px; height:22px; margin:auto; display:block; text-indent:-9999px; border:0; }
-#cobra-detail .cobra-vehicle-information { }
-#cobra-detail .cobra-price { color:#fff; font-size:35px; margin:9px 0 0; font-weight:bold; text-align:left; }
-#cobra-detail .cobra-price .cobra-strike-through { color:gray; }
-#cobra-detail .cobra-vehicle-information { font-size:12px; font-weight:bold; margin:0 0 40px; }
-#cobra-detail .cobra-contact-information { font-size:31px; text-align:right; color:#333; font-weight:bold; padding:20px 0; }
-#cobra-detail .cobra-vehicle-information div { clear:both; }
-#cobra-detail .cobra-vehicle-information div span { width:100px; display:block; float:left; margin:0 10px 0 0; }
-#cobra-detail .cobra-vehicle-information .cobra-header { margin-bottom:10px; }
-
-#cobra-detail .cobra-detail-make-offer a { background:url("images/btn-detail-make-offer.png"); display:block; height:35px; text-decoration:none; width:122px; margin:0 0 20px; }
-
-#cobra-detail .cobra-request-form form { padding:5px; line-height:20px; }
-#cobra-detail .cobra-request-form form input,
-#cobra-detail .cobra-request-form form textarea { width:130px; padding:5px; margin:0 0 5px 0; background:#eeeeee; border-top:1px solid #cacaca; border-left:1px solid #cacaca; border-bottom:1px solid #f6f6f6; border-right:1px solid #f6f6f6; font-size:11px; font-family:Arial; color:#666666; }
-#cobra-detail .cobra-request-form form textarea { width:276px; }
-#cobra-detail .cobra-helpful-links a { display:block; width:250px; height:31px; text-indent:-9999px; margin:10px auto; background-position:top center;  }
-#cobra-detail .cobra-helpful-links a#cobra-schedule { background: transparent url('images/button-sprite-schedule-test-drive-250x62.jpg') no-repeat; }
-#cobra-detail .cobra-helpful-links a#cobra-facebook { background: transparent url('images/button-sprite-facebook-250x62.jpg') no-repeat; }
-#cobra-detail .cobra-helpful-links a#cobra-friend { background: transparent url('images/button-sprite-friend-250x62.jpg') no-repeat; }
-#cobra-detail .cobra-helpful-links a#cobra-calculate { background: transparent url('images/button-sprite-calculate-payments-250x62.jpg') no-repeat; }
-#cobra-detail .cobra-helpful-links a:hover { background-position:bottom center !important; }
-
-#cobra-calculate-form #loan-calculator { font-size:12px !important; }
-
-#cobra-detail .cobra-contact-information p { padding:10px; margin:0; }
-
-#cobra-detail .cobra-fuel-economy { background: url('images/milage-icon.png') no-repeat center 20px; width:100%; height:125px; padding-bottom:5px; margin:0 auto 20px; }
-#cobra-detail .cobra-fuel-economy #cobra-fuel-city,
-#cobra-detail .cobra-fuel-economy #cobra-fuel-highway { color:black; width:50px; font-weight:bold; padding:15px; text-align:center; }
-#cobra-detail .cobra-fuel-economy #cobra-fuel-city p,
-#cobra-detail .cobra-fuel-economy #cobra-fuel-highway p { font-size:16px; margin:5px 0 0 0; font-weight:normal; }
-#cobra-detail .cobra-fuel-economy #cobra-fuel-city strong,
-#cobra-detail .cobra-fuel-economy #cobra-fuel-highway strong { font-size:20px; }
-#cobra-detail .cobra-fuel-economy #cobra-fuel-city { float:left; margin:3px 0 0 53px; }
-#cobra-detail .cobra-fuel-economy #cobra-fuel-highway { float:right; margin:3px 51px 0 0; }
-#cobra-detail .cobra-fuel-economy p { margin-bottom:10px; }
-#cobra-detail .cobra-fuel-economy p small { display:block; clear:both; font-size:10px; text-align:center; padding-top:5px; }
-
-#cobra-detail .cobra-detail-buttons a { display:block; width:220px; height:24px; font-size:17px; font-weight:bold; background:#ccc; color:#000; text-decoration:none; margin:0 0 4px; padding:9px 0 0 10px; }
-#cobra-detail .cobra-detail-buttons a:hover { background:#e81e1e; color:#fff; }
-
-#cobra-detail .cobra-video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
-#cobra-detail .cobra-carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
-
-#cobra-detail #cobra-inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; border:none;  }
-#cobra-detail #cobra-inventory-tabs #cobra-comments { height:210px; overflow-x: hidden; overflow-y:scroll;  }
-#cobra-detail #cobra-inventory-tabs #cobra-options { height:210px; overflow-x: hidden; overflow-y:scroll;  }
-#cobra-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
-#cobra-detail #cobra-inventory-tabs .ui-widget-header { background:none !important; border-left:none; border-right:none; border-top:1px solid #666; border-bottom:1px solid #666; text-transform:uppercase; padding:4px 0px; }
-#cobra-detail #cobra-inventory-tabs .ui-widget-header li { border:none; top:0; padding:0 20px; margin:0; }
-#cobra-detail #cobra-inventory-tabs .ui-widget-header li.ui-state-default { background:none; }
-#cobra-detail #cobra-inventory-tabs .ui-widget-header li.ui-state-default a { font-size:14px; color:#b3b3b3; padding:0; }
-
-#cobra-detail #cobra-inventory-tabs .ui-widget-header li.ui-tabs-selected a, #cobra-detail #cobra-inventory-tabs .ui-widget-header li.ui-state-default a:hover { color:#ff0000; }
-#cobra-detail #cobra-inventory-tabs .ui-tabs-panel { height:244px; width: 100% !important; }
-#cobra-detail #cobra-inventory-tabs .ui-tabs-panel ul { padding:0; margin:0; font-size:12px; }
-#cobra-detail #cobra-inventory-tabs .ui-tabs-panel .jspVerticalBar { background:none; }
-#cobra-detail #cobra-inventory-tabs .ui-tabs-panel .jspTrack { width:5px; background:#dfdddd; left:7px; }
-#cobra-detail #cobra-inventory-tabs .ui-tabs-panel .jspDrag { background:url(images/scroller-handle.png); width:13px !important; left:-4px; }
-
-.cobra-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
+.selectBox-dropdown.selectBox-disabled .selectBox-arrow {
+	border-color: #666;
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+.selectBox-inline.selectBox-disabled {
+	color: #888 !important;
+}
+.selectBox-inline.selectBox-disabled .selectBox-options a {
+	background-color: transparent !important;
+}
