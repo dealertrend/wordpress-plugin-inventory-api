@@ -94,13 +94,13 @@
 	background: transparent url('images/search-bg.png') no-repeat;
 	border: none;
 	height: 21px;
-	padding: 7px 0 2px 25px;
+	padding: 0px 0 2px 25px;
 	width: 234px;
 }
 #cobra #search-submit {
 	background: transparent url('images/btn-inventory-go.png') right;
 	border: none;
-	bottom: 6px;
+	bottom: 1px;
 	color: #FFF;
 	cursor: pointer;
 	height: 21px;
@@ -528,3 +528,393 @@ ul.selectBox-options a:hover {
 .selectBox-inline.selectBox-disabled .selectBox-options a {
 	background-color: transparent !important;
 }
+#cobra .sticker {
+	margin:0 0 10px 0;
+}
+#fancybox-content {
+	background:#000;
+	border-color:#000;
+}
+#cobra #make-offer {
+	font-size: 13px;
+}
+#cobra #make-offer h1 {
+	font-size:33px;
+	color:#fff;
+}
+#cobra #make-offer .required {
+	color:#ec1c25;
+}
+#cobra #make-offer div.required {
+	font-size:13px;
+	position:absolute;
+	right:10px;
+	top:60px;
+}
+#cobra #make-offer .wpcf7 {
+	background:#fff;
+	padding: 10px;
+}
+#cobra #make-offer .wpcf7 input {
+	width:200px;
+	-moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
+	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-o-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px;
+	border:1px solid #999;
+	padding: 3px;
+}
+#cobra #make-offer .make-offer-year {
+	float:left;text-align:center;
+	margin:0 10px 15px 0;
+}
+#cobra #make-offer .make-offer-make {
+	float:left;text-align:center;
+	margin:0 10px 0 0;
+}
+#cobra #make-offer .make-offer-model {
+	float:left;text-align:center;
+	margin:0 10px 0 0;
+}
+#cobra #make-offer .make-offer-year select,
+#cobra #make-offer .make-offer-make select,
+#cobra #make-offer .make-offer-model select {
+	padding:2px;
+}
+#cobra #make-offer .make-offer-trim {
+	float:left;text-align:center;
+}
+#cobra #make-offer .make-offer-trim input {
+	width:140px;
+}
+#cobra #make-offer .make-offer-offer {
+	clear:left;
+	margin:0 0 15px 0;
+}
+#cobra #make-offer .make-offer-first {
+	float:left;
+	margin:0 10px 15px 0;
+}
+#cobra #make-offer .make-offer-last {
+	float:left;
+}
+#cobra #make-offer .make-offer-email {
+	clear:left;
+	margin:0 0 15px 0;
+}
+#cobra #make-offer .make-offer-email input {
+	width: 416px;
+}
+#cobra #make-offer .make-offer-phone {
+	float:left;
+	margin:0 10px 15px 0;
+}
+#cobra #make-offer .make-offer-mobile {
+	float:left;
+}
+#cobra #make-offer .make-offer-method {
+	clear:left;
+	margin:0 0 15px 0;
+}
+#cobra #make-offer .make-offer-method select {
+	width:206px;
+	margin:0 6px 0 0;
+}
+#cobra #make-offer textarea {
+	width:520px;height:55px;
+}
+#calculate-form {
+	display:none;
+}
+.ui-dialog .ui-state-error {
+	padding: .3em;
+}
+.validate-tips {
+	border: 1px solid transparent;
+	padding: 0.3em 0;
+}
+#cobra #detail-page {
+	background: url('images/detail-bg.png') no-repeat #FFF;
+	clear: both;
+	font-family: 'arial';
+	font-size: 12px;
+	letter-spacing: .9px;
+}
+#cobra .top {
+	background:url(images/bg-detail-top.png);
+	height:163px;
+	padding:12px 0 0 27px;
+	position:relative;
+}
+#cobra .top .wrapper {
+	width:305px;
+}
+#cobra .top .year {
+	font-size:22px;
+	color:#fff;
+	margin:0;
+}
+#cobra .top .vehicle {
+	font-size:29px;
+	font-weight:bold;
+	color:#fff;
+	border-bottom:1px solid #fff;
+	padding:0 0 10px;
+	margin:0 0 10px;
+	width:305px;
+	line-height:32px;
+}
+#cobra .top .price {
+	color:#fff;
+	padding:1px;
+}
+#cobra .top .price span {
+	font-size:10px;
+	margin:0 0 0 13px;
+}
+#cobra .top .price span {
+	position:relative;
+	margin:0;
+	bottom:13px;
+	font-size:20px;
+}
+#cobra .certified-pre-owned {
+	float:right;
+	position:relative;
+	bottom:17px;
+}
+#cobra #detail-page .header {
+	color:#333;
+	font-size:20px;
+	height:30px;
+	line-height:30px;
+	font-weight:bold;
+	text-align:left;
+}
+#cobra #detail-page .left {
+	width:328px;
+	float:left;
+	padding:0 0 0 27px;
+}
+#cobra #detail-page .right {
+	float:left;
+	width:530px;
+	margin:14px 0 0 0;
+	position:relative;
+	bottom:176px;
+}
+#cobra #detail-page .icons {
+	float:left;
+	width:300px;
+	text-align:left;
+	padding:10px;
+}
+#cobra #detail-page .slideshow .images {
+	height:372px;
+	width:497px;
+	border: 4px solid #E1E4E4;
+	-moz-box-shadow: 0 0 10px #333;
+}
+#cobra #detail-page .slideshow .images > img {
+	width:497px !important;
+	height:372px !important;
+	clear:both;
+}
+#cobra #detail-page .slideshow img {
+	background:transparent url('images/no-image-376x260.jpg') no-repeat center;
+}
+#cobra #detail-page .slideshow .navigation {
+	display:block;
+	margin:5px 0 0 10px;
+	width:505px;
+	height:auto !important;
+	clear:both;
+	text-align:left;
+}
+#cobra #detail-page .slideshow .navigation a img {
+	border:3px solid white;
+	background:white url('images/thumb-error-26x16.png') no-repeat 25px center;
+	height:auto;
+	width:60px;
+}
+#cobra #detail-page .slideshow .navigation a img:hover {
+	border:3px solid #9f0300;
+}
+#cobra #detail-page .slideshow .navigation a.activeSlide img {
+	border-color:#55CCe6;
+}
+#cobra #detail-page .slideshow .navigation a.activeSlide img:hover {
+	border-color:#9f0300;
+}
+#cobra #detail-page .request-form {
+	clear:both;
+}
+#cobra #detail-page .request-form .submit {
+	background: url('images/submit-btn.png') no-repeat top center;
+	width:98px;
+	height:22px;
+	margin:auto;
+	display:block;
+	text-indent:-9999px;
+	border:0;
+}
+#cobra #detail-page .price {
+	color:#fff;
+	font-size:35px;
+	margin:9px 0 0;
+	font-weight:bold;
+	text-align:left;
+}
+#cobra #detail-page .price .strike-through {
+	color:gray;
+}
+#cobra #detail-page .vehicle-information {
+	font-size:12px;
+	font-weight:bold;
+	margin:0 0 40px;
+}
+#cobra #detail-page .contact-information {
+	font-size:31px;
+	text-align:right;
+	color:#333;
+	font-weight:bold;
+	padding:20px 0;
+}
+#cobra #detail-page .vehicle-information div {
+	clear:both;
+}
+#cobra #detail-page .vehicle-information div span {
+	width:100px;
+	display:block;
+	float:left;
+	margin:0 10px 0 0;
+}
+#cobra #detail-page .vehicle-information .header {
+	margin-bottom:10px;
+}
+#cobra #detail-page .make-offer a {
+	background:url("images/btn-detail-make-offer.png");
+	display:block;
+	height:35px;
+	text-decoration:none;
+	width:122px;
+	margin:0 0 20px;
+}
+#cobra #detail-page .request-form form {
+	padding:5px;
+	line-height:20px;
+}
+#cobra #detail-page .request-form form input,
+#cobra #detail-page .request-form form textarea {
+	width:130px;
+	padding:5px;
+	margin:0 0 5px 0;
+	background:#eeeeee;
+	border-top:1px solid #cacaca;
+	border-left:1px solid #cacaca;
+	border-bottom:1px solid #f6f6f6;
+	border-right:1px solid #f6f6f6;
+	font-size:11px;
+	font-family:Arial;
+	color:#666666;
+}
+#cobra #detail-page .request-form form textarea {
+	width:276px;
+}
+#cobra #detail-page .helpful-links a {
+	display:block;
+	width:250px;
+	height:31px;
+	text-indent:-9999px;
+	margin:10px auto;
+	background-position:top center;
+}
+#cobra #detail-page .helpful-links a:hover {
+	background-position:bottom center !important;
+}
+#cobra #calculate-form #loan-calculator {
+	font-size:12px !important;
+}
+#cobra #detail-page .contact-information p {
+	padding:10px;
+	margin:0;
+}
+#cobra #detail-page .fuel-economy {
+	background: url('images/milage-icon.png') no-repeat center 20px;
+	width:100%;
+	height:125px;
+	padding-bottom:5px;
+	margin:0 auto 20px;
+}
+#cobra #detail-page .fuel-economy #fuel-city,
+#cobra #detail-page .fuel-economy #fuel-highway {
+	color:black;
+	width:50px;
+	font-weight:bold;
+	padding:15px;
+	text-align:center;
+}
+#cobra #detail-page .fuel-economy #fuel-city p,
+#cobra #detail-page .fuel-economy #fuel-highway p {
+	font-size:16px;
+	margin:5px 0 0 0;
+	font-weight:normal;
+}
+
+#cobra #detail-page .fuel-economy #fuel-city strong,
+#cobra #detail-page .fuel-economy #fuel-highway strong {
+	font-size:20px;
+}
+#cobra #detail-page .fuel-economy #fuel-city {
+	float:left;
+	margin:3px 0 0 53px;
+}
+#cobra #detail-page .fuel-economy #fuel-highway {
+	float:right;
+	margin:3px 51px 0 0;
+}
+#cobra #detail-page .fuel-economy p {
+	margin-bottom:10px;
+}
+#cobra #detail-page .fuel-economy p small {
+	display:block;
+	clear:both;
+	font-size:10px;
+	text-align:center;
+	padding-top:5px;
+}
+#cobra #detail-page .detail-buttons a {
+	display:block;
+	width:220px;
+	height:24px;
+	font-size:17px;
+	font-weight:bold;
+	background:#ccc;
+	color:#000;
+	text-decoration:none;
+	margin:0 0 4px;
+	padding:9px 0 0 10px;
+}
+#cobra #detail-page .detail-buttons a:hover {
+	background:#e81e1e;
+	color:#fff;
+}
+
+#cobra #detail-page #inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; border:none;  }
+#cobra #detail-page * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
+#cobra #detail-page #inventory-tabs .ui-widget-header { background:none !important; border-left:none; border-right:none; border-top:1px solid #666; border-bottom:1px solid #666; text-transform:uppercase; padding:4px 0px; }
+#cobra #detail-page #inventory-tabs .ui-widget-header li { border:none; top:0; padding:0 20px; margin:0; }
+#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default { background:none; }
+#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default a { font-size:14px; color:#b3b3b3; padding:0; }
+
+#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-tabs-selected a, #cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default a:hover { color:#ff0000; }
+#cobra #detail-page #inventory-tabs .ui-tabs-panel { height:244px; width: 100% !important; }
+#cobra #detail-page #inventory-tabs .ui-tabs-panel ul { padding:0; margin:0; font-size:12px; }
+#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspVerticalBar { background:none; }
+#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspTrack { width:5px; background:#dfdddd; left:7px; }
+#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspDrag { background:url(images/scroller-handle.png); width:13px !important; left:-4px; }

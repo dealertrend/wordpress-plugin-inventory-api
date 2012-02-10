@@ -1,16 +1,16 @@
 var dealertrend = jQuery.noConflict();
 
 dealertrend(document).ready(function() {
-    dealertrend('.cobra-slideshow .cobra-images')
+    dealertrend('.slideshow .images')
     .cycle({
         slideExpr: 'img',
         fx: 'fade',
-        pager: '.cobra-slideshow .cobra-navigation',
+        pager: '.slideshow .navigation',
         pagerAnchorBuilder: function(idx, slide) {
             return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
         }
     });
-    dealertrend('.cobra-images a')
+    dealertrend('.images a')
     .lightbox({
         imageClickClose: false,
         loopImages: true,

@@ -14,31 +14,16 @@ $type = isset( $inventory->vin ) ? 'detail' : 'list';
 
 wp_enqueue_script( 'jquery' );
 wp_enqueue_script( 'jquery-ui-core' );
+wp_enqueue_script( 'jquery-ui-tabs' );
 wp_enqueue_script( 'jquery-ui-button' );
 wp_enqueue_script( 'jquery-ui-dialog' );
-wp_enqueue_script(
-	'dealertrend-inventory-theme-cobra-misc-ui',
-	$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/misc-ui.js',
-	array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
-	$this->plugin_information[ 'Version' ],
-	true
-);
 
 switch( $type ) {
-	case 'list':
-		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-sidebar',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/sidebar.js',
-			array( 'jquery' , 'jquery-ui-core' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
-	break;
 	case 'detail':
-		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 		wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
 		wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
+		wp_enqueue_style( 'jquery-jscrollpane' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/jquery.jscrollpane.css' , false );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-loan-calculator',
 			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
@@ -53,16 +38,23 @@ switch( $type ) {
 			true
 		);
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-detail-buttons',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/detail-buttons.js',
-			array( 'jquery-ui-dialog' ),
+			'dealertrend-inventory-theme-cobra-jscrollpane-box',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/jquery.jscrollpane.min.js',
+			array( 'jquery' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);
 		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-tabs',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/tabs.js',
-			array( 'jquery-ui-tabs' ),
+			'dealertrend-inventory-theme-cobra-jquery-mousewheel',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/jquery.mousewheel.js',
+			array( 'jquery' , 'dealertrend-inventory-theme-cobra-jscrollpane-box' ),
+			$this->plugin_information[ 'Version' ],
+			true
+		);
+		wp_enqueue_script(
+			'dealertrend-inventory-theme-cobra-detail-buttons',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/detail-buttons.js',
+			array( 'jquery-ui-dialog' , 'jquery-ui-tabs' , 'dealertrend-inventory-theme-cobra-jscrollpane-box' , 'dealertrend-inventory-theme-cobra-jquery-mousewheel' ),
 			$this->plugin_information[ 'Version' ],
 			true
 		);

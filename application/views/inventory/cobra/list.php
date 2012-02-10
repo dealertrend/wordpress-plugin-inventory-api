@@ -77,6 +77,8 @@ $sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
 $sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
 $sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 
+$shown_makes = array();
+
 echo '
 <div id="cobra">
 	<br id="top" class="clear" />
@@ -161,11 +163,10 @@ echo '
 			}
 
 			echo '
-			<form action="' . $site_url . '/inventory/" method="GET" id="search">
+			<form action="" method="GET" id="search">
 				<input id="search-box" name="search" value="';
 				echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL;
-				echo '
-				" />
+				echo '" />
 				<input id="search-submit" value="Go" type="submit" />
 			</form>';
 echo '
