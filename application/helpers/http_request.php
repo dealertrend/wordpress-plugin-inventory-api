@@ -38,6 +38,7 @@ class http_request {
 		$response = wp_remote_request( $this->url , $this->request_parameters );
 		$stop = timer_stop();
 		$response_time = $stop - $start;
+		$this->cache_file( $response );
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
 			if( $sanitize == true ) {
 				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
@@ -57,7 +58,7 @@ class http_request {
 	}
 
 	function cache_file( $data ) {
-		return wp_cache_add( $url , $data , $group , 0 );
+		return wp_cache_add( $this->url , $data , $this->group , 0 );
 	}
 
 }
