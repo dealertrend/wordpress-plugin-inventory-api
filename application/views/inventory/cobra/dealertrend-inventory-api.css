@@ -98,9 +98,11 @@
 	width: 234px;
 }
 #cobra #search-submit {
-	background: transparent url('images/btn-inventory-go.png') right;
+	background-color: transparent;
+	background-image: url('images/btn-inventory-go.png');
+	background-position: bottom right;
 	border: none;
-	bottom: 1px;
+	bottom: -1px;
 	color: #FFF;
 	cursor: pointer;
 	height: 21px;
@@ -669,15 +671,15 @@ ul.selectBox-options a:hover {
 	width:305px;
 	line-height:32px;
 }
-#cobra .top .price {
+#cobra #listing .top .price {
 	color:#fff;
 	padding:1px;
 }
-#cobra .top .price span {
+#cobra #listing .top .price span {
 	font-size:10px;
 	margin:0 0 0 13px;
 }
-#cobra .top .price span {
+#cobra #listing .top .price span {
 	position:relative;
 	margin:0;
 	bottom:13px;
@@ -765,9 +767,10 @@ ul.selectBox-options a:hover {
 }
 #cobra #detail-page .price {
 	color:#fff;
-	font-size:35px;
-	margin:9px 0 0;
+	font-size:32px;
 	font-weight:bold;
+	margin:9px 0 0;
+	line-height:34px;
 	text-align:left;
 }
 #cobra #detail-page .price .strike-through {

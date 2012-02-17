@@ -46,10 +46,10 @@
 				<div class="year"><?php echo $year ?></div>
 				<div class="vehicle"><?php echo $make . ' ' . $model ?></div>
 				<div class="price">
-					<?php if ($sale_class == 'New'):?>
+					<div class="price">
+					<?php if ($sale_class == 'New' && ! $on_sale):?>
 					<span>MSRP</span>
 					<?php endif; ?>
-					<div class="price">
 					<?php
 					if( $on_sale && $sale_price > 0 ) {
 						$now_text = 'Price: ';
@@ -72,7 +72,8 @@ $now_text = 'Now: ';
 				<div class="certified-pre-owned">
 					<?php
 						if( $inventory->certified ) {
-							echo '<img src="' . plugin_dir_url( __FILE__ ) . 'images/' . $make . '-cpo.png" />';
+							//echo '<img src="' . plugin_dir_url( __FILE__ ) . 'images/' . $make . '-cpo.png" />';
+						// ^ That's broken.
 						}
 					?>
 				</div>

@@ -188,13 +188,13 @@ echo '
 								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $trim_safe . '/';
 								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 								echo '<option value="' . $url . '"';
-								if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
+								if( rawurlencode( strtolower( $trim_safe ) ) == rawurlencode( strtolower( $parameters[ 'trim' ] ) ) ) {
 									echo ' selected="selected" ';
 								}
 								echo '>' . $trim . '</option>';
 							} else {
 								echo '<option value="' . @add_query_arg( array( 'trim' => $trim_safe ) , $do_not_carry ) . '"';
-								if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
+								if( rawurlencode( strtolower( $trim_safe ) ) == rawurlencode( strtolower( $parameters[ 'trim' ] ) ) ) {
 									echo ' selected="selected" ';
 								}
 							}
@@ -293,7 +293,7 @@ echo '
 						<div class="right">
 							<div class="price">
 								<span class="msrp">';
-									if( strtolower( $sale_class ) == 'new' && ! $use_was_now ) { echo 'MSRP'; }
+									if( strtolower( $sale_class ) == 'new' && ! $on_sale ) { echo 'MSRP'; }
 								echo '
 									&nbsp;
 								</span>';
