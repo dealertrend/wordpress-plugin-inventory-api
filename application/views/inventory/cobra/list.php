@@ -79,85 +79,127 @@ $sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 
 $shown_makes = array();
 
+$make = isset( $parameters[ 'make' ] ) ? $parameters[ 'make' ] : 'all';
+$parameters[ 'make' ] = $make;
+
 echo '
 <div id="cobra">
 	<br id="top" class="clear" />
 	<div id="listing">
 		<div id="quick-links">';
-			if( $make_count > 1 ) {
-				echo '
-				<span>Make: </span>
-				<select onchange="window.location = this.value;" class="styled">
-					<option value="' . $site_url . '/inventory/' . $parameters['saleclass'] . '/">All Makes</option>';
-					foreach( $makes as $make ) {
-						$make_safe = str_replace( '/' , '%252' , $make );
-						$make_safe = ucwords( strtolower( $make_safe ) );
-						if( ! in_array( $make_safe , $shown_makes ) ) {
-							$shown_makes[] = $make_safe;
-							if( !empty( $wp_rewrite->rules ) ) {
-								$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
-								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
-								echo '<option value="' . $url . '"';
-								if( $make == $parameters[ 'make' ] ) {
-									echo ' selected="selected" ';
-								}
-							} else {
-								echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
-								if( $make == $parameters[ 'make' ] ) {
-									echo ' selected="selected" ';
-								}
+			echo '
+			<span>Make: </span>
+			<select onchange="window.location = this.value;" class="styled">
+				<option value="' . $site_url . '/inventory/' . $sale_class . '/">All Makes</option>';
+				foreach( $makes as $make ) {
+					$make_safe = str_replace( '/' , '%252' , $make );
+					$make_safe = ucwords( strtolower( $make_safe ) );
+					if( ! in_array( $make_safe , $shown_makes ) ) {
+						$shown_makes[] = $make_safe;
+						if( !empty( $wp_rewrite->rules ) ) {
+							$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
+							$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
+							echo '<option value="' . $url . '"';
+							if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
+								echo ' selected="selected" ';
 							}
-							echo '>' . ucwords( strtolower( $make ) ) . '</option>';
+						} else {
+							echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
+							if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
+								echo ' selected="selected" ';
+							}
 						}
+						echo '>' . $make . '</option>';
 					}
-				echo '
-				</select>
-				';
-			} else {
-				if( $make_count == 1 ) {
-					$parameters[ 'make' ] = $makes[ 0 ];
 				}
-			}
+			echo '
+			</select>
+			';
 
-			if( isset( $parameters[ 'make' ] ) ) {
+			if( isset( $parameters[ 'make' ] ) && $parameters[ 'make' ] != 'all' ) {
 				$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-				$make_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class ) , $tmp_do_not_carry );
 				$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
 				$models = json_decode( $models[ 'body' ] );
 				$model_count = count( $models );
 			}
 
-			$make = $parameters[ 'make' ];
-			if( $make_count > 0 ) {
+			$model = isset( $parameters[ 'model' ] ) ? $parameters[ 'model' ] : 'all';
+			$parameters[ 'model' ] = $model;
+			echo '
+			<span>Models: </span>
+			<select onchange="window.location = this.value;" class="styled"';
+			if( ! isset( $model_count ) || $model_count == 0 ) {
+				echo ' disabled="disabled" ';
+			}
+			echo '>
+				<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $make . ' "/>View All Models</option>';
+				if( $model_count > 0 ) {
+					if( $model_count == 1 ) {
+						$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
+					}
+					foreach( $models as $model ) {
+						$model_safe = str_replace( '/' , '%252' , $model );
+						$model_safe = ucwords( strtolower( $model_safe ) );
+						if( !empty( $wp_rewrite->rules ) ) {
+							$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model_safe . '/';
+							$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
+							echo '<option value="' . $url . '"';
+							if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
+								echo ' selected="selected" ';
+							}
+							echo '>' . $model . '</option>';
+						} else {
+							echo '<option value="' . @add_query_arg( array( 'model' => $model_safe ) , $do_not_carry ) . '"';
+							if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
+								echo ' selected="selected" ';
+							}
+						}
+						echo '>' . ucwords( strtolower( $model ) ) . '</option>';
+					}
+				}
+			echo '
+			</select>';
+
+			if( isset( $parameters[ 'model' ] ) && $parameters[ 'model' ] != 'all' ) {
+				$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
+				$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+				$trims = json_decode( $trims[ 'body' ] );
+				$trim_count = count( $trims );
+			}
+
+			if( isset( $trim_count ) && $trim_count != 0 ) {
+				$trim = isset( $parameters[ 'trim' ] ) ? $parameters[ 'trim' ]  : 'all';
+				$parameters[ 'trim' ] = $trim;
 				echo '
-				<span>Models: </span>
+				<span>Trims: </span>
 				<select onchange="window.location = this.value;" class="styled"';
-				if( ! isset( $parameters[ 'make' ] ) || $model_count == 0 ) {
+				if( ! isset( $trim_count ) || $trim_count == 0 ) {
 					echo ' disabled="disabled" ';
 				}
 				echo '>
-					<option value="' . $site_url . '/inventory/' . $parameters['saleclass'] . '/">View All Models</option>';
-					if( $model_count > 1 ) {
-						foreach( $models as $model ) {
-							$model_safe = str_replace( '/' , '%252' , $model );
-							$model_safe = ucwords( strtolower( $model_safe ) );
+					<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $parameters[ 'model' ] . '/">View All Trims</option>';
+					if( $trim_count == 1 ) {
+						$parameters[ 'trim' ] = $trims[ 0 ];
+					}
+						foreach( $trims as $trim ) {
+							$trim_safe = str_replace( '/' , '%252' , $trim );
+							$trim_safe = ucwords( strtolower( $trim_safe ) );
 							if( !empty( $wp_rewrite->rules ) ) {
-								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model_safe . '/';
+								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $trim_safe . '/';
 								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
 								echo '<option value="' . $url . '"';
-								if( rawurlencode( $model_safe ) == $parameters[ 'model' ] ) {
+								if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
 									echo ' selected="selected" ';
 								}
-								echo '>' . ucwords( strtolower( $model ) ) . '</option>';
+								echo '>' . $trim . '</option>';
 							} else {
-								echo '<option value="' . @add_query_arg( array( 'model' => $model_safe ) , $do_not_carry ) . '"';
-								if( rawurlencode( $model_safe ) == $parameters[ 'model' ] ) {
+								echo '<option value="' . @add_query_arg( array( 'trim' => $trim_safe ) , $do_not_carry ) . '"';
+								if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
 									echo ' selected="selected" ';
 								}
 							}
-							echo '>' . ucwords( strtolower( $model ) ) . '</option>';
+							echo '>' . ucwords( strtolower( $trim ) ) . '</option>';
 						}
-					}
 				echo '
 				</select>';
 			}
