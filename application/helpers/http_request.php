@@ -58,7 +58,7 @@ class http_request {
 	}
 
 	function cache_file( $data ) {
-		return wp_cache_add( $this->url , $data , $this->group , 0 );
+		return wp_cache_add( $this->url , $data , $this->group , 7200 );
 	}
 
 }
