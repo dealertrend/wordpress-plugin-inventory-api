@@ -4,7 +4,6 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 print_me( __FILE__ );
 
-require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );

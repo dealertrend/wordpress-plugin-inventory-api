@@ -4,6 +4,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 print_me( __FILE__ );
 
+require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
+
 class Updater {
 
 	public $current_plugin_information = array();
