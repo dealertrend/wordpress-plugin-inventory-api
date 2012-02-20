@@ -4,14 +4,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 print_me( __FILE__ );
 
-require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/updater.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );
-require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
-require_once( dirname( __FILE__ ) . '/application/helpers/updater.php' );
-
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_reference_system.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
 
 class Plugin {
 
