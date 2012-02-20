@@ -4,7 +4,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 print_me( __FILE__ );
 
-require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
+require_once( dirname( __FILE__ ) . '/http_request.php' );
 
 class dynamic_site_headers {
 
