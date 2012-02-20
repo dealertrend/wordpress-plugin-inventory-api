@@ -45,14 +45,15 @@ class Updater {
 	}
 
 	function plugin_row() {
+
 		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
 
 		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
 
-		$url = $this->current_plugin_information[ 'PluginURL' ] . '/changelog.html?TB_iframe=true&width=640&height=438&version=' . $this->current_plugin_information[ 'Version' ];
+		$url = 'https://dealertrend.backpackit.com/pub/2653226-dealertrend-inventory-api-changelog?TB_iframe=true&version=' . $this->current_plugin_information[ 'Version' ];
 
 		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
-		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
+		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a id="dealertrend-changelog" href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
 		echo '</div></td></tr>';
 	}
 
