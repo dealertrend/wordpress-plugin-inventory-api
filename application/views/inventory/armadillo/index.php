@@ -2,6 +2,8 @@
 
 	namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 	global $wp_rewrite;
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';

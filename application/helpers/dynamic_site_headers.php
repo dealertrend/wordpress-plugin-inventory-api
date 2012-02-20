@@ -2,70 +2,17 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-/**
- * This is the primary class for the SEO Helpers.
- *
- * It uses standard WordPress hooks and helpers for the different APIs it interfaces with.
- *
- * @package WordPress
- * @subpackage Plugin
- * @since 3.0.0
- */
+print_me( __FILE__ );
 
 class dynamic_site_headers {
 
-	/**
-	 * Public variable for the host of the API we are suposed to request the headers from.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var string
-	 */
 		public $host = NULL;
-
-	/**
-	 * Public variable for the company ID we'll be giving to the API.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var integer
-	 */
 		public $company_id = 0;
-
-	/**
-	 * Public array of the parameters we'll be submitting to the API.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
 		public $parameters = array();
-
-	/**
-	 * Public array of the headers returned form the API.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
 		public $headers = array();
-
-	/**
-	 * Public array all requests made within the instance of the object.
-	 *
-	 * @since 3.0.0
-	 * @access public
-	 * @var array
-	 */
 		public $request_stack = array();
-
-	/**
-	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
 		function __construct( $host , $company_id , $parameters ) {
+print_me( __METHOD__ );
 			$this->host = $host;
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
@@ -76,14 +23,8 @@ class dynamic_site_headers {
 			}
 		}
 
-	/**
-	 * Attempt to get the title and meta information from the VMS.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
 		function get_headers() {
-
+print_me( __METHOD__ );
 			$taxonomy = isset( $this->parameters[ 'taxonomy' ] ) ? $this->parameters[ 'taxonomy' ] : 'inventory';
 			$sale_class = isset( $this->parameters[ 'saleclass' ] ) ? $this->parameters[ 'saleclass' ] : 'All';
 			$year = isset( $this->parameters[ 'year' ] ) ? $this->parameters[ 'year' ] : false;
@@ -118,23 +59,13 @@ class dynamic_site_headers {
 			}
 		}
 
-	/**
-	 * Set the new title we get from the API.
-	 *
-	 * @since 3.0.0
-	 * @return string The new title from the API.
-	 */
 		function set_title() {
+print_me( __METHOD__ );
 			return $this->headers[ 'page_title' ] . ' ';
 		}
 
-	/**
-	 * Set the header information for the site we got back from the VMS.
-	 *
-	 * @since 3.0.0
-	 * @return void
-	 */
 		function set_head_information() {
+print_me( __METHOD__ );
 			if( isset( $this->headers[ 'page_description' ] ) && !empty( $this->headers[ 'page_description' ] ) ) {
 				echo '<meta name="Description" content="' . $this->headers[ 'page_description' ] . '" />' . "\n";
 			}

@@ -2,11 +2,14 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 class ajax {
 
 	public $parameters = array();
 
 	function __construct( $parameters , $instance ) {
+print_me( __METHOD__ );
 
 		$this->parameters = $parameters;
 		$this->check_security();
@@ -83,6 +86,7 @@ class ajax {
 	}
 
 		function check_security() {
+print_me( __METHOD__ );
 			$nonce = isset( $_REQUEST['_ajax_nonce'] ) ? $_REQUEST['_ajax_nonce'] : false;
 
 			if( ! wp_verify_nonce( $nonce , 'ajax!' ) ) {
@@ -92,6 +96,7 @@ class ajax {
 		}
 
 		function sort_trims( $a , $b ) {
+print_me( __METHOD__ );
 				if( $a->msrp == 0 ) {
 						return 1;
 				} 
@@ -109,6 +114,7 @@ class ajax {
 		}
 
 	function sort_fuel_economies( $a , $b ) {
+print_me( __METHOD__ );
 		$a_sum = $a->city_mpg + $a->highway_mpg;
 		$b_sum = $b->city_mpg + $b->highway_mpg;
 		if( $a_sum > $b_sum ) {

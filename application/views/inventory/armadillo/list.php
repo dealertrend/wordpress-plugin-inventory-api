@@ -1,5 +1,5 @@
 <?php
-
+print_me( __FILE__ );
 	global $wp_rewrite;
 
 	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;

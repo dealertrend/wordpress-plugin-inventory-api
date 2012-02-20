@@ -2,6 +2,8 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 class http_request {
 
 	const timeout = 20;
@@ -20,6 +22,7 @@ class http_request {
 	);
 
 	function __construct( $url , $group ) {
+print_me( __METHOD__ );
 		global $wp , $wp_version , $dealertrend_inventory_api;
 		$this->url = $url;
 		$this->group = $group;
@@ -30,10 +33,12 @@ class http_request {
 	}
 
 	function cached() {
+print_me( __METHOD__ );
 		return wp_cache_get( $this->url , $this->group );
 	}
 
 	function get_file( $sanitize = false ) {
+print_me( __METHOD__ );
 		$start = timer_stop();
 		$response = wp_remote_request( $this->url , $this->request_parameters );
 		$stop = timer_stop();
@@ -58,6 +63,7 @@ class http_request {
 	}
 
 	function cache_file( $data ) {
+print_me( __METHOD__ );
 		return wp_cache_add( $this->url , $data , $this->group , 7200 );
 	}
 

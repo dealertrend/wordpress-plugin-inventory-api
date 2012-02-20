@@ -2,6 +2,8 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
@@ -51,6 +53,7 @@ class Plugin {
 	public $is_mobile = false;
 
 	public function execute() {
+print_me( __METHOD__ );
 		$this->load_plugin_information();
 		$this->queue_registrations();
 		$this->check_for_updates();
@@ -62,14 +65,17 @@ class Plugin {
 	}
 
 	private function get_master_file() {
+print_me( __METHOD__ );
 		return dirname( __FILE__ ) . '/loader.php';
 	}
 
 	private function get_plugin_basename() {
+print_me( __METHOD__ );
 		return plugin_basename( $this->get_master_file() );
 	}
 
 	function load_plugin_information() {
+print_me( __METHOD__ );
 
 		$data = array();
 
@@ -92,10 +98,12 @@ class Plugin {
 	}
 
 	function queue_registrations() {
+print_me( __METHOD__ );
 		add_action( 'init' , array( &$this , 'register_assets' ) );
 	}
 
 	function register_assets() {
+print_me( __METHOD__ );
 			$admin_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'admin-theme' ];
 			$inventory_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ];
 			$showcase_jquery_ui_theme = $this->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ];
@@ -174,16 +182,19 @@ class Plugin {
 		}
 
 	function check_for_updates() {
+print_me( __METHOD__ );
 		add_action( 'admin_init' , array( &$this , 'instantiate_updater' ) );
 	}
 
 	function instantiate_updater() {
+print_me( __METHOD__ );
 		$update_handler = new Updater( $this->plugin_information );
 		$version_comparison = $update_handler->check_for_updates();
 		$update_handler->display_update_notice( $version_comparison );
 	}
 
 	function load_options() {
+print_me( __METHOD__ );
 		$loaded_options = get_option( 'dealertrend_inventory_api' ) ;
 		if( !$loaded_options ) {
 			update_option( 'dealertrend_inventory_api' , $this->options );
@@ -198,6 +209,7 @@ class Plugin {
 	}
 
 	function validate_options( $options , $defaults , $modified = false ) {
+print_me( __METHOD__ );
 		foreach( $defaults as $key => $value ) {
 			if( is_array( $value ) ) {
 				$this->validate_options( &$options[ $key ] , &$value , &$modified );
@@ -211,6 +223,7 @@ class Plugin {
 	}
 
 	function load_widgets() {
+print_me( __METHOD__ );
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vehicle_management_system_widget" );' ) );
 		}
@@ -221,26 +234,31 @@ class Plugin {
 	}
 
 	function load_admin_assets() {
+print_me( __METHOD__ );
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
 	}
 
 	function setup_routing() {
+print_me( __METHOD__ );
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'create_taxonomies' ) );
 	}
 
 	function queue_templates() {
+print_me( __METHOD__ );
 		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 2 );
 	}
 
 	function save_options() {
+print_me( __METHOD__ );
 		update_option( 'dealertrend_inventory_api' , $this->options );
 		$this->load_options();
 	}
 
 	function admin_styles() {
+print_me( __METHOD__ );
 		$network_admin = is_network_admin();
 		$prefix = $network_admin ? 'network_admin_' : '';
 		add_filter( $prefix . 'plugin_action_links_' . $this->get_plugin_basename() , array( $this , 'add_plugin_links' ) );
@@ -259,6 +277,7 @@ class Plugin {
 	}
 
 	function add_plugin_links( $links ) {
+print_me( __METHOD__ );
 		$settings_link = '<a href="admin.php?page=dealertrend_inventory_api#settings">Settings</a>';
 		$readme_link = '<a href="admin.php?page=dealertrend_inventory_api#help">Help</a>';
 		array_unshift( $links , $settings_link );
@@ -268,14 +287,17 @@ class Plugin {
 	}
 
 	function create_options_page() {
+print_me( __METHOD__ );
 		include( dirname( __FILE__ ) . '/application/views/options/page.php' );
 	}
 
 	function admin_scripts() {
+print_me( __METHOD__ );
 		wp_enqueue_script( 'dealertrend-inventory-api-admin' );
 	}
 
 	function add_rewrite_rules( $existing_rules ) {
+print_me( __METHOD__ );
 		$new_rules = array();
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
@@ -289,12 +311,14 @@ class Plugin {
 	}
 
 	function flush_rewrite_rules() {
+print_me( __METHOD__ );
 		global $wp_rewrite;
 
 		return $wp_rewrite->flush_rules();
 	}
 
 	function create_taxonomies() {
+print_me( __METHOD__ );
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			add_filter( 'widget_text' , 'do_shortcode' );
 			register_sidebar(array(
@@ -366,6 +390,7 @@ class Plugin {
 	}
 
 	function show_theme() {
+print_me( __METHOD__ );
 		global $wp_query;
 
 		$this->check_mobile();
@@ -481,20 +506,24 @@ class Plugin {
 	}
 
 	function check_mobile() {
+print_me( __METHOD__ );
 		global $wp_query;
 		$this->is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
 	}
 
 	function stop_wordpress() {
+print_me( __METHOD__ );
 		exit;
 	}
 
 	function fix_bad_wordpress_assumption() {
+print_me( __METHOD__ );
 		global $wp_query;
 		$wp_query->is_home = false;
 	}
 
 	function get_parameters() {
+print_me( __METHOD__ );
 		global $wp;
 		global $wp_rewrite;
 
@@ -562,6 +591,7 @@ class Plugin {
 	}
 
 	function sanitize_inputs( $input ) {
+print_me( __METHOD__ );
 		if( is_array( $input ) ) {
 			foreach( $input as $key => $value ) {
 				$input[ $key ] = is_scalar( $value ) ? wp_kses_data( $value , false , 'http' ) : array_map( array( &$this , 'sanitize_inputs' ) , $value );
@@ -574,6 +604,7 @@ class Plugin {
 	}
 
 	function inventory_styles() {
+print_me( __METHOD__ );
 		$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
 		$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
 		$style_path = $this->plugin_information[ 'PluginURL' ] . '/application/views/' . $theme_folder . '/' . $current_theme . '/dealertrend-inventory-api.css';
@@ -586,6 +617,7 @@ class Plugin {
 	}
 
 	function get_themes( $type ) { 
+print_me( __METHOD__ );
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
 		$ignore = array( '.' , '..' );
 		foreach( $directories as $key => $value ) {

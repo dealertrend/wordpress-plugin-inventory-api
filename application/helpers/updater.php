@@ -2,6 +2,8 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 class Updater {
 
 	public $current_plugin_information = array();
@@ -9,19 +11,23 @@ class Updater {
 	public $new_version = NULL;
 
 	function __construct( $current_plugin_information ) {
+print_me( __METHOD__ );
 		$this->load_plugin_information( $current_plugin_information );
 		$this->queue_plugin_updater();
 	}
 
 	function load_plugin_information( $current_plugin_information ) {
+print_me( __METHOD__ );
 		$this->current_plugin_information = $current_plugin_information;
 	}
 
 	function queue_plugin_updater() {
+print_me( __METHOD__ );
 		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
 	}
 
 	function display_update_notice( $version_check = array() ) {
+print_me( __METHOD__ );
 		if( $version_check[ 'current' ] < $version_check[ 'latest' ] ) {
 			$update_data = (object) array(
 				'new_version' => $version_check[ 'latest' ],
@@ -40,11 +46,13 @@ class Updater {
 	}
 
 	function filter_plugin_rows() {
+print_me( __METHOD__ );
 		remove_all_actions( 'after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ] );
 		add_action('after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
 	}
 
 	function plugin_row() {
+print_me( __METHOD__ );
 
 		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
 
@@ -58,6 +66,7 @@ class Updater {
 	}
 
 	function check_for_updates() {
+print_me( __METHOD__ );
 		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
 		$url = 'http://github.com/api/v2/json/repos/show/dealertrend/wordpress-plugin-inventory-api/tags';
 		$request_handler = new http_request( $url , 'dealetrend_plugin_updater' );
@@ -92,6 +101,7 @@ class Updater {
 	}
 
 	function filter_plugin_count( $current_values ) {
+print_me( __METHOD__ );
 		if( $this->new_version > $this->current_plugin_information[ 'Version' ] ) {
 			$new_values = $current_values;
 			if( !isset( $new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] ) ){

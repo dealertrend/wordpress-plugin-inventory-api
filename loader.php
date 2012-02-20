@@ -9,6 +9,14 @@
  * License: GPLv2 or later
  */
 
+function print_me( $content ) {
+	echo '<pre>' . $content . '</pre>';
+}
+
+echo '<br /><br /><br />';
+
+print_me( __FILE__ );
+
 require_once( dirname( __FILE__ ) . '/application/helpers/check_requirements.php' );
 
 $helper = new Dealertrend_Inventory_Api_Requirements();

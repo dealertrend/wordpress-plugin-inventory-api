@@ -2,6 +2,8 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
+print_me( __FILE__ );
+
 class vehicle_management_system {
 
 	const max_per_page = 50;
@@ -15,11 +17,13 @@ class vehicle_management_system {
 	private $parameters = array();
 
 	function __construct( $host , $company_id ) {
+print_me( __METHOD__ );
 		$this->host = $host;
 		$this->company_id = $company_id;
 	}
 
 	function set_headers( $parameters = array() ) {
+print_me( __METHOD__ );
 		$status = 400;
 		$this->tracer = 'Checking inventory feed.';
 		$check_inventory = $this->check_inventory()->please( $parameters );
@@ -38,53 +42,63 @@ class vehicle_management_system {
 	}
 
 	function check_host() {
+print_me( __METHOD__ );
 		$this->url = $this->host;
 		return $this;
 	}
 
 	function check_company_id() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/api/companies/' . $this->company_id;
 		return $this;
 	}
 
 	function check_inventory() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles.json';
 		$this->parameters = array( 'photo_view' => 1 , 'per_page' => 1 );
 		return $this;
 	}
 
 	function get_company_information() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/api/companies/' . $this->company_id;
 		return $this;
 	}
 
 	function get_inventory() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles.json';
 		$this->parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= vehicle_management_system::max_per_page ? $parameters[ 'per_page' ] : 10;
 		return $this;
 	}
 
 	function get_makes() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/makes.json';
 		return $this;
 	}
 
 	function get_models() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/models.json';
 		return $this;
 	}
 
 	function get_trims() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/trims.json';
 		return $this;
 	}
 
 	function get_body_styles() {
+print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
 		return $this;
 	}
 
 	public function please( $parameters = array() ) {
+print_me( __METHOD__ );
 
 		$parameters = array_merge( $this->parameters , $parameters );
 
@@ -108,6 +122,7 @@ class vehicle_management_system {
 	}
 
 	function process_parameters( $parameters ) {
+print_me( __METHOD__ );
 		unset( $parameters[ 'taxonomy' ] );
 		$parameters = array_map( 'urldecode' , $parameters );
 
