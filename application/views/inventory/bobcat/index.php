@@ -29,7 +29,7 @@ print_me( __FILE__ );
 			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
 			wp_enqueue_script(
 				'dealertrend-inventory-api-loan-calculator',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/js/loan-calculator.js',
 				'jquery',
 				$this->plugin_information[ 'Version' ]
 			);

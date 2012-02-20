@@ -27,7 +27,7 @@ switch( $type ) {
 		wp_enqueue_style( 'jquery-jscrollpane' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/jquery.jscrollpane.css' , false );
 		wp_enqueue_script(
 			'dealertrend-inventory-api-loan-calculator',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/loan-calculator.js',
 			'jquery',
 			$this->plugin_information[ 'Version' ]
 		);

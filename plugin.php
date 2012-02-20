@@ -174,7 +174,7 @@ print_me( __METHOD__ );
 			);
 			wp_register_script(
 				'dealertrend_inventory_api_traffic_source',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/traffic-sources.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/' . $this->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] . '/js/traffic-sources.js',
 				array( 'jquery-cookie' ),
 				$this->plugin_information[ 'Version' ],
 				true

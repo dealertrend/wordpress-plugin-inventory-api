@@ -24,7 +24,7 @@
 			wp_enqueue_script( 'jquery-ui-cycle' );
 			wp_enqueue_script(
 				'dealertrend-inventory-api-loan-calculator',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/mobile/websitez/js/loan-calculator.js',
 				'jquery',
 				$this->plugin_information[ 'Version' ]
 			);

@@ -48,7 +48,7 @@ print_me( __FILE__ );
 			wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
 			wp_enqueue_script(
 				'dealertrend-inventory-api-loan-calculator',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/loan-calculator.js',
 				'jquery',
 				$this->plugin_information[ 'Version' ]
 			);
