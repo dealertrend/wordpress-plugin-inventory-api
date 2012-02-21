@@ -93,9 +93,9 @@ print_me( __FILE__ );
 	}
 
 	$company_information = json_decode( $company_information[ 'body' ] );
-	$city = $company_information->seo->city;
-	$state = $company_information->seo->state;
-	$company_name = strtoupper( $company_information->name );
+	$city = trim( $company_information->seo->city );
+	$state = trim( $company_information->seo->state );
+	$company_name = strtoupper( trim( $company_information->name ) );
 
 	$parameters = $this->parameters;
 	$query = '?' . http_build_query( $_GET );
