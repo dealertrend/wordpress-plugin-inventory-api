@@ -430,7 +430,6 @@ print_me( __METHOD__ );
 							(array) $this->parameters + (array) $seo_hack
 						);
 					}
-
 					if( $handle = opendir( $theme_path ) ) {
 						while( false != ( $file = readdir( $handle ) ) ) {
 							if( $file == 'index.php' ) {
@@ -617,7 +616,8 @@ print_me( __METHOD__ );
 	function get_themes( $type ) { 
 print_me( __METHOD__ );
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
-		$ignore = array( '.' , '..' );
+		$ignore = array( '.' , '..' , 'index.php' );
+
 		foreach( $directories as $key => $value ) {
 			if( in_array( $value , $ignore ) ) {
 				unset( $directories[ $key ] );
