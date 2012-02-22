@@ -42,6 +42,10 @@ class Plugin {
 				'inventory-theme' => 'smoothness',
 				'showcase-theme' => 'smoothness'
 			)
+		),
+		'requests' => array(
+			'timeout_seconds' => 10,
+			'use_paralell_method' => true
 		)
 	);
 
