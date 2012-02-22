@@ -11,7 +11,11 @@ class Dealertrend_Inventory_Api_Requirements {
 
 	public function has_been_checked() {
 print_me( __METHOD__ );
-		return get_option( 'dealertrend_inventory_api_requirements_checked' );
+		return get_option( $this->_get_option_key );
+	}
+
+	private function _get_option_key() {
+		return 'dealertrend_inventory_api_requirements_checked';
 	}
 
 	public function set_master_file( $file ) {
@@ -21,63 +25,63 @@ print_me( __METHOD__ );
 
 	public function check_requirements() {
 print_me( __METHOD__ );
-		$this->get_local_versions();
-		$this->get_required_versions();
-		if( $this->compare_versions() == false ) {
-			$this->unable_to_load();
+		$this->_get_local_versions();
+		$this->_get_required_versions();
+		if( $this->_compare_versions() == false ) {
+			$this->_unable_to_load();
 			return false;
 		} else {
-			$this->set_has_been_checked_flag();
+			$this->_set_has_been_checked_flag();
 			return true;
 		}
 	}
 
-	private function get_local_versions() {
+	private function _get_local_versions() {
 print_me( __METHOD__ );
-		$this->_local_versions[ 'php' ] = $this->get_php_version();
-		$this->_local_versions[ 'wordpress' ] = $this->get_wordpress_version();
+		$this->_local_versions[ 'php' ] = $this->_get_php_version();
+		$this->_local_versions[ 'wordpress' ] = $this->_get_wordpress_version();
 	}
 
-	private function get_php_version() {
+	private function _get_php_version() {
 print_me( __METHOD__ );
-		return phpversion();
+		return floatval( phpversion() );
 	}
 
-	private function get_wordpress_version() {
+	private function _get_wordpress_version() {
 print_me( __METHOD__ );
 		global $wp_version;
-		return $wp_version;
+		return floatval( $wp_version );
 	}
 
-	private function get_required_versions() {
+	private function _get_required_versions() {
 print_me( __METHOD__ );
-		$this->_required_versions[ 'php' ] = $this->get_required_php_version();
-		$this->_required_versions[ 'wordpress' ] = $this->get_required_wordpress_version();;
+		$this->_required_versions[ 'php' ] = $this->_get_required_php_version();
+		$this->_required_versions[ 'wordpress' ] = $this->_get_required_wordpress_version();;
 	}
 
-	private function get_required_php_version() {
+	private function _get_required_php_version() {
 print_me( __METHOD__ );
 		if( ! isset( $this->_required_versions[ 'php' ] ) ){
-			$this->_required_versions[ 'php' ]  = '5.3';
+			$this->_required_versions[ 'php' ]  = 5.3;
 		}
 		return $this->_required_versions[ 'php' ];
 	}
 
-	private function get_required_wordpress_version() {
+	private function _get_required_wordpress_version() {
 print_me( __METHOD__ );
 		if( ! isset( $this->_required_versions[ 'wordpress' ] ) ){
-			$this->_required_versions[ 'wordpress' ]  = '3.2';
+			$this->_required_versions[ 'wordpress' ]  = 3.2;
 		}
 		return $this->_required_versions[ 'wordpress' ];
 	}
 
-	private function compare_versions() {
+	private function _compare_versions() {
 print_me( __METHOD__ );
 		foreach( $this->_required_versions as $requirement_name => $required_version ) {
-			if( ! isset( $this->_local_versions[ $requirement_name ] ) || $required_version >= $this->_local_versions[ $requirement_name ] ) {
+			if( $this->_local_versions[ $requirement_name ] < $required_version ) {
 				$this->_error_message = '<strong> ' .
-				strtoupper( $requirement_name ) . ' is required to be <span style="color:red;">' . $required_version . '</span> or greater.
-				 Your version is: <span style="color:red;">' . $this->_local_versions[ $requirement_name ] . '</span>
+				strtoupper( $requirement_name ) . ' is required to be <span class="file-error">' . $required_version . '</span> or greater.
+				 Your version is: <span class="file-error">' . $this->_local_versions[ $requirement_name ] . '</span>
 				</strong>';
 				return false;
 			}
@@ -85,7 +89,7 @@ print_me( __METHOD__ );
 		return true;
 	}
 
-	public function unable_to_load() {
+	private function _unable_to_load() {
 print_me( __METHOD__ );
 		add_action( 'admin_notices' , array( &$this , 'display_admin_error' ) );
 		add_action( 'admin_init' , array( &$this , 'deactivate_plugin' ) );
@@ -95,16 +99,15 @@ print_me( __METHOD__ );
 print_me( __METHOD__ );
 		echo
 		'<div class="error">
-			<p><span style="font-weight:bold; color:red;">ERROR:</span>: Unable to activate plugin. System requirements are not met.</p>
+			<p><span class="file-error">ERROR::</span> Unable to activate plugin. System requirements are not met.</p>
 			<p>' . $this->_error_message . '</p>
 			<p>Plugin has been <strong>deactivated</strong>.</p>
 		</div>';
-		$this->hide_default_activate_notice();
+		$this->_hide_default_activate_notice();
 	}
 
-	public function hide_default_activate_notice() {
+	private function _hide_default_activate_notice() {
 print_me( __METHOD__ );
-		unset( $_GET[ 'activate' ] );
 	}
 
 	public function deactivate_plugin() {
@@ -112,9 +115,9 @@ print_me( __METHOD__ );
 		deactivate_plugins( plugin_basename( $this->_master_file ) );
 	}
 
-	private function set_has_been_checked_flag() {
+	private function _set_has_been_checked_flag() {
 print_me( __METHOD__ );
-		update_option( 'dealertrend_inventory_api_requirements_checked' , true );
+		update_option( $this->_get_option_key() , true );
 	}
 
 }
