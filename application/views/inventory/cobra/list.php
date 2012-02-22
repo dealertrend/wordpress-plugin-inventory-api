@@ -105,7 +105,7 @@ echo '
 								echo ' selected="selected" ';
 							}
 						} else {
-							echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
+							echo '<option value="?taxonomy=inventory&make=' . $make_safe . '"';
 							if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
 								echo ' selected="selected" ';
 							}
@@ -132,8 +132,12 @@ echo '
 			if( ! isset( $model_count ) || $model_count == 0 ) {
 				echo ' disabled="disabled" ';
 			}
-			echo '>
-				<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $make . ' "/>View All Models</option>';
+			echo '>';
+			if( !empty( $wp_rewrite->rules ) ) {
+			echo '<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $make . ' "/>View All Models</option>';
+			} else {
+			echo '<option value="' . $site_url . '?taxonomy=inventory&saleclass=' . $sale_class . '&' . $make . ' "/>View All Models</option>';
+			}
 				if( $model_count > 0 ) {
 					if( $model_count == 1 ) {
 						$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );

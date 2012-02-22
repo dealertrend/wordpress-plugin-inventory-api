@@ -219,15 +219,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 		echo '</div>';
 		echo '<div class="vrs-after-widget">' . $after_widget . '</div>';
 		echo '</div>';
-
-		echo "\n" . '<!--' . "\n";
-		echo '##################################################' . "\n";
-		echo print_r( $this , true ) . "\n";
-		echo print_r( $instance , true ) . "\n";
-		echo print_r( $args , true ) . "\n";
-		echo print_r( $vehicle_reference_system , true ) . "\n";
-		echo '##################################################' . "\n";
-		echo '-->' . "\n";
 	}
 
 	function update( $new_instance , $old_instance ) {

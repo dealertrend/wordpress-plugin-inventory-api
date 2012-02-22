@@ -207,16 +207,6 @@ class vehicle_management_system_widget extends WP_Widget {
 			';
 		}
 
-		echo "\n" . '<!--' . "\n";
-		echo '##################################################' . "\n";
-		echo print_r( $this , true ) . "\n";
-		echo print_r( $instance , true ) . "\n";
-		echo print_r( $args , true ) . "\n";
-		echo "[ Inventory Widget Information ]\n";
-		echo print_r( $vehicle_management_system , true ) . "\n";
-		echo '##################################################' . "\n";
-		echo '-->' . "\n";
-
 		echo '
 			<div class="vms-widget-content ' . $carousel . '">
 				<ul>

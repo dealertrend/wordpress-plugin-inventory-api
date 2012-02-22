@@ -161,7 +161,12 @@ print_me( __FILE__ );
 								foreach( $trims as $trim ) {
 									$trim_safe = $trim;
 									$trim_safe = str_replace( '/' , '%252' , $trim_safe );
-									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim_safe ) , $do_not_carry ) . '">' . $trim . '</a></li>';
+									if( ! empty( $wp_rewrite->rules ) ) {
+										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $parameters[ 'model' ] . '/?trim=' . $trim_safe;
+										echo '<li><a href="' . $url . '">' . $trim_safe . '</a></li>';
+									} else {
+										echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim_safe ) , $do_not_carry ) . '">' . $trim . '</a></li>';
+									}
 								}
 								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Previous</a></span></li>';
 							?>
