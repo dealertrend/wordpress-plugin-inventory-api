@@ -43,7 +43,7 @@ print_me( __FILE__ );
 
 	$traffic_source = isset( $_COOKIE[ 'dealertrend-traffic-source' ] ) ? $_COOKIE[ 'dealertrend-traffic-source' ] : false;
 
-	$traffic_source = $this->sanitize_inputs( $traffic_source );
+	$trffic_source = wp_kses_data( $traffic_source , false , 'http' );
 
 ?>
 

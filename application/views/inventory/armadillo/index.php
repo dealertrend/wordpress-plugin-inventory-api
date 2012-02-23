@@ -5,15 +5,10 @@
 print_me( __FILE__ );
 
 	global $wp_rewrite;
+	$parameters = $this->parameters;
+	$type = isset( $parameters[ 'vin' ] ) ? 'detail' : 'list';
 
-	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1  ) ) );
-
-	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
-
-	$site_url = site_url();
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	$default_scripts = array(
 		'jquery',
 		'jquery-ui-core'
@@ -40,6 +35,14 @@ print_me( __FILE__ );
 				$this->plugin_information[ 'Version' ],
 				true
 			);
+			$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
+			if( ! isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
+				$makes = $vehicle_management_system->get_makes()->please( array( 'saleclass' => $sale_class ) , true );
+			} elseif( ( !isset( $parameters[ 'model' ] ) || strtolower( $parameters[ 'model' ] ) == 'all' ) && isset( $parameters[ 'make' ] ) ) {
+				$models = $vehicle_management_system->get_models()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , true );
+			} elseif( ( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) && isset( $parameters[ 'model' ] ) ) {
+				$trims = $vehicle_management_system->get_trims()->please( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , true );
+			}
 		break;
 		case 'detail':
 			wp_enqueue_script( 'jquery-ui-tabs' );
@@ -97,10 +100,9 @@ print_me( __FILE__ );
 	$state = trim( $company_information->seo->state );
 	$company_name = strtoupper( trim( $company_information->name ) );
 
-	$parameters = $this->parameters;
 	$query = '?' . http_build_query( $_GET );
 
-	$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
+	$breadcrumbs = '<a href="' . site_url() . '/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . urldecode( $company_name ) . '</a>';
 	$put_in_trail = array(
 		'saleclass',
 		'make',
@@ -121,7 +123,7 @@ print_me( __FILE__ );
 		}
 	}
 
-	$inventory_base = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' : $site_url . '?taxonomy=inventory';
+	$inventory_base = ! empty( $wp_rewrite->rules ) ? site_url() . '/inventory/' : site_url() . '?taxonomy=inventory';
 	$crumb_trail = $inventory_base;
 
 	foreach( $parameters as $key => $value ) {
@@ -145,6 +147,7 @@ print_me( __FILE__ );
 
 	$breadcrumbs = '<div class="armadillo-breadcrumbs">' . $breadcrumbs . '</div>';
 
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
 	echo '<div id="dealertrend-inventory-api">';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';

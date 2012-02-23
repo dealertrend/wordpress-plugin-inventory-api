@@ -6,43 +6,61 @@ print_me( __FILE__ );
 
 class http_request {
 
-	public $url = null;
+	private $_request_parameters = array();
+	private $_cache_key = null;
 
-	public $group = null;
-
-	public $request_parameters = array(
-		'headers' => array(
-			'Referer' => NULL,
-			'X-WordPress-Version' => NULL,
-			'X-Plugin-Version' => NULL
-		)
-	);
-
-	public function __construct( $url , $group ) {
+	public function __construct() {
 print_me( __METHOD__ );
-		global $wp , $wp_version , $dealertrend_inventory_api;
-		$this->url = $url;
-		$this->group = $group;
-
-		$plugin_options = get_option( 'dealertrend_inventory_api' );
-		$this->request_parameters[ 'headers' ][ 'Referer' ] = site_url() . '/' . $wp->request;
-		$this->request_parameters[ 'headers' ][ 'X-WordPress-Version' ] = $wp_version;
-		$this->request_parameters[ 'headers' ][ 'X-Plugin-Version' ] = $dealertrend_inventory_api->plugin_information[ 'Version' ];
-		$this->request_parameters[ 'timeout'] = ! isset( $this->request_parameters[ 'timeout'] ) ? $dealertrend_inventory_api->options[ 'requests' ][ 'timeout_seconds' ] : $this->request_parameters[ 'timeout'];
+		$this->_set_timeout();
+		$this->_set_headers();
 	}
 
-	public function cached() {
+	private function _set_headers() {
 print_me( __METHOD__ );
-		return wp_cache_get( $this->url , $this->group );
+		$headers[ 'Referer' ] = $this->_get_referrer();
+		$headers[ 'X-WordPress-Version' ] = $this->_get_wordpress_version();
+		$headers[ 'X-Plugin-Version' ] = $this->_get_plugin_version();
+		$this->_request_parameters[ 'headers' ] = $headers;
+		
 	}
 
-	public function get_file( $sanitize = false ) {
+	private function _get_plugin_version() {
 print_me( __METHOD__ );
-		$start = timer_stop();
-		$response = wp_remote_request( $this->url , $this->request_parameters );
-		$stop = timer_stop();
-		$response_time = $stop - $start;
-		$this->_cache_file( $response );
+		global $dealertrend_inventory_api;
+		return $dealertrend_inventory_api->plugin_information[ 'Version' ];
+	}
+
+	private function _set_timeout() {
+print_me( __METHOD__ );
+		$this->_request_parameters[ 'timeout'] =  $dealertrend_inventory_api->options[ 'requests' ][ 'timeout_seconds' ];
+	}
+
+	private function _get_wordpress_version() {
+print_me( __METHOD__ );
+		global $wp_version;
+		return $wp_version;
+	}
+
+	private function _get_referrer() {
+print_me( __METHOD__ );
+		global $wp;
+		return site_url() . '/' . $wp->request;
+	}
+
+	public function set_cache_key( $key ) {
+print_me( __METHOD__ );
+		$this->_cache_key = $key;
+	}
+
+	public function cached( $node ) {
+print_me( __METHOD__ );
+		return wp_cache_get( $node , $this->_cache_key );
+	}
+
+	public function get_file( $node , $sanitize = false ) {
+print_me( __METHOD__ );
+		$response = wp_remote_request( $node , $this->request_parameters );
+		$this->_cache_file( $node , $response );
 		if( wp_remote_retrieve_response_code( $response ) == 200 ) {
 			if( $sanitize == true ) {
 				$response[ 'body' ] = wp_kses_data( $response[ 'body' ] );
@@ -65,19 +83,18 @@ print_me( __METHOD__ );
 print_me( __METHOD__ );
 		$instances = array();
 
-		$handler = curl_multi_exec();
+		$handler = curl_multi_init();
 
 		foreach( (array) $nodes as $key => $file ) {
-			$instance[ $file ] = curl_init( $file );
+			$instances[ $file ] = curl_init( $file );
 			$options = array(
 				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_HEADER =>  true,
-				CURLOPT_HTTPHEADER => $this->request_parameters[ 'headers' ]
+				CURLOPT_HEADER => true,
+				CURLOPT_HTTPHEADER => $this->_request_parameters[ 'headers' ]
 			);
 			curl_setopt_array( $instances[ $file ] , $options );
 			curl_multi_add_handle( $handler , $instances[ $file ] );
 		}
-		$start = timer_stop();
 
 		$running = null;
 
@@ -85,23 +102,21 @@ print_me( __METHOD__ );
 			curl_multi_exec( $handler , $running );
 		} while( $running > 0 );
 
-		$stop = timer_stop();
-
-		$response_time = $stop - $start;
-
 		foreach( $nodes as $key => $file ) {
-			$results[ $file ] = curl_multi_getcontent( $instances[ $file ] );
-			$this->url = $file;
-			$this->_cache_file( $instances[ $file ] );
-			print_r( $results );
-			return $results;
+			$results[] = curl_multi_getcontent( $instances[ $file ] );
+			$this->_cache_file( $file , $instances[ $file ] );
 		}
+
+		return $results;
 
 	}
 
-	private function _cache_file( $data ) {
+	private function _process_headers() {
+	}
+
+	private function _cache_file( $node , $data ) {
 print_me( __METHOD__ );
-		return wp_cache_add( $this->url , $data , $this->group , 7200 );
+		return wp_cache_add( $node , $data , $this->_cacke_key , 7200 );
 	}
 
 }

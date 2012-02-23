@@ -17,8 +17,6 @@ print_me( __FILE__ );
 
 	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
-	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
-	$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
 	$total_found = json_decode( $total_found[ 'body' ] );
 	$total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
 
@@ -84,7 +82,6 @@ print_me( __FILE__ );
 					<?php
 						endif;
 						if( ! isset( $parameters[ 'make' ] ) || strtolower( $parameters[ 'make' ] ) == 'all' ) {
-							$vehicle_management_system->tracer = 'Obtaining a list of makes for the sidebar.';
 							$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
 							$makes = json_decode( $makes[ 'body' ] );
 							$make_count = count ( $makes );
@@ -149,7 +146,6 @@ print_me( __FILE__ );
 						if( ( !isset( $parameters[ 'trim' ] ) || strtolower( $parameters[ 'trim' ] ) == 'all' ) && isset( $parameters[ 'model' ] ) ) {
 							$tmp_do_not_carry = remove_query_arg( 'model' , $do_not_carry );
 							$model_url = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' . $sale_class . '/' : @add_query_arg( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $tmp_do_not_carry );
-							$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
 							$trims = json_decode( $trims[ 'body' ] );
 							$trim_count = count( $trims );
 							if( $trim_count > 1 ) {

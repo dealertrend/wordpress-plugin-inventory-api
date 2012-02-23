@@ -45,7 +45,7 @@ class Plugin {
 		),
 		'requests' => array(
 			'timeout_seconds' => 10,
-			'use_paralell_method' => true
+			'do_parallel' => false
 		)
 	);
 
@@ -406,103 +406,87 @@ print_me( __METHOD__ );
 		switch( $this->_taxonomy ) {
 
 			case 'inventory':
-				if( $this->options[ 'vehicle_management_system' ][ 'host' ] ) {	
-					$this->_fix_bad_wordpress_assumption();
-
-					$current_theme = $this->_is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
-					$theme_folder = $this->_is_mobile != true ? 'inventory' : 'mobile';
-					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
-
-					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
-
-					$vehicle_management_system = new vehicle_management_system(
-						$this->options[ 'vehicle_management_system' ][ 'host' ],
-						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-					);
-
-					$status = $vehicle_management_system->set_headers( $this->parameters );
-
-					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
-					$company_information = $vehicle_management_system->get_company_information()->please();
-
-					if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-						$data = json_decode( $company_information[ 'body' ] );
-						$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state , 'country_code' => $data->country_code );
-						$dynamic_site_headers = new dynamic_site_headers(
-							$this->options[ 'vehicle_management_system' ][ 'host' ],
-							$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-							(array) $this->parameters + (array) $seo_hack
-						);
-					}
-					if( $handle = opendir( $theme_path ) ) {
-						while( false != ( $file = readdir( $handle ) ) ) {
-							if( $file == 'index.php' ) {
-								include_once( $theme_path . '/index.php' );
-							}
-						}
-						closedir( $handle );
-					} else {
-						echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
-						return false;
-					}
-
-					$this->_stop_wordpress();
+				if( ! $this->options[ 'vehicle_management_system' ][ 'host' ] ) {	
+					return false;
 				}
+				$this->_fix_bad_wordpress_assumption();
+
+				$current_theme = $this->_is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
+				$theme_folder = $this->_is_mobile != true ? 'inventory' : 'mobile';
+				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
+				add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
+
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+
+				$company_information = $vehicle_management_system->get_company_information()->please();
+				$inventory = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 ) ) );
+
+		if( $handle = opendir( $theme_path ) ) {
+			while( false != ( $file = readdir( $handle ) ) ) {
+				if( $file == 'index.php' ) {
+					include_once( $theme_path . '/index.php' );
+				}
+			}
+			closedir( $handle );
+		} else {
+			echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+			return false;
+		}
+
+				$this->_stop_wordpress();
 			break;
 			case 'showcase':
-				if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
-					$this->_fix_bad_wordpress_assumption();
-
-					$vehicle_management_system = new vehicle_management_system(
-						$this->options[ 'vehicle_management_system' ][ 'host' ],
-						$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-					);
-					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
-					$company_information = $vehicle_management_system->get_company_information()->please();
-
-					$country_code = 'US';
-					if( isset( $company_information[ 'body' ] ) ) {
-						$data = json_decode( $company_information[ 'body' ] );
-						if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
-							$seo_hack = array( 'city' => $data->seo->city , 'state' => $data->seo->state );
-							$dynamic_site_headers = new dynamic_site_headers(
-								$this->options[ 'vehicle_management_system' ][ 'host' ],
-								$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-								(array) $this->parameters + (array) $seo_hack
-							);
-						}
-						$country_code = $data->country_code;
-					}
-
-					$current_theme = 'default';
-					$theme_folder = 'showcase';
-					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
-
-					$vehicle_reference_system = new vehicle_reference_system(
-						$this->options[ 'vehicle_reference_system' ][ 'host' ],
-						$country_code
-					);
-
-					if( $handle = opendir( $theme_path ) ) {
-						while( false != ( $file = readdir( $handle ) ) ) {
-							if( $file == 'index.php' ) {
-								include_once( $theme_path . '/index.php' );
-							}
-						}
-						closedir( $handle );
-					} else {
-						echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
-						return false;
-					}
-
-					$this->_stop_wordpress();
+				if( ! $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
+					return false;
 				}
+				$this->_fix_bad_wordpress_assumption();
+
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				$current_theme = 'default';
+				$theme_folder = 'showcase';
+				$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+
+				$country_code = 'US';
+
+				$vehicle_reference_system = new vehicle_reference_system(
+					$this->options[ 'vehicle_reference_system' ][ 'host' ],
+					$country_code
+				);
+
+				$this->_include_theme_file( $theme_path );
+
+				$this->_stop_wordpress();
 			break;
 			case 'dealertrend-ajax':
 				$this->_fix_bad_wordpress_assumption();
 				$ajax = new ajax( $this->parameters , $this );
 				$this->_stop_wordpress();
 			break;
+		}
+	}
+
+	private function _include_theme_file( $theme_path  ) {
+print_me( __METHOD__ );
+		if( $handle = opendir( $theme_path ) ) {
+			while( false != ( $file = readdir( $handle ) ) ) {
+				if( $file == 'index.php' ) {
+					include_once( $theme_path . '/index.php' );
+				}
+			}
+			closedir( $handle );
+		} else {
+			echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+			return false;
 		}
 	}
 

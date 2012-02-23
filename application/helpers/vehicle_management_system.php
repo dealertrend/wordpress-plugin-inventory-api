@@ -8,29 +8,29 @@ require_once( dirname( __FILE__ ) . '/http_request.php' );
 
 class vehicle_management_system {
 
-	const max_per_page = 50;
-
 	public $host = NULL;
-	public $tracer = NULL;
 	public $company_id = 0;
-	public $request_stack = array();
+	private $_url = NULL;
+	private $_parameters = array();
+	private $_requests = array();
+	private $_nodes = array();
 
-	private $url = NULL;
-	private $parameters = array();
-
-	function __construct( $host , $company_id ) {
+	public function __construct( $host , $company_id ) {
 print_me( __METHOD__ );
 		$this->host = $host;
 		$this->company_id = $company_id;
 	}
 
-	function set_headers( $parameters = array() ) {
+	private function _max_per_page() {
+print_me( __METHOD__ );
+			return 50;
+	}
+
+	public function set_headers( $inventory ) {
 print_me( __METHOD__ );
 		$status = 400;
-		$this->tracer = 'Checking inventory feed.';
-		$check_inventory = $this->check_inventory()->please( $parameters );
-		if( isset( $check_inventory[ 'response' ][ 'code' ] ) && $check_inventory[ 'response' ][ 'code' ] == 200 ) {
-			$inventory_json = json_decode( $check_inventory[ 'body' ] );
+		if( isset( $inventory[ 'response' ][ 'code' ] ) && $inventory[ 'response' ][ 'code' ] == 200 ) {
+			$inventory_json = json_decode( $inventory[ 'body' ] );
 			if( count( $inventory_json ) > 0 ) {
 				$status = 200;
 			} else {
@@ -43,87 +43,80 @@ print_me( __METHOD__ );
 		return $status;
 	}
 
-	function check_host() {
-print_me( __METHOD__ );
-		$this->url = $this->host;
-		return $this;
-	}
-
-	function check_company_id() {
+	public function get_company_information() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/api/companies/' . $this->company_id;
 		return $this;
 	}
 
-	function check_inventory() {
+	public function get_inventory() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles.json';
-		$this->parameters = array( 'photo_view' => 1 , 'per_page' => 1 );
+		$this->parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= $this->_max_per_page ? $parameters[ 'per_page' ] : 10;
 		return $this;
 	}
 
-	function get_company_information() {
-print_me( __METHOD__ );
-		$this->url = $this->host . '/api/companies/' . $this->company_id;
-		return $this;
-	}
-
-	function get_inventory() {
-print_me( __METHOD__ );
-		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles.json';
-		$this->parameters[ 'per_page' ] = isset( $parameters[ 'per_page' ] ) && $parameters[ 'per_page' ] <= vehicle_management_system::max_per_page ? $parameters[ 'per_page' ] : 10;
-		return $this;
-	}
-
-	function get_makes() {
+	public function get_makes() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/makes.json';
 		return $this;
 	}
 
-	function get_models() {
+	public function get_models() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/models.json';
 		return $this;
 	}
 
-	function get_trims() {
+	public function get_trims() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/trims.json';
 		return $this;
 	}
 
-	function get_body_styles() {
+	public function get_body_styles() {
 print_me( __METHOD__ );
 		$this->url = $this->host . '/' . $this->company_id . '/inventory/vehicles/bodies.json';
 		return $this;
 	}
 
-	public function please( $parameters = array() ) {
+	public function please( $parameters = array() , $last_request = false ) {
 print_me( __METHOD__ );
 
-		$parameters = array_merge( $this->parameters , $parameters );
-
-		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
+		$parameters = array_merge( $this->_parameters , $parameters );
+		$parameter_string = count( $parameters > 0 ) ? $this->_process_parameters( $parameters ) : NULL;
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
+		$this->_requests[] = $this->url . $parameter_string;
 
-		$request = $this->url . $parameter_string;
-		$request_handler = new http_request( $request , 'vehicle_management_system' );
-
-		if( $this->tracer !== NULL ) {
-			$this->request_stack[] = array( $request , $this->tracer );
-			$this->tracer = NULL;
-		} else {
-			$this->request_stack[] = $request;
-		}
-
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-
+		$queue = array();
 		$this->parameters = array();
-		return $data;
+
+		if( $this->_do_parallel() && $last_request == true ) {
+			$request_handler = new http_request();
+			$request_handler->set_cache_key( 'vehicle_management_system' );
+			foreach( $this->_requests as $node ) {
+				if( $request_handler->cached( $node ) ) {
+					$request_handler->cached( $node );
+				} else {
+					$this->_nodes[] = $node;
+				}
+			}
+			return $request_handler->get_multi_files( $this->_nodes );
+		} elseif( ! $this->_do_parallel() ) {
+			$request_handler = new http_request();
+			$request_handler->set_cache_key( 'vehicle_management_system' );
+			$node = $this->_requests[ 0 ];
+			return $request_handler->cached( $node ) ? $request_handler->cached( $node ) : $request_handler->get_file( $node );
+		}
 	}
 
-	function process_parameters( $parameters ) {
+	private function _do_parallel() {
+print_me( __METHOD__ );
+		global $dealertrend_inventory_api;
+		return $dealertrend_inventory_api->options[ 'requests' ][ 'do_parallel' ];
+	}
+
+	private function _process_parameters( $parameters ) {
 print_me( __METHOD__ );
 		unset( $parameters[ 'taxonomy' ] );
 		$parameters = array_map( 'urldecode' , $parameters );

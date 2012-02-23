@@ -46,9 +46,11 @@ print_me( __METHOD__ );
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
-			$request_handler = new http_request( $url , 'dynamic_site_headers' );
+			$node = $url;
+			$request_handler = new http_request();
+			$request_handler->set_cache_key( 'dynamic_site_headers' );
 			$this->request_stack[] = $url;
-			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
+			$data = $request_handler->cached( $node ) ? $request_handler->cached( $node ) : $request_handler->get_file( $node , true );
 			$body = isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] ) : false;
 			if( $body ) {
 				$this->headers[ 'page_title' ] = rawurldecode( $body->page_title );
