@@ -26,7 +26,7 @@
  */
 
 function print_me( $content ) {
-	echo '<pre>' . $content . '</pre>';
+	//echo '<pre>' . $content . '</pre>';
 }
 
 echo '<br /><br /><br />';
