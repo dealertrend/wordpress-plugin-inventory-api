@@ -1,5 +1,4 @@
 <?php
-print_me( __FILE__ );
 	# Easy to use variables.
 	$headline = $inventory->headline;
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );

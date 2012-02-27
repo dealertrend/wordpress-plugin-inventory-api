@@ -2,8 +2,6 @@
 
 	namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-print_me( __FILE__ );
-
 	global $wp_rewrite;
 	$parameters = $this->parameters;
 	$type = isset( $parameters[ 'vin' ] ) ? 'detail' : 'list';

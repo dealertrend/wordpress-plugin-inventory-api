@@ -2,120 +2,188 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-print_me( __FILE__ );
-
 require_once( dirname( __FILE__ ) . '/http_request.php' );
 
 class Updater {
 
-	public $current_plugin_information = array();
-	public $new_plugin_information = array();
-	public $new_version = NULL;
+	private $_latest_version = 0;
+	private $_new_update_information = array();
+	private $_current_update_information = array();
 
-	function __construct( $current_plugin_information ) {
-print_me( __METHOD__ );
-		$this->load_plugin_information( $current_plugin_information );
-		$this->queue_plugin_updater();
+	public function check_for_updates() {
+		$this->_current_update_information = $this->_get_current_wordpress_update_data();
+		$this->_new_update_information[ 'last_checked' ] = time();
+
+		$enough_time_passed = $this->_has_enough_time_passed();
+		$changed = $this->_have_plugins_changed( $this->_get_installed_plugin_headers() );
+
+		if ( ! $enough_time_passed && ! $changed ) {
+			return false;
+		}
+
+		$this->_check_github_api();
 	}
 
-	function load_plugin_information( $current_plugin_information ) {
-print_me( __METHOD__ );
-		$this->current_plugin_information = $current_plugin_information;
+	private function _get_current_wordpress_update_data() {
+		$data = get_site_transient( 'update_plugins' );
+
+		return is_object( $data ) ? $data : new \stdClass;
 	}
 
-	function queue_plugin_updater() {
-print_me( __METHOD__ );
-		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
+	private function _has_enough_time_passed() {
+		return
+		isset( $this->_current_update_information->last_checked ) &&
+		$this->_get_timeout_value() > ( time() - $this->_current_update_information->last_checked );
 	}
 
-	function display_update_notice( $version_check = array() ) {
-print_me( __METHOD__ );
-		if( $version_check[ 'current' ] < $version_check[ 'latest' ] ) {
-			$update_data = (object) array(
-				'new_version' => $version_check[ 'latest' ],
-				'url' => $this->current_plugin_information[ 'PluginURI' ],
-				'package' => 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertrend-inventory-api.zip',
-				'upgrade_notice' => ''
-			);
-			$this->new_plugin_information = $update_data;
-			if( isset( $this->current_plugin_information[ 'PluginBaseName' ] ) ) {
-				delete_site_transient( 'update_plugins' );
+	private function _get_timeout_value() {
+		return in_array( current_filter() , array( 'load-plugins.php', 'load-update.php', 'load-update-core.php' ) ) ? 3600 : 43200;
+	}
+
+	private function _have_plugins_changed( $installed_plugin_headers ) {
+		foreach ( $installed_plugin_headers as $basename => $headers ) {
+			$this->_new_update_information[ 'checked' ][ $basename ] = $headers[ 'Version' ];
+			if( $this->_not_checked_or_different_versions( $basename , $headers ) ) {
+				return true;
 			}
-			$plugin_check_list->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $update_data;
-			set_site_transient( 'update_plugins' , $plugin_check_list );
-			add_action( 'admin_init', array( &$this, 'filter_plugin_rows' ), 15 );
+			if( $this->_not_in_response( $installed_plugin_headers ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function _not_checked_or_different_versions( $basename , $headers ) {
+		return (
+			! isset( $this->_current_update_information->checked[ $basename ] ) ||
+			strval( $this->_current_update_information->checked[ $basename ] ) !== strval( $headers[ 'Version' ] )
+		);
+	}
+
+	private function _not_in_response( $installed_plugin_headers ) {
+		if ( isset ( $this->_current_update_information->response ) && is_array( $this->_current_update_information->response ) ) {
+			foreach ( $this->_current_update_information->response as $basename => $update_details ) {
+				if ( ! isset( $installed_plugin_headers[ $basename ] ) ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private function _get_installed_plugin_headers() {
+		return get_plugins();
+	}
+
+	private function _check_github_api() {
+		$this->_latest_version = $this->_get_latest_version( $this->_get_tags() );
+		if( ! $this->_latest_version ) {
+			return false;
+		}
+		$current = $this->_plugin_information[ 'Version' ];
+
+		if( $this->_latest_version > $current ) {
+			add_action( 'site_transient_update_plugins', array( &$this , 'filter_plugin_count' ) );
+			$this->_display_update_notice();
 		}
 	}
 
-	function filter_plugin_rows() {
-print_me( __METHOD__ );
-		remove_all_actions( 'after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ] );
-		add_action('after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
+	private function _get_latest_version( $tags ) {
+			if( ! $tags ) {
+				return false;
+			}
+			$version_list = array_keys( get_object_vars( $tags ) );
+			foreach( $version_list as $key => $version ) {
+				$filtered_versions[ $key ] = str_replace( 'v' , NULL , $version );
+				$filtered_versions[ $key ] = str_replace( '.' , NULL , $filtered_versions[ $key ] );
+				$reference[ $filtered_versions[ $key ] ] = $version;
+			}
+			sort( $filtered_versions , SORT_NUMERIC );
+			$versions = array_reverse( $filtered_versions );
+
+			return isset( $version ) && ! empty( $versions ) ? str_replace( 'v' , NULL , $reference[ $versions[ 0 ] ] ) : 0;
 	}
 
-	function plugin_row() {
-print_me( __METHOD__ );
+	private function _get_tags() {
+		$request = new Http_Request();
+	//	$request->set_request_information( $this->tags_url() , $this->cache_key() );
+	//	$data = $request->get_cached_data() ? $request->get_cached_data() : $request->get_file();
 
-		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
+		return isset( $data[ 'body' ] ) ? json_decode( $data[ 'body' ] )->tags : false;
+	}
 
-		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
+	private function _tags_url() {
+		return 'http://github.com/api/v2/json/repos/show/dealertrend/wordpress-plugin-inventory-api/tags';
+	}
 
-		$url = 'https://dealertrend.backpackit.com/pub/2653226-dealertrend-inventory-api-changelog?TB_iframe=true&version=' . $this->current_plugin_information[ 'Version' ];
+	private function _cache_key() {
+		return 'dealertrend_inventory_api_plugin_updater';
+	}
 
+	private function _set_new_version( $version ) {
+		$this->_new_update_information[ 'checked' ][ $this->_plugin_information[ 'PluginBaseName' ] ] = $version;
+	}
+
+	public function _filter_plugin_count( $data ) {
+		if( ! isset( $data->response[ $this->_plugin_information[ 'PluginBaseName' ] ] ) ) {
+			$data->response[ $this->_plugin_information[ 'PluginBaseName' ] ] = $this->_create_update_object();
+		}
+
+		return $data;
+	}
+
+	private function _display_update_notice() {
+		$data = $this->_create_update_object();
+
+		if( isset( $this->_plugin_information[ 'PluginBaseName' ] ) ) {
+			delete_site_transient( 'update_plugins' );
+		}
+
+		$new = (object) $this->_new_update_information;
+		$this->_set_new_version( $this->_latest_version );
+		$new->response[ $this->_plugin_information[ 'PluginBaseName' ] ] = $data;
+
+		set_site_transient( 'update_plugins' , $new );
+		add_action( 'admin_init' , array( &$this , 'filter_plugin_rows' ) , 15 );
+	}
+
+	private function create_update_object() {
+		$update_information = (object) array(
+			'new_version' => $this->_latest_version,
+			'url' => $this->_plugin_information[ 'PluginURI' ],
+			'package' => $this->_download_url(),
+			'upgrade_notice' => ''
+		);
+
+		return $update_information;
+	}
+
+	private function _download_url() {
+		return 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertrend-inventory-api.zip';
+	}
+
+	public function filter_plugin_rows() {
+		remove_all_actions( 'after_plugin_row_' . $this->_plugin_information[ 'PluginBaseName' ] );
+		add_action( 'after_plugin_row_' . $this->_plugin_information[ 'PluginBaseName' ] , array( &$this , 'plugin_row' ) , 9 , 2 );
+	}
+
+	public function plugin_row() {
 		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
-		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a id="dealertrend-changelog" href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
+		echo
+			'There is a new version of ' . $this->_plugin_information[ 'Name' ] . ' from ' . $this->_plugin_information[ 'Author' ] . ' available. 
+			<a href="' . $this->_get_changelog_url() . '" class="thickbox" title="Latest Changes">View version ' . $this->_latest_version . ' details</a> or <a href="' . $this->_get_autoupdate_url() . '">update automatically</a>.';
 		echo '</div></td></tr>';
 	}
 
-	function check_for_updates() {
-print_me( __METHOD__ );
-		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
-		$url = 'http://github.com/api/v2/json/repos/show/dealertrend/wordpress-plugin-inventory-api/tags';
-		$request_handler = new http_request( $url , 'dealetrend_plugin_updater' );
-
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
-		if( $body ) {
-			$json = json_decode( $body );
-			$tags = $json->tags;
-			$versions = array_keys( get_object_vars( $tags ) );
-			foreach( $versions as $key => $value ) {
-				$filtered_versions[ $key ] = str_replace( 'v' , NULL , $value );
-				$filtered_versions[ $key ] = str_replace( '.' , NULL , $filtered_versions[ $key ] );
-				$reference[ $filtered_versions[ $key ] ] = $value;
-			}
-
-			sort( $filtered_versions , SORT_NUMERIC );
-			$versions = array_reverse( $filtered_versions );
-			if( !empty( $versions ) ) {
-				$latest_version = str_replace( 'v' , NULL , $reference[ $versions[ 0 ] ] );
-			} else {
-				$latest_version = '0';
-			}
-			$this->new_version = $latest_version;
-			$current_version = $this->current_plugin_information[ 'Version' ];
-
-			return array( 'current' => $current_version , 'latest' => $latest_version );
-		} else {
-
-			return false;
-		}
+	private function _get_autoupdate_url() {
+		return wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->_plugin_information[ 'PluginBaseName' ] , 'upgrade-plugin_' . $this->_plugin_information[ 'PluginBaseName' ] );
 	}
 
-	function filter_plugin_count( $current_values ) {
-print_me( __METHOD__ );
-		if( $this->new_version > $this->current_plugin_information[ 'Version' ] ) {
-			$new_values = $current_values;
-			if( !isset( $new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] ) ){
-				$new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $this->new_plugin_information;
-			}
-
-			return $new_values;
-		} else {
-
-			return $current_values;
-		}
+	private function _get_changelog_url() {
+		return 'http://dealertrend.backpackit.com/pub/2653226-dealertrend-inventory-api-changelog?TB_iframe=true&width=640&height=438&version=' . $this->_plugin_information[ 'Version' ];
 	}
+
 
 }
 

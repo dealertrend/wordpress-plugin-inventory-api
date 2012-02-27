@@ -1,6 +1,5 @@
 <?php
 
-print_me( __FILE__ );
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	$prices = $inventory->prices;
 	$use_was_now = $prices->{ 'use_was_now?' };

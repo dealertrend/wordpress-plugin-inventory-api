@@ -1,7 +1,6 @@
 <?php
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
-print_me( __FILE__ );
 
 global $wp_rewrite;
 

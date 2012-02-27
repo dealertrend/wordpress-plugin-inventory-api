@@ -1,6 +1,5 @@
 <?php
 
-print_me( __FILE__ );
 	global $wp_rewrite;
 
 	$args = array(
