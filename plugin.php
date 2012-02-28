@@ -255,14 +255,18 @@ class Plugin {
       );  
   }
 
-
-
 	#execute > _hook_into_wordpress > add_admin_menu_item > _setup_options_page
 	public function enqueue_options_page_scripts() {
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == $this->_get_slug() ) {
 			wp_enqueue_script( $this->_get_options_page_key() );
 		}
 	}
+
+  public function create_options_page() {
+    require_once( dirname( __FILE__ ) . '/application/views/options/page.php' );
+    $options_page = new Options_Page(); 
+    $options_page->display();
+  }
 
 	#execute > _hook_into_wordpress
 	protected function _setup_options() {

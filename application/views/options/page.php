@@ -8,7 +8,7 @@ class Options_Page {
 	public $vehicle_management_system = false;
 	public $vehicle_reference_system = false;
 
-	function __construct() {
+	public function display() {
 		$this->initialize_dependancies();
 		$this->check_posted_data( $_POST );
 		$this->check_feeds();
@@ -111,33 +111,6 @@ class Options_Page {
 	}
 
 	function check_feeds() {
-
-		$this->vehicle_management_system = new vehicle_management_system(
-			$this->instance->options[ 'vehicle_management_system' ][ 'host' ],
-			$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-		);
-
-		$this->vehicle_management_system->status[ 'host' ][ 'results' ] = $this->vehicle_management_system->check_host()->please();
-
-		$code = isset( $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] : false;
-		if( $code == '200' ) {
-			$this->vehicle_management_system->status[ 'company_feed' ][ 'results' ] = $this->vehicle_management_system->check_company_id()->please();
-			$code = isset( $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] : false;
-			if( $code == '200' ) {
-				$this->vehicle_management_system->status[ 'inventory_feed' ][ 'results' ] = $this->vehicle_management_system->check_inventory()->please();
-			}
-		}
-
-		$this->vehicle_reference_system = new vehicle_reference_system (
-			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ]
-		);
-
-		$this->vehicle_reference_system->status[ 'host' ][ 'results' ] = $this->vehicle_reference_system->check_host()->please();
-
-		$code = isset( $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] : false;
-		if( $code == '200' ) {
-			$this->vehicle_reference_system->status[ 'feed' ][ 'results' ] = $this->vehicle_reference_system->check_feed()->please();
-		}
 	}
 
 	function show_page() {
