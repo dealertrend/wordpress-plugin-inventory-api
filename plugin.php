@@ -218,6 +218,7 @@ class Plugin {
 
 	#execute > _hook_into_wordpress > add_admin_menu_item > _setup_options_page
 	public function register_options_page_scripts() {
+echo 'test';
 		$this->_register_jquery_ui_multiselect_script(
 			'jquery-ui-multiselect',
 			'jquery.multiselect.min.js',
@@ -478,7 +479,7 @@ class Plugin {
 
 	#execute > _hook_into_wordpress
 	private function _setup_templates() {
-		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 2 );
+		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 100 );
 	}
 
 	#execute > _hook_into_wordpress > _setup_templates
