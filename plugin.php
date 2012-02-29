@@ -218,7 +218,6 @@ class Plugin {
 
 	#execute > _hook_into_wordpress > add_admin_menu_item > _setup_options_page
 	public function register_options_page_scripts() {
-echo 'test';
 		$this->_register_jquery_ui_multiselect_script(
 			'jquery-ui-multiselect',
 			'jquery.multiselect.min.js',
