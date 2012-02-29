@@ -309,7 +309,7 @@ echo '
 									if( $asking_price > 0 ) {
 										echo '<div class="asking-price"><span>$</span>' . number_format( $asking_price , 0 , '.' , ',' ) . '</div>';
 									} else {
-										echo '<div>' . $default_price_text . '</div>';
+										echo '<div class="default-text">' . $default_price_text . '</div>';
 									}
 								}
 								echo '
