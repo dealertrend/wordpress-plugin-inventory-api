@@ -232,7 +232,7 @@ class Plugin {
 	}
 
 	function queue_templates() {
-		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 2 );
+		add_action( 'template_redirect' , array( &$this , 'show_theme' ) , 100 );
 	}
 
 	function save_options() {
