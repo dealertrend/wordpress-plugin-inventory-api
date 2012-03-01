@@ -1,0 +1,64 @@
+#branding {
+display:none;
+}
+#cobra {
+	width:auto;
+}
+#cobra #quick-links,
+#cobra #total-found,
+#cobra .cobra-breadcrumbs,
+#cobra .pager,
+#cobra #sorting-columns {
+	display:none;
+}
+#cobra .item {
+	clear:both;
+	height:auto;
+}
+#cobra .item .photo,
+#cobra .item .left,
+#cobra .item .right,
+#cobra .item .info {
+	float:none;
+	line-height:1.3em;
+}
+#cobra .item .photo {
+	bottom:0;
+	float:left;
+	height:auto;
+	width:auto;
+}
+#cobra .item .photo img {
+	border:0;
+	height:78px;
+	padding:0;
+	position:relative;
+	width:auto;
+	z-index:2;
+}
+#cobra .item .left {
+	float:left;
+	height:78px;
+	padding:0;
+	position:relative;
+	width:160px;
+}
+#cobra .item .main {
+	margin-top:10px;
+	margin-left:10px;
+}
+#cobra .item .left .details {
+	padding:0;
+}
+#cobra .stock-n-vin {
+	display:none;
+}
+#cobra .item .right {
+	background:transparent;
+	clear:both;
+}
+#cobra .item .info {
+	position:relative;
+	text-align:center;
+	z-index:1;
+}
