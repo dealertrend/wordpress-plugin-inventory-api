@@ -39,6 +39,10 @@
 	float:none;
 	line-height:1.3em;
 }
+#cobra .item .info {
+	float:left;
+	width:100px;
+}
 #cobra .item .photo {
 	bottom:0;
 	float:left;
@@ -54,6 +58,10 @@
 	z-index:2;
 }
 #cobra .item .photo:hover .info {
+	display:none;
+}
+#cobra .item .was,
+#cobra .item .price span.msrp {
 	display:none;
 }
 #cobra .item .left {
