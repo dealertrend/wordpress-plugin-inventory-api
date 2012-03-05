@@ -147,13 +147,13 @@
 	margin:0;
 }
 #cobra #detail-page .left {
-	margin-top:170px;
+	margin-top:230px;
 	position:absolute;
 }
 #cobra #detail-page .slideshow {
-	height:150px;
+	height:250px;
 	margin:auto;
-	width:200px;
+	width:300px;
 }
 #cobra #detail-page #inventory-tabs {
 	margin-top:200px;
@@ -162,15 +162,15 @@
 	padding-left:25px !important;
 }
 #cobra #detail-page #inventory-tabs .ui-widget-header li {
-		padding-left:25px;
+	padding-left:25px;
 }
 #cobra #detail-page .slideshow .images { 
 	border:0;
-	width:200px !important;
+	width:300px !important;
 }
 #cobra #detail-page .slideshow .images > img {
 	height:auto !important;
-	width:200px !important;
+	width:300px !important;
 }
 #cobra #detail-page .slideshow .images > img {
 	clear:both;
