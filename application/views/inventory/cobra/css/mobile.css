@@ -8,16 +8,45 @@
 #cobra #listing {
 	padding:0;
 }
-#cobra #quick-links,
 #cobra #total-found,
 #cobra .cobra-breadcrumbs,
 #cobra #sorting-columns {
 	display:none;
 }
+#cobra #quick-links {
+	background:#333;
+	height:auto;
+	width:100%;
+}
+#cobra #quick-links select,
+#cobra #quick-links span {
+	display:block;
+}
+#cobra #search {
+	display:block;
+	float:none;
+	margin-top:10px;
+	margin-left:2px;
+}
+#cobra #search-box {
+	margin-bottom:20px;
+	width:200px;
+}
+#cobra #search-submit {
+	background-position:top left;
+	bottom:0px;
+	margin-left:5px;
+	padding-left:5px;
+	width:28px;
+}
 #cobra .pager {
 	font-size:1.3em;
 	text-align:center;
 	width:100%;
+}
+#cobra #content,
+#cobra .items {
+	clear:both;
 }
 #cobra .item {
 	background:#e3e3e3;
@@ -51,10 +80,10 @@
 }
 #cobra .item .photo img {
 	border:0;
-	height:78px;
+	height:auto;
 	padding:0;
 	position:relative;
-	width:auto;
+	width:104px;
 	z-index:2;
 }
 #cobra .item .photo:hover .info {
@@ -74,6 +103,10 @@
 #cobra .item .main {
 	margin-top:10px;
 	margin-left:10px;
+}
+#cobra .item .main div {
+	font-size:12px !important;
+	line-height:14px !important;
 }
 #cobra .item .left .details {
 	padding:0;
@@ -113,8 +146,26 @@
 #cobra #detail-page .vehicle-information {
 	margin:0;
 }
+#cobra #detail-page .left {
+	margin-top:170px;
+	position:absolute;
+}
+#cobra #detail-page .slideshow {
+	height:150px;
+	margin:auto;
+	width:200px;
+}
+#cobra #detail-page #inventory-tabs {
+	margin-top:200px;
+}
+#cobra #detail-page #inventory-tabs .jspPane {
+	padding-left:25px !important;
+}
+#cobra #detail-page #inventory-tabs .ui-widget-header li {
+		padding-left:25px;
+}
 #cobra #detail-page .slideshow .images { 
-	height:150px !important;
+	border:0;
 	width:200px !important;
 }
 #cobra #detail-page .slideshow .images > img {
@@ -125,10 +176,9 @@
 	clear:both;
 }
 #cobra #detail-page .slideshow .navigation {
-	display:block;
-	clear:both;
-	margin:0;
-	margin-top:10px;
-	margin-left:5px;
-	width:200px;
+	display:none;
+}
+#cobra #detail-page .price {
+	font-size:28px !important;
+	line-height:30px !important;
 }
