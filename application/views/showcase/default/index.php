@@ -17,6 +17,7 @@
 	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_script( 'jquery-ui-button' );
 	wp_enqueue_script( 'dealertrend-showcase', $this->plugin_information[ 'PluginURL' ] . '/application/views/showcase/default/js/showcase.js', array( 'jquery-ui-tabs' ) );
+	wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/showcase/default/css/mobile.css' , array( 'dealertrend-showcase' ), $this->plugin_information[ 'Version' ], 'only screen and (max-device-width: 480px)' );
 
 	$ajax_nonce = wp_create_nonce( 'ajax!' );
 	$parameters = $this->parameters;
