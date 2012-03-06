@@ -141,6 +141,11 @@ $now_text = 'Now: ';
 					}
 				?>
 				</div>
+				<div id="mobile-nav">
+					<a id="prev" href="#">< Prev</a>
+					<a id="pause" href="#">Pause</a>
+					<a id="next" href="#">Next ></a>
+				</div>
 				<?php
 					if( count( $inventory->photos > 1 ) ) {
 						echo '<div class="navigation"></div>';

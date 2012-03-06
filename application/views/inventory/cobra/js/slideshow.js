@@ -6,9 +6,15 @@ dealertrend(document).ready(function() {
         slideExpr: 'img',
         fx: 'fade',
         pager: '.slideshow .navigation',
+        next: '#next',
+        prev: '#prev',
         pagerAnchorBuilder: function(idx, slide) {
             return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
         }
+    });
+    dealertrend('.slideshow #pause').click(function(e) {
+        dealertrend('.slideshow .images').cycle('pause');
+        e.preventDefault();
     });
     dealertrend('.images a')
     .lightbox({

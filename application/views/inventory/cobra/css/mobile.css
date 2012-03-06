@@ -5,6 +5,10 @@
 #cobra #top {
 	display:none;
 }
+#cobra .top {
+	height:auto;
+	padding-bottom:10px;
+}
 #cobra #listing {
 	padding:0;
 }
@@ -147,7 +151,7 @@
 	margin:0;
 }
 #cobra #detail-page .left {
-	margin-top:230px;
+	margin-top:275px;
 	position:absolute;
 }
 #cobra #detail-page .slideshow {
@@ -156,7 +160,7 @@
 	width:300px;
 }
 #cobra #detail-page #inventory-tabs {
-	margin-top:200px;
+	margin-top:320px;
 }
 #cobra #detail-page #inventory-tabs .jspPane {
 	padding-left:25px !important;
@@ -168,6 +172,10 @@
 	border:0;
 	width:300px !important;
 }
+#cobra #detail-page .fuel-economy p {
+	font-size:9px;
+	padding-top:10px;
+}
 #cobra #detail-page .slideshow .images > img {
 	height:auto !important;
 	width:300px !important;
@@ -177,6 +185,31 @@
 }
 #cobra #detail-page .slideshow .navigation {
 	display:none;
+}
+#cobra #detail-page #mobile-nav {
+	display:block;
+	margin-top:-140px;
+	position:relative;
+	text-align:center;
+}
+#cobra #detail-page .fuel-economy {
+	background-position:center 0;
+	margin:0;
+	width:200px;
+}
+#cobra #detail-page .fuel-economy #fuel-city {
+	margin:0;
+	margin-right:5px;
+	padding:0 15px;
+}
+#cobra #detail-page .fuel-economy #fuel-highway {
+	margin:0;
+	margin-left:5px;
+	padding:0 15px;
+}
+#cobra #detail-page #mobile-nav a {
+	margin:0 10px;
+	text-transform:uppercase;
 }
 #cobra #detail-page .price {
 	font-size:28px !important;

@@ -923,3 +923,7 @@ ul.selectBox-options a:hover {
 #cobra #detail-page #inventory-tabs .ui-tabs-panel .jspDrag { background:url(images/scroller-handle.png); width:13px !important; left:-4px; }
 
 #cobra .item .price div.default-text { font-size:24px; margin-top:-4px; }
+
+#cobra #detail-page #mobile-nav {
+	display:none;
+}
