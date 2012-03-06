@@ -18,8 +18,7 @@ wp_enqueue_script( 'jquery-ui-tabs' );
 wp_enqueue_script( 'jquery-ui-button' );
 wp_enqueue_script( 'jquery-ui-dialog' );
 
-#wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/mobile.css' , array( 'dealertrend-inventory-api' ), $this->plugin_information[ 'Version' ], 'only screen and (max-device-width: 480px)' );
-wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/mobile.css' , array( 'dealertrend-inventory-api' ), $this->plugin_information[ 'Version' ] );
+wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/mobile.css' , array( 'dealertrend-inventory-api' ), $this->plugin_information[ 'Version' ], 'only screen and (max-device-width: 480px)' );
 
 switch( $type ) {
 	case 'detail':
