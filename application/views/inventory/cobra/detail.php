@@ -40,7 +40,7 @@
 ?>
 
 <div id="cobra">
-	<div id="detail-page">
+	<div id="cobra-detail-page">
 		<div class="top">
 			<div class="wrapper">
 				<div class="year"><?php echo $year ?></div>
@@ -116,11 +116,11 @@ $now_text = 'Now: ';
 				if( $fuel_city != false && $fuel_highway != false ) {
 			?>
 			<div class="fuel-economy">
-				<div id="fuel-city">
+				<div id="cobra-fuel-city">
 					<p>City</p>
 					<p><strong><?php echo $fuel_city; ?></strong></p>
 				</div>
-				<div id="fuel-highway">
+				<div id="cobra-fuel-highway">
 					<p>Hwy</p>
 					<p><strong><?php echo $fuel_highway; ?></strong></p>
 				</div>
@@ -128,7 +128,7 @@ $now_text = 'Now: ';
 			</div>
 			<?php } ?>
 			<div class="detail-buttons">
-				<a id="calculate" href="">Payment Calculator</a>
+				<a id="cobra-calculate" href="">Payment Calculator</a>
 			</div>
 			<br class="clear" />
 		</div>
@@ -141,10 +141,10 @@ $now_text = 'Now: ';
 					}
 				?>
 				</div>
-				<div id="mobile-nav">
-					<a id="prev" href="#">< Prev</a>
-					<a id="pause" href="#">Pause</a>
-					<a id="next" href="#">Next ></a>
+				<div id="cobra-mobile-nav">
+					<a id="cobra-prev" href="#">< Prev</a>
+					<a id="cobra-pause" href="#">Pause</a>
+					<a id="cobra-next" href="#">Next ></a>
 				</div>
 				<?php
 					if( count( $inventory->photos > 1 ) ) {
@@ -153,11 +153,11 @@ $now_text = 'Now: ';
 				?>
 			</div>
 			<?php if( count( $dealer_options ) > 0 ) { ?>
-			<div id="inventory-tabs">
+			<div id="cobra-inventory-tabs">
 				<ul>
 					<li><a href="#dealer">Equipment / Features</a></li>
 				</ul>
-				<div id="dealer">
+				<div id="cobra-dealer">
 					<ul>
 					<?php
 						foreach( $dealer_options as $option ) {
@@ -171,58 +171,51 @@ $now_text = 'Now: ';
 			<br class="clear" />
 		</div>
 	</div>
-	<div style="display: none;">
-		<div id="make-offer">
-			<h1>Make us an Offer</h1>
-			<div class="required">*Required information</div>
-			<?php echo do_shortcode('[contact-form-7 id="200" title="Make Offer Form"]'); ?>
-		</div>
-	</div>
 </div>
-<div id="calculate-form" title="Calculate Payments">
+<div id="cobra-calculate-form" title="Calculate Payments">
 	<h3>Loan Calculator</h3>
-	<form id="loan-calculator" name="loan-calculator" action="#" method="post">
+	<form id="cobra-loan-calculator" name="loan-calculator" action="#" method="post">
 		<table style="width:100%">
 			<tr>
 				<td colspan="1">
 					<label for="loan-calculator-price">Vehicle Price</label>
-					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="<?php echo trim( money_format( '%(#0n' , $primary_price ) ); ?>" />
+					<input type="text" style="width:90%" name="price" id="cobra-loan-calculator-price" value="<?php echo trim( money_format( '%(#0n' , $primary_price ) ); ?>" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-interest-rate">Interest Rate</label>
-					<input type="text" style="width:90%" name="interest-rate" id="loan-calculator-interest-rate" value="7.35%" />
+					<input type="text" style="width:90%" name="interest-rate" id="cobra-loan-calculator-interest-rate" value="7.35%" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-term">Term (months)</label>
-					<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="72" />
+					<input type="text" style="width:90%" name="term" id="cobra-loan-calculator-term" value="72" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="1">
 					<label for="loan-calculator-trade-in-value">Trade in Value</label>
-					<input type="text" style="width:90%" name="trade-in-value" id="loan-calculator-trade-in-value" value="$3,000" />
+					<input type="text" style="width:90%" name="trade-in-value" id="cobra-loan-calculator-trade-in-value" value="$3,000" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-down-payment">Down Payment</label>
-					<input type="text" style="width:90%" name="down-payment" id="loan-calculator-down-payment" value="$5,000" />
+					<input type="text" style="width:90%" name="down-payment" id="cobra-loan-calculator-down-payment" value="$5,000" />
 				</td>
 				<td colspan="1">
 					<label for="loan-calculator-sales-tax">Sales Tax</label>
-					<input type="text" style="width:90%" name="sales-tax" id="loan-calculator-sales-tax" value="7.375%" />
+					<input type="text" style="width:90%" name="sales-tax" id="cobra-loan-calculator-sales-tax" value="7.375%" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="1">
 					<div>Bi-Monthly Cost</div>
-					<div id="loan-calculator-bi-monthly-cost"></div>
+					<div id="cobra-loan-calculator-bi-monthly-cost"></div>
 				</td>
 				<td colspan="1">
 					<div>Monthly Cost</div>
-					<div id="loan-calculator-monthly-cost"></div>
+					<div id="cobra-loan-calculator-monthly-cost"></div>
 				</td>
 				<td colspan="1">
 					<div>Total Cost <small>(including taxes)</small></div>
-					<div id="loan-calculator-total-cost"></div>
+					<div id="cobra-loan-calculator-total-cost"></div>
 				</td>
 			</tr>
 			<tr>

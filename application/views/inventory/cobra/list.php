@@ -84,9 +84,9 @@ $parameters[ 'make' ] = $make;
 
 echo '
 <div id="cobra">
-	<br id="top" class="clear" />
-	<div id="listing">
-		<div id="quick-links">';
+	<br id="cobra-top" class="clear" />
+	<div id="cobra-listing">
+		<div id="cobra-quick-links">';
 			echo '
 			<span>Make: </span>
 			<select onchange="window.location = this.value;" class="styled">
@@ -205,29 +205,29 @@ echo '
 			}
 
 			echo '
-			<form action="" method="GET" id="search">
-				<input id="search-box" name="search" value="';
+			<form action="" method="GET" id="cobra-search">
+				<input id="cobra-search-box" name="search" value="';
 				echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL;
 				echo '" />
-				<input id="search-submit" value="Go" type="submit" />
+				<input id="cobra-search-submit" value="Go" type="submit" />
 			</form>';
 echo '
 		</div>
 	</div>
-	<div id="total-found">Found ' . $total_found . ' Exact Matches:&nbsp;</div>' . $breadcrumbs . '
+	<div id="cobra-total-found">Found ' . $total_found . ' Exact Matches:&nbsp;</div>' . $breadcrumbs . '
 	<div class="pager">
 		' . paginate_links( $args ) . '
 	</div>
 
-	<div id="sorting-columns">
+	<div id="cobra-sorting-columns">
 		Sort options:
 		<a class="' . $sort_year_class . '" href="' . @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ) . '">Year</a> /
 		<a class="' . $sort_price_class . '" href="' . @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ) . '">Price</a> /
 		<a class="' . $sort_mileage_class . '" href="' . @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ) . '">Mileage</a>
 	</div>
 
-	<div id="content">
-		<div id="items">';
+	<div id="cobra-content">
+		<div id="cobra-items">';
 			if( empty( $inventory ) ) {
 				echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
 			} else {
@@ -352,12 +352,4 @@ echo '
 	</div>
 
 </div>';
-
 ?>
-<div style="display: none;">
-	<div id="cobra-make-offer">
-		<h1>Make us an Offer</h1>
-		<div class="required">*Required information</div>
-		<?php echo do_shortcode('[contact-form-7 id="200" title="Make Offer Form"]'); ?>
-	</div>
-</div>
