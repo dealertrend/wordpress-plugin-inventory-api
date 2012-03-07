@@ -31,9 +31,9 @@ dealertrend(document).ready(function(){
             }
         }
 
-    dealertrend('#cobra-calculate').click(function() {
+    dealertrend('#calculate').click(function() {
 
-        dealertrend('#cobra-calculate-form').dialog({
+        dealertrend('#calculate-form').dialog({
             autoOpen: true,
             height: 300,
             width: 500,
