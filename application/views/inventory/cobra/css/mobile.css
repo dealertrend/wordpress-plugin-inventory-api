@@ -2,7 +2,7 @@
 	margin:0;
 	width:auto;
 }
-#cobra #top {
+#cobra #cobra-top {
 	display:none;
 }
 #cobra .top {
@@ -12,31 +12,31 @@
 #cobra #listing {
 	padding:0;
 }
-#cobra #total-found,
+#cobra #cobra-total-found,
 #cobra .cobra-breadcrumbs,
-#cobra #sorting-columns {
+#cobra #cobra-sorting-columns {
 	display:none;
 }
-#cobra #quick-links {
+#cobra #cobra-quick-links {
 	background:#333;
 	height:auto;
 	width:100%;
 }
-#cobra #quick-links select,
-#cobra #quick-links span {
+#cobra #cobra-quick-links select,
+#cobra #cobra-quick-links span {
 	display:block;
 }
-#cobra #search {
+#cobra #cobra-search {
 	display:block;
 	float:none;
 	margin-top:10px;
 	margin-left:2px;
 }
-#cobra #search-box {
+#cobra #cobra-search-box {
 	margin-bottom:20px;
 	width:200px;
 }
-#cobra #search-submit {
+#cobra #cobra-search-submit {
 	background-position:top left;
 	bottom:0px;
 	margin-left:5px;
@@ -48,7 +48,7 @@
 	text-align:center;
 	width:100%;
 }
-#cobra #content,
+#cobra #cobra-content,
 #cobra .items {
 	clear:both;
 }
@@ -136,82 +136,82 @@
 #cobra .top .vehicle {
 	width:auto !important;
 }
-#cobra #detail-page .left,
-#cobra #detail-page .right {
+#cobra #cobra-detail-page .left,
+#cobra #cobra-detail-page .right {
 	float:none;
 	width:auto !important;
 }
-#cobra #detail-page .right {
+#cobra #cobra-detail-page .right {
 	bottom:0;
 }
-#cobra #detail-page .detail-buttons {
+#cobra #cobra-detail-page .detail-buttons {
 	display:none;
 }
-#cobra #detail-page .vehicle-information {
+#cobra #cobra-detail-page .vehicle-information {
 	margin:0;
 }
-#cobra #detail-page .left {
+#cobra #cobra-detail-page .left {
 	margin-top:275px;
 	position:absolute;
 }
-#cobra #detail-page .slideshow {
+#cobra #cobra-detail-page .slideshow {
 	height:250px;
 	margin:auto;
 	width:300px;
 }
-#cobra #detail-page #inventory-tabs {
+#cobra #cobra-detail-page #cobra-inventory-tabs {
 	margin-top:320px;
 }
-#cobra #detail-page #inventory-tabs .jspPane {
+#cobra #cobra-detail-page #cobra-inventory-tabs .jspPane {
 	padding-left:25px !important;
 }
-#cobra #detail-page #inventory-tabs .ui-widget-header li {
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li {
 	padding-left:25px;
 }
-#cobra #detail-page .slideshow .images { 
+#cobra #cobra-detail-page .slideshow .images { 
 	border:0;
 	width:300px !important;
 }
-#cobra #detail-page .fuel-economy p {
+#cobra #cobra-detail-page .fuel-economy p {
 	font-size:9px;
 	padding-top:10px;
 }
-#cobra #detail-page .slideshow .images > img {
+#cobra #cobra-detail-page .slideshow .images > img {
 	height:auto !important;
 	width:300px !important;
 }
-#cobra #detail-page .slideshow .images > img {
+#cobra #cobra-detail-page .slideshow .images > img {
 	clear:both;
 }
-#cobra #detail-page .slideshow .navigation {
+#cobra #cobra-detail-page .slideshow .navigation {
 	display:none;
 }
-#cobra #detail-page #mobile-nav {
+#cobra #cobra-detail-page #cobra-mobile-nav {
 	display:block;
 	margin-top:-140px;
 	position:relative;
 	text-align:center;
 }
-#cobra #detail-page .fuel-economy {
+#cobra #cobra-detail-page .fuel-economy {
 	background-position:center 0;
 	margin:0;
 	width:200px;
 }
-#cobra #detail-page .fuel-economy #fuel-city {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city {
 	margin:0;
 	margin-right:5px;
 	padding:0 15px;
 }
-#cobra #detail-page .fuel-economy #fuel-highway {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway {
 	margin:0;
 	margin-left:5px;
 	padding:0 15px;
 }
-#cobra #detail-page #mobile-nav a {
+#cobra #cobra-detail-page #cobra-mobile-nav a {
 	margin:0 10px;
 	text-transform:uppercase;
 }
-#cobra #detail-page .price {
+#cobra #cobra-detail-page .price {
 	font-size:28px !important;
 	line-height:30px !important;
 }
