@@ -6,13 +6,13 @@ dealertrend(document).ready(function() {
         slideExpr: 'img',
         fx: 'fade',
         pager: '.slideshow .navigation',
-        next: '#next',
-        prev: '#prev',
+        next: '#cobra-next',
+        prev: '#cobra-prev',
         pagerAnchorBuilder: function(idx, slide) {
             return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
         }
     });
-    dealertrend('.slideshow #pause').click(function(e) {
+    dealertrend('.slideshow #cobra-pause').click(function(e) {
         dealertrend('.slideshow .images').cycle('pause');
         e.preventDefault();
     });

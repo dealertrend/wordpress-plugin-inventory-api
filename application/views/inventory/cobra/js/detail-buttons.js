@@ -31,9 +31,9 @@ dealertrend(document).ready(function(){
             }
         }
 
-    dealertrend('#calculate').click(function() {
+    dealertrend('#cobra-calculate').click(function() {
 
-        dealertrend('#calculate-form').dialog({
+        dealertrend('#cobra-calculate-form').dialog({
             autoOpen: true,
             height: 300,
             width: 500,
@@ -45,9 +45,9 @@ dealertrend(document).ready(function(){
     });
 
     // Let's create awesome tabular stuff.
-    dealertrend('#inventory-tabs').tabs({
+    dealertrend('#cobra-inventory-tabs').tabs({
       show: function(event, ui) { 
-        dealertrend('#inventory-tabs .ui-tabs-panel').each(function(){
+        dealertrend('#cobra-inventory-tabs .ui-tabs-panel').each(function(){
         	dealertrend(this).jScrollPane({verticalDragMaxHeight: 13, horizontalGutter: 25});
         });
       }
