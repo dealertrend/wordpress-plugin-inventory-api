@@ -152,6 +152,13 @@ $now_text = 'Now: ';
 			<br class="clear" />
 		</div>
 	</div>
+	<?php
+		if ( is_active_sidebar( 'vehicle-detail-page' ) ) :
+			echo '<div id="sidebar-widget-area" class="sidebar">';
+			dynamic_sidebar( 'vehicle-detail-page' );
+			echo '</div>';
+		endif;
+	?>
 </div>
 <div id="calculate-form" title="Calculate Payments">
 	<h3>Loan Calculator</h3>
@@ -204,11 +211,4 @@ $now_text = 'Now: ';
 			</tr>
 		</table>
 	</form>
-	<?php
-		if ( is_active_sidebar( 'vehicle-detail-page' ) ) :
-			echo '<div id="sidebar-widget-area" class="sidebar">';
-			dynamic_sidebar( 'vehicle-detail-page' );
-			echo '</div>';
-		endif;
-	?>
 </div>
