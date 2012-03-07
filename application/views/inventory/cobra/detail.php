@@ -204,7 +204,6 @@ $now_text = 'Now: ';
 			</tr>
 		</table>
 	</form>
-</div>
 	<?php
 		if ( is_active_sidebar( 'vehicle-detail-page' ) ) :
 			echo '<div id="sidebar-widget-area" class="sidebar">';
@@ -212,3 +211,4 @@ $now_text = 'Now: ';
 			echo '</div>';
 		endif;
 	?>
+</div>
