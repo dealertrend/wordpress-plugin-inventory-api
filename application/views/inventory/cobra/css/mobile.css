@@ -154,13 +154,19 @@
 	margin-top:275px;
 	position:absolute;
 }
+.cobra-carfax {
+	top:-15px;
+	display:block;
+	position:relative;
+	padding-bottom:10px;
+}
 #cobra #cobra-detail-page .slideshow {
 	height:250px;
 	margin:auto;
 	width:300px;
 }
 #cobra #cobra-detail-page #cobra-inventory-tabs {
-	margin-top:320px;
+	margin-top:360px;
 }
 #cobra #cobra-detail-page #cobra-inventory-tabs .jspPane {
 	padding-left:25px !important;

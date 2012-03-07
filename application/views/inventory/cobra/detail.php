@@ -34,11 +34,11 @@
 	$greeting = isset( $contact_information->greeting ) ? $contact_information->greeting : NULL;
 	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
+	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
 ?>
-
 <div id="cobra">
 	<div id="cobra-detail-page">
 		<div class="top">
@@ -69,14 +69,6 @@ $now_text = 'Now: ';
 					?>
 					</div>
 				</div>
-				<div class="certified-pre-owned">
-					<?php
-						if( $inventory->certified ) {
-							//echo '<img src="' . plugin_dir_url( __FILE__ ) . 'images/' . $make . '-cpo.png" />';
-						// ^ That's broken.
-						}
-					?>
-				</div>
 			</div>
 		</div>
 		<div class="left">
@@ -92,23 +84,6 @@ $now_text = 'Now: ';
 				<div><span>Engine:</span> <?php echo $engine; ?></div>
 				<div><span>Transmission:</span> <?php echo $transmission; ?></div>
 				<div><span>Drivetrain:</span> <?php echo $drivetrain; ?></div>
-			</div>
-			<div class="detail-make-offer">
-				<a href="#make-offer"></a>
-			</div>
-			<div class="sticker">
-				<?php
-					// This is all sorts of broken.
-					/*
-					if( $sale_class == 'New') { 
-						echo '
-							<a href="http://fordlabels.webview.biz/webviewhybrid/WindowSticker.aspx?vin=' . $vin . '" target="_blank">
-								<img src="' . bloginfo('wpurl') . '/wp-content/plugins/dealertrend-inventory-api/application/views/inventory/cobra/images/btn-detail-window-sticker.png" />
-							</a>
-						';
-					}
-					*/
-				?>
 			</div>
 			<?php
 				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
@@ -130,6 +105,12 @@ $now_text = 'Now: ';
 			<div class="detail-buttons">
 				<a id="calculate" href="">Payment Calculator</a>
 			</div>
+			<br class="clear" />
+			<?php
+				if( $carfax ) { 
+ 					echo '<a href="' . $carfax . '" class="cobra-carfax" target="_blank">Carfax</a>';
+     		}   
+   		?>
 			<br class="clear" />
 		</div>
 		<div class="right">

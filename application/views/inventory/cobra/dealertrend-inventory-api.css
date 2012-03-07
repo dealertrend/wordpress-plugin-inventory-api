@@ -97,6 +97,7 @@
 	padding: 0px 0 2px 25px;
 	width: 234px;
 }
+.cobra-carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 #cobra #cobra-search-submit {
 	background-color: transparent;
 	background-image: url('images/btn-inventory-go.png');
