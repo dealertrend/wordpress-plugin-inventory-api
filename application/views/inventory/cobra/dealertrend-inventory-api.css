@@ -65,12 +65,12 @@
 	line-height: 0;
 	width: 100%;
 }
-#cobra #listing {
+#cobra #cobra-listing {
 	background-color: #FFF;
 	clear: both;
 	padding-top: 14px;
 }
-#cobra #quick-links {
+#cobra #cobra-quick-links {
 	background-image: url('images/bg-inventory-top.png');
 	color: #FFF;
 	font-family: 'arial';
@@ -83,21 +83,21 @@
 	padding: 16px 0 0 10px;
 	width: 100%;
 }
-#cobra #quick-links select {
+#cobra #cobra-quick-links select {
 	margin-right: 10px;
 }
-#cobra #search {
+#cobra #cobra-search {
 	display: inline;
 	float: right;
 }
-#cobra #search-box {
+#cobra #cobra-search-box {
 	background: transparent url('images/search-bg.png') no-repeat;
 	border: none;
 	height: 21px;
 	padding: 0px 0 2px 25px;
 	width: 234px;
 }
-#cobra #search-submit {
+#cobra #cobra-search-submit {
 	background-color: transparent;
 	background-image: url('images/btn-inventory-go.png');
 	background-position: bottom right;
@@ -112,56 +112,56 @@
 	right: 5px;
 	width: 28px;
 }
-#cobra #total-found {
+#cobra #cobra-total-found {
 	color: #333;
 	float: left;
 	font-size: 13px;
 	margin: 0 0 15px 0;
 }
-#cobra #sorting-columns {
+#cobra #cobra-sorting-columns {
 	color: #333;
 	float: right;
 	font-size: 13px;
 	position: relative;
 	z-index: 3;
 }
-#cobra #sorting-columns a {
+#cobra #cobra-sorting-columns a {
 	color: #333;
 	font-size: 13px;
 	text-decoration: none;
 }
-#cobra #sorting-columns a:hover {
+#cobra #cobra-sorting-columns a:hover {
 	color: #CC0000;
 }
-#cobra #sorting-columns > div > a {
+#cobra #cobra-sorting-columns > div > a {
 	background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left;
 	color: #000;
 	padding-left: 15px;
 	text-decoration: none;
 }
-#cobra #sorting-columns > div > a.asc {
+#cobra #cobra-sorting-columns > div > a.asc {
 	background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left;
 	color: #000;
 	padding-left: 15px;
 	text-decoration: none;
 }
-#cobra #sorting-columns > div > a.desc {
+#cobra #cobra-sorting-columns > div > a.desc {
 	background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left;
 	color: #000;
 	padding-left: 15px;
 	text-decoration: none;
 }
-#cobra #sorting-columns > div > a:hover {
+#cobra #cobra-sorting-columns > div > a:hover {
 	color: #9F0300;
 }
-#cobra #sorting-columns > div {
+#cobra #cobra-sorting-columns > div {
 	border-right: 1px solid #a8a8a8;
 	float: left;
 	line-height: 50px;
 	text-align: center;
 	width: 185px;
 }
-#cobra #sorting-columns > div.last {
+#cobra #cobra-sorting-columns > div.last {
 	border-right: 0;
 }
 #cobra .pager {
@@ -186,10 +186,10 @@
 #cobra .pager .prev {
 	margin-right: 5px;
 }
-#cobra #content {
+#cobra #cobra-content {
 	width: auto;
 }
-#cobra #items {
+#cobra #cobra-items {
 	margin-bottom: 10px;
 	position: relative;
 	z-index: 2;
@@ -406,7 +406,7 @@
 	float: left;
 	margin-left: 5px;
 }
-#cobra #disclaimer {
+#cobra #cobra-disclaimer {
 	clear: both;
 	font-size: .5em;
 }
@@ -537,100 +537,7 @@ ul.selectBox-options a:hover {
 	background:#000;
 	border-color:#000;
 }
-#cobra #make-offer {
-	font-size: 13px;
-}
-#cobra #make-offer h1 {
-	font-size:33px;
-	color:#fff;
-}
-#cobra #make-offer .required {
-	color:#ec1c25;
-}
-#cobra #make-offer div.required {
-	font-size:13px;
-	position:absolute;
-	right:10px;
-	top:60px;
-}
-#cobra #make-offer .wpcf7 {
-	background:#fff;
-	padding: 10px;
-}
-#cobra #make-offer .wpcf7 input {
-	width:200px;
-	-moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
-	-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	-o-border-radius: 4px;
-	-ms-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	border-radius: 4px;
-	border:1px solid #999;
-	padding: 3px;
-}
-#cobra #make-offer .make-offer-year {
-	float:left;text-align:center;
-	margin:0 10px 15px 0;
-}
-#cobra #make-offer .make-offer-make {
-	float:left;text-align:center;
-	margin:0 10px 0 0;
-}
-#cobra #make-offer .make-offer-model {
-	float:left;text-align:center;
-	margin:0 10px 0 0;
-}
-#cobra #make-offer .make-offer-year select,
-#cobra #make-offer .make-offer-make select,
-#cobra #make-offer .make-offer-model select {
-	padding:2px;
-}
-#cobra #make-offer .make-offer-trim {
-	float:left;text-align:center;
-}
-#cobra #make-offer .make-offer-trim input {
-	width:140px;
-}
-#cobra #make-offer .make-offer-offer {
-	clear:left;
-	margin:0 0 15px 0;
-}
-#cobra #make-offer .make-offer-first {
-	float:left;
-	margin:0 10px 15px 0;
-}
-#cobra #make-offer .make-offer-last {
-	float:left;
-}
-#cobra #make-offer .make-offer-email {
-	clear:left;
-	margin:0 0 15px 0;
-}
-#cobra #make-offer .make-offer-email input {
-	width: 416px;
-}
-#cobra #make-offer .make-offer-phone {
-	float:left;
-	margin:0 10px 15px 0;
-}
-#cobra #make-offer .make-offer-mobile {
-	float:left;
-}
-#cobra #make-offer .make-offer-method {
-	clear:left;
-	margin:0 0 15px 0;
-}
-#cobra #make-offer .make-offer-method select {
-	width:206px;
-	margin:0 6px 0 0;
-}
-#cobra #make-offer textarea {
-	width:520px;height:55px;
-}
-#calculate-form {
+#cobra-calculate-form {
 	display:none;
 }
 .ui-dialog .ui-state-error {
@@ -640,7 +547,7 @@ ul.selectBox-options a:hover {
 	border: 1px solid transparent;
 	padding: 0.3em 0;
 }
-#cobra #detail-page {
+#cobra #cobra-detail-page {
 	background: url('images/detail-bg.png') no-repeat #FFF;
 	clear: both;
 	font-family: 'arial';
@@ -671,15 +578,15 @@ ul.selectBox-options a:hover {
 	width:305px;
 	line-height:32px;
 }
-#cobra #listing .top .price {
+#cobra #cobra-listing .top .price {
 	color:#fff;
 	padding:1px;
 }
-#cobra #listing .top .price span {
+#cobra #cobra-listing .top .price span {
 	font-size:10px;
 	margin:0 0 0 13px;
 }
-#cobra #listing .top .price span {
+#cobra #cobra-listing .top .price span {
 	position:relative;
 	margin:0;
 	bottom:13px;
@@ -690,7 +597,7 @@ ul.selectBox-options a:hover {
 	position:relative;
 	bottom:17px;
 }
-#cobra #detail-page .header {
+#cobra #cobra-detail-page .header {
 	color:#333;
 	font-size:20px;
 	height:30px;
@@ -698,39 +605,39 @@ ul.selectBox-options a:hover {
 	font-weight:bold;
 	text-align:left;
 }
-#cobra #detail-page .left {
+#cobra #cobra-detail-page .left {
 	width:328px;
 	float:left;
 	padding:0 0 0 27px;
 }
-#cobra #detail-page .right {
+#cobra #cobra-detail-page .right {
 	float:left;
 	width:530px;
 	margin:14px 0 0 0;
 	position:relative;
 	bottom:176px;
 }
-#cobra #detail-page .icons {
+#cobra #cobra-detail-page .icons {
 	float:left;
 	width:300px;
 	text-align:left;
 	padding:10px;
 }
-#cobra #detail-page .slideshow .images {
+#cobra #cobra-detail-page .slideshow .images {
 	height:372px;
 	width:497px;
 	border: 4px solid #E1E4E4;
 	-moz-box-shadow: 0 0 10px #333;
 }
-#cobra #detail-page .slideshow .images > img {
+#cobra #cobra-detail-page .slideshow .images > img {
 	width:497px !important;
 	height:372px !important;
 	clear:both;
 }
-#cobra #detail-page .slideshow img {
+#cobra #cobra-detail-page .slideshow img {
 	background:transparent url('images/no-image-376x260.jpg') no-repeat center;
 }
-#cobra #detail-page .slideshow .navigation {
+#cobra #cobra-detail-page .slideshow .navigation {
 	display:block;
 	margin:5px 0 0 10px;
 	width:505px;
@@ -738,25 +645,25 @@ ul.selectBox-options a:hover {
 	clear:both;
 	text-align:left;
 }
-#cobra #detail-page .slideshow .navigation a img {
+#cobra #cobra-detail-page .slideshow .navigation a img {
 	border:3px solid white;
 	background:white url('images/thumb-error-26x16.png') no-repeat 25px center;
 	height:auto;
 	width:60px;
 }
-#cobra #detail-page .slideshow .navigation a img:hover {
+#cobra #cobra-detail-page .slideshow .navigation a img:hover {
 	border:3px solid #9f0300;
 }
-#cobra #detail-page .slideshow .navigation a.activeSlide img {
+#cobra #cobra-detail-page .slideshow .navigation a.activeSlide img {
 	border-color:#55CCe6;
 }
-#cobra #detail-page .slideshow .navigation a.activeSlide img:hover {
+#cobra #cobra-detail-page .slideshow .navigation a.activeSlide img:hover {
 	border-color:#9f0300;
 }
-#cobra #detail-page .request-form {
+#cobra #cobra-detail-page .request-form {
 	clear:both;
 }
-#cobra #detail-page .request-form .submit {
+#cobra #cobra-detail-page .request-form .submit {
 	background: url('images/submit-btn.png') no-repeat top center;
 	width:98px;
 	height:22px;
@@ -765,7 +672,7 @@ ul.selectBox-options a:hover {
 	text-indent:-9999px;
 	border:0;
 }
-#cobra #detail-page .price {
+#cobra #cobra-detail-page .price {
 	color:#fff;
 	font-size:32px;
 	font-weight:bold;
@@ -773,34 +680,34 @@ ul.selectBox-options a:hover {
 	line-height:34px;
 	text-align:left;
 }
-#cobra #detail-page .price .strike-through {
+#cobra #cobra-detail-page .price .strike-through {
 	color:gray;
 }
-#cobra #detail-page .vehicle-information {
+#cobra #cobra-detail-page .vehicle-information {
 	font-size:12px;
 	font-weight:bold;
 	margin:0 0 40px;
 }
-#cobra #detail-page .contact-information {
+#cobra #cobra-detail-page .contact-information {
 	font-size:31px;
 	text-align:right;
 	color:#333;
 	font-weight:bold;
 	padding:20px 0;
 }
-#cobra #detail-page .vehicle-information div {
+#cobra #cobra-detail-page .vehicle-information div {
 	clear:both;
 }
-#cobra #detail-page .vehicle-information div span {
+#cobra #cobra-detail-page .vehicle-information div span {
 	width:100px;
 	display:block;
 	float:left;
 	margin:0 10px 0 0;
 }
-#cobra #detail-page .vehicle-information .header {
+#cobra #cobra-detail-page .vehicle-information .header {
 	margin-bottom:10px;
 }
-#cobra #detail-page .make-offer a {
+#cobra #cobra-detail-page .make-offer a {
 	background:url("images/btn-detail-make-offer.png");
 	display:block;
 	height:35px;
@@ -808,12 +715,12 @@ ul.selectBox-options a:hover {
 	width:122px;
 	margin:0 0 20px;
 }
-#cobra #detail-page .request-form form {
+#cobra #cobra-detail-page .request-form form {
 	padding:5px;
 	line-height:20px;
 }
-#cobra #detail-page .request-form form input,
-#cobra #detail-page .request-form form textarea {
+#cobra #cobra-detail-page .request-form form input,
+#cobra #cobra-detail-page .request-form form textarea {
 	width:130px;
 	padding:5px;
 	margin:0 0 5px 0;
@@ -826,10 +733,10 @@ ul.selectBox-options a:hover {
 	font-family:Arial;
 	color:#666666;
 }
-#cobra #detail-page .request-form form textarea {
+#cobra #cobra-detail-page .request-form form textarea {
 	width:276px;
 }
-#cobra #detail-page .helpful-links a {
+#cobra #cobra-detail-page .helpful-links a {
 	display:block;
 	width:250px;
 	height:31px;
@@ -837,61 +744,61 @@ ul.selectBox-options a:hover {
 	margin:10px auto;
 	background-position:top center;
 }
-#cobra #detail-page .helpful-links a:hover {
+#cobra #cobra-detail-page .helpful-links a:hover {
 	background-position:bottom center !important;
 }
 #cobra #calculate-form #loan-calculator {
 	font-size:12px !important;
 }
-#cobra #detail-page .contact-information p {
+#cobra #cobra-detail-page .contact-information p {
 	padding:10px;
 	margin:0;
 }
-#cobra #detail-page .fuel-economy {
+#cobra #cobra-detail-page .fuel-economy {
 	background: url('images/milage-icon.png') no-repeat center 20px;
 	width:100%;
 	height:125px;
 	padding-bottom:5px;
 	margin:0 auto 20px;
 }
-#cobra #detail-page .fuel-economy #fuel-city,
-#cobra #detail-page .fuel-economy #fuel-highway {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city,
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway {
 	color:black;
 	width:50px;
 	font-weight:bold;
 	padding:15px;
 	text-align:center;
 }
-#cobra #detail-page .fuel-economy #fuel-city p,
-#cobra #detail-page .fuel-economy #fuel-highway p {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city p,
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway p {
 	font-size:16px;
 	margin:5px 0 0 0;
 	font-weight:normal;
 }
 
-#cobra #detail-page .fuel-economy #fuel-city strong,
-#cobra #detail-page .fuel-economy #fuel-highway strong {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city strong,
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway strong {
 	font-size:20px;
 }
-#cobra #detail-page .fuel-economy #fuel-city {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city {
 	float:left;
 	margin:3px 0 0 53px;
 }
-#cobra #detail-page .fuel-economy #fuel-highway {
+#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway {
 	float:right;
 	margin:3px 51px 0 0;
 }
-#cobra #detail-page .fuel-economy p {
+#cobra #cobra-detail-page .fuel-economy p {
 	margin-bottom:10px;
 }
-#cobra #detail-page .fuel-economy p small {
+#cobra #cobra-detail-page .fuel-economy p small {
 	display:block;
 	clear:both;
 	font-size:10px;
 	text-align:center;
 	padding-top:5px;
 }
-#cobra #detail-page .detail-buttons a {
+#cobra #cobra-detail-page .detail-buttons a {
 	display:block;
 	width:220px;
 	height:24px;
@@ -903,27 +810,27 @@ ul.selectBox-options a:hover {
 	margin:0 0 4px;
 	padding:9px 0 0 10px;
 }
-#cobra #detail-page .detail-buttons a:hover {
+#cobra #cobra-detail-page .detail-buttons a:hover {
 	background:#e81e1e;
 	color:#fff;
 }
 
-#cobra #detail-page #inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; border:none;  }
-#cobra #detail-page * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
-#cobra #detail-page #inventory-tabs .ui-widget-header { background:none !important; border-left:none; border-right:none; border-top:1px solid #666; border-bottom:1px solid #666; text-transform:uppercase; padding:4px 0px; }
-#cobra #detail-page #inventory-tabs .ui-widget-header li { border:none; top:0; padding:0 20px; margin:0; }
-#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default { background:none; }
-#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default a { font-size:14px; color:#b3b3b3; padding:0; }
+#cobra #cobra-detail-page #cobra-inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; border:none;  }
+#cobra #cobra-detail-page * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header { background:none !important; border-left:none; border-right:none; border-top:1px solid #666; border-bottom:1px solid #666; text-transform:uppercase; padding:4px 0px; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li { border:none; top:0; padding:0 20px; margin:0; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default { background:none; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a { font-size:14px; color:#b3b3b3; padding:0; }
 
-#cobra #detail-page #inventory-tabs .ui-widget-header li.ui-tabs-selected a, #cobra #detail-page #inventory-tabs .ui-widget-header li.ui-state-default a:hover { color:#ff0000; }
-#cobra #detail-page #inventory-tabs .ui-tabs-panel { height:244px; width: 100% !important; }
-#cobra #detail-page #inventory-tabs .ui-tabs-panel ul { padding:0; margin:0; font-size:12px; }
-#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspVerticalBar { background:none; }
-#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspTrack { width:5px; background:#dfdddd; left:7px; }
-#cobra #detail-page #inventory-tabs .ui-tabs-panel .jspDrag { background:url(images/scroller-handle.png); width:13px !important; left:-4px; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-tabs-selected a, #cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a:hover { color:#ff0000; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel { height:244px; width: 100% !important; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel ul { padding:0; margin:0; font-size:12px; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspVerticalBar { background:none; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspTrack { width:5px; background:#dfdddd; left:7px; }
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspDrag { background:url(images/scroller-handle.png); width:13px !important; left:-4px; }
 
 #cobra .item .price div.default-text { font-size:24px; margin-top:-4px; }
 
-#cobra #detail-page #mobile-nav {
+#cobra #cobra-detail-page #cobra-mobile-nav {
 	display:none;
 }
