@@ -614,9 +614,8 @@ ul.selectBox-options a:hover {
 #cobra #cobra-detail-page .right {
 	float:left;
 	width:530px;
-	margin:14px 0 0 0;
+	margin:-168px 0 0 0;
 	position:relative;
-	bottom:176px;
 }
 #cobra #cobra-detail-page .icons {
 	float:left;
