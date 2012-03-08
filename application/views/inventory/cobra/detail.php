@@ -136,7 +136,7 @@ $now_text = 'Now: ';
 			<?php if( count( $dealer_options ) > 0 ) { ?>
 			<div id="cobra-inventory-tabs">
 				<ul>
-					<li><a href="#dealer">Equipment / Features</a></li>
+					<li><a href="#cobra-dealer">Equipment / Features</a></li>
 				</ul>
 				<div id="cobra-dealer">
 					<ul>
