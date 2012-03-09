@@ -834,3 +834,10 @@ ul.selectBox-options a:hover {
 #cobra #cobra-detail-page #cobra-mobile-nav {
 	display:none;
 }
+
+#cobra #cobra-detail-page .cobra-ais-incentive {
+	margin-top:25px;
+}
+#cobra .item .cobra-ais-incentive {
+	position:absolute; top:125px; right:25px;
+}

@@ -326,13 +326,16 @@ echo '
 						if( ! empty( $engine ) ) {
 							echo '<span class="engine">Engine: ' . $engine . '</span>';
 						}
-						echo '
-						</div>
-						<div class="cerfitied-pre-owned">';
-							if ( $inventory_item->certified ) {
-								// this is broken...we don't have all the images for all the makes...
-								//echo '<img src="' . plugin_dir_url( __FILE__ ) . 'images/' . $make . '-cpo-white.png" />';
-							}
+						$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
+						if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
+							echo '
+								<div class="cobra-ais-incentive">
+										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=' . $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">
+											VIEW AVAILABLE INCENTIVES AND REBATES
+										</a>
+								</div>
+							';
+						}
 						echo '
 						</div>
 					</div>

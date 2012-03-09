@@ -105,6 +105,18 @@ $now_text = 'Now: ';
 			<div class="detail-buttons">
 				<a id="calculate" href="">Payment Calculator</a>
 			</div>
+			<?php
+				$ais_incentive = isset( $inventory->ais_incentive->to_s ) ? $inventory->ais_incentive->to_s : NULL;
+				if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
+					echo '
+						<div class="cobra-ais-incentive">
+								<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=' . $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">
+									VIEW AVAILABLE INCENTIVES AND REBATES
+								</a>
+						</div>
+					';
+				}
+			?>
 			<br class="clear" />
 			<?php
 				if( $carfax ) { 
