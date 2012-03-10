@@ -58,7 +58,8 @@
 	clear:both;
 	height:auto;
 	padding:0;
-	margin:0 10px;
+	margin:0;
+	margin-left:10px;
 }
 #cobra .item a > div {
 	height:auto !important;
@@ -230,11 +231,12 @@
 }
 #cobra .item .cobra-ais-incentive {
 	text-align:center;
-	font-size:9px;
+	font-size:8px;
 	position:static;
 	left:auto;
 	top:auto;
-	
+	margin-left:-60px;
+	width:200px;
 }
 #cobra #cobra-detail-page .cobra-ais-incentive {
 	position:relative;
