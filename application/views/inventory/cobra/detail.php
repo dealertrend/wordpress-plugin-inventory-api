@@ -41,6 +41,9 @@
 ?>
 <div id="cobra">
 	<div id="cobra-detail-page">
+		<div id="cobra-description" style="display:none;">
+			<p><?php echo $description; ?></p>
+		</div>
 		<div class="top">
 			<div class="wrapper">
 				<div class="year"><?php echo $year ?></div>
