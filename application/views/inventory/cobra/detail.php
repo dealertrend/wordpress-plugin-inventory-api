@@ -135,8 +135,8 @@ $now_text = 'Now: ';
 				?>
 				</div>
 				<div id="cobra-mobile-nav">
-					<a id="cobra-prev" href="#">< Prev</a>
-					<a id="cobra-next" href="#">Next ></a>
+					<a id="cobra-prev" href="">< Prev</a>
+					<a id="cobra-next" href="">Next ></a>
 				</div>
 				<?php
 					if( count( $inventory->photos > 1 ) ) {
