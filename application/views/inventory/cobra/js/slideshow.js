@@ -12,10 +12,6 @@ dealertrend(document).ready(function() {
             return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
         }
     });
-    dealertrend('.slideshow #cobra-pause').click(function(e) {
-        dealertrend('.slideshow .images').cycle('pause');
-        e.preventDefault();
-    });
     dealertrend('.images a')
     .lightbox({
         imageClickClose: false,

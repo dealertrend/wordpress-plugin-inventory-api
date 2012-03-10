@@ -57,8 +57,8 @@
 	border:1px solid #1e1e1e;
 	clear:both;
 	height:auto;
-	margin:0 auto;
 	padding:0;
+	margin:0 10px;
 }
 #cobra .item a > div {
 	height:auto !important;
@@ -74,7 +74,7 @@
 }
 #cobra .item .info {
 	float:left;
-	width:204px;
+	width:184px;
 	margin-left:10px;
 }
 #cobra .item .photo {
@@ -108,7 +108,7 @@
 	height:78px;
 	padding:0;
 	position:relative;
-	width:214px;
+	width:194px;
 }
 #cobra .item .main {
 	margin-top:10px;
