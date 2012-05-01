@@ -52,14 +52,20 @@ function addCommas(nStr)
           function populate_page( acode ) {
             button.css('cursor','wait');
             // fuel economy
+console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode + '&country_code=    <?php echo $country_code; ?>');
             dealertrend.ajax(
             {
               url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=fuel_economy&acode=' + acode + '&country_code=<?php echo $country_code; ?>',
               context: document.body,
               success: function(data) {
                 var json = JSON.parse(data);
+<?php if($country_code == 'CA') { ?>
+                dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_lp_100km );
+                dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_lp_100km );
+<?php } else { ?>
                 dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_mpg );
                 dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_mpg );
+<?php } ?>
                 button.css('cursor','pointer');
               }
             });
