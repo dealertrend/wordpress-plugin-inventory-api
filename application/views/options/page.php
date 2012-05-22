@@ -125,11 +125,16 @@ class Options_Page {
 			$code = isset( $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] : false;
 			if( $code == '200' ) {
 				$this->vehicle_management_system->status[ 'inventory_feed' ][ 'results' ] = $this->vehicle_management_system->check_inventory()->please();
+				$company_information = $this->vehicle_management_system->get_company_information()->please();
+				$company_information = json_decode( $company_information[ 'body' ] );
 			}
 		}
 
+		$country_code = isset( $company_information->country_code ) ? $company_information->country_code : 'US';
+
 		$this->vehicle_reference_system = new vehicle_reference_system (
-			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ]
+			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ],
+			$country_code
 		);
 
 		$this->vehicle_reference_system->status[ 'host' ][ 'results' ] = $this->vehicle_reference_system->check_host()->please();

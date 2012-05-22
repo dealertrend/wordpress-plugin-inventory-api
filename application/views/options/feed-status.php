@@ -122,8 +122,6 @@
 			<?php
 				$response_code = isset( $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] : false;
 				if( $response_code == 200 ):
-					$company_information = $this->vehicle_management_system->get_company_information()->please();
-					$company_information = json_decode( $company_information[ 'body' ] );
 			?>
 			<tr>
 				<td>Name:</td>

@@ -11,7 +11,9 @@ class vehicle_reference_system {
 	private $url = NULL;
 	private $parameters = array();
 
-	public function __construct( $host , $country_code = 'US' ) {
+	private $country_code = false;
+
+	public function __construct( $host , $country_code ) {
 		$this->host = $host;
 		$this->country_code = $country_code;
 	}

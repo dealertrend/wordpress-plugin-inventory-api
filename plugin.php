@@ -434,7 +434,7 @@ class Plugin {
 					$vehicle_management_system->tracer = 'Getting company information for use in other API requests.';
 					$company_information = $vehicle_management_system->get_company_information()->please();
 
-					$country_code = 'US';
+					$country_code = isset( $data->country_code ) ? $data->country_code : 'US';
 					if( isset( $company_information[ 'body' ] ) ) {
 						$data = json_decode( $company_information[ 'body' ] );
 						if( isset( $company_information[ 'response' ][ 'code' ] ) && $company_information[ 'response' ][ 'code' ] == 200 ) {
