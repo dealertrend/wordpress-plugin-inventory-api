@@ -10,6 +10,8 @@
 					if( isset( $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ) {
 						$response_code = $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ];
 						if( $response_code == '200' ) {
+							$company_information = $this->vehicle_management_system->get_company_information()->please();
+							$company_information = json_decode( $company_information[ 'body' ] );
 							if( isset( $this->vehicle_management_system->status[ 'inventory_feed' ][ 'results' ][ 'response' ][ 'code' ] ) ) {
 								$response_code = $this->vehicle_management_system->status[ 'inventory_feed' ][ 'results' ][ 'response' ][ 'code' ];
 								if( $response_code == '200' ) {
