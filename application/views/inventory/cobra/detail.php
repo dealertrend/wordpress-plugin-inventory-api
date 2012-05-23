@@ -48,6 +48,7 @@
 			<div class="wrapper">
 				<div class="year"><?php echo $year ?></div>
 				<div class="vehicle"><?php echo $make . ' ' . $model ?></div>
+				<div class="saleclass"><?php echo $sale_class; ?></div>
 				<div class="price">
 					<div class="price">
 					<?php if ($sale_class == 'New' && ! $on_sale):?>

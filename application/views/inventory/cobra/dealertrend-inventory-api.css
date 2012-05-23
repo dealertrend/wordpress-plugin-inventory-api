@@ -841,3 +841,6 @@ ul.selectBox-options a:hover {
 #cobra .item .cobra-ais-incentive {
 	position:absolute; top:125px; right:25px;
 }
+#cobra #cobra-detail-page .saleclass {
+	display:none;
+}
