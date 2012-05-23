@@ -104,7 +104,7 @@ class dynamic_site_headers {
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
-			$url .= '?' . http_build_query( $this->parameters , '' , '&' );
+			$url .= '?' . rawurlencode(http_build_query( $this->parameters , '' , '&' ));
 			$request_handler = new http_request( $url , 'dynamic_site_headers' );
 			$this->request_stack[] = $url;
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
