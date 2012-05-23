@@ -93,6 +93,7 @@ class dynamic_site_headers {
 			$city = isset( $this->parameters[ 'city' ] ) ? urlencode( $this->parameters[ 'city' ] ) : false;
 			$state = isset( $this->parameters[ 'state' ] ) ? urlencode( $this->parameters[ 'state' ] ) : false;
 			$vin = isset( $this->parameters[ 'vin' ] ) ? $this->parameters[ 'vin' ] : false;
+
 			$base = $year != false ? $year : $sale_class;
 			if( $year == false ) {
 				$url = $this->host . '/' . $this->company_id . '/seo_helpers.json?cu=/' . $taxonomy . '/' . $base . '/All/' . $make . '/' . $model . '/' . $city . '/' . $state . '/';
@@ -103,6 +104,7 @@ class dynamic_site_headers {
 			if( strtolower( $trim ) != 'all' ) {
 				$url .= '?trim=' . urlencode( $trim );
 			}
+			$url .= '?' . http_build_query( $this->parameters , '' , '&' );
 			$request_handler = new http_request( $url , 'dynamic_site_headers' );
 			$this->request_stack[] = $url;
 			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file( true );
