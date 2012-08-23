@@ -1,3 +1,4 @@
+#friendly-print{float: right; clear: both; background: transparent url(images/print.png) no-repeat right; display: block; text-decoration: none; padding-right: 20px; margin-right: 5px; cursor: pointer;}
 /* Shared elements. */
 .ui-widget-overlay { background: #000 !important; opacity: .80 !important; filter:Alpha(Opacity=80) !important; position:fixed; z-index:8000 !important; top:0; left:0; }
 .ui-dialog { z-index:9999 !important; position:fixed; }

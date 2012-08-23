@@ -190,6 +190,7 @@ function video_popup(url , title) {
 
 <div id="armadillo-wrapper">
 	<div id="armadillo-detail">
+		<a id="friendly-print" onclick="window.open('?print_page','popup','width=800,height=900,scrollbars=yes,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=0,top=0'); return false">Print</a>
 		<?php echo $breadcrumbs; ?>
 		<div class="armadillo-main-line">
 			<h2><?php echo $year . ' ' . $make . ' ' . $model . ' ' . $trim . ' ' . $drive_train . ' ' . $body_style . ' ' . $transmission; ?></h2>

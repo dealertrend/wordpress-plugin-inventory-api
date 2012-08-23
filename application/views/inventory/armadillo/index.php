@@ -17,6 +17,10 @@
 		'jquery-ui-core'
 	);
 
+	if ( isset($_GET['print_page']) && $type == 'detail' ) {
+		$setprintpage = "detail_print";
+	}
+
 	foreach( $default_scripts as $key => $value ) {
 		wp_enqueue_script( $value );
 	}
@@ -28,7 +32,7 @@
 		$this->plugin_information[ 'Version' ],
 		true
 	);
-
+if ( !isset($setprintpage) ) {
 	switch( $type ) {
 		case 'list':
 			wp_enqueue_script(
@@ -73,8 +77,17 @@
 			);
 		break;
 	}
+} else {
+	wp_enqueue_style(
+		'dealertrend-detail-print' ,
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/dealertrend-inventory-print.css' ,
+		false ,
+		'0.5' );
+}
 
-	get_header();
+	if ( !isset($setprintpage) ){
+		get_header();
+	}
 	flush();
 
 	switch( $status ) {
@@ -144,7 +157,11 @@
 	$breadcrumbs = '<div class="armadillo-breadcrumbs">' . $breadcrumbs . '</div>';
 
 	echo '<div id="dealertrend-inventory-api">';
-	include( dirname( __FILE__ ) . '/' . $type . '.php' );
+	if ( !isset($setprintpage) ){
+		include( dirname( __FILE__ ) . '/' . $type . '.php' );
+	} else {
+		include( dirname( __FILE__ ) . '/' . $setprintpage . '.php' );
+	}
 	echo '</div>';
 
 	echo "\n" . '<!--' . "\n";
@@ -159,7 +176,9 @@
 	echo '-->' . "\n";
 
 	flush();
-	get_footer();
+	if ( !isset($setprintpage) ){
+		get_footer();
+	}
 	flush();
 
 ?>
