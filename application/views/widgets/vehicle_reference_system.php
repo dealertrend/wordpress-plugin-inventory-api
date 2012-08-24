@@ -120,9 +120,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
-
+		$country_code = $this->set_country_code();
 		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
-			$this->options[ 'vehicle_reference_system' ][ 'host' ]
+			$this->options[ 'vehicle_reference_system' ][ 'host' ],
+			$country_code
 		);
 
 		$check_host = $vehicle_reference_system->check_host()->please();
@@ -140,7 +141,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		echo '<div id="' . $this->id . '" class="vrs-widget ' . $layout . '" style="' . $float . '">';
 		echo '<div class="vrs-before-widget">' . $before_widget . '</div>';
-		if( ! empty( $title ) ) { 
+		if( ! empty( $title ) ) {
 			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
 		}
 		echo '<div class="vrs-widget-content ' . $carousel . '">';
@@ -189,7 +190,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 				foreach( $model_values as $model ) {
 					if( in_array( $model->name , $instance[ 'models' ] ) ) {
 						if( !empty( $wp_rewrite->rules ) ) {
-							$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/'; 
+							$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/';
 						} else {
 							$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
 						}
@@ -249,9 +250,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
 		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
 		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
-
+		$country_code = $this->set_country_code();
 		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
-			$this->options[ 'vehicle_reference_system' ][ 'host' ]
+			$this->options[ 'vehicle_reference_system' ][ 'host' ],
+			$country_code
 		);
 
 		echo '<p>';
@@ -368,7 +370,30 @@ class vehicle_reference_system_widget extends WP_Widget {
 	function load_options() {
 		$this->options = get_option( 'dealertrend_inventory_api' );
 	}
+	function set_country_code() {
+		$get_company_information = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_management_system(
+			$this->options[ 'vehicle_management_system' ][ 'host' ],
+			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+		);
 
+		$check_host = $get_company_information->check_host()->please();
+		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
+			echo '<p>Unable to connect to API.</p>';
+			return false;
+		}
+
+		$check_company_id = $get_company_information->check_company_id()->please();
+		if( $check_company_id[ 'response' ][ 'code' ] != 200 ) {
+			echo '<p>Unable to validate company information.</p>';
+			return false;
+		}
+
+		$company_information = $get_company_information->get_company_information()->please();
+		$company_information = json_decode( $company_information[ 'body' ] );
+		$country_code_value = $company_information->country_code;
+
+		return $country_code_value;
+	}
 }
 
 ?>
