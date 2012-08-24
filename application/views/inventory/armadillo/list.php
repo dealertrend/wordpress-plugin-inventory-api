@@ -95,7 +95,7 @@
 						<ul>
 							<?php
 								foreach( $makes as $make ) {
-									$make_safe = str_replace( '/' , '%252' , $make );
+									$make_safe = str_replace( '/' , '%2F' , $make );
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
 										$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
@@ -127,7 +127,7 @@
 						<ul>
 							<?php
 								foreach( $models as $model ) {
-									$model_safe = str_replace( '/' , '%252' , $model );
+									$model_safe = str_replace( '/' , '%2F' , $model );
 									if( !empty( $wp_rewrite->rules ) ) {
 										$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model_safe . '/';
 										echo '<li><a href="' . $url . '">' . $model . '</a></li>';
@@ -160,7 +160,7 @@
 							<?php
 								foreach( $trims as $trim ) {
 									$trim_safe = $trim;
-									$trim_safe = str_replace( '/' , '%252' , $trim_safe );
+									$trim_safe = str_replace( '/' , '%2F' , $trim_safe );
 									echo '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] , 'trim' => $trim_safe ) , $do_not_carry ) . '">' . $trim . '</a></li>';
 								}
 								echo '<li><span class="no-style"><a href="' . $model_url . '" class="jquery-ui-button" title="View ' . $parameters[ 'make' ] . ' Models">Previous</a></span></li>';
