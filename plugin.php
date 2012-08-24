@@ -34,7 +34,8 @@ class Plugin {
 			'data' => array(
 				'makes' => array(),
 				'models' => array()
-			)
+			),
+			'theme' => 'default'
 		),
 		'jquery' => array(
 			'ui' => array(
@@ -379,7 +380,7 @@ class Plugin {
 		switch( $this->taxonomy ) {
 
 			case 'inventory':
-				if( $this->options[ 'vehicle_management_system' ][ 'host' ] ) {	
+				if( $this->options[ 'vehicle_management_system' ][ 'host' ] ) {
 					$this->fix_bad_wordpress_assumption();
 
 					$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
@@ -448,7 +449,7 @@ class Plugin {
 						$country_code = $data->country_code;
 					}
 
-					$current_theme = 'default';
+					$current_theme = $this->options[ 'vehicle_reference_system' ][ 'theme' ];
 					$theme_folder = 'showcase';
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 
@@ -585,7 +586,7 @@ class Plugin {
 		);
 	}
 
-	function get_themes( $type ) { 
+	function get_themes( $type ) {
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
 		$ignore = array( '.' , '..' );
 		foreach( $directories as $key => $value ) {

@@ -61,8 +61,6 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] = $makes;
 			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = $models;
 		}
-		$showcase_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] : 'smoothness';
-		$this->instance->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ] = $showcase_theme;
 
 		if( isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ) {
 			$makes = isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'makes' ] : array();
@@ -81,6 +79,11 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
 			$inventory_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] : 'smoothness';
 			$this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] = $inventory_theme;
+		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {
+			$showcase_theme = isset( $_POST[ 'showcase_theme' ] ) ? $_POST[ 'showcase_theme' ] : 'default';
+			$this->instance->options[ 'vehicle_reference_system' ][ 'theme' ] = $showcase_theme;
+			$showcase_ui_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] : 'smoothness';
+			$this->instance->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ] = $showcase_ui_theme;
 		}
 	}
 
@@ -142,6 +145,64 @@ class Options_Page {
 		$code = isset( $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] : false;
 		if( $code == '200' ) {
 			$this->vehicle_reference_system->status[ 'feed' ][ 'results' ] = $this->vehicle_reference_system->check_feed()->please();
+		}
+	}
+
+	function get_make_data() {
+		//Sets the variables for Vehicle Year
+		$current_year = date( 'Y' );
+		$last_year = $current_year - 1;
+		$next_year = $current_year + 1;
+		//Gets vehicle make data for each year
+		$make_data[ $last_year ] = $this->vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
+		$make_data[ $last_year ] = json_decode( $make_data[ $last_year ][ 'body' ] );
+		$make_data[ $current_year ] = $this->vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
+		$make_data[ $current_year ] = json_decode( $make_data[ $current_year ][ 'body' ] );
+		$make_data[ $next_year ] = $this->vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
+		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
+		//Merge vehicle data so it displays as one array
+		$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
+		//Returns merged array data
+		return $make_data;
+	}
+
+	function get_model_data( $make_data) {
+		//Sets the variables for Vehicle Year
+		$current_year = date( 'Y' );
+		$last_year = $current_year - 1;
+		$next_year = $current_year + 1;
+		//Gets vehicle model data for each selected make & year
+		$model_data[ $last_year ] = $this->vehicle_reference_system->get_models()->please( array( 'make' => $make_data , 'year' => $last_year ) );
+		$model_data[ $last_year ] = isset( $model_data[ $last_year ][ 'body' ] ) ? json_decode( $model_data[ $last_year ][ 'body' ] ) : NULL;
+		$model_data[ $current_year ] = $this->vehicle_reference_system->get_models()->please( array( 'make' => $make_data , 'year' => $current_year ) );
+		$model_data[ $current_year ] = isset( $model_data[ $current_year ][ 'body' ] ) ?json_decode( $model_data[ $current_year ][ 'body' ] ) : NULL;
+		$model_data[ $next_year ] = $this->vehicle_reference_system->get_models()->please( array( 'make' => $make_data , 'year' => $next_year ) );
+		$model_data[ $next_year ] = isset( $model_data[ $next_year ][ 'body' ] ) ? json_decode( $model_data[ $next_year ][ 'body' ] ) : NULL;
+
+		$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
+		$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
+		$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
+		//Merge model data
+		$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
+		//Return merged array data
+		return $model_data;
+	}
+
+	function remove_data_dups( $data, $name) {
+		//Cleans data by removing duplicate entries
+		$cleaned_data = array();
+		foreach($data as $data_scrub){
+			array_push($cleaned_data, $data_scrub->$name);
+		}
+
+		return array_unique($cleaned_data);
+	}
+
+	function create_dd_options( $data, $data_check ){
+		//Checks to see if data has been saved and sets selected flag, than displays the option.
+		foreach($data as $data_name){
+			$selected = in_array( $data_name, $data_check ) ? 'selected' : NULL;
+			echo '<option value="' . $data_name . '" ' . $selected . '>' . $data_name . '</option>';
 		}
 	}
 
