@@ -41,9 +41,6 @@
 ?>
 <div id="cobra">
 	<div id="cobra-detail-page">
-		<div id="cobra-description" style="display:none;">
-			<p><?php echo $description; ?></p>
-		</div>
 		<div class="top">
 			<div class="wrapper">
 				<div class="year"><?php echo $year ?></div>
@@ -75,7 +72,50 @@ $now_text = 'Now: ';
 				</div>
 			</div>
 		</div>
-		<div class="left">
+		
+		<div class="right">
+			<div class="slideshow">
+				<div class="images">
+				<?php
+					foreach( $inventory->photos as $photo ) {
+						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->large ) . '" />';
+					}
+				?>
+				</div>
+				<div id="cobra-mobile-nav">
+					<a id="cobra-prev" href="">< Prev</a>
+					<a id="cobra-next" href="">Next ></a>
+				</div>
+				<?php
+					if( count( $inventory->photos > 1 ) ) {
+						echo '<div class="navigation"></div>';
+					}
+				?>
+			</div>
+			<?php if( count( $dealer_options ) > 0 ) { ?>
+			<div id="cobra-inventory-tabs">
+				<ul>
+					<li><a href="#cobra-dealer">Equipment / Features</a></li>
+					<li><a href="#cobra-description">Description</a></li>
+				</ul>
+				<div id="cobra-dealer">
+					<ul>
+					<?php
+						foreach( $dealer_options as $option ) {
+							echo '<li>' . $option . '</li>';
+						}
+					?>
+					</ul>
+				</div>
+				<div id="cobra-description">
+					<p><?php echo $description; ?></p>
+				</div>
+			</div>
+			<?php } ?>
+			<br class="clear" />
+		</div>
+
+<div class="left">
 			<div class="vehicle-information">
 				<div class="header">
 					Vehicle Information
@@ -129,43 +169,7 @@ $now_text = 'Now: ';
    		?>
 			<br class="clear" />
 		</div>
-		<div class="right">
-			<div class="slideshow">
-				<div class="images">
-				<?php
-					foreach( $inventory->photos as $photo ) {
-						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->large ) . '" />';
-					}
-				?>
-				</div>
-				<div id="cobra-mobile-nav">
-					<a id="cobra-prev" href="">< Prev</a>
-					<a id="cobra-next" href="">Next ></a>
-				</div>
-				<?php
-					if( count( $inventory->photos > 1 ) ) {
-						echo '<div class="navigation"></div>';
-					}
-				?>
-			</div>
-			<?php if( count( $dealer_options ) > 0 ) { ?>
-			<div id="cobra-inventory-tabs">
-				<ul>
-					<li><a href="#cobra-dealer">Equipment / Features</a></li>
-				</ul>
-				<div id="cobra-dealer">
-					<ul>
-					<?php
-						foreach( $dealer_options as $option ) {
-							echo '<li>' . $option . '</li>';
-						}
-					?>
-					</ul>
-				</div>
-			</div>
-			<?php } ?>
-			<br class="clear" />
-		</div>
+
 	</div>
 	<br class="clear" />
 	<?php
