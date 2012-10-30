@@ -32,58 +32,90 @@
 		$this->plugin_information[ 'Version' ],
 		true
 	);
-if ( !isset($setprintpage) ) {
-	switch( $type ) {
-		case 'list':
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-armadillo-sidebar',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/sidebar.js',
-				array( 'jquery' , 'jquery-ui-core' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-		break;
-		case 'detail':
-			wp_enqueue_script( 'jquery-ui-tabs' );
-			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
-			wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
-			wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
-			wp_enqueue_script(
-				'dealertrend-inventory-api-loan-calculator',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
-				'jquery',
-				$this->plugin_information[ 'Version' ]
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-armadillo-slideshow',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/slideshow.js',
-				array( 'jquery-cycle' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-armadillo-detail-buttons',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/detail-buttons.js',
-				array( 'jquery-ui-dialog' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-			wp_enqueue_script(
-				'dealertrend-inventory-theme-armadillo-tabs',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/tabs.js',
-				array( 'jquery-ui-tabs' ),
-				$this->plugin_information[ 'Version' ],
-				true
-			);
-		break;
-	}
-} else {
+//Responsive Style Sheets
+	//Mid
 	wp_enqueue_style(
-		'dealertrend-detail-print' ,
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/dealertrend-inventory-print.css' ,
-		false ,
-		'0.5' );
-}
+		'dealertrend-inventory-responsive-mid',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/css/responsive-mid.css',
+		false,
+		$this->plugin_information[ 'Version' ],
+		'only screen and (min-width: 650px) and (max-width: 1066px), not (min-device-width: 481px) and (max-device-width: 1024px)'
+	);
+	//Small
+	wp_enqueue_style(
+		'dealertrend-inventory-responsive-small',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/css/responsive-small.css',
+		false,
+		$this->plugin_information[ 'Version' ],
+		'only screen and (max-width: 649px), not (min-device-width: 481px) and (max-device-width: 1024px), not (max-device-width 480px)'
+	);
+	//Phone
+	wp_enqueue_style(
+		'dealertrend-inventory-responsive-phone',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/css/responsive-phone.css',
+		false,
+		$this->plugin_information[ 'Version' ],
+		'only screen and (max-device-width: 480px)'
+	);
+	if ( !isset($setprintpage) ) {
+		switch( $type ) {
+			case 'list':
+				wp_enqueue_script(
+					'dealertrend-inventory-theme-armadillo-sidebar',
+					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/sidebar.js',
+					array( 'jquery' , 'jquery-ui-core' ),
+					$this->plugin_information[ 'Version' ],
+					true
+				);
+				wp_enqueue_script(
+					'dealertrend-inventory-responsive-menu',
+					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/responsive-menu.js',
+					array( 'jquery' ),
+					$this->plugin_information[ 'Version' ]
+				);
+				break;
+			case 'detail':
+				wp_enqueue_script( 'jquery-ui-tabs' );
+				wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
+				wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
+				wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
+				wp_enqueue_script(
+					'dealertrend-inventory-api-loan-calculator',
+					$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+					'jquery',
+					$this->plugin_information[ 'Version' ]
+				);
+				wp_enqueue_script(
+					'dealertrend-inventory-theme-armadillo-slideshow',
+					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/slideshow.js',
+					array( 'jquery-cycle' ),
+					$this->plugin_information[ 'Version' ],
+					true
+				);
+				wp_enqueue_script(
+					'dealertrend-inventory-theme-armadillo-detail-buttons',
+					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/detail-buttons.js',
+					array( 'jquery-ui-dialog' ),
+					$this->plugin_information[ 'Version' ],
+					true
+				);
+				wp_enqueue_script(
+					'dealertrend-inventory-theme-armadillo-tabs',
+					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/js/tabs.js',
+					array( 'jquery-ui-tabs' ),
+					$this->plugin_information[ 'Version' ],
+					true
+				);
+				break;
+		}
+	} else {
+		wp_enqueue_style(
+			'dealertrend-detail-print' ,
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo/dealertrend-inventory-print.css' ,
+			false ,
+			'0.5' 
+		);
+	}
 
 	if ( !isset($setprintpage) ){
 		get_header();
