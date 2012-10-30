@@ -1,0 +1,199 @@
+/*Inventory*/
+ /*Armadillo - Detail*/
+div#armadillo-wrapper{
+    width: 96%;
+}
+#armadillo-detail .armadillo-breadcrumbs{
+    width: 100%;
+    height: auto;
+    display: none;
+}
+#armadillo-detail div.armadillo-main-line{
+    width: 100%;
+    padding: 4px 0px;
+    border: 1px solid #A8A8A8;
+    text-align: center;
+}
+#armadillo-detail div.armadillo-column-left, #armadillo-detail div.armadillo-column-middle, #armadillo-detail div.armadillo-column-right{
+    float: right;
+    width: 95% !important;
+}
+#armadillo-detail div.armadillo-slideshow{
+    width: 95%;
+}
+#armadillo-detail div.armadillo-slideshow .armadillo-images{
+    overflow: hidden;
+    height: 175px;
+}
+#armadillo-detail div.armadillo-slideshow img{
+    width: 90%;
+}
+#armadillo-detail div.armadillo-slideshow .armadillo-navigation{
+    width: 96%;
+    margin: 0px auto;
+}
+div.armadillo-helpful-links{
+    display: none;
+}
+#armadillo-detail a.armadillo-carfax{
+    display: none;
+}
+#armadillo-detail div.armadillo-header{
+    text-align: center;
+}
+#armadillo-detail div.armadillo-disclaimer{
+    width: 90%;
+    margin: 0 auto;
+}
+#armadillo-detail div.armadillo-fuel-economy{
+    margin-bottom: 5px;
+}
+a#friendly-print{
+    display: none;
+}
+ /*Armadillo - Listing*/
+#dealertrend-inventory-api{
+    width: 100%;
+}
+#dealertrend-inventory-api #armadillo-wrapper{
+    width: 96%;
+    padding: 0 1%;
+}
+#dealertrend-inventory-api #armadillo-wrapper .armadillo-breadcrumbs{
+    width: 100%;
+    height: auto;
+    background-color: #EEEEEE;
+}
+#dealertrend-inventory-api #armadillo-wrapper .armadillo-pager{
+    width: 100%;
+    float: none;
+    clear: both;
+    border: 1px solid #A8A8A8;
+    text-align: center;
+    background-color: #EEEEEE;
+    font-size: 16px;
+}
+#armadillo-wrapper #armadillo-listing > div,#armadillo-wrapper #armadillo-listing > form{
+    width: 100%;
+}
+#armadillo-listing #armadillo-search label{
+    margin-left: 5%;
+}
+#armadillo-total-found {
+    display: none;
+}
+#armadillo-sorting-columns {
+    display: none;
+}
+#armadillo-listing #armadillo-listing-sidebar{
+    width: 100%;
+    margin-bottom: 0px;
+}
+#armadillo-listing #armadillo-quick-links {
+    width: 100%
+}
+#armadillo-listing #armadillo-quick-links > h3{
+    text-align: center;
+    border-bottom: 1px solid #000;
+    margin-left: 0px;
+}
+#armadillo-listing #armadillo-quick-links > ul{
+    display: none;
+}
+
+#armadillo-listing #armadillo-quick-links .armadillo-expanded{
+    display: block;
+    clear: both;
+    height: auto;
+}
+#armadillo-listing #armadillo-quick-links .armadillo-expanded > span{
+    text-align: center;
+    width: 100%;
+    background-position: right;
+    padding: 0px;
+}
+#armadillo-listing #armadillo-quick-links .armadillo-expanded ul{
+    padding: 5px 0px;
+    width: 100%;
+    text-align: center;
+}
+#armadillo-listing #armadillo-quick-links .armadillo-expanded li{
+    display: inline-block;
+    margin: 0px 5px;
+}
+#armadillo-listing #armadillo-quick-links .armadillo-expanded li span{
+    display: inline;
+}
+#armadillo-listing #armadillo-quick-links .armadillo-collapsed > span{
+    text-align: center;
+    width: 100%;
+    background-position: right;
+    padding: 0px;
+}
+#armadillo-listing #armadillo-listing-items{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    float: none;
+}
+#armadillo-listing #armadillo-listing-items .armadillo-item {
+    width: 95%;
+    margin: auto;
+}
+#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-left{
+    width: 35%;
+    float: left;
+}
+#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-left img{
+    width: 100%;
+    height: auto;
+}
+#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-right{
+    width: 60%;
+    float: left;
+}
+#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-right .armadillo-price{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+#armadillo-listing .armadillo-item .armadillo-main-line{
+    font-size: 11px;
+    line-height: 13px;
+}
+#armadillo-listing .armadillo-price{
+    font-size: 12px;
+    line-height: 14px;
+}
+#armadillo-listing .armadillo-price .armadillo-asking-price{
+    font-size: 12px !important;
+    line-height: 14px;
+}
+#armadillo-listing .armadillo-price .armadillo-sale-price{
+    font-size: 14px !important;
+    line-height: 14px;
+}
+#armadillo-listing .armadillo-price .armadillo-ais-incentive{
+    font-size: 12px !important;
+    display: none;
+}
+#armadillo-listing .armadillo-item .armadillo-contact-information{
+    font-size: 10px;
+    line-height: 12px;
+}
+#armadillo-listing .armadillo-details-right span{
+    line-height: 12px;
+}
+div.armadillo-icons{
+    display: none;
+}
+div.armadillo-item .armadillo-price a{
+    display:none;
+}
+#armadillo-wrapper input#armadillo-search-box{
+    width: 40%;
+}
+.armadillo-item div.armadillo-details-left{
+    display: none;
+}
+
