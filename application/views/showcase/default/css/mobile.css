@@ -1,6 +1,17 @@
-#showcase #trim #spotlight,
-#showcase #trim #spotlight img {
-	margin:0;
-	padding:0;
-	width:250px;
+div#showcase .group .make,
+div#showcase .group .model {
+	width: 48%;
+	margin: 0 auto;
+}
+div#showcase #trim > div{
+	margin: 0 auto;
+	display: block;
+	text-align: center;
+}
+div#showcase #trim > div h3{
+	text-align: center;
+}
+div#showcase #trim #spotlight{
+	width: 90%;
+	margin: 0 auto;
 }

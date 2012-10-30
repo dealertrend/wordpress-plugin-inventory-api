@@ -12,33 +12,36 @@ function addCommas(nStr)
   return x1 + x2;
 }
 
-    var dealertrend = jQuery.noConflict();
-    dealertrend(document).ready(function () {
-      dealertrend('#loader').hide();
-
-    dealertrend( '#loader' ).dialog({      autoOpen: false,
-      modal: true,
-      resizable: false,
-			position: 'center',
-      maxHeight: 50,
-      maxWidth: 50,
-      title: false
-    });
-      dealertrend( '#showcase .jquery-ui-button' ).button();
-      dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
-          button = dealertrend(this);
-          dealertrend('#loader').dialog('open');
-
-          button.css('cursor','wait');
-          // trims
-
+	var dealertrend = jQuery.noConflict();
+	dealertrend(document).ready(function () {
+	dealertrend('#loader').hide();
+	dealertrend( '#loader' ).dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		position: 'center',
+		maxHeight: 50,
+		maxWidth: 50,
+		title: false
+	});
+	dealertrend( '#showcase .jquery-ui-button' ).button();
+	dealertrend( '#showcase .jquery-ui-button' ).click( function(e) {
+		button = dealertrend(this);
+		dealertrend('#loader').dialog('open');
+		button.css('cursor','wait');
+		// trims
           dealertrend.ajax(
           {
             url: '/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; ?>/' + e.target.parentNode.id.replace( /\// , '_' ) + '/?_ajax_nonce=<?php echo $ajax_nonce; ?>&mode=default&country_code=<?php echo $country_code; ?>',
             context: document.body,
             success: function(data) {
               var json = JSON.parse(data);
-              dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation );
+		if( json[ 0 ].oem_cab_type == "" || json[ 0 ].oem_cab_type == null ){
+	              dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation + '<br>' +  json[ 0 ].body_style );
+		} else {
+	              dealertrend( '#variation' ).html( 'TRIM: '+ json[ 0 ].name_variation + '<br>' +  json[ 0 ].oem_cab_type + '<br>' + json[ 0 ].ads_drive_type );
+		}
+
               dealertrend( '#pricing #msrp' ).html( '$' + addCommas( json[ 0 ].msrp ) );
               dealertrend( '#trim' ).addClass( json[ 0 ].acode );
               var default_photo = json[ 0 ].images.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
@@ -110,7 +113,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
                   }
                 });
               } else {
-                
+
               }
               dealertrend('#loader').dialog('close');
         var current_image, next_image, color_text;
@@ -182,7 +185,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 	function sort_trims( $a , $b ) {
 		if( $a->msrp == 0 ) {
 			return 1;
-		} 
+		}
 		if( $b->msrp == 0 ) {
 			return 0;
 		}
@@ -200,21 +203,30 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 	}
 
 	$trim_data[ $last_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $last_year , 'api' => 2 ) );
-	$trim_data[ $last_year ] = isset( $trim_data[ $last_year ][ 'body' ] ) ? json_decode( $trim_data[ $last_year ][ 'body' ] ) : NULL; 
+	$trim_data[ $last_year ] = isset( $trim_data[ $last_year ][ 'body' ] ) ? json_decode( $trim_data[ $last_year ][ 'body' ] ) : NULL;
+
 	$trim_data[ $current_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $current_year , 'api' => 2 ) );
 	$trim_data[ $current_year ] = isset( $trim_data[ $current_year ][ 'body' ] ) ? json_decode( $trim_data[ $current_year ][ 'body' ] ) : NULL;
+
 	$trim_data[ $next_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $next_year , 'api' => 2 ) );
 	$trim_data[ $next_year ] = isset( $trim_data[ $next_year ][ 'body' ] ) ? json_decode( $trim_data[ $next_year ][ 'body' ] ) : NULL;
 
-	$trim_data[ $last_year ] = is_array( $trim_data[ $last_year ] ) ? $trim_data[ $last_year ] : array(); 
+	$trim_data[ $last_year ] = is_array( $trim_data[ $last_year ] ) ? $trim_data[ $last_year ] : array();
 	$trim_data[ $current_year ] = is_array( $trim_data[ $current_year ] ) ? $trim_data[ $current_year ] : array();
 	$trim_data[ $next_year ] = is_array( $trim_data[ $next_year ] ) ? $trim_data[ $next_year ] : array();
 
-	$trims = array_merge( $trim_data[ $next_year ] , $trim_data[ $current_year ] , $trim_data[ $last_year ] );
+	//$trims = array_merge( $trim_data[ $next_year ] , $trim_data[ $current_year ] , $trim_data[ $last_year ] );
+	if ( !empty( $trim_data[ $next_year ] ) ) {
+		$trims = $trim_data[ $next_year ];
+	} elseif ( !empty( $trim_data[ $current_year ] ) ) {
+		$trims = $trim_data[ $current_year ];
+	} else {
+		$trims = $trim_data[ $last_year ];
+	}
 
 	$names_and_prices = array();
 	foreach( $trims as $key => $trim ) {
-		$important_stuff = array( $trim->name_variation );
+		$important_stuff = array( $trim->name_variation, $trim->mfg_code );
 		if( ! in_array( $important_stuff , $names_and_prices ) ) {
 			$names_and_prices[] = $important_stuff;
 		} else {
@@ -233,10 +245,10 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 	function make_transparent( $url ) {
 		return preg_replace( '/IMG=(.*)\.\w{3,4}/i', 'IMG=\1.png' , $url );
 	}
-	
+
 	$trim->msrp = '$' . number_format( $trim->msrp , 0 , '.' , ',' );
 	$header = '<h2><a href="/showcase/">Showcase</a> &rsaquo; <a href="/showcase/' . $make . '">' . $make . '</a> &rsaquo; ' . $model . '</h2>';
-	
+
 	$fuel_economy = $vehicle_reference_system->get_fuel_economy( $trim->acode )->please();
 
   function sort_fuel_economies( $a , $b ) {
@@ -285,10 +297,44 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 						}
 					?>
 				</div>
+
+				<div id="swatches">
+					<?php
+						$active = true;
+						$options = array();
+						$default_set = false;
+						foreach( $colors as $color ) {
+							if( ! empty( $color->file ) ) {
+								if( ! in_array( $color->rgb , $colors ) ) {
+									$type = $color->type == 'Pri' ? 'Exterior' : 'Interior';
+									if( $type == 'Exterior' ) {
+										$colors[] = $color->rgb;
+										if( $default_set == false ) {
+											echo '<div id="color-text">Color: ' . $color->name . '</div>';
+											$default_set = true;
+										}
+										( $active == false ) ? $class = NULL : $class = 'active'; $active = false;
+										echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
+										echo $color->name . '</a>';
+									}
+								}
+							}
+						}
+					?>
+				</div>
 			</div>
 			<div id="right-side">
 				<div id="variation">
 					Trim: <?php echo $trim->name_variation; ?>
+					<br>
+					<?php
+						if ( isset($trim->oem_cab_type) && !empty( $trim->oem_cab_type ) ){
+							echo $trim->oem_cab_type ."<br>";
+							echo $trim->ads_drive_type;
+						} else {
+							echo $trim->body_style;
+						}
+					?>
 				</div>
 				<div id="pricing">
 					<span>Starting at:</span>
@@ -324,32 +370,6 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 					echo '</div>';
 				endif;
 			?>
-			<div>
-				<div id="swatches">
-					<?php
-						$active = true;
-						$options = array();
-						$default_set = false;
-						foreach( $colors as $color ) {
-							if( ! empty( $color->file ) ) {
-								if( ! in_array( $color->rgb , $colors ) ) {
-									$type = $color->type == 'Pri' ? 'Exterior' : 'Interior';
-									if( $type == 'Exterior' ) {
-										$colors[] = $color->rgb;
-										if( $default_set == false ) {
-											echo '<div id="color-text">Color: ' . $color->name . '</div>';
-											$default_set = true;
-										}
-										( $active == false ) ? $class = NULL : $class = 'active'; $active = false;
-										echo '<a id="swatch-' . $color->code .'" title="Color: ' . $color->name . '" href="#' . $color->code . '" class="swatch ' . $class . '" style="background-color:rgb(' . $color->rgb .')">';
-										echo $color->name . '</a>';
-									}
-								}
-							}
-						}
-					?>
-				</div>
-			</div>
 		</div>
 		<div id="showcase-tabs">
 		<ul>
@@ -367,7 +387,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 				$videos = $vehicle_reference_system->get_videos( $trim->acode )->please();
 				if( isset( $videos[ 'response' ][ 'code' ] ) && $videos[ 'response' ][ 'code' ] == 200 ) {
 					$videos = json_decode( $videos[ 'body' ] );
-					if( $videos != false ) {
+					if( $videos != false && (isset($videos[ 0 ]->filename) && !empty($videos[ 0 ]->filename) ) ) {
 						echo '<div id="video" style="float:right;border:3px double #333;">';
 							echo '<iframe src="http://player.dealertrend.com/player.html?t=Test%20Player&autoplay=0&v=' . $videos[ 0 ]->flash_video_url . '" height="300" width="400"></iframe>';
 						echo '</div>';
@@ -393,7 +413,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 							echo '<blockquote>';
 							foreach( $review->content as $paragraph ) {
 								echo '<p>' . $paragraph . '</p>';
-							} 
+							}
 							echo '</blockquote>';
 							echo '<p style="font-size:14px; margin-left:15px;"> - ' . $reviews[ $index ]->review_by . '</p>';
 						echo '</div>';
@@ -481,6 +501,18 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 						?>
 					</tr>
 					<tr>
+						<th>&nbsp;</th>
+						<?php
+							foreach( $trim_acodes as $acode ){
+								if ( isset( $trim_acode_data[ $acode ]->oem_cab_type ) && !empty( $trim_acode_data[ $acode ]->oem_cab_type ) ){
+									echo '<th>' . $trim_acode_data[ $acode ]->oem_cab_type . '</th>';
+								} else {
+									echo '<th>' . $trim_acode_data[ $acode ]->body_style . '</th>';
+								}
+							}
+						?>
+					</tr>
+					<tr>
 						<td>&nbsp;</td>
 						<?php
 							foreach( $trim_acodes as $acode ) {
@@ -501,6 +533,14 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 									}
 								}
 								echo '</td>';
+							}
+						?>
+					</tr>
+					<tr>
+						<th>Drive Type</th>
+						<?php
+							foreach( $trim_acodes as $acode ){
+								echo '<td>' . $trim_acode_data[ $acode ]->ads_drive_type . '</td>';
 							}
 						?>
 					</tr>
@@ -533,7 +573,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 							foreach( $trim_acodes as $acode ) {
 								foreach( $equipment[ $acode ] as $item ) {
 									if( $item->name == 'Fuel economy city' ) {
-										echo '<td>CTY: ' . $item->data;
+										echo '<td>CTY:' . $item->data;
 									} elseif( $item->name == 'Fuel economy highway' ) {
 										echo ' HWY:' . $item->data . '</td>';
 									}
