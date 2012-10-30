@@ -138,13 +138,13 @@
 #armadillo-detail .armadillo-column-middle,
 #armadillo-detail .armadillo-column-right { float:left; width:308.2px !important; }
 
-#armadillo-detail .armadillo-icons { float:left; width:300px; text-align:left; padding:10px; }
+#armadillo-detail .armadillo-icons { float:left; width:280px; text-align:left; padding:10px; }
 
 #armadillo-detail .armadillo-slideshow { width:300px; }
 #armadillo-detail .armadillo-slideshow .armadillo-images { height:240px; }
 #armadillo-detail .armadillo-slideshow .armadillo-images > img { width:300px !important; height:auto !important; margin-left:10px; clear:both; }
 #armadillo-detail .armadillo-slideshow img { background:transparent url('images/no-image-376x260.jpg') no-repeat center;  }
-#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:300px; height:auto !important; text-align:center; margin-left:10px; clear:both !important; }
+#armadillo-detail .armadillo-slideshow .armadillo-navigation { display:block; margin:5px auto 0 auto; width:300px; height:auto !important; text-align:center;  clear:both !important; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img { border:3px solid white; background:white url('images/thumb-error-26x16.png') no-repeat 25px center; height:auto; width:60px; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a img:hover { border:3px solid #9f0300; }
 #armadillo-detail .armadillo-slideshow .armadillo-navigation a.activeSlide img { border-color:#55CCe6; }
@@ -189,7 +189,7 @@
 #armadillo-detail .armadillo-fuel-economy p { margin-bottom:10px; }
 #armadillo-detail .armadillo-fuel-economy p small { display:block; clear:both; font-size:9px; text-align:center; padding-top:5px; }
 
-#armadillo-detail .armadillo-video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:320px; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
+#armadillo-detail .armadillo-video-button { background:transparent url('images/button-watch-video-350x34.jpg') no-repeat center; width:100%; height:34px; margin:10px auto; display:block; text-indent:-9999px;  }
 #armadillo-detail .armadillo-carfax { background:transparent url('images/button-carfax-192x46.jpg') no-repeat center; width:192px; height:46px; margin:10px auto; display:block; text-indent:-9999px;  }
 
 #armadillo-detail #armadillo-inventory-tabs { clear:both; width:95%; height:275px; overflow:hidden; margin-bottom:10px;  }
