@@ -44,7 +44,7 @@ class ajax {
 					$trim = str_replace( '_' , '/' , $trim );
 
 					foreach( $trims as $trim_data ) {
-						if( $trim_data->name_variation == $trim ) {
+						if( $trim_data->acode == $trim ) {
 							$json[] = $trim_data;
 						}
 					}

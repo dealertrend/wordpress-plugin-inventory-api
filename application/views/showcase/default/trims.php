@@ -483,8 +483,8 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 					<tr>
 						<td>&nbsp;</td>
 						<?php
-							foreach( $trim_names as $name ) {
-								echo '<td><a href="#" id="' . $name . '" class="jquery-ui-button">Load</a></td>';
+							foreach( $trim_acodes as $acode ) {
+								echo '<td><a href="#" id="' . $trim_acode_data[ $acode ]->acode . '" class="jquery-ui-button">Load</a></td>';
 							}
 						?>
 					</tr>
