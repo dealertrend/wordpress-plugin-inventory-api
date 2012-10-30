@@ -30,12 +30,12 @@ class ajax {
 			if( $type == 'trims' ) {
 				if( $mode == 'default' ) {
 					$trim_data[ $last_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $last_year , 'api' => 2 ) );
-					$trim_data[ $last_year ] = isset( $trim_data[ $last_year ][ 'body' ] ) ? json_decode( $trim_data[ $last_year ][ 'body' ] ) : NULL; 
+					$trim_data[ $last_year ] = isset( $trim_data[ $last_year ][ 'body' ] ) ? json_decode( $trim_data[ $last_year ][ 'body' ] ) : NULL;
 					$trim_data[ $current_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $current_year , 'api' => 2 ) );
 					$trim_data[ $current_year ] = isset( $trim_data[ $current_year ][ 'body' ] ) ? json_decode( $trim_data[ $current_year ][ 'body' ] ) : NULL;
 					$trim_data[ $next_year ] = $vehicle_reference_system->get_trims()->please( array( 'make' => $make , 'model_name' => $model , 'year' => $next_year , 'api' => 2 ) );
 					$trim_data[ $next_year ] = isset( $trim_data[ $next_year ][ 'body' ] ) ? json_decode( $trim_data[ $next_year ][ 'body' ] ) : NULL;
-					$trim_data[ $last_year ] = is_array( $trim_data[ $last_year ] ) ? $trim_data[ $last_year ] : array(); 
+					$trim_data[ $last_year ] = is_array( $trim_data[ $last_year ] ) ? $trim_data[ $last_year ] : array();
 					$trim_data[ $current_year ] = is_array( $trim_data[ $current_year ] ) ? $trim_data[ $current_year ] : array();
 					$trim_data[ $next_year ] = is_array( $trim_data[ $next_year ] ) ? $trim_data[ $next_year ] : array();
 					$trims = array_merge( $trim_data[ $next_year ] , $trim_data[ $current_year ] , $trim_data[ $last_year ] );
@@ -75,7 +75,7 @@ class ajax {
 					$index = mt_rand( 0 , count( $json ) - 1 );
 					$json = $json[ $index ];
 					$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
-					
+
 				}
 				echo json_encode( $json );
 			}
@@ -94,7 +94,7 @@ class ajax {
 		function sort_trims( $a , $b ) {
 				if( $a->msrp == 0 ) {
 						return 1;
-				} 
+				}
 				if( $b->msrp == 0 ) {
 						return 0;
 				}
