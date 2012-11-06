@@ -1,5 +1,10 @@
-/*Inventory*/
- /*Armadillo - Detail*/
+/*******************
+	Inventory
+*******************/
+
+/*******************
+	Armadillo - Detail
+*******************/
 #armadillo-detail .armadillo-breadcrumbs{
     width: 100%;
 }
@@ -41,7 +46,9 @@ div#armadillo-detail .armadillo-request-form form input, div#armadillo-detail .a
     width: 82%;
 }
 
- /*Armadillo - Listing*/
+/*******************
+	Armadillo - Listing
+********************/
 #dealertrend-inventory-api{
     width: 100%;
 }
