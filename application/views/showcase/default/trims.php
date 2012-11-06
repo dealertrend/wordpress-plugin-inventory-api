@@ -210,9 +210,6 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 			if( $a->year == $b->year && $a->msrp > $b->msrp ) {
 				return 1;
 			}
-			if( $a->image_filename == NULL ) {
-				return 1;
-			}
 			return -1;
 		} else {
 			return 1;
@@ -250,13 +247,11 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 			unset( $trims[ $key ] );
 		}
 	}
-
 	foreach( $trims as $trim ) {
 		$options[] = (object) array( 'acode' => $trim->acode , 'mfg_code' => $trim->mfg_code , 'msrp' => $trim->msrp );
 	}
 
 	usort( $trims , 'sort_trims' );
-
 	$trim = $trims[ 0 ];
 
 	function make_transparent( $url ) {
