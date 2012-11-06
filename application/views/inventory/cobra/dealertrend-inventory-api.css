@@ -96,13 +96,13 @@
 	padding: 0px 0 2px 25px;
 	width: 234px;
 }
-.cobra-carfax { 
-	background:url('images/button-carfax-192x46.jpg') no-repeat center #fff; 
-	width:230px; 
-	height:50px; 
-	margin:10px auto; 
-	display:block; 
-	text-indent:-9999px;  
+.cobra-carfax {
+	background:url('images/button-carfax-192x46.jpg') no-repeat center #fff;
+	width:230px;
+	height:50px;
+	margin:10px auto;
+	display:block;
+	text-indent:-9999px;
 }
 #cobra #cobra-search-submit {
 	background-color: transparent;
@@ -826,75 +826,81 @@ ul.selectBox-options a:hover {
 	color:#fff;
 }
 
-#cobra #cobra-detail-page #cobra-inventory-tabs { 
-	clear:both; 
-	width:95%; 
-	height:275px; 
-	overflow:hidden; 
-	border:none;  
+#cobra #cobra-detail-page #cobra-inventory-tabs {
+	clear:both;
+	width:95%;
+	height:275px;
+	overflow:hidden;
+	border:none;
 }
-#cobra #cobra-detail-page * .ui-corner-all { 
-	-moz-border-radius: 0px !important; 
-	-webkit-border-radius: 0px !important; 
-	border-radius: 0px !important; 
-	border-color:#a8a8a8; 
+#cobra #cobra-detail-page * .ui-corner-all {
+	-moz-border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+	border-color:#a8a8a8;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header { 
-	background:none !important; 
-	border-left:none; 
-	border-right:none; 
-	border-top:1px solid #666; 
-	border-bottom:1px solid #666; 
-	text-transform:uppercase; 
-	padding:4px 0px; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header {
+	background:none !important;
+	border-left:none;
+	border-right:none;
+	border-top:1px solid #666;
+	border-bottom:1px solid #666;
+	text-transform:uppercase;
+	padding:4px 0px;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li { 
-	top:0; 
-	padding:0 20px; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li {
+	top:0;
+	padding:0 20px;
 	margin:0;
-	border-left:1px solid #666; 
+	border-left:1px solid #666;
 }
 #cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li:first-child {
 	border: none;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default { 
-	background:none; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default {
+	background:none;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a { 
-	font-size:14px; 
-	color:#b3b3b3; 
-	padding:0; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a {
+	font-size:14px;
+	color:#b3b3b3;
+	padding:0;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-tabs-selected a, 
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a:hover { 
-	color:#ff0000; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-tabs-selected a,
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a:hover {
+	color:#ff0000;
 }
 
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel { 
-	height:244px; 
-	width: 100% !important; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel {
+	height:244px;
+	width: 100% !important;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel ul { 
-	padding:0; 
-	margin:0; 
-	font-size:12px; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel ul {
+	padding:0;
+	margin:0;
+	font-size:12px;
+}
+#cobra #cobra-detail-page #cobra-inventory-tabs #cobra-dealer ul li{
+	width: 48%;
+	display: inline-block;
+	padding: .5% 0;
+	margin-right: 2%;
 }
 #cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspPane {
 	width: 95% !important;
 	padding: 1% 2.5% !important;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspVerticalBar { 
-	background:none; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspVerticalBar {
+	background:none;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspTrack { 
-	width:5px; 
-	background:#dfdddd; 
-	left:7px; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspTrack {
+	width:5px;
+	background:#dfdddd;
+	left:7px;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspDrag { 
-	background:url(images/scroller-handle.png); 
-	width:13px !important; 
-	left:-4px; 
+#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspDrag {
+	background:url(images/scroller-handle.png);
+	width:13px !important;
+	left:-4px;
 }
 
 #cobra .item .price div.default-text { font-size:24px; margin-top:-4px; }

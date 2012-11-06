@@ -190,7 +190,7 @@
     margin: 20px auto;
     width: 300px;
 }
-#dealertrend-inventory-api #cobra #cobra-detail-page .slideshow .images { 
+#dealertrend-inventory-api #cobra #cobra-detail-page .slideshow .images {
     border: 0;
     width: 300px;
     height: 260px;
@@ -251,11 +251,30 @@
 	max-width: 300px;
 	width: 100%;
 }
-#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs .jspPane {
-    padding-left:25px !important;
+#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs {
+    height: auto;
+}
+#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs #cobra-dealer ul li{
+    width: 48%;
+    display: inline-block;
+    padding: .2% 0;
+    border-bottom: 1px solid #ababab;
+    margin-right: 2%;
+}
+#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel {
+    position: relative;
+    height: auto;
+}
+#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspContainer {
+    height: auto !important;
+    position: relative;
+}
+#dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspContainer .jspPane {
+    height: auto !important;
+    position: relative;
 }
 #dealertrend-inventory-api #cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li {
-    padding-left:25px;
+    padding: 0 5%;
 }
 #dealertrend-inventory-api #cobra #cobra-detail-page #cobra-mobile-nav a {
     margin:0 10px;
