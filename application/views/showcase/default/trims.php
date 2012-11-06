@@ -13,6 +13,7 @@ function addCommas(nStr)
 }
 
 	var dealertrend = jQuery.noConflict();
+	var photo_loaded = 0;
 	dealertrend(document).ready(function () {
 	dealertrend('#loader').hide();
 	dealertrend( '#loader' ).dialog({
@@ -44,10 +45,22 @@ function addCommas(nStr)
 
               dealertrend( '#pricing #msrp' ).html( '$' + addCommas( json[ 0 ].msrp ) );
               dealertrend( '#trim' ).addClass( json[ 0 ].acode );
-              var default_photo = json[ 0 ].images.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
-                return 'IMG=' + b + '.png';
-              });
+
+		if( json[ 0 ].images.medium == "" || json[ 0 ].images.medium == null){
+			default_photo = '/wp-content/plugins/dealertrend-inventory-api/application/views/showcase/default/images/no-image-320x240.png';
+			photo_loaded = 0;
+		} else {
+	        	default_photo = json[ 0 ].images.medium.replace( /IMG=(.*)\.\w{3,4}/i , function(a, b) {
+	        		return 'IMG=' + b + '.png';
+	        	});
+			photo_loaded = 1;
+		}
               dealertrend( '#spotlight' ).html('<img src="' + default_photo  + '" class="active" />');
+		if ( photo_loaded == 0 ) {
+			dealertrend( '#swatches' ).css({'display':'none'});
+		} else {
+			dealertrend( '#swatches' ).css({'display':'block'});
+		}
               button.css('cursor','pointer');
               populate_page( json[ 0 ].acode );
             }
@@ -81,7 +94,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
               var json = JSON.parse(data);
               var count = 0;
               var color_history = null;
-              if( json.length > 0 ) {
+              if( json.length > 0 && photo_loaded == 1) {
                 dealertrend( '#spotlight' ).html('');
                 json.forEach( function( color ) {
                   if( color.rgb != null ) {
