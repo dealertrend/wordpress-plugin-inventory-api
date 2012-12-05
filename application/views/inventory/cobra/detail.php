@@ -92,7 +92,7 @@ $now_text = 'Now: ';
 					}
 				?>
 			</div>
-			<?php if( count( $dealer_options ) > 0 ) { ?>
+			<?php if( count( $dealer_options ) > 0 && strlen( $description ) > 0 ) { ?>
 			<div id="cobra-inventory-tabs">
 				<ul>
 					<li><a href="#cobra-dealer">Equipment / Features</a></li>
@@ -111,11 +111,35 @@ $now_text = 'Now: ';
 					<p><?php echo $description; ?></p>
 				</div>
 			</div>
+			<?php } elseif ( count( $dealer_options ) > 0 ) { ?>
+			<div id="cobra-inventory-tabs">
+				<ul>
+					<li><a href="#cobra-dealer">Equipment / Features</a></li>
+				</ul>
+				<div id="cobra-dealer">
+					<ul>
+					<?php
+						foreach( $dealer_options as $option ) {
+							echo '<li>' . $option . '</li>';
+						}
+					?>
+					</ul>
+				</div>
+			</div>
+			<?php } elseif ( strlen( $description ) > 0 ) { ?>
+			<div id="cobra-inventory-tabs">
+				<ul>
+					<li><a href="#cobra-description">Description</a></li>
+				</ul>
+				<div id="cobra-description">
+					<p><?php echo $description; ?></p>
+				</div>
+			</div>
 			<?php } ?>
 			<br class="clear" />
 		</div>
 
-<div class="left">
+		<div class="left">
 			<div class="vehicle-information">
 				<div class="header">
 					Vehicle Information

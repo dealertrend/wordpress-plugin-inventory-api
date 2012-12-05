@@ -562,8 +562,8 @@ ul.selectBox-options a:hover {
 	letter-spacing: .9px;
 }
 #cobra .top {
-	background:url(images/bg-detail-top.png);
-	height:163px;
+	background:url(images/bg-detail-top.png) repeat-x #000;
+	height: auto;
 	padding:12px 0 0 27px;
 	position:relative;
 }
@@ -882,8 +882,9 @@ ul.selectBox-options a:hover {
 #cobra #cobra-detail-page #cobra-inventory-tabs #cobra-dealer ul li{
 	width: 48%;
 	display: inline-block;
-	padding: .5% 0;
+	padding: .8% 0;
 	margin-right: 2%;
+	vertical-align: top;
 }
 #cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspPane {
 	width: 95% !important;
