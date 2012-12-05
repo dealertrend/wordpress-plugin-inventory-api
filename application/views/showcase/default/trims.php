@@ -80,7 +80,7 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 		} else {
 			<?php if($country_code == 'CA') { ?>
         	       		dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_lp_100km );
-        	       		dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_lp_100km );
+        	       		dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_lp_100km );			
 			<?php } else { ?>
         	        	dealertrend( '#fuel #city .number' ).html( json[ 0 ].city_mpg );
         	        	dealertrend( '#fuel #hwy .number' ).html( json[ 0 ].highway_mpg );
@@ -210,6 +210,9 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 			if( $a->year == $b->year && $a->msrp > $b->msrp ) {
 				return 1;
 			}
+			//if( $a->image_filename == NULL ) {
+			//	return 1;
+			//}
 			return -1;
 		} else {
 			return 1;

@@ -2,6 +2,7 @@ div#showcase .group .make,
 div#showcase .group .model {
 	width: 48%;
 	margin: 0 auto;
+	vertical-align: top;
 }
 div#showcase #trim > div{
 	margin: 0 auto;
