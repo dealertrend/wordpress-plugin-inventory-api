@@ -6,8 +6,9 @@
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1  ) ) );
-
 	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
+
+	$sale_class_filter = $this->options[ 'vehicle_management_system' ][ 'saleclass' ];
 
 	$site_url = site_url();
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';

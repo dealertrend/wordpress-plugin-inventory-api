@@ -58,6 +58,16 @@
 			</td>
 		</tr>
 		<tr>
+			<td width="125">Sale Class Filter:</td>
+			<td>
+			<select name="saleclass">
+				<option value="all" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] == 'all' ) { echo 'selected'; } ?> ><?php _e('All'); ?></option>
+				<option value="new" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] == 'new' ) { echo 'selected'; } ?> ><?php _e('New'); ?></option>
+				<option value="used" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] == 'used' ) { echo 'selected'; } ?> ><?php _e('Used'); ?></option>
+			</select>
+			</td>
+		</tr>
+		<tr>
 			<td>
 			<input type="hidden" name="action" value="update" />
 			<p class="submit">

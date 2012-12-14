@@ -63,8 +63,19 @@
 					<li class="armadillo-expanded">
 						<span>Sale Class</span>
 						<ul>
-							<li><span class="no-style"><a href="<?php echo $new; ?>" title="View New Inventory" class="jquery-ui-button <?php echo strtolower( $sale_class ) == 'new' ? 'disabled' : NULL; ?>">New</a></span></li>
-							<li><span class="no-style"><a href="<?php echo $used; ?>" title="View Used Inventory" class="jquery-ui-button <?php echo strtolower( $sale_class ) == 'used' ? 'disabled' : NULL; ?>">Used</a></span></li>
+							<?php switch( $sale_class_filter ) {
+								case 'all':
+									echo '<li><span class="no-style"><a href="' . $new . '" title="View New Inventory" class="jquery-ui-button ' . (strtolower( $sale_class ) == 'new' ? 'disabled' : NULL) . '">New</a></span></li>';
+									echo '<li><span class="no-style"><a href="' . $used . '" title="View New Inventory" class="jquery-ui-button ' . (strtolower( $sale_class ) == 'used' ? 'disabled' : NULL) . '">Used</a></span></li>';
+									break;
+								case 'new':
+									echo '<li><span class="no-style"><a href="' . $new . '" title="View New Inventory" class="jquery-ui-button ' . (strtolower( $sale_class ) == 'new' ? 'disabled' : NULL) . '">New</a></span></li>';
+									break;
+								case 'used':
+									echo '<li><span class="no-style"><a href="' . $used . '" title="View New Inventory" class="jquery-ui-button ' . (strtolower( $sale_class ) == 'used' ? 'disabled' : NULL) . '">Used</a></span></li>';
+									break;
+							}
+							?>
 						</ul>
 					</li>
 				</ul>

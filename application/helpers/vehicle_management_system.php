@@ -31,7 +31,7 @@ class vehicle_management_system {
 				$status = 404;
 			}
 		}
-		
+
 		status_header( $status );
 
 		return $status;
@@ -87,11 +87,11 @@ class vehicle_management_system {
 	public function please( $parameters = array() ) {
 
 		$parameters = array_merge( $this->parameters , $parameters );
-
 		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 
 		$request = $this->url . $parameter_string;
+
 		$request_handler = new http_request( $request , 'vehicle_management_system' );
 
 		if( $this->tracer !== NULL ) {

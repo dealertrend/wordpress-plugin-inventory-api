@@ -77,6 +77,7 @@ class Options_Page {
 		} elseif( isset( $_POST[ 'theme' ] ) ) {
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] = $_POST[ 'saleclass' ];
 			$inventory_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] : 'smoothness';
 			$this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] = $inventory_theme;
 		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {

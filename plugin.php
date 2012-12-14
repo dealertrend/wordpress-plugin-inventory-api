@@ -27,7 +27,8 @@ class Plugin {
 			'theme' => array(
 				'name' => 'armadillo',
 				'per_page' => 10
-			)
+			),
+			'saleclass' => 'all'
 		),
 		'vehicle_reference_system' => array(
 			'host' => '',
@@ -506,6 +507,15 @@ class Plugin {
 		switch( $this->taxonomy ) {
 			case 'inventory';
 				$server_parameters[ 'per_page' ] = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ];
+
+				switch( $this->options[ 'vehicle_management_system' ][ 'saleclass' ] ) {
+					case 'new':
+						$server_parameters[ 'saleclass' ] = 'new';
+						break;
+					case 'used':
+						$server_parameters[ 'saleclass' ] = 'used';
+						break;
+				}
 
 				foreach( $permalink_parameters as $key => $value ) {
 					switch( $key ) {
