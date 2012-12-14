@@ -72,7 +72,7 @@ $now_text = 'Now: ';
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="right">
 			<div class="slideshow">
 				<div class="images">
@@ -187,9 +187,9 @@ $now_text = 'Now: ';
 			?>
 			<br class="clear" />
 			<?php
-				if( $carfax ) { 
+				if( $carfax ) {
  					echo '<a href="' . $carfax . '" class="cobra-carfax" target="_blank">Carfax</a>';
-     		}   
+     		}
    		?>
 			<br class="clear" />
 		</div>

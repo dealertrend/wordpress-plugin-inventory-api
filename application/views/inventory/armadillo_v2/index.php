@@ -114,7 +114,7 @@
 			'dealertrend-detail-print' ,
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/dealertrend-inventory-print.css' ,
 			false ,
-			'0.5' 
+			'0.5'
 		);
 	}
 
