@@ -127,29 +127,29 @@ class Plugin {
 			);
 			wp_register_style(
 				'jquery-ui-multiselect',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.css',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.14/css/jquery.multiselect.css',
 				array( $admin_jquery_ui_theme ),
-				'1.10'
+				'1.14'
 			);
 			wp_register_style(
 				'jquery-ui-multiselect-filter',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/css/jquery.multiselect.filter.css',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.14/css/jquery.multiselect.filter.css',
 				array( 'jquery-ui-multiselect' ),
-				'1.10'
+				'1.14'
 			);
 
 			wp_register_script(
 				'jquery-ui-multiselect',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.min.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.14/js/jquery.multiselect.min.js',
 				array( 'jquery' ),
-				'1.10',
+				'1.14',
 				true
 			);
 			wp_register_script(
 				'jquery-ui-multiselect-filter',
-				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.10/js/jquery.multiselect.filter.min.js',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.14/js/jquery.multiselect.filter.min.js',
 				array( 'jquery' , 'jquery-ui-multiselect' ),
-				'1.10',
+				'1.14',
 				true
 			);
 			wp_register_script(
