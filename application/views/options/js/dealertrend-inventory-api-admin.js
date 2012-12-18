@@ -27,7 +27,7 @@ dealertrend_admin("#option-tabs").bind("tabsshow", function(event, ui) {
 
 function implement_ui() {
 
-    dealertrend_admin( 'select[multiple]="multiple"' ).each( function() {
+    dealertrend_admin( 'select[multiple="multiple"]' ).each( function() {
         var label;
         var classes;
         var instance =  dealertrend_admin( this );
