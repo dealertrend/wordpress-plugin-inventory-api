@@ -55,7 +55,7 @@ class Plugin {
 	public function execute() {
 		$this->load_plugin_information();
 		$this->queue_registrations();
-		$this->check_for_updates();
+		//$this->check_for_updates();
 		$this->load_options();
 		$this->load_widgets();
 		$this->load_admin_assets();
