@@ -272,6 +272,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
 		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
 
+		$make_data[ $last_year ] = is_array( $make_data[ $last_year ] ) ? $make_data[ $last_year ] : array();
+		$make_data[ $current_year ] = is_array( $make_data[ $current_year ] ) ? $make_data[ $current_year ] : array();
+		$make_data[ $next_year ] = is_array( $make_data[ $next_year ] ) ? $make_data[ $next_year ] : array();
+
 		$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
 
 		# It would be cool if there was a better way to do this.
