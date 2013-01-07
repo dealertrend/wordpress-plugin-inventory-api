@@ -117,17 +117,27 @@ class vehicle_reference_system {
 		$request = $this->url . $parameter_string;
 		$request_handler = new http_request( $request , 'vehicle_reference_system' );
 
-		if( $this->tracer !== NULL ) {
-			$this->request_stack[] = array( $request , $this->tracer );
-			$this->tracer = NULL;
+		if( $request_handler ) {
+
+			if( $this->tracer !== NULL ) {
+				$this->request_stack[] = array( $request , $this->tracer );
+				$this->tracer = NULL;
+			} else {
+				$this->request_stack[] = $request;
+			}
+
+			$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
+			$this->parameters = array();
+
+			return $data;
+
 		} else {
-			$this->request_stack[] = $request;
+			$data = array();
+			$this->parameters = array();
+
+			return $data;
+
 		}
-
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-
-		$this->parameters = array();
-		return $data;
 	}
 
 	private function process_parameters( $parameters ) {
