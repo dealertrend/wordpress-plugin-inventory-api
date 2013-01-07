@@ -109,7 +109,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo $before_widget;
 
 		if( ! empty( $title ) ) {
-			echo '<div class="vrs-widget-title">' . $before_title . $title . $after_title . '</div>';
+			echo '<div class="vms-widget-title">' . $before_title . $title . $after_title . '</div>';
 		}
 		$sale_class = isset( $instance[ 'saleclass' ] ) ? ucwords( $instance[ 'saleclass' ] ) : 'All';
 
