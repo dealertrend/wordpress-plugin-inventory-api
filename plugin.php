@@ -148,7 +148,7 @@ class Plugin {
 			wp_register_script(
 				'jquery-ui-multiselect-filter',
 				$this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-ui-multiselect-widget/1.14/js/jquery.multiselect.filter.min.js',
-				array( 'jquery' , 'jquery-ui-multiselect' ),
+				array( 'jquery', 'jquery-ui-multiselect' ),
 				'1.14',
 				true
 			);
