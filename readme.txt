@@ -1,5 +1,5 @@
 === DealerTrend Inventory API ===
-Contributors: sterlo 
+Contributors: sterlo, chavez
 Donate link:http://www.dealertrend.com
 Tags: api,dealertrend,automotive,cars,custom taxonomy
 Requires at least: 3.2
