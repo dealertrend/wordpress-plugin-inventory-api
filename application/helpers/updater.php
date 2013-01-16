@@ -26,7 +26,7 @@ class Updater {
 			$update_data = (object) array(
 				'new_version' => $version_check[ 'latest' ],
 				'url' => $this->current_plugin_information[ 'PluginURI' ],
-				'package' => 'http://github.com/downloads/dealertrend/wordpress-plugin-inventory-api/dealertrend-inventory-api.zip',
+				'package' => 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/current/dealertrend-inventory-api.zip',
 				'upgrade_notice' => ''
 			);
 			$this->new_plugin_information = $update_data;
@@ -49,7 +49,7 @@ class Updater {
 
 		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
 
-		$url = $this->current_plugin_information[ 'PluginURL' ] . '/changelog.html?TB_iframe=true&width=640&height=438&version=' . $this->current_plugin_information[ 'Version' ];
+		$url = 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/changelog.html?TB_iframe=true&width=640&height=438';
 
 		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
 		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
@@ -58,25 +58,17 @@ class Updater {
 
 	function check_for_updates() {
 		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
-		$url = 'http://github.com/api/v2/json/repos/show/dealertrend/wordpress-plugin-inventory-api/tags';
+
+		$url = 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/current_version.json';
 		$request_handler = new http_request( $url , 'dealetrend_plugin_updater' );
 
 		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
 		$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
 		if( $body ) {
 			$json = json_decode( $body );
-			$tags = $json->tags;
-			$versions = array_keys( get_object_vars( $tags ) );
-			foreach( $versions as $key => $value ) {
-				$filtered_versions[ $key ] = str_replace( 'v' , NULL , $value );
-				$filtered_versions[ $key ] = str_replace( '.' , NULL , $filtered_versions[ $key ] );
-				$reference[ $filtered_versions[ $key ] ] = $value;
-			}
-
-			sort( $filtered_versions , SORT_NUMERIC );
-			$versions = array_reverse( $filtered_versions );
-			if( !empty( $versions ) ) {
-				$latest_version = str_replace( 'v' , NULL , $reference[ $versions[ 0 ] ] );
+			$version = $json->version;
+			if( !empty( $version ) ) {
+				$latest_version = $version;
 			} else {
 				$latest_version = '0';
 			}
