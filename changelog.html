@@ -273,6 +273,36 @@
 		<div id="content">
 			<h1>Change Log and Update Instructions</h1>
 
+			<h2 id="v3207">Version 3.20.7</h2>
+			<p>Release Date January 15, 2013</p>
+			<p>Maintenance release.</p>
+
+			<ul>
+				<li class="important">Fixed automatic updater.</li>
+				<li class="important">Fixed new year make issue, with new makes not being in the system.</li>
+				<li class="important">Fixed jQuery syntax error.</li>
+				<li class="important">Added vehicle sale class filter to inventory settings. Will allow user to display only New or Used vehicles on site.</li>
+				<li class="important">Armadillo is now responsive along with Cobra.</li>
+				<li class="important">Fixed style issues with Cobra and Armadillo, including responsive issues.</li>
+				<li class="important">Cobra now loads vehicle descriptions by default on detail page.</li>
+				<li class="important">Armadillo now has two version. v2 will now display the form on the right hand side and move the images to the left.</li>
+				<li class="important">Fixed style issues with showcase, as well as, making it responsive.</li>
+				<li class="important">Fixed showcase not displaying all available models per make.</li>
+				<li class="important">Armadillo now has a friendly print button.</li>
+			</ul>
+
+			<h3 class="upgrade">Upgrading to 3.20.7</h3>
+			<ul>
+				<li>
+					Go to the Settings page within the DealerTrend API Plugin's options page. Run the <dfn>Clean Uninstall</dfn> procedure. This will clean up the database and deactivate the plugin.
+					<ul>
+						<li class="important">This <kbd>will not delete the plugin</kbd>. You still need to do that. You can do it from the plugin management screen or via FTP.</li>
+					</ul>
+				</li>
+				<li>Delete ALL of the old plugins files. It will be <dfn>/wp-content/plugins/dealertrend-inventory-api</dfn>. Replace with new files and put them into a folder called <dfn>dealertrend-inventory-api</dfn>.</li>
+				<li>Alternatively you can use the automatic updater.</li>
+			</ul>
+
 			<h2 id="v3122">Version 3.12.2</h2>
 			<p>Release Date November 16, 2011</p>
 			<p>Maintenance release.</p>
@@ -1081,7 +1111,7 @@
 					<li>Creating <samp>HTTP API Wrapper</samp> @ <dfn>app/helpers/http_api_wrapper.php</dfn>.</li>
 					<li>Took advantage of the built in Wordpress caching API.</li>
 			</ul>
-			
+
 			<h3 class="upgrade">Upgrading from 2.x (or prior) to 3.0.0</h3>
 			<ul>
 				<li>Delete ALL of the old plugins files. It will be a folder within <dfn>/wp-content/plugins/</dfn>. Replace with new files and put them into a folder called <dfn>dealertrend-inventory-api</dfn>.</li>
