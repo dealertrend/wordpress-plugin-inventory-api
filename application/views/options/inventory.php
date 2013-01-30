@@ -1,5 +1,5 @@
 <div id="inventory">
-	<form name="dealertrend_inventory_api_theme_settings_inventory" method="post" action="#feeds">
+	<form name="dealertrend_inventory_api_theme_settings_inventory" method="post" action="#inventory">
 	<?php wp_nonce_field( 'dealertrend_inventory_api' ); ?>
 		<table width="450">
 		<tr>
@@ -67,6 +67,31 @@
 			</select>
 			</td>
 		</tr>
+
+		<?php
+			$vms_makes = isset( $this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] ) ? $this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] : array();
+
+			$make_data = $this->get_make_data();
+			$make_values = $this->remove_data_dups( $make_data, 'name');
+			natcasesort($make_values);
+		?>
+		<tr>
+			<td width="125"><label for="vms-makes">New Makes Filter: </label></td>
+			<td>
+				<select id="vms-makes" name="vehicle_management_system[makes_new][]" class="vms-makes" size="4" multiple="multiple">
+					<?php $this->create_dd_options($make_values, $vms_makes); ?>
+				</select>
+			</td>
+		</tr>
+
+		<tr valign="top">
+			<td width="125"><label for="inv_responsive"><?php _e('Remove Responsive:') ?></label></td>
+			<td>
+				<input type="checkbox" id="inv_responsive" name="inv_responsive" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] != '' ) { echo 'checked'; } ?> />
+				<br />
+			</td>
+		</tr>
+
 		<tr>
 			<td>
 			<input type="hidden" name="action" value="update" />

@@ -46,6 +46,9 @@ function implement_ui() {
         } else if( instance.hasClass( 'vrs-models' ) ) {
             label = 'Select a Model';
             classes = 'models';
+		} else if( instance.hasClass( 'vms-makes' ) ) {
+            label = 'Select a Make';
+            classes = 'makes';
         } else {
             return true;
         }

@@ -28,7 +28,11 @@ class Plugin {
 				'name' => 'armadillo',
 				'per_page' => 10
 			),
-			'saleclass' => 'all'
+			'saleclass' => 'all',
+			'data' => array(
+				'makes_new' => array()
+			),
+			'inv_responsive' => ''
 		),
 		'vehicle_reference_system' => array(
 			'host' => '',
