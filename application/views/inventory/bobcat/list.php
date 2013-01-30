@@ -16,8 +16,12 @@
 	$quick_links = $quick_links_end = null;
 
 	if( !isset( $parameters[ 'make' ] ) || $parameters[ 'make' ] == 'All' ) {
-		$makes = $vehicle_management_system->get_makes()->please( array( 'saleclass' => $sale_class ) );
-		$makes = json_decode( $makes[ 'body' ] );
+		if ( strcasecmp( $sale_class, 'new') == 0 && !empty( $new_makes_filter ) ) {
+			$makes = $new_makes_filter;
+		} else {
+			$makes = $vehicle_management_system->get_makes()->please( array( 'saleclass' => $sale_class ) );
+			$makes = json_decode( $makes[ 'body' ] );
+		}
 		foreach( $makes as $make ) {
 			if( !empty( $wp_rewrite->rules ) ) {
 				$quick_links .= '<a href="' . $site_url . '/inventory/'. $sale_class  . '/' . $make . '/">' . $make . '</a>';

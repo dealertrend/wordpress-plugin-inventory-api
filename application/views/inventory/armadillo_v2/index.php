@@ -4,11 +4,19 @@
 
 	global $wp_rewrite;
 
-	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1  ) ) );
-	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
-
 	$sale_class_filter = $this->options[ 'vehicle_management_system' ][ 'saleclass' ];
+	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
+
+	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
+
+	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
+		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
+	} else {
+		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 ) ) );
+	}
+
+	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
 	$site_url = site_url();
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
@@ -34,31 +42,34 @@
 		true
 	);
 
-//Responsive Style Sheets
-	//Mid
-	wp_enqueue_style(
-		'dealertrend-inventory-responsive-mid',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-mid.css',
-		false,
-		$this->plugin_information[ 'Version' ],
-		'only screen and (min-width: 650px) and (max-width: 1066px), not (min-device-width: 481px) and (max-device-width: 1024px)'
-	);
-	//Small
-	wp_enqueue_style(
-		'dealertrend-inventory-responsive-small',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-small.css',
-		false,
-		$this->plugin_information[ 'Version' ],
-		'only screen and (max-width: 649px), not (min-device-width: 481px) and (max-device-width: 1024px), not (max-device-width 480px)'
-	);
-	//Phone
-	wp_enqueue_style(
-		'dealertrend-inventory-responsive-phone',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-phone.css',
-		false,
-		$this->plugin_information[ 'Version' ],
-		'only screen and (max-device-width: 480px)'
-	);
+	if ( empty( $remove_responsive ) ) {
+		//Responsive Style Sheets
+		//Mid
+		wp_enqueue_style(
+			'dealertrend-inventory-responsive-mid',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-mid.css',
+			false,
+			$this->plugin_information[ 'Version' ],
+			'only screen and (min-width: 650px) and (max-width: 1066px), not (min-device-width: 481px) and (max-device-width: 1024px)'
+		);
+		//Small
+		wp_enqueue_style(
+			'dealertrend-inventory-responsive-small',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-small.css',
+			false,
+			$this->plugin_information[ 'Version' ],
+			'only screen and (max-width: 649px), not (min-device-width: 481px) and (max-device-width: 1024px), not (max-device-width 480px)'
+		);
+		//Phone
+		wp_enqueue_style(
+			'dealertrend-inventory-responsive-phone',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-phone.css',
+			false,
+			$this->plugin_information[ 'Version' ],
+			'only screen and (max-device-width: 480px)'
+		);
+	}
+
 	if ( !isset($setprintpage) ) {
 		switch( $type ) {
 			case 'list':
@@ -69,12 +80,14 @@
 					$this->plugin_information[ 'Version' ],
 					true
 				);
-				wp_enqueue_script(
-					'dealertrend-inventory-responsive-menu',
-					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/responsive-menu.js',
-					array( 'jquery' ),
-					$this->plugin_information[ 'Version' ]
-				);
+				if ( empty( $remove_responsive ) ) {
+					wp_enqueue_script(
+						'dealertrend-inventory-responsive-menu',
+						$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/responsive-menu.js',
+						array( 'jquery' ),
+						$this->plugin_information[ 'Version' ]
+					);
+				}
 				break;
 			case 'detail':
 				wp_enqueue_script( 'jquery-ui-tabs' );

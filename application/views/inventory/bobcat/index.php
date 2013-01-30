@@ -4,8 +4,15 @@
 
 	global $wp_rewrite;
 
+	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-	$inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters );
+
+	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
+		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters, array( 'make_filters' =>  $new_makes_filter ) ) );
+	} else {
+		$inventory_information = $vehicle_management_system->get_inventory()->please( $this->parameters );
+	}
 
 	$inventory = json_decode( $inventory_information[ 'body' ] );
 

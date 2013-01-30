@@ -38,7 +38,11 @@ $args = array(
 $vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
 
 $vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
-$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
+	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
+		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
+	} else {
+		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
+	}
 $total_found = json_decode( $total_found[ 'body' ] );
 $total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
 
@@ -59,8 +63,13 @@ $filters = array(
 	'certified' => $certified
 );
 $vehicle_management_system->tracer = 'Obtaining a list of makes for the quick-links.';
-$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
-$makes = json_decode( $makes[ 'body' ] );
+
+if ( strcasecmp( $sale_class, 'new') == 0 && !empty( $new_makes_filter ) ) {
+	$makes = $new_makes_filter;
+} else {
+	$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
+	$makes = json_decode( $makes[ 'body' ] );
+}
 $make_count = count ( $makes );
 
 $sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;

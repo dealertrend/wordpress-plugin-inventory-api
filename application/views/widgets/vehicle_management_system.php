@@ -102,7 +102,14 @@ class vehicle_management_system_widget extends WP_Widget {
 			'saleclass' => $instance[ 'saleclass' ]
 		);
 
-		$inventory = $vehicle_management_system->get_inventory()->please( $query );
+		$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+
+		if ( strcasecmp( $instance[ 'saleclass' ], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
+			$inventory = $vehicle_management_system->get_inventory()->please( array_merge( $query , array( 'make_filters' =>  $new_makes_filter ) ) );
+		} else {
+			$inventory = $vehicle_management_system->get_inventory()->please( $query );
+		}
+
 		$inventory = json_decode( $inventory[ 'body' ] );
 
 		echo '<div id="' . $this->id . '" class="vms-widget ' . $layout .'" style="' . $float . '">';

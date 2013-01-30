@@ -4,9 +4,18 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 global $wp_rewrite;
 
-$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1	) ) );
-$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
+	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
+
+	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
+
+	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
+		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
+	} else {
+		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1	) ) );
+	}
+
+	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
 $site_url = site_url();
 $generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
@@ -18,7 +27,9 @@ wp_enqueue_script( 'jquery-ui-tabs' );
 wp_enqueue_script( 'jquery-ui-button' );
 wp_enqueue_script( 'jquery-ui-dialog' );
 
+if ( empty( $remove_responsive ) ) {
 wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/mobile.css' , array( 'dealertrend-inventory-api' ), $this->plugin_information[ 'Version' ], 'only screen and (max-device-width: 480px)' );
+}
 
 switch( $type ) {
 	case 'detail':
