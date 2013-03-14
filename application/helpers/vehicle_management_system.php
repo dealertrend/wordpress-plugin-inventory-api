@@ -80,11 +80,15 @@ class vehicle_management_system {
 
 	public function please( $parameters = array() ) {
 
-		$parameters = array_merge( $this->parameters , $parameters );
+		if ( empty( $parameters['search_sim'] ) ) {
+			$parameters = array_merge( $this->parameters , $parameters );
+		} else {
+			unset( $parameters['search_sim'] );
+		}
 
-		if ( !empty( $parameters[make_filters] ) ) {
+		if ( !empty( $parameters['make_filters'] ) ) {
 			$makes_string = '';
-			foreach ( $parameters[make_filters] as $new_make ) {
+			foreach ( $parameters['make_filters'] as $new_make ) {
 				if (  empty( $makes_string ) ) {
 					$makes_string = 'makes[]=' . $new_make;
 				} else {
