@@ -20,18 +20,12 @@ class vehicle_management_system {
 	}
 
 	function set_headers( $parameters = array() ) {
-		$status = 400;
+		$status = 500;
 		$this->tracer = 'Checking inventory feed.';
 		$check_inventory = $this->check_inventory()->please( $parameters );
-		if( isset( $check_inventory[ 'response' ][ 'code' ] ) && $check_inventory[ 'response' ][ 'code' ] == 200 ) {
-			$inventory_json = json_decode( $check_inventory[ 'body' ] );
-			if( count( $inventory_json ) > 0 ) {
-				$status = 200;
-			} else {
-				$status = 404;
-			}
+		if( isset( $check_inventory[ 'response' ][ 'code' ] ) ) {
+			$status = $check_inventory[ 'response' ][ 'code' ];
 		}
-
 		status_header( $status );
 
 		return $status;
