@@ -179,6 +179,13 @@
 		}
 	}
 
+	// Moves saleclass to top of array. Needed for Breadcrumbs
+	if( isset( $parameters[ 'saleclass' ] ) ){
+		$array_jump = array( 'saleclass' => $parameters[ 'saleclass' ] );
+		unset( $parameters[ 'saleclass' ] );
+		$parameters = $array_jump + $parameters;
+	}
+
 	$inventory_base = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' : $site_url . '?taxonomy=inventory';
 	$crumb_trail = $inventory_base;
 
