@@ -194,7 +194,7 @@ class Plugin {
 		if( !$loaded_options ) {
 			update_option( 'dealertrend_inventory_api' , $this->options );
 		} else {
-			if( $this->validate_options( &$loaded_options , &$this->options ) ) {
+			if( $this->validate_options( $loaded_options , $this->options ) ) {
 				update_option( 'dealertrend_inventory_api' , $loaded_options );
 			}
 			foreach( $loaded_options as $option_group => $option_values ) {
@@ -203,10 +203,10 @@ class Plugin {
 		}
 	}
 
-	function validate_options( $options , $defaults , $modified = false ) {
+	function validate_options( &$options , &$defaults , &$modified = false ) {
 		foreach( $defaults as $key => $value ) {
 			if( is_array( $value ) ) {
-				$this->validate_options( &$options[ $key ] , &$value , &$modified );
+				$this->validate_options( $options[ $key ] , $value , $modified );
 			} elseif( !isset( $options[ $key ] ) || $options[ $key ] == NULL ) {
 				$options[ $key ] = $defaults[ $key ];
 				$modified = true;
@@ -306,7 +306,7 @@ class Plugin {
 			register_sidebar(array(
 				'name' => 'Inventory Vehicle Detail Page',
 				'id' => 'vehicle-detail-page',
-				'description' => 'Widgets in this area will show up on the Vehicle Detail Pagee within Inventory.',
+				'description' => 'Widgets in this area will show up on the Vehicle Detail Page within Inventory.',
 				'before_title' => '<h1>',
 				'after_title' => '</h1>',
 				'before_widget' => '<div class="inventory widget">',
