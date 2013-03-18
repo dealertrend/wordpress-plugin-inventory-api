@@ -1,0 +1,196 @@
+@media all and (max-width: 920px){
+	#dolphin-wrapper .dolphin-breadcrumbs{
+		clear: both;
+		width: 100%;
+		text-align: center;
+	}
+	#dolphin-wrapper .dolphin-pager{
+		clear: both;
+		width: 100%;
+		text-align: center;
+	}
+	#dolphin-wrapper .dolphin-print{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-filter-text{
+		width: 100%;
+		text-align: center;
+		border: none;
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-filters{
+		width: 100%;
+	}
+	#dolphin-wrapper #dolphin-filters > div{
+		margin: 1% auto;
+		display: block;
+		width: 26%;
+		text-align: right;
+		min-width: 206px;
+	}
+	#dolphin-wrapper #dolphin-search-text{
+		width: 100%;
+		text-align: center;
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-search-mid{
+		width: 25%;
+		margin: 0 auto;
+		float: none;
+		min-width: 208px;
+	}
+	#dolphin-wrapper #dolphin-search-box{
+		width: 96%;
+		margin: 1% auto;
+		display: block;
+	}
+	#dolphin-search-advance .dolphin-advance-peram{
+		float: none;
+		margin: 1% auto;
+	}
+	#dolphin-wrapper .dolphin-headline-text{
+		display: none;
+	}
+	#dolphin-wrapper .dolphin-icons{
+		display: none;
+	}
+	#dolphin-wrapper .dolphin-details-left{
+		display: none;
+	}
+	#dolphin-wrapper .dolphin-details-right{
+		display: none;
+	}
+	#dolphin-wrapper .dolphin-price{
+		width: 96%;
+		margin: 2% auto 0;
+	}
+	#dolphin-wrapper .dolphin-headline-details{
+		width: 96%;
+	}
+	#dolphin-wrapper .dolphin-headline-details span{
+		font-size: 1em;
+	}
+	#dolphin-wrapper .dolphin-headline-msrp{
+		display: none;
+	}
+	.view-available-rebates {
+		display: none;
+	}
+	.dolphin-more-info > div{
+		width: 100%;
+		text-align: right;
+	}
+	#dolphin-wrapper .dolphin-contact-information{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-headline h2{
+		font-size: 1.2em;
+		line-height: 1em;
+		text-align: center;
+	}
+	#dolphin-wrapper #dolphin-contact-information{
+		width: 94%;
+		max-width: 94%;
+		clear: both;
+		float: none;
+		margin: 1% auto 0;
+	}
+	#dolphin-wrapper #dolphin-detail-share{
+		margin: 1% auto;
+		float: none;
+	}
+	#dolphin-wrapper #dolphin-slideshow-text{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-video-button{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-nav-button{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-nav-wrapper{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-column-left{
+		min-width: 260px;
+		margin: 2% auto 0;
+		float: none;
+	}
+	#dolphin-wrapper #dolphin-column-middle{
+		min-width: 260px;
+		margin: 2% auto 0;
+		float: none;
+	}
+	#dolphin-wrapper #dolphin-column-right{
+		min-width: 260px;
+		margin: 2% auto 0;
+		float: none;
+	}
+	#dolphin-wrapper #dolphin-detail-specs{
+		display: none;
+	}
+	#dolphin-wrapper #dolphin-similar-vehicles{
+		min-width: 260px;
+		max-width: 260px;
+		margin: 2% auto 0;
+		display: block;
+	}
+
+	#dolphin-wrapper .dolphin-similar-item{
+		margin: 2% auto 0;
+		display: block;
+		width: 98%;
+	}
+}
+
+@media all and (max-width: 480px){
+	#dolphin-wrapper #dolphin-apply-search span{
+		font-size: .6em;
+	}
+	#dolphin-wrapper #dolphin-advance-show{
+		margin: -5% 2.8% 0 0;
+	}
+	#dolphin-wrapper #dolphin-total-found{
+		width: 100%;
+	}
+	#dolphin-wrapper .dolphin-column-left{
+		width: 30%;
+	}
+	#dolphin-wrapper .dolphin-column-right{
+		width: 66%;
+	}
+	#dolphin-wrapper .dolphin-headline-details .dolphin-saleclass{
+		font-size: 0.5em;
+		display: block;
+	}
+	#dolphin-wrapper .dolphin-headline-details span{
+		font-size: 0.6em;
+	}
+	#dolphin-wrapper .dolphin-detail-button{
+		float: none;
+		clear: both;
+		width: 100%;
+		text-align: right;
+	}
+	#dolphin-wrapper .dolphin-detail-button a{
+		min-width: 140px;
+		font-size: .8em;
+	}
+	#dolphin-wrapper #dolphin-disclaimer p{
+		font-size: .5em;
+	}
+	#dolphin-wrapper.dolphin-detail-page .dolphin-breadcrumbs{
+		display: none;
+	}
+	#dolphin-wrapper .dolphin-print{
+		margin: 0 auto;
+		text-align: center;
+		float: none;
+		display: block;
+		width: 100%;
+	}
+	#dolphin-wrapper #friendly-print{
+		display: none;
+	}
+}
+

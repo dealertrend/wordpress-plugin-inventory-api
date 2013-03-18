@@ -1,0 +1,130 @@
+/* Detail Print Page */
+.armadillo-clear {
+	clear:both;
+	display:block;
+	width:100%;
+	height:0;
+	line-height:0;
+}
+#armadillo-detail-print {
+	background-color: #fff;
+	clear:both;
+	font-family: Helvetica, Arial;
+	font-size:12px;
+	line-height:16px;
+	letter-spacing:.9px;
+	max-width: 700px;
+	width: 100%;
+}
+.armadillo-print-header{
+        text-align: center;
+        width: 100%;
+        height: auto;
+        margin: 15px 0px;
+}
+.print-header-name{
+        font-size: 25px;
+        line-height: 28px;
+        font-weight: bold;
+}
+.armadillo-print-top{
+        max-width: 700px;
+        width: 100%;
+        height: auto;
+        float:left;
+}
+.armadillo-print-top-left{
+    	max-width: 310px;
+    	width: 100%;
+        height: 220px;
+    	float:left;
+        padding: 0px 20px;
+        position: relative;
+        margin-top: 20px;
+}
+.armadillo-print-top-right{
+    	max-width: 310px;
+    	width: 100%;
+        height: 240px;
+    	float:left;
+        padding: 0px 20px;
+        position: relative;
+}
+.armadillo-print-top-left .armadillo-main-line{
+        margin: 10px 0px 25px;
+}
+.armadillo-print-top-left .armadillo-main-line h2{
+        margin: 0px;
+        font-size: 16px;
+}
+.armadillo-print-top-left .vehicle-info-left-column{
+        max-width: 153px;
+        width: 100%;
+        float: left;
+        border-right: 2px solid #ababab;
+        font-size: 10px;
+}
+.armadillo-print-top-left .vehicle-info-right-column{
+        max-width: 140px;
+        width: 100%;
+        float: left;
+        padding-left: 15px;
+        font-size: 10px;
+}
+.armadillo-print-top-left .armadillo-price{
+        clear: both;
+        float: right;
+        margin: 30px 15px 0px 0px;
+        text-align: right;
+}
+.armadillo-print-top-right .armadillo-slideshow{
+    	margin: 10px auto;
+   	width: 300px;
+}
+.armadillo-print-bottom-left{
+    	max-width: 310px;
+    	width: 100%;
+        height: auto;
+    	float:left;
+        padding: 0px 20px;
+        position: relative;
+        margin-top: 20px;
+}
+.armadillo-print-bottom-right{
+    	max-width: 310px;
+    	width: 100%;
+        height: auto;
+    	float:left;
+        padding: 0px 20px;
+        position: relative;
+        margin-top: 20px;
+}
+#print-options-header, #print-desc-header{
+        color: #fff;
+        text-align: center;
+        background-color: #333333;
+        font-size: 18px;
+        padding: 5px 0px;
+}
+#print-options-details, #print-desc-details{
+        border: 1px solid #333333;
+        margin-top: 5px;
+}
+#print-desc-details {
+        padding: 0px 6px
+}
+#print-desc-details h1, #print-desc-details h2, #print-desc-details h3, #print-desc-details h4{
+        font-size: 18px !important;
+        line-height: 20px;;
+}
+#print-desc-details h1 span, #print-desc-details h2 span, #print-desc-details h3 span, #print-desc-details h4 span{
+        font-size: 18px !important;
+        line-height: 20px;
+}
+.armadillo-print-disclaimer{
+        width: 95%;
+        margin: 10px auto;
+        text-align: center;
+}
+
+
