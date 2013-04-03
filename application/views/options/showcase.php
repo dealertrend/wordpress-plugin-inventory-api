@@ -18,7 +18,6 @@
 				$make_values = $this->remove_data_dups( $make_data, 'name');
 				natcasesort($make_values);
 
-
 				echo '<tr><td width="125"><label for="makes">Makes: </label></td>';
 				echo '<td><select id="makes" name="vehicle_reference_system[makes][]" class="vrs-makes" size="4" multiple="multiple">';
 					$this->create_dd_options($make_values, $makes);
@@ -32,6 +31,7 @@
 						$model_data = $this->get_model_data( $make );
 						$model_values = $this->remove_data_dups( $model_data, 'name');
 						natcasesort($model_values);
+
 						echo '<optgroup label="' . $make . '">';
 							$this->create_dd_options($model_values, $models);
 						echo '</optgroup>';

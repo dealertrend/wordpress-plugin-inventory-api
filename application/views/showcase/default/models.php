@@ -47,7 +47,7 @@
 	echo '<h3>&raquo; ' . $classifications[ $models[0]->classification ] . '</h3>';
 	echo '<div class="items">';
 	foreach( $models as $model ) {
-		if( in_array( $model->name , $selected_models ) ) {
+		if( in_array( str_replace( '&', '&amp;', $model->name ), $selected_models ) ) {
 			if( $model->name != $previous_name && $model->image_urls->small != NULL ) {
 				$previous_name = $model->name;
 				if( $model->classification != $previous_classification) {

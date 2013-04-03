@@ -234,7 +234,7 @@ class Options_Page {
 	function create_dd_options( $data, $data_check ){
 		//Checks to see if data has been saved and sets selected flag, than displays the option.
 		foreach($data as $data_name){
-			$selected = in_array( $data_name, $data_check ) ? 'selected' : NULL;
+			$selected = in_array( str_replace( '&', '&amp;', $data_name ) , $data_check ) ? 'selected' : NULL;
 			echo '<option value="' . $data_name . '" ' . $selected . '>' . $data_name . '</option>';
 		}
 	}
