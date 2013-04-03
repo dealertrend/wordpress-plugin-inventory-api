@@ -16,6 +16,10 @@
     border-radius: 6px 6px 6px 6px;
     min-width: 260px;
 }
+#dealertrend-inventory-api #dolphin-wrapper{
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+}
 #dolphin-top{
     width: 100%;
     border-top: 6px solid  #3B3B3B;
@@ -825,9 +829,9 @@
 #dolphin-search-mid {
     display: block;
     float: left;
-    margin: 0 0 0 1.4%;
+    margin: 0 0 0 1.2%;
     overflow: hidden;
-    width: 24%;
+    width: 25%;
     min-width: 148px;
 }
 #dolphin-search-top button{
@@ -891,7 +895,7 @@
 .dolphin-advance-peram {
     width: 24%;
     float: left;
-    padding: 0 2% .5%;
+    padding: 0 1.5% .5%;
     margin: 1% 2.2%;
     border-left: 3px solid #0453BC;
     border-right: 3px solid #0453BC;
@@ -907,7 +911,7 @@
 .dolphin-advance-peram input{
     background-color: #D6D6D6;
     border-radius: 4px;
-    max-width: 66px;
+    max-width: 64px;
     width: 100%;
     padding: 0;
     height: 1.4em;
@@ -1264,6 +1268,8 @@
     border-radius: 2px 2px 2px 2px;
     width: 100%;
     max-width: 150px;
+    box-shadow: none;
+    padding: 0;
 }
 .dolphin-select option{
     background-color: #3B3B3B;
