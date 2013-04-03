@@ -48,6 +48,9 @@ class Plugin {
 				'inventory-theme' => 'smoothness',
 				'showcase-theme' => 'smoothness'
 			)
+		),
+		'alt_settings' => array(
+			'discourage_seo_visibility' => ''
 		)
 	);
 
@@ -410,7 +413,8 @@ class Plugin {
 						$dynamic_site_headers = new dynamic_site_headers(
 							$this->options[ 'vehicle_management_system' ][ 'host' ],
 							$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-							(array) $this->parameters + (array) $seo_hack
+							(array) $this->parameters + (array) $seo_hack,
+							$this->options[ 'alt_settings' ][ 'discourage_seo_visibility' ]
 						);
 					}
 
@@ -448,7 +452,8 @@ class Plugin {
 							$dynamic_site_headers = new dynamic_site_headers(
 								$this->options[ 'vehicle_management_system' ][ 'host' ],
 								$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
-								(array) $this->parameters + (array) $seo_hack
+								(array) $this->parameters + (array) $seo_hack,
+    							$this->options[ 'alt_settings' ][ 'discourage_seo_visibility' ]
 							);
 						}
 						$country_code = $data->country_code;

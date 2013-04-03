@@ -44,6 +44,13 @@
           <td width="200"><small>Pulls inventory from a specific dealership.</small></td>
           <td><small>Inventory will not be retreived without providing a valid company ID from <?php echo $site_link; ?></small></td>
         </tr>
+		<tr valign="top">
+			<td width="125"><label for="discourage_seo_visibility"><?php _e('Search Engine Visibility:') ?></label></td>
+			<td>
+				<input type="checkbox" id="discourage_seo_visibility" name="discourage_seo_visibility" <?php if ( $this->instance->options[ 'alt_settings' ][ 'discourage_seo_visibility' ] != '' ) { echo 'checked'; } ?> /> <small>Discourage search engines from indexing inventory/showcase pages</small>
+				<br />
+			</td>
+		</tr>
       </table>
       <table>
         <tr>

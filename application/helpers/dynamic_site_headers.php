@@ -60,15 +60,25 @@ class dynamic_site_headers {
 		public $request_stack = array();
 
 	/**
+	 * Public variable for the host of the API we are suposed to request the headers from.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+		public $discourage_seo = NULL;
+
+	/**
 	 * Sets up object properties and ties into the WordPress procedural hooks. PHP 5 style constructor.
 	 *
 	 * @since 3.0.0
 	 * @return void
 	 */
-		function __construct( $host , $company_id , $parameters ) {
+		function __construct( $host , $company_id , $parameters, $discourage ) {
 			$this->host = $host;
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
+            $this->discourage_seo = $discourage;
 			$this->get_headers();
 			if( $this->headers != false ) {
 				add_filter( 'wp_title' , array( &$this , 'set_title' ) );
@@ -137,22 +147,27 @@ class dynamic_site_headers {
 	 * @return void
 	 */
 		function set_head_information() {
+
 			if( isset( $this->headers[ 'page_description' ] ) && !empty( $this->headers[ 'page_description' ] ) ) {
 				echo '<meta name="Description" content="' . $this->headers[ 'page_description' ] . '" />' . "\n";
 			}
 			if( isset( $this->headers[ 'page_keywords' ] ) && !empty( $this->headers[ 'page_keywords' ] ) ) {
 				echo '<meta name="Keywords" content="' . $this->headers[ 'page_keywords' ] . '" />' . "\n";
 			}
-			$robots = array();
-			if( isset( $this->headers[ 'follow' ] ) && $this->headers[ 'follow' ] != true ) {
-				$robots[] = 'nofollow';
-			}
-			if( isset( $this->headers[ 'index' ] ) && $this->headers[ 'index' ] != true ) {
-				$robots[] = 'noindex';
-			}
-			if( !empty( $robots ) ) {
-				echo '<meta name="robots" content="' . implode( $robots , ',' ) . '" />' . "\n";
-			}
+            if( empty( $this->discourage_seo ) ) {
+			    $robots = array();
+			    if( isset( $this->headers[ 'follow' ] ) && $this->headers[ 'follow' ] != true ) {
+				    $robots[] = 'nofollow';
+			    }
+			    if( isset( $this->headers[ 'index' ] ) && $this->headers[ 'index' ] != true ) {
+				    $robots[] = 'noindex';
+			    }
+			    if( !empty( $robots ) ) {
+				    echo '<meta name="robots" content="' . implode( $robots , ',' ) . '" />' . "\n";
+			    }
+            } else {
+                echo '<meta name="robots" content="nofollow,noindex" />' . "\n";
+            }
 		}
 
 }

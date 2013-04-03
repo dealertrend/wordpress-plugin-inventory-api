@@ -96,6 +96,7 @@ class Options_Page {
 
 			$host = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
 			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = $host;
+			$this->instance->options[ 'alt_settings' ][ 'discourage_seo_visibility' ] = $_POST[ 'discourage_seo_visibility' ];
 
 		} elseif( isset( $_POST[ 'theme' ] ) ) {
 
