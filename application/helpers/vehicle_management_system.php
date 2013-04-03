@@ -23,9 +23,12 @@ class vehicle_management_system {
 		$status = 500;
 		$this->tracer = 'Checking inventory feed.';
 		$check_inventory = $this->check_inventory()->please( $parameters );
+
 		if( isset( $check_inventory[ 'response' ][ 'code' ] ) ) {
 			$status = $check_inventory[ 'response' ][ 'code' ];
-		}
+		} else if ( isset( $check_inventory[ 'code' ] ) ) {
+			$status = $check_inventory[ 'code' ];
+        }
 		status_header( $status );
 
 		return $status;
