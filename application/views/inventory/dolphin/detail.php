@@ -771,7 +771,8 @@ function video_popup(url , title) {
 					$vehicle_management_system->tracer = 'Obtaining Similar Vehicles - 1';
 					$inventory_sims_info = $vehicle_management_system->get_inventory()->please( $sim_array );
 					$inventory_sims = isset( $inventory_sims_info[ 'body' ] ) ? json_decode( $inventory_sims_info[ 'body' ] ) : false;
-					if ( !empty( $inventory_sims ) ) {
+
+					if ( !empty( $inventory_sims ) && count($inventory_sims) > 1 ) {
 						include( dirname( __FILE__ ) . '/detail_similar.php' );
 					} else if ( isset( $sim_array['price_from'] ) ) {
 						unset( $sim_array['price_from'] );
@@ -780,7 +781,7 @@ function video_popup(url , title) {
 						$vehicle_management_system->tracer = 'Obtaining Similar Vehicles - 2';
 						$inventory_sims_info = $vehicle_management_system->get_inventory()->please( $sim_array );
 						$inventory_sims = isset( $inventory_sims_info[ 'body' ] ) ? json_decode( $inventory_sims_info[ 'body' ] ) : false;
-						if ( !empty( $inventory_sims ) ) {
+						if ( !empty( $inventory_sims ) && count($inventory_sims) > 1 ) {
 							include( dirname( __FILE__ ) . '/detail_similar.php' );
 						}
 					}
