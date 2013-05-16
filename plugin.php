@@ -298,9 +298,11 @@ class Plugin {
 	}
 
 	function flush_rewrite_rules() {
-		global $wp_rewrite;
-
-		return $wp_rewrite->flush_rules();
+		$pagenow = $_SERVER['SCRIPT_NAME'];
+		if ( is_admin() && isset($_GET['activate'] ) && $pagenow == "/wp-admin/plugins.php" ) {
+			global $wp_rewrite;
+			return $wp_rewrite->flush_rules();
+		}
 	}
 
 	function create_taxonomies() {
