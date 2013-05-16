@@ -1,0 +1,1178 @@
+/****************************
+	General
+****************************/
+
+#dealertrend-inventory-api #eagle-wrapper{
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	background-color: #E1E1E1;
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+}
+.eagle-breadcrumbs{
+	background-color: #D7D7D7;
+	padding: 1%;
+	width: 98%;
+}
+.eagle-breadcrumbs a{
+	color: #000;
+	text-decoration: none;
+	font-size: .8em;
+}
+.eagle-breadcrumbs a span{
+	margin: 0 1%;
+}
+#eagle-top{
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	clear: both;
+}
+#eagle-top-search{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 92%;
+	margin: 3% auto 0;
+	background-color: #ECECEC;
+	padding: 1%;
+}
+.eagle-search{
+	float: left;
+	max-width: 300px;
+	width: 30%;
+}
+#eagle-search-box{
+	padding: 0;
+	display: inline-block;
+}
+#eagle-search-submit{
+	padding: 0;
+	background-color: #CA204D;
+	color: #FFF;
+	border-radius: 4px;
+	font-weight: bold;
+	padding: 0 2%;
+	display: inline-block;
+}
+.eagle-pager{
+	float: right;
+	margin: .4% 0 0;
+	max-width: 600px;
+	width: 68%;
+	text-align: right;
+	font-size: .8em;
+	line-height: 1.5em;
+}
+.page-numbers{
+	background-color: #CA204D;
+	color: #FFF;
+	font-weight: bold;
+	padding: 0 1%;
+	text-decoration: none;
+}
+.page-numbers.current{
+	background-color: #000;
+}
+.page-numbers:hover{
+	background-color: #000;
+	color: #FFF;
+}
+#eagle-content{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 92%;
+	margin: 2% auto;
+	background-color: #ECECEC;
+	padding: 1%;
+}
+#eagle-content-top{
+	border-top: 2px #FFF dashed;
+	border-bottom: 2px #FFF dashed;
+	padding: 1% 0;
+	overflow: hidden;
+	clear: both;
+	float: none;
+}
+#eagle-total-found{
+	color: #FFF;
+	background-color: #CA204D;
+	max-width: 160px;
+	text-align: center;
+	line-height: 1.8em;
+	border-radius: 4px;
+	width: 18%;
+	float: left;
+}
+#eagle-total-found span{
+	font-weight: bold;
+}
+#eagle-sorting-columns{
+	float: left;
+	margin: 0 0 0 .5%;
+	background-color: #F6F6F6;
+	width: 80%;
+	font-weight: bold;
+	padding: .5% 1% .5% .5%;
+	font-size: .8em;
+	line-height: 1.4em;
+}
+#eagle-sorting-columns > div{
+	display: inline-block;
+	vertical-align: top;
+	margin: 0 0 0 1%
+}
+#eagle-sorting-columns > div a{
+	font-weight: normal;
+	color: #000;
+}
+.eagle-sorting-divider{
+    border-right: 2px solid;
+    padding: 0 1.5% 0 0;
+}
+
+#eagle-content-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 22%;
+	margin: 2% 0 0;
+}
+#eagle-mobile-search-bar{
+	display: none;
+	background-image: url('images/arrow_down_16x16.jpg');
+	background-position: right 2% center;
+	background-repeat: no-repeat;
+}
+#eagle-mobile-search-bar.collapsed{
+	background-image: url('images/arrow_left_16x16.jpg');
+}
+.eagle-sidebar{
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+.eagle-sidebar h3{
+	background-color: #F6F6F6;
+	font-weight: bold;
+	font-size: 1em;
+	line-height: 1em;
+	padding: 4% 0 4% 5%;
+	width: 100%;
+	margin: 0 0 5%;
+}
+.eagle-sidebar-content{
+	background-color: #F6F6F6;
+	padding: 2% 6%;
+	font-size: .9em;
+	margin: 0 0 6%;
+}
+.eagle-sidebar-content h4{
+	font-size: 1em;
+	font-weight: bold;
+	background-image: url('images/arrow_down_16x16.jpg');
+	background-repeat: no-repeat;
+	background-position: 0;
+	padding: 0 0 0 12%;
+	cursor: pointer;
+	display: block;
+}
+.eagle-sidebar-content h4.collapsed{
+	background-image: url('images/arrow_right_16x16.jpg');
+}
+.eagle-sidebar-content ul{
+	list-style: none;
+	margin: 0 0 0 12%;
+}
+.eagle-sidebar-content ul li{
+	margin: 3% 0;
+}
+.eagle-sidebar-content ul a{
+	color: #000;
+	text-decoration: underline;
+}
+.eagle-sidebar-content ul a:hover{
+	color: #CA204D;
+}
+.eagle-sidebar-content .eagle-filter-prev{
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.2em;
+	text-decoration: none;
+	background-color: #CA204D;
+	padding: 0 2%;
+	border-radius: 4px;
+	color: #FFF;
+}
+.eagle-sidebar-content .eagle-filter-prev:hover{
+	background-color: #000;
+	color: #FFF;
+}
+
+#eagle-content-center{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	position: relative;
+}
+#eagle-content-right{
+	display: block;
+	overflow: hidden;
+	float: right;
+	width: 76%;
+	margin: 2% 0 0;
+	border-left: 1px solid #FFF;
+	padding: 0 0 0 1%;
+}
+.eagle-vehicle{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	border: 3px solid #FFF;
+	margin: 0 0 2%;
+	width: 94%;
+	padding: 1% 2.6%;
+}
+.eagle-vehicle:last-child{
+	margin: 0;
+}
+.eagle-listing-top{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+}
+.eagle-column-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 75%;
+	padding: 0 3% 0 0;
+}
+.eagle-main-line{
+	display: block;
+	clear: both;
+	float: none;
+	height: auto;
+	font-size: 1.1em;
+	font-weight: bold;
+	line-height: 1.4em;
+	margin: 0 0 2%;
+}
+.eagle-main-line a{
+	color: #CA204D;
+	text-decoration: none;
+	border-bottom: 2px solid;
+}
+.eagle-main-line a:hover{
+	color: #000;
+}
+.eagle-photo{
+	display: block;
+	overflow: hidden;
+	float: left;
+	max-width: 150px;
+	width: 32%;
+}
+.eagle-photo img{
+	width: 100%;
+}
+.eagle-listing-info{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 64%;
+	padding: 0 0 0 4%;
+	font-size: .8em;
+}
+.eagle-listing-info div{
+	margin: 0 0 3%;
+}
+.eagle-listing-info div span{
+	font-weight: bold;
+}
+.eagle-column-right{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 22%;
+	text-align: center;
+}
+.eagle-price{
+	font-size: .9em;
+	line-height: 1.2em;
+}
+.eagle-price span{
+	font-weight: bold;
+}
+.eagle-main-price span{
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #CA204D;
+}
+.eagle-detail-button{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	margin: 5% 0 0;
+	background-color: #CA204D;
+	padding: 4% 0;
+	width: 100%;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.eagle-detail-button a{
+	display: block;
+	font-size: .9em;
+	font-weight: bold;
+	font-style: italic;
+	line-height: 1.6em;
+	text-decoration: none;
+	color: #FFF;
+}
+.eagle-detail-button:hover{
+	background-color: #000;
+}
+.eagle-detail-button a:hover{
+	color: #FFF;
+}
+.eagle-listing-bottom{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+	border-top: 2px dashed #FFF;
+	margin: 1% 0 0;
+}
+.eagle-listing-buttons{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 75%;
+	padding: 0 3% 0 0;
+	font-size: .7em;
+	line-height: 1.8em;
+	color: #000;
+	text-align: right;
+}
+.eagle-listing-button{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 24%;
+	height: 20px;
+	background-color: #E1E1E1;
+	background-repeat: no-repeat;
+	background-position: 2px 1px;
+	margin: 1% 2% 0 0;
+	padding: 0 1% 0 0;
+	line-height: 1.8em;
+}
+.eagle-confirm-button{
+	background-image: url('images/check-img_20x16.png');
+}
+.eagle-question-button{
+	background-image: url('images/question-img_20x16.png');
+}
+.eagle-details-button{
+	background-image: url('images/car-img_20x16.png');
+}
+.eagle-listing-button a{
+	color: #000;
+	text-decoration: none;
+}
+.eagle-listing-button a:hover{
+	text-decoration: underline;
+	color: #000;
+}
+.eagle-listing-button:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.eagle-stock-number{
+	display: block;
+	overflow: hidden;
+	float: right;
+	width: 22%;
+	text-align: right;
+	font-size: .9em;
+	line-height: 1.2em;
+	padding: 1% 0 0;
+}
+.eagle-mobile-bottom{
+	display: none;
+	float: none;
+	clear: both;
+	width: 100%;
+}
+.eagle-mobile-bottom .eagle-main-price, .eagle-mobile-bottom .eagle-detail-button{
+	width: 50%;
+	float: left;
+	clear: none;
+	margin: 2% 0 0;
+	padding: 0;
+	text-align: center;
+	font-size: .8em;
+}
+.eagle-mobile-bottom .eagle-main-price span{
+	font-size: 1em;
+}
+#eagle-content-bottom{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	margin: 2% 0 0;
+	padding: 1% 0;
+	border-top: 2px dashed #FFF;
+	border-bottom: 2px dashed #FFF;
+}
+.eagle-content-bottom-wrapper{
+	display: block;
+	overflow: hidden;
+	background-color: #F1F1F1;
+	padding: .5% 1%;
+	width: 98%;
+}
+#eagle-bottom{
+	background-color: #ECECEC;
+	clear: both;
+	display: block;
+	float: none;
+	margin: 2% auto 3%;
+	overflow: hidden;
+	padding: 1%;
+	width: 92%;
+	font-size: .8em;
+	text-align: center;
+}
+
+/****************************
+	Detail
+****************************/
+#eagle-top-info{
+	background-color: #ECECEC;
+	clear: both;
+	display: block;
+	float: none;
+	margin: 3% auto 0;
+	overflow: hidden;
+	padding: 1%;
+	width: 92%;
+}
+#eagle-headline-wrap{
+	display: block;
+	overflow: hidden;
+	width: 65%;
+	float: left;
+	padding: 0 3% 0 0;
+}
+#eagle-main-headline{
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 1.4em;
+	color: #CA204D;
+}
+#eagle-sub-headline{
+	font-size: 1em;
+	font-weight: bold;
+	color: #000;
+}
+#eagle-top-price{
+	display: block;
+	overflow: hidden;
+	width: 32%;
+	float: left;
+}
+#eagle-top-price .eagle-price{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 48%;
+	padding: 0 2% 0 0;
+	text-align: right;
+}
+#eagle-top-price .eagle-main-price span{
+	font-size: 1.6em;
+	line-height: 1.2em
+}
+#eagle-top-price .eagle-ais-incentive-l-text{
+	font-size: .8em;
+	float: left;
+}
+#eagle-top-price .eagle-ais-incentive-s-text{
+	font-size: .7em;
+	float; left;
+}
+#eagle-get-price{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 48%;
+	padding: 0 0 0 2%;
+}
+.eagle-get-price-button{
+	display: block;
+	font-size: .8em;
+	font-weight: bold;
+	font-style: italic;
+	line-height: 1.6em;
+	text-decoration: none;
+	text-align: center;
+	color: #FFF;
+	background-color: #CA204D;
+	border-radius: 4px;
+	clear: both;
+	float: none;
+	padding: 4% 0;
+	width: 98%;
+	margin: 10% 0 0;
+	cursor: pointer;
+}
+.eagle-get-price-button:hover{
+	background-color: #000;
+}
+#eagle-custom-headline{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 96%;
+	padding: 2% 2% 1%;
+	text-align: center;
+	font-size: .9em;
+	color: #CA204D;
+}
+
+#eagle-content-headline{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #F6F6F6;
+	width: 98%;
+	padding: 1%;
+	font-weight: bold;
+	color: #000;
+}
+
+#eagle-content-detail-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 73%;
+	padding: 0 1% 0 0;
+	margin: 2% 0 0;
+}
+#eagle-image-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+}
+#eagle-images{
+	display: block;
+	overflow: hidden;
+	width: 62%;
+	float: left;
+	max-width: 400px;
+	max-height: 300px;
+	height: 300px;
+	margin: 0 1% 1% 0;
+}
+#eagle-images img{
+	width: 100% !important;
+}
+#eagle-nav-wrapper{
+	display: block;
+	overflow-x: hidden;
+	overflow-y: auto;
+	float: left;
+	width: 37%;
+	height: 300px;
+	max-height: 300px;
+	text-align: left;
+	margin: 0 0 1%;
+}
+#eagle-nav-images a{
+	display: inline-block;
+	margin: 0 1.8% 6px 0;
+}
+#eagle-nav-images .activeSlide{
+	border-bottom: 3px solid #000;
+	margin: 0 1.8% 3px 0;
+}
+#eagle-nav-images a:hover{
+	border-bottom: 3px solid #CA204D;
+	margin: 0 1.8% 3px 0;
+}
+#eagle-photo-extra{
+	display: block;
+	overflow: hidden;
+	clear:both;
+	float: none;
+
+	padding: .5% 0 0;
+	width: 97%;
+}
+#eagle-photo-enlarge{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 64%;
+	margin: 0 0 1% 0;
+	text-align:center;
+	line-height: 1.4em;
+	font-size: .7em;
+	color: #CA204D;
+}
+#eagle-video-button{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 36%;
+	text-align: center;
+}
+#eagle-video-button a{
+	display: block;
+	text-decoration: none;
+	color: #FFF;
+	background-color: #CA204D;
+	width: 90px;
+	margin: 1% auto 0;
+	font-weight: bold;
+	font-size: .8em;
+	line-height: 1.2em;
+	border-radius: 4px;
+}
+#eagle-video-button a:hover{
+	background-color: #000;
+}
+#eagle-vehicle-information{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	margin: 1% 0 0;
+	width: 97%;
+}
+
+.eagle-vehicle-info-divider{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+}
+.eagle-divider-headline{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 96%;
+	padding: 1% 2%;
+	background-color: #F6F6F6;
+	color: #CA204D;
+	font-weight: bold;
+	margin: 0 0 2%;
+}
+.eagle-divider-content{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 96%;
+	padding: 1% 2%;
+	border-top: 2px dashed #FFF;
+}
+
+#eagle-stock-vin-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+	border-bottom: 2px solid #FFF;
+	padding: 0 0 1%;
+}
+#eagle-stock-vin-wrapper .eagle-text-bold{
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0 1% 0 0;
+}
+#eagle-stock-vin-wrapper .eagle-text-space{
+	margin: 0 4% 0 0;
+}
+#eagle-vehicle-details-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+}
+#eagle-vehicle-detail-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 50%;
+	margin: 2% 0;
+}
+.eagle-vehicle-overview-wrap{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	margin: 2% 0;
+}
+.eagle-detail-carfax{
+	background:transparent url('images/button-carfax-192x46.jpg') no-repeat center;
+	width:192px;
+	height:46px;
+	margin: 0 auto;
+	display:block;
+	text-indent:-9999px;
+	font-size: 0;
+	line-height: 0;
+}
+.eagle-vehicle-overview-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 42%;
+	padding: 0 8% 0 0;
+	text-align: right;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.4em;
+}
+.eagle-vehicle-overview-right{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 50%;
+	padding: 0;
+	text-align: left;
+	font-size: 1em;
+	line-height: 1.4em;
+}
+#eagle-vehicle-detail-right{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 50%;
+	margin: 2% 0;
+}
+#eagle-fuel-headline{
+	font-size: 1em;
+	line-height: 1.2em;
+	font-weight: bold;
+	margin: 2% 0;
+}
+#eagle-fuel-economy{
+	width: 100%;
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	margin: 5% auto 0;
+	background-color: #F6F6F6;
+	border-radius: 4px;
+}
+#eagle-fuel-details{
+	width: 100%;
+	display: block;
+	float:none;
+	overflow: hidden;
+	text-align: center;
+	padding: 4% 0;
+}
+#eagle-fuel-details > div{
+	display: inline-block;
+	vertical-align: top;
+	width: 32%;
+}
+.eagle-fuel-text{
+	width: 50%;
+	margin: 0 auto;
+	color: #000;
+	border-radius: 4px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.eagle-fuel-number{
+	color: #000;
+	font-weight: bold;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+#eagle-fuel-disclaimer{
+	display: block;
+	color: #161616;
+	text-align: center;
+	line-height: 1.2em;
+	font-size: .8em;
+	padding: 0 4% 4%;
+}
+#eagle-content-description{
+	line-height: 1.2em;
+	font-size: 1em;
+}
+#eagle-content-features{
+	width: 100%;
+	display: block;
+	overflow: hidden;
+}
+#eagle-content-features > ul{
+	width: 96%;
+	display: block;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 1%;
+	list-style: disc;
+}
+#eagle-content-features > ul li{
+	width: 30%;
+	margin: 0 0 0 3%;
+	float: left;
+}
+#eagle-content-detail-right{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 26%;
+	margin: 2% 0 0;
+}
+
+#eagle-contact-information{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 96%;
+	padding:5% 2%;
+	background-color: #CA204D;
+	text-align: center;
+}
+#eagle-contact-phone{
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 1.8em;
+}
+#eagle-contact-message{
+	font-size: 1em;
+	color: #FFF;
+}
+
+.eagle-content-sidebar-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	margin: 2% 0;
+	width: 92%;
+	padding: 2%;
+	border: 5px solid #E1E1E1;
+}
+.eagle-forms{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	margin: 1%;
+	background-color: #F6F6F6;
+	width: 98%;
+}
+.eagle-form-headers{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	text-align: center;
+	margin: 4% 0;
+	font-size: 1em;
+	font-weight: bold;
+	color: #CA204D;
+}
+.eagle-form-headers-sub{
+	display: block;
+	font-size: .8em;
+	text-align: center;
+	margin: 0 0 4%;
+}
+
+.eagle-form-full{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 90%;
+	margin: 0 5% 2%;
+	padding: 0 0 2%;
+}
+.eagle-form-top-checkboxes{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 90%;
+	margin: 5%;
+	padding: 0 0 5%;
+	border-bottom: 2px solid #E1E1E1;
+}
+.eagle-checkbox-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+}
+.eagle-checkbox-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 10%;
+	padding: 0 5% 0 0;
+}
+.eagle-checkbox-right{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 85%;
+	padding: 1.5% 0 0 0;
+}
+.eagle-checkbox-wrapper label{
+	font-size: .8em;
+	line-height: 1.2em;
+	padding: 0;
+}
+.eagle-form-full input{
+	line-height: 1em;
+	font-size: .8em;
+	width: 96%;
+	padding: 1% 0 1% 3%;
+	margin: 0;
+	color: #6D6D6D;
+}
+.eagle-form-full textarea{
+	width: 94%;
+	padding: 1% 2%;
+	margin: 0;
+	font-size: .8em;
+	color: #6D6D6D;
+	height: 40px;
+}
+.eagle-form-button{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 90%;
+	margin: 0 5% 2%;
+	padding: 0 0 2%;
+}
+.eagle-form-button .submit{
+	width: 100%;
+	height: 24px;
+	background: none;
+	background-color: #CA204D;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 1em;
+	line-height: 1.em;
+	margin: 0;
+	padding: 0 0 1%;
+	border-radius: 4px;
+	border: none;
+	box-shadow: none;
+}
+.eagle-form-button .submit:hover{
+	background: none;
+	background-color: #000;
+	color: #FFF;
+}
+
+.form-error{
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #CA204D;
+	color: #FFF;
+	font-size: .8em;
+	line-height: 1.2em;
+	border-radius: 6px;
+	padding: 0 0 2%;
+}
+.form-error span{
+	display: block;
+}
+
+.eagle-disclaimer p{
+	font-size: 1em;
+	text-align: center;
+}
+
+.eagle-not-found{
+	font-size: 1.2em;
+	text-align: center;
+	color: #CA204D;
+}
+.eagle-not-found a{
+	display: block;
+	margin: 2% 0;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
+/******************
+	Similar Vehicle Elements
+******************/
+#eagle-similar-vehicles {
+	background-color: #F6F6F6;
+	clear: both;
+	display: block;
+	float: none;
+	margin: 1% auto;
+	overflow: hidden;
+	padding: 1%;
+	width: 96%;
+}
+#eagle-similar-title {
+	color: #CA204D;
+	display: block;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.2em;
+	margin: 2% auto;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+}
+#eagle-similar-items{
+	width: 100%;
+	overflow: hidden;
+	display: block;
+	float: none;
+	clear: both;
+}
+.eagle-similar-item{
+	width: 90%;
+	margin: 1% auto 10%;
+	display: block;
+	padding: 0 0 6%;
+	border-bottom: 2px solid #E1E1E1;
+}
+.eagle-similar-item:last-child{
+	border-bottom: none;
+}
+.eagle-similar-headline{
+	margin: 1% 0 4%;
+	text-align: center;
+	overflow: hidden;
+	max-height: 20px;
+}
+.eagle-similar-headline .eagle-similar-saleclass{
+	padding: 1%;
+	font-size: .7em;
+}
+.eagle-similar-headline a{
+	text-decoration: none;
+	color: #000;
+	font-weight: bold;
+	font-size: .8em;
+	line-height: 1em;
+}
+.eagle-similar-headline span{
+	margin: 0 1%;
+}
+.eagle-similar-column-left{
+	width: 42%;
+	display: inline-block;
+	vertical-align: top;
+	margin: 0 1%;
+}
+.eagle-similar-column-right{
+	width: 55%;
+	display: inline-block;
+	vertical-align: top;
+	margin: 0 0 0 1%;
+}
+.eagle-similar-photo a{
+	display: block;
+}
+.eagle-similar-photo img{
+	width: 100%;
+	border-radius: 4px;
+}
+.eagle-similar-button{
+	margin: 6% 0 0;
+}
+.eagle-similar-details{
+	display: block;
+}
+.eagle-similar-details span{
+	display: block;
+	color: #000;
+	font-size: .7em;
+	line-height: .8em;
+	margin: 4% 0;
+}
+.eagle-similar-price{
+	display: block;
+	text-align: center;
+	color: #CA204D;
+	font-weight: bold;
+	font-size: 1em;
+	margin: 5% 0 0;
+}
+.eagle-similar-button a{
+	display: block;
+	width: 75%;
+	margin: 2% auto;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: none;
+	background-color: #CA204D;
+	color: #FFF;
+	padding: 1%;
+	border-radius: 4px;
+	font-size: .8em;
+	line-height: 1.2em;
+	font-weight:  bold;
+	text-transform: uppercase;
+}
+.eagle-similar-button a:hover{
+	text-decoration: none;
+	background-color: #000;
+	color: #FFF;
+}
+
+
+#friendly-print{
+	float: right;
+	clear: both;
+	background: transparent url(images/print.png) no-repeat right;
+	display: block;
+	text-decoration: none;
+	padding-right: 20px;
+	margin-right: 5px;
+	cursor: pointer;
+	font-size: .8em;
+	line-height: 1.2em;
+	color: #CA204D;
+}
+#friendly-print:hover{
+	color: #000;
+}

@@ -1,0 +1,135 @@
+@media all and (max-width: 960px){
+	div.eagle-listing-button{
+		width: 30%;
+	}
+}
+
+@media all and (max-width: 720px){
+	div.eagle-search, div.eagle-pager{
+		float: none;
+		clear: both;
+		text-align: center;
+		max-width: 100%;
+		width: 100%;
+	}
+	div#eagle-total-found{
+		width: 100%;
+		margin: 0  auto;
+		float: none;
+	}
+	div#eagle-sorting-columns{
+		display: none;
+	}
+	div#eagle-content-left{
+		display: none;
+		width: 100%;
+		float: none;
+		clear: both;
+	}
+	div.eagle-sidebar-content h4{
+		background-image: none;
+		padding: 0 0 0 6%;
+	}
+	div.eagle-sidebar-content h4.collapsed{
+		background-image: none;
+	}
+	div.eagle-sidebar-content ul li{
+		width: 48%;
+		display: inline-block;
+		vertical-align: top;
+		font-size: 1em;
+		font-weight: bold;
+		line-height: 1.2em;
+	}
+	div#eagle-mobile-search-bar{
+		display: block;
+		position: relative;
+		text-align: center;
+		background-color: #CA204D;
+		z-index:3;
+	}
+	div#eagle-mobile-search-bar a{
+		display: block;
+		text-decoration: none;
+		color: #FFF;
+		padding: 5px 0;
+		min-width: 132px;
+		width: 100%;
+		float: none;
+		clear: both;
+		cursor: pointer;
+		font-weight: bold;
+		text-align: center;
+		font-size: 1.2em;
+	}
+	div#eagle-content-right{
+		width: 100%;
+		float: none;
+		clear: both;
+	}
+	div.eagle-column-left{
+		width: 100%;
+		padding: 0;
+	}
+	div.eagle-main-line{
+		font-size: .8em
+	}
+	div.eagle-column-right{
+		display: none;
+	}
+	div.eagle-photo{
+		width: 46%;
+	}
+	div.eagle-listing-info{
+		width: 50%;
+		font-size: 0.7em;
+	}
+	div.eagle-vehicle{
+		padding: 1%;
+	}
+	div.eagle-ais-incentive-l-text,div.eagle-ais-incentive-s-text{
+		display: none;
+	}
+	div.eagle-listing-buttons{
+		display: none;
+	}
+	div.eagle-mobile-bottom{
+		display: block;
+	}
+	div.eagle-stock-number{
+		display: none;
+	}
+	div#eagle-top-price .eagle-price{
+		width: 96%;
+	}
+	div#eagle-get-price{
+		display: none;
+	}
+	div#eagle-content-detail-left, div#eagle-content-detail-right{
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+	div#eagle-main-headline{
+		font-size: .8em;
+		line-height: 1em;
+	}
+	div#eagle-sub-headline{
+		font-size: .7em;
+	}
+	div#eagle-headline-wrap, div#eagle-top-price{
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+	div#eagle-vehicle-detail-left,div#eagle-vehicle-detail-right{
+		width: 100%;
+		float: none;
+	}
+	div#eagle-content-description-wrapper, div#eagle-content-features-wrapper{
+		display: none;
+	}
+	a#friendly-print{
+		display: none;
+	}
+}
