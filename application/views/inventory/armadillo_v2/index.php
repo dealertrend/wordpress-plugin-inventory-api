@@ -35,59 +35,27 @@
 	}
 
 	wp_enqueue_script(
-		'dealertrend-inventory-theme-armadillo-misc-ui',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/misc-ui.js',
+		'dealertrend-inventory-theme-armadillo-js',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/armadillo.js',
 		array( 'jquery-ui-core' , 'jquery-ui-button' , 'jquery-ui-dialog' ),
 		$this->plugin_information[ 'Version' ],
 		true
 	);
 
 	if ( empty( $remove_responsive ) ) {
-		//Responsive Style Sheets
-		//Mid
+		//Responsive Style Sheet
 		wp_enqueue_style(
-			'dealertrend-inventory-responsive-mid',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-mid.css',
+			'dealertrend-inventory-responsive-armadillo',
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/armadillo-responsive.css',
 			false,
-			$this->plugin_information[ 'Version' ],
-			'only screen and (min-width: 650px) and (max-width: 1066px), not (min-device-width: 481px) and (max-device-width: 1024px)'
-		);
-		//Small
-		wp_enqueue_style(
-			'dealertrend-inventory-responsive-small',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-small.css',
-			false,
-			$this->plugin_information[ 'Version' ],
-			'only screen and (max-width: 649px), not (min-device-width: 481px) and (max-device-width: 1024px), not (max-device-width 480px)'
-		);
-		//Phone
-		wp_enqueue_style(
-			'dealertrend-inventory-responsive-phone',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/responsive-phone.css',
-			false,
-			$this->plugin_information[ 'Version' ],
-			'only screen and (max-device-width: 480px)'
+			$this->plugin_information[ 'Version' ]
 		);
 	}
 
 	if ( !isset($setprintpage) ) {
 		switch( $type ) {
 			case 'list':
-				wp_enqueue_script(
-					'dealertrend-inventory-theme-armadillo-sidebar',
-					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/sidebar.js',
-					array( 'jquery' , 'jquery-ui-core' ),
-					$this->plugin_information[ 'Version' ],
-					true
-				);
-				if ( empty( $remove_responsive ) ) {
-					wp_enqueue_script(
-						'dealertrend-inventory-responsive-menu',
-						$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/responsive-menu.js',
-						array( 'jquery' ),
-						$this->plugin_information[ 'Version' ]
-					);
-				}
+
 				break;
 			case 'detail':
 				wp_enqueue_script( 'jquery-ui-tabs' );
@@ -100,33 +68,13 @@
 					'jquery',
 					$this->plugin_information[ 'Version' ]
 				);
-				wp_enqueue_script(
-					'dealertrend-inventory-theme-armadillo-slideshow',
-					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/slideshow.js',
-					array( 'jquery-cycle' ),
-					$this->plugin_information[ 'Version' ],
-					true
-				);
-				wp_enqueue_script(
-					'dealertrend-inventory-theme-armadillo-detail-buttons',
-					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/detail-buttons.js',
-					array( 'jquery-ui-dialog' ),
-					$this->plugin_information[ 'Version' ],
-					true
-				);
-				wp_enqueue_script(
-					'dealertrend-inventory-theme-armadillo-tabs',
-					$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/js/tabs.js',
-					array( 'jquery-ui-tabs' ),
-					$this->plugin_information[ 'Version' ],
-					true
-				);
+
 				break;
 		}
 	} else {
 		wp_enqueue_style(
 			'dealertrend-detail-print' ,
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/dealertrend-inventory-print.css' ,
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/armadillo_v2/css/dealertrend-inventory-print.css' ,
 			false ,
 			'0.5'
 		);
