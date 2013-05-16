@@ -47,8 +47,32 @@
 			<label for="search">Inventory Search:</label>
 			<input id="armadillo-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 		</form>
-		<div id="armadillo-listing-sidebar">
+
+			<div id="armadillo-sorting-columns">
 			<div id="armadillo-total-found"><?php echo $total_found; ?> Cars Found</div>
+				<div>Sort by</div>
+				<?php
+					$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
+					switch( $sort ) {
+						case 'year_asc': $sort_year_class = 'asc'; break;
+						case 'year_desc': $sort_year_class = 'desc'; break;
+						case 'price_asc': $sort_price_class = 'asc'; break;
+						case 'price_desc': $sort_price_class = 'desc'; break;
+						case 'mileage_asc': $sort_mileage_class = 'asc'; break;
+						case 'mileage_desc': $sort_mileage_class = 'desc'; break;
+						default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
+					}
+					$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
+					$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
+					$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
+				?>
+				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a></div>
+				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a></div>
+				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a></div>
+			</div>
+
+		<div id="armadillo-listing-sidebar">
+
 			<div id="armadillo-quick-links">
 				<?php
 					$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
@@ -94,7 +118,7 @@
 							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'car' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'car' ? 'class="active"' : NULL; ?>>Car</a></li>
 							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'truck' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'truck' ? 'class="active"' : NULL; ?>>Truck</a></li>
 							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'sport_utility' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'sport_utility' ? 'class="active"' : NULL; ?>>SUV</a></li>
-							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'van' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'van' ? 'class="active"' : NULL; ?>>Van</a></li>
+							<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'van,minivan' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'van,minivan' ? 'class="active"' : NULL; ?>>Van</a></li>
 						</ul>
 					</li>
 					<?php
@@ -219,27 +243,7 @@
 			</div>
 		</div>
 		<div id="armadillo-listing-content">
-			<div id="armadillo-sorting-columns">
-				<div>Sort by</div>
-				<?php
-					$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
-					switch( $sort ) {
-						case 'year_asc': $sort_year_class = 'asc'; break;
-						case 'year_desc': $sort_year_class = 'desc'; break;
-						case 'price_asc': $sort_price_class = 'asc'; break;
-						case 'price_desc': $sort_price_class = 'desc'; break;
-						case 'mileage_asc': $sort_mileage_class = 'asc'; break;
-						case 'mileage_desc': $sort_mileage_class = 'desc'; break;
-						default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
-					}
-					$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
-					$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
-					$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
-				?>
-				<div><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a></div>
-				<div><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a></div>
-				<div class="last"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a></div>
-			</div>
+
 			<div id="armadillo-listing-items">
 				<?php
 					if( empty( $inventory ) ) {

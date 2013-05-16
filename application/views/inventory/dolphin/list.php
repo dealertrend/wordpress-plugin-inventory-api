@@ -221,7 +221,7 @@
 							<option value="car" <?php echo $vehicleclass == 'car' ? 'selected' : NULL; ?>>Car</option>
 							<option value="truck" <?php echo $vehicleclass == 'truck' ? 'selected' : NULL; ?>>Truck</option>
 							<option value="sport_utility" <?php echo $vehicleclass == 'sport_utility' ? 'selected' : NULL; ?>>SUV</option>
-							<option value="van" <?php echo $vehicleclass == 'van' ? 'selected' : NULL; ?>>Van</option>
+							<option value="van,minivan" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
 						</select>
 					</div>
 				</div>

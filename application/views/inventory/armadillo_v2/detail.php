@@ -135,59 +135,6 @@ function video_popup(url , title) {
 	</form>
 </div>
 
-<div id="armadillo-calculate-form" title="Calculate Payments">
-	<h3>Loan Calculator</h3>
-	<form id="loan-calculator" name="loan-calculator" action="#" method="post">
-		<table style="width:100%">
-			<tr>
-				<td colspan="1">
-					<label for="loan-calculator-price">Vehicle Price</label>
-					<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="$<?php echo trim( number_format( $primary_price , 2 , '.' , ',' ) ); ?>" />
-				</td>
-				<td colspan="1">
-					<label for="loan-calculator-interest-rate">Interest Rate</label>
-					<input type="text" style="width:90%" name="interest-rate" id="loan-calculator-interest-rate" value="7.35%" />
-				</td>
-				<td colspan="1">
-					<label for="loan-calculator-term">Term (months)</label>
-					<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="72" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="1">
-					<label for="loan-calculator-trade-in-value">Trade in Value</label>
-					<input type="text" style="width:90%" name="trade-in-value" id="loan-calculator-trade-in-value" value="$3,000" />
-				</td>
-				<td colspan="1">
-					<label for="loan-calculator-down-payment">Down Payment</label>
-					<input type="text" style="width:90%" name="down-payment" id="loan-calculator-down-payment" value="$5,000" />
-				</td>
-				<td colspan="1">
-					<label for="loan-calculator-sales-tax">Sales Tax</label>
-					<input type="text" style="width:90%" name="sales-tax" id="loan-calculator-sales-tax" value="7.375%" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan="1">
-					<div>Bi-Monthly Cost</div>
-					<div id="loan-calculator-bi-monthly-cost"></div>
-				</td>
-				<td colspan="1">
-					<div>Monthly Cost</div>
-					<div id="loan-calculator-monthly-cost"></div>
-				</td>
-				<td colspan="1">
-					<div>Total Cost <small>(including taxes)</small></div>
-					<div id="loan-calculator-total-cost"></div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3"><br /><button>Calculate</button></td>
-			</tr>
-		</table>
-	</form>
-</div>
-
 <div id="armadillo-wrapper">
 	<div id="armadillo-detail">
 		<a id="friendly-print" onclick="window.open('?print_page','popup','width=800,height=900,scrollbars=yes,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=0,top=0'); return false">Print</a>
@@ -439,7 +386,66 @@ function video_popup(url , title) {
 				<a id="armadillo-schedule" href="#armadillo-schedule-form">Schedule Test Drive</a>
 				<a id="armadillo-facebook" href="http://www.addthis.com/bookmark.php?pub=dealertrend&amp;v=250&amp;source=tbx-250&amp;s=facebook&url=&amp;title=&amp;content=" target="_blank">Share on Facebook</a>
 				<a id="armadillo-friend" href="#armadillo-friend-form">Send to a Friend</a>
-				<a id="armadillo-calculate" href="#armadillo-calculate-form">Calculate Payments</a>
+				<a id="armadillo-calculate" class="hide-form">Calculate Payments</a>
+
+				<div id="armadillo-calculate-form" title="Calculate Payments" style="width: 84%; padding: 2% 8%;">
+					<div id="calculate-close-form">X</div>
+					<h3 style="text-align: center;">Loan Calculator</h3>
+					<form id="loan-calculator" name="loan-calculator" action="#" method="post">
+						<table style="width:100%">
+							<tr>
+								<td colspan="1">
+									<label for="loan-calculator-price">Vehicle Price</label>
+									<input type="text" style="width:75%" name="price" id="loan-calculator-price" value="$<?php echo trim( number_format( $primary_price , 2 , '.' , ',' ) ); ?>" />
+								</td>
+								<td colspan="1">
+									<label for="loan-calculator-interest-rate">Interest Rate</label>
+									<input type="text" style="width:75%" name="interest-rate" id="loan-calculator-interest-rate" value="7.35%" />
+								</td>
+							</tr>
+							<tr>
+								<td colspan="1">
+									<label for="loan-calculator-trade-in-value">Trade in Value</label>
+									<input type="text" style="width:75%" name="trade-in-value" id="loan-calculator-trade-in-value" value="$3,000" />
+								</td>
+								<td colspan="1">
+									<label for="loan-calculator-term">Term (months)</label>
+									<input type="text" style="width:75%" name="term" id="loan-calculator-term" value="72" />
+								</td>
+							</tr>
+							<tr>
+								<td colspan="1">
+									<label for="loan-calculator-down-payment">Down Payment</label>
+									<input type="text" style="width:75%" name="down-payment" id="loan-calculator-down-payment" value="$5,000" />
+								</td>
+								<td colspan="1">
+									<label for="loan-calculator-sales-tax">Sales Tax</label>
+									<input type="text" style="width:75%" name="sales-tax" id="loan-calculator-sales-tax" value="7.375%" />
+								</td>
+							</tr>
+							<tr>
+								<td colspan="1">
+									<div class="calc-label">Bi-Monthly Cost</div>
+									<div class="calc-value" id="loan-calculator-bi-monthly-cost"></div>
+								</td>
+								<td colspan="1">
+									<div class="calc-label">Monthly Cost</div>
+									<div class="calc-value" id="loan-calculator-monthly-cost"></div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="calc-label-center">Total Cost <br><small>(including taxes)</small></div>
+									<div class="calc-label-center calc-value" id="loan-calculator-total-cost"></div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><br /><button>Calculate</button></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
 			</div>
 			<?php
 				if( $carfax ) {
