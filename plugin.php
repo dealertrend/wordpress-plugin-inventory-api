@@ -68,6 +68,7 @@ class Plugin {
 		$this->load_admin_assets();
 		$this->setup_routing();
 		$this->queue_templates();
+		$this->add_filter_hooks();
 	}
 
 	private function get_master_file() {
@@ -288,6 +289,8 @@ class Plugin {
 		$new_rules = array();
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			$new_rules[ '^(inventory)' ] = 'index.php?taxonomy=inventory';
+			$new_rules[ '^(new-vehicle-sitemap\.xml$)' ] = 'index.php?taxonomy=new-vehicle-sitemap';
+			$new_rules[ '^(used-vehicle-sitemap\.xml$)' ] = 'index.php?taxonomy=used-vehicle-sitemap';
 		}
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] && count( $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] ) > 0 ) {
 			$new_rules[ '^(showcase)' ] = 'index.php?taxonomy=showcase';
@@ -332,6 +335,28 @@ class Plugin {
 					'rewrite' => array( 'slug' => 'inventory' )
 				)
 			);
+			register_taxonomy(
+				'new-vehicle-sitemap',
+				array( 'page' ),
+				array(
+					'hierarchical' => false,
+					'labels' => $labels,
+					'show_ui' => false,
+					'query_var' => true,
+					'rewrite' => array( 'slug' => 'new-vehicle-sitemap' )
+				)
+			);
+			register_taxonomy(
+				'used-vehicle-sitemap',
+				array( 'page' ),
+				array(
+					'hierarchical' => false,
+					'labels' => $labels,
+					'show_ui' => false,
+					'query_var' => true,
+					'rewrite' => array( 'slug' => 'used-vehicle-sitemap' )
+				)
+			);
 		}
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
 			add_filter( 'widget_text' , 'do_shortcode' );
@@ -364,7 +389,7 @@ class Plugin {
 			'name' => _x( 'DealerTrend AJAX' , 'taxonomy general name' )
 		);
 		register_taxonomy(
-			'showcase',
+			'dealertrend-ajax',
 			array( 'page' ),
 			array(
 				'hierarchical' => false,
@@ -455,7 +480,7 @@ class Plugin {
 								$this->options[ 'vehicle_management_system' ][ 'host' ],
 								$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ],
 								(array) $this->parameters + (array) $seo_hack,
-    							$this->options[ 'alt_settings' ][ 'discourage_seo_visibility' ]
+								$this->options[ 'alt_settings' ][ 'discourage_seo_visibility' ]
 							);
 						}
 						$country_code = $data->country_code;
@@ -488,6 +513,64 @@ class Plugin {
 			case 'dealertrend-ajax':
 				$this->fix_bad_wordpress_assumption();
 				$ajax = new ajax( $this->parameters , $this );
+				$this->stop_wordpress();
+			break;
+			case 'new-vehicle-sitemap':
+
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				$company_id = $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ];
+
+				$sitemap_request = 'https://vms-beta.dealertrend.com/api/companies/' . $company_id . '/vehicles.json';
+				$sitemap_handler = new http_request( $sitemap_request , 'vehicle_sitemap' );
+
+				$theme_path = dirname( __FILE__ ) . '/application/views/sitemap';
+
+				if( $handle = opendir( $theme_path ) ) {
+					while( false != ( $file = readdir( $handle ) ) ) {
+						if( $file == 'index.php' ) {
+							include_once( $theme_path . '/index.php' );
+						}
+					}
+					closedir( $handle );
+				} else {
+					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+					return false;
+				}
+
+				$this->stop_wordpress();
+			break;
+			case 'used-vehicle-sitemap':
+
+				$vehicle_management_system = new vehicle_management_system(
+					$this->options[ 'vehicle_management_system' ][ 'host' ],
+					$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+				);
+				$company_information = $vehicle_management_system->get_company_information()->please();
+
+				$company_id = $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ];
+
+				$sitemap_request = 'http://api.dealertrend.com/api/companies/' . $company_id . '/vehicles.json';
+				$sitemap_handler = new http_request( $sitemap_request , 'vehicle_sitemap' );
+
+				$theme_path = dirname( __FILE__ ) . '/application/views/sitemap';
+
+				if( $handle = opendir( $theme_path ) ) {
+					while( false != ( $file = readdir( $handle ) ) ) {
+						if( $file == 'index.php' ) {
+							include_once( $theme_path . '/index.php' );
+						}
+					}
+					closedir( $handle );
+				} else {
+					echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+					return false;
+				}
+
 				$this->stop_wordpress();
 			break;
 		}
@@ -617,6 +700,48 @@ class Plugin {
 		}
 
 		return array_values( $directories );
+	}
+
+	function add_filter_hooks() {
+		/**
+		 * Filter to add custom link to index sitemap for wpseo by yoast
+		 *
+		 *
+		 **/
+		add_filter('wpseo_sitemap_index', array( &$this, 'add_custom_sitemap_link' ) );
+		add_filter( 'redirect_canonical', array( &$this, 'stop_canonical' ) );
+
+	}
+
+	function add_custom_sitemap_link () {
+		/**
+		 * Filter to add custom link to index sitemap for wpseo by yoast
+		 *
+		 * @return string $custom_link
+		 **/
+		$date_raw = date("Y-m-d");
+		$last_mod = date("Y-m-d", strtotime('-1 day', strtotime($date_raw)));
+
+		$custom_link = '<sitemap>' . "\n";
+		$custom_link .= '<loc>' . home_url('new-vehicle-sitemap.xml') . '</loc>' . "\n";
+		$custom_link .= '<lastmod>' . $last_mod . ' 20:00' . '</lastmod>' . "\n";
+		$custom_link .= '</sitemap>' . "\n";
+
+		$custom_link .= '<sitemap>' . "\n";
+		$custom_link .= '<loc>' . home_url('used-vehicle-sitemap.xml') . '</loc>' . "\n";
+		$custom_link .= '<lastmod>' . $last_mod . ' 20:00' . '</lastmod>' . "\n";
+		$custom_link .= '</sitemap>' . "\n";
+
+		return $custom_link;
+
+	}
+
+	function stop_canonical( $redirect ) {
+		$sitemap = get_query_var( 'taxonomy' );
+		if ( !empty( $sitemap ) && ( $sitemap == 'new-vehicle-sitemap' || $sitemap == 'used-vehicle-sitemap' ) ){
+			return false;
+		}
+		return $redirect;
 	}
 
 }
