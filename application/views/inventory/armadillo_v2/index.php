@@ -140,7 +140,11 @@
 	foreach( $parameters as $key => $value ) {
 		if( in_array( $key , $put_in_trail ) ) {
 			if( ! empty( $wp_rewrite->rules ) ) {
-				$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
+				if ( $key == 'trim' ) {
+					$crumb_trail .= '?trim=' . rawurlencode( urldecode( $value ) ) ;
+				} else {
+					$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
+				}
 				if( $key == 'city' || $key == 'state' | $key == 'vin' ) {
 					$breadcrumbs .= '<a href=""><span>&gt;</span>' . ucfirst( urldecode( $value ) ) . '</a>';
 				} else {
