@@ -60,7 +60,7 @@
 				}
 			}
 
-			if ( $vin != $sim_vin && $sim_count < 3 ) {
+			if ( $vin != $sim_vin && $sim_counter < 3 ) {
 				$sim_counter = $sim_counter + 1;
 				// Similar Start
 				$sim_value .= '<div class="dolphin-similar-item">';
