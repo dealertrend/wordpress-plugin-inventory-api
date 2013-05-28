@@ -105,7 +105,13 @@ function video_popup(url , title) {
 				<span class="dolphin-body-style"><?php echo $body_style; ?></span>
 
 			</h2>
-			<div id="dolphin-headline-text"><?php echo $headline; ?></div>
+			<?php
+				if ( !empty( $headline ) ){
+					$value = '<div id="dolphin-headline-text">' . $headline . '</div>';
+					echo $value;
+				}
+			?>
+
 		</div>
 	</div> <!-- Detail Top End-->
 	<div id="dolphin-detail"> <!-- Detail Body -->
@@ -156,16 +162,17 @@ function video_popup(url , title) {
 							$value .= '</div>';
 							echo $value;
 						}
-						if( count( $inventory->photos > 1 ) ) {
+						if( count( $inventory->photos ) > 1 ) {
 							$value = '';
-							if( count( $inventory->photos > 3 ) ) {
+							if( count( $inventory->photos ) > 3 ) {
 								$value .= '<div id="dolphin-nav-button" name="hidden">Show All</div>';
+							} else {
+								$value .= '<div id="dolphin-nav-button" name="hidden"></div>';
 							}
 							$value .= '<div id="dolphin-nav-wrapper">';
 							$value .= '<div id="dolphin-nav-images"></div>';
-							if( count( $inventory->photos > 3 ) ) {
-								$value .= '</div>';
-							}
+							$value .= '</div>';
+
 							echo $value;
 						}
 					?>
