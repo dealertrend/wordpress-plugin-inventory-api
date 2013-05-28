@@ -98,7 +98,7 @@
     Detail Page
 ******************/
 .dolphin-print{
-    width: 24%;
+    width: 25%;
     display:block;
     float: right;
     text-align: right;
@@ -173,22 +173,25 @@
 }
 #dolphin-share-text{
     width: 40%;
-    display: inline-block;
+    display: block;
+	float: left;
 }
 #dolphin-share-buttons{
     list-style: none;
     margin: 0;
     padding: 0;
     width: 56%;
-    display: inline-block;
+    display: block;
     vertical-align: top;
+	float: left;
 }
 #dolphin-share-buttons li{
-    display: inline-block;
+    display: block;
     vertical-align: top;
     max-width: 16px;
     width: 100%;
     margin: 2%;
+	float: left;
 }
 #dolphin-share-buttons li a{
     display: block;
@@ -242,7 +245,7 @@
     float: left;
     display: block;
     overflow: hidden;
-    margin: 2% 4.5%;
+    margin: 2% 4.4%;
     padding: 1%;
     background-color: #161616;
     border-radius: 8px;
@@ -352,9 +355,10 @@
     height: 74px;
 }
 #dolphin-nav-images a{
-    display: inline-block;
-    margin: 2% 3% 0 2.9%;
+    display: block;
+    margin: 2% 3% 0 2.6%;
     padding: 6px 0;
+	float: left;
 }
 #dolphin-nav-images .activeSlide{
     border-bottom: 6px solid #0453BC;
@@ -401,6 +405,7 @@
 #dolphin-fuel-details{
     width: 97%;
     display: block;
+	clear: both;
     float:none;
     overflow: hidden;
     border-left: 4px solid #3B3B3B;
@@ -409,7 +414,8 @@
     padding: 4% 0;
 }
 #dolphin-fuel-details > div{
-    display: inline-block;
+    display: block;
+	float: left;
     vertical-align: top;
     width: 32%;
 }
@@ -592,7 +598,8 @@
 }
 .dolphin-form-one-half > div{
     width: 45%;
-    display: inline-block;
+    display: block;
+	float: left;
     margin: 0 2%;
 }
 .dolphin-form-full{
@@ -610,6 +617,8 @@
 .dolphin-form-table .submit{
     width: 98%;
     display: block;
+	clear: both;
+	float: none;
     margin: 4% auto 2%;
     padding: 1% 0;
     font-weight: bold;
@@ -650,6 +659,7 @@
 }
 .dolphin-form-table input.privacy,.dolphin-form-table input#friend-notify {
     max-width: 20px;
+	float: left;
 }
 #dolphin-detail-specs{
     width: 94%;
@@ -738,6 +748,7 @@
 #dolphin-previous-page{
     margin: 0 10% 0 0;
     text-decoration: none;
+	float: left;
 }
 .form-error{
     display: block;
@@ -754,7 +765,6 @@
 }
 #friendly-print{
     float: right;
-    clear: both;
     background: transparent url(images/print.png) no-repeat right;
     display: block;
     text-decoration: none;
@@ -848,9 +858,12 @@
     margin: 0 0 0 2%;
     min-width: 44px;
     line-height: 1.4em;
+	display: block;
+	float: left;
 }
-#dolphin-search-top input{
+#dolphin-search-top > input{
     width: 62%;
+	max-width: 554px;
     background-color: #D6D6D6;
     border-radius: 4px;
     margin: .2% 0 0;
@@ -862,8 +875,10 @@
     border-radius: 4px;
     color: #FFFFFF;
     max-width: 150px;
-    width: 100%;
+    width: 68%;
     margin: 0 .5% 0 2%;
+	display: block;
+	float: left;
 }
 #dolphin-advance-show{
     background-color: #0453BC;
@@ -949,7 +964,8 @@
     text-align: center;
 }
 #dolphin-filters > div {
-    display: inline-block;
+    display: block;
+	float: left;
     margin: 0.8% 2% 0;
     overflow: hidden;
     width: 28%;
@@ -961,7 +977,7 @@
 }
 #dolphin-apply-search span{
     font-size: .8em;
-    line-height: .8em;
+    line-height: 1.4em;
     display: inline-block;
     vertical-align: top;
     margin: .5% 0 0;
@@ -1120,7 +1136,8 @@
     color: #FFF;
     border-right: 1px solid #FFF;
     margin: 1% 0 1%;
-    display: inline-block;
+    display: block;
+	float: left;
     vertical-align: top;
 }
 .dolphin-details-left span{
@@ -1135,7 +1152,8 @@
     border-right: 1px solid #FFF;
     margin: 1% 0 1% 2%;
     padding: 0 1% 0 0;
-    display: inline-block;
+    display: block;
+	float: left;
     vertical-align: top;
 }
 .dolphin-details-right span{
@@ -1149,7 +1167,8 @@
     color: #FFF;
     margin: 2% 0 1% 2%;
     text-align: right;
-    display: inline-block;
+    display: block;
+	float: left;
     vertical-align: top;
 }
 .dolphin-main-price{
@@ -1327,10 +1346,11 @@
 .dolphin-similar-item{
     width: 30%;
     margin: 1% 1.5% 0;
-    display: inline-block;
+    display: block;
     vertical-align: top;
     background-color: #D6D6D6;
     border-radius: 6px;
+	float: left;
 }
 .dolphin-similar-headline{
     margin: 1%;
@@ -1353,10 +1373,12 @@
     margin: 0 1%;
 }
 .dolphin-similar-column-left, .dolphin-similar-column-right{
-    width: 48%;
-    display: inline-block;
+    width: 47%;
+    display: block;
     vertical-align: top;
     margin: 0 1%;
+	height: 100px;
+	float: left;
 }
 .dolphin-similar-photo a{
     display: block;
@@ -1382,6 +1404,12 @@
     font-weight: bold;
     font-size: 1em;
     margin: 10% 0 0;
+}
+.dolphin-similar-button{
+    display: block;
+    clear: both;
+    float: none;
+    overflow: hidden;
 }
 .dolphin-similar-button a{
     display: block;

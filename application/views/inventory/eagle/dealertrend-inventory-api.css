@@ -10,6 +10,8 @@
 	overflow: hidden;
 	clear: both;
 	float: none;
+	max-width: 1000px;
+	margin: 0 auto;
 }
 .eagle-breadcrumbs{
 	background-color: #D7D7D7;
@@ -123,7 +125,8 @@
 	line-height: 1.4em;
 }
 #eagle-sorting-columns > div{
-	display: inline-block;
+	display: block;
+	float: left;
 	vertical-align: top;
 	margin: 0 0 0 1%
 }
@@ -132,8 +135,8 @@
 	color: #000;
 }
 .eagle-sorting-divider{
-    border-right: 2px solid;
-    padding: 0 1.5% 0 0;
+	border-right: 2px solid;
+	padding: 0 1.5% 0 0;
 }
 
 #eagle-content-left{
@@ -145,12 +148,12 @@
 }
 #eagle-mobile-search-bar{
 	display: none;
-	background-image: url('images/arrow_down_16x16.jpg');
+	background-image: url('images/minus_17x17.jpg');
 	background-position: right 2% center;
 	background-repeat: no-repeat;
 }
 #eagle-mobile-search-bar.collapsed{
-	background-image: url('images/arrow_left_16x16.jpg');
+	background-image: url('images/plus_17x17.jpg');
 }
 .eagle-sidebar{
 	display: block;
@@ -255,7 +258,7 @@
 	display: block;
 	overflow: hidden;
 	float: left;
-	width: 75%;
+	width: 74%;
 	padding: 0 3% 0 0;
 }
 .eagle-main-line{
@@ -359,7 +362,7 @@
 	display: block;
 	overflow: hidden;
 	float: left;
-	width: 75%;
+	width: 74%;
 	padding: 0 3% 0 0;
 	font-size: .7em;
 	line-height: 1.8em;
@@ -520,7 +523,7 @@
 	display: block;
 	overflow: hidden;
 	float: left;
-	width: 48%;
+	width: 47%;
 	padding: 0 0 0 2%;
 }
 .eagle-get-price-button{
@@ -573,7 +576,7 @@
 	overflow: hidden;
 	float: left;
 	width: 73%;
-	padding: 0 1% 0 0;
+	padding: 0 .8% 0 0;
 	margin: 2% 0 0;
 }
 #eagle-image-wrapper{
@@ -607,17 +610,23 @@
 	text-align: left;
 	margin: 0 0 1%;
 }
+#eagle-nav-images{
+	clear: both;
+	float: none;
+	overflow: hidden;
+}
 #eagle-nav-images a{
-	display: inline-block;
-	margin: 0 1.8% 6px 0;
+	display: block;
+	float: left;
+	margin: 0 1.5% 6px 0;
 }
 #eagle-nav-images .activeSlide{
 	border-bottom: 3px solid #000;
-	margin: 0 1.8% 3px 0;
+	margin: 0 1.5% 3px 0;
 }
 #eagle-nav-images a:hover{
 	border-bottom: 3px solid #CA204D;
-	margin: 0 1.8% 3px 0;
+	margin: 0 1.5% 3px 0;
 }
 #eagle-photo-extra{
 	display: block;
@@ -799,7 +808,8 @@
 	padding: 4% 0;
 }
 #eagle-fuel-details > div{
-	display: inline-block;
+	display: block;
+	float: left;
 	vertical-align: top;
 	width: 32%;
 }
@@ -864,6 +874,13 @@
 	padding:5% 2%;
 	background-color: #CA204D;
 	text-align: center;
+}
+#eagle-contact-name{
+	color: #FFFFFF;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 1.2em;
+	display: none;
 }
 #eagle-contact-phone{
 	font-size: 1.6em;
@@ -1099,15 +1116,19 @@
 }
 .eagle-similar-column-left{
 	width: 42%;
-	display: inline-block;
+	display: block;
+	float: left;
 	vertical-align: top;
 	margin: 0 1%;
+	height: 65px;
 }
 .eagle-similar-column-right{
-	width: 55%;
-	display: inline-block;
+	width: 54%;
+	display: block;
+	float: left;
 	vertical-align: top;
 	margin: 0 0 0 1%;
+	height: 65px;
 }
 .eagle-similar-photo a{
 	display: block;
@@ -1118,6 +1139,7 @@
 }
 .eagle-similar-button{
 	margin: 6% 0 0;
+	clear: both;
 }
 .eagle-similar-details{
 	display: block;

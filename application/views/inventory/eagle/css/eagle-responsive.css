@@ -27,11 +27,16 @@
 		clear: both;
 	}
 	div.eagle-sidebar-content h4{
-		background-image: none;
-		padding: 0 0 0 6%;
+		background-image: url('../images/minus_17x17.jpg');
+		background-position: right 2% center;
+		padding: 1% 0 1% 6%;
+		background-color: #CA204D;
+		color: #ECECEC;
 	}
 	div.eagle-sidebar-content h4.collapsed{
-		background-image: none;
+		background-image: url('../images/plus_17x17.jpg');
+		background-color: #CA204D;
+		color: #ECECEC;
 	}
 	div.eagle-sidebar-content ul li{
 		width: 48%;
