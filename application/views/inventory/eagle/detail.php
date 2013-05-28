@@ -375,6 +375,7 @@
 
 				<div id="eagle-content-detail-right"> <!-- Eagle Content Detail Right -->
 					<div id="eagle-contact-information">
+						<div id="eagle-contact-name"><?php echo $dealer_name; ?></div>
 						<div id="eagle-contact-phone"><?php echo $phone; ?></div>
 						<div id="eagle-contact-message"><?php echo $greeting; ?></div>
 					</div>
@@ -491,7 +492,7 @@
 										</div>
 										<div class="eagle-form-button">
 											<div>
-												<input onclick="eagle_process_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $sale_class ) . '_vehicle_inquiry&#39;'; ?> , '0' )" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
+												<input onclick="return eagle_process_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $sale_class ) . '_vehicle_inquiry&#39;'; ?> , '0' )" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
 											</div>
 										</div>
 										<div class="eagle-form-full">
@@ -563,7 +564,7 @@
 		?>
 
 		<div class="eagle-forms eagle-hidden-form" style="display: none;">
-			<div class="eagle-form-headers active-form" name="form-info">
+			<div class="eagle-form-headers active-form" name="form-info" tabindex="19">
 			</div>
 			<div class="eagle-form-headers-sub" name="form-info-sub">
 			</div>
@@ -618,12 +619,12 @@
 							</div>
 							<div style="display:none">
 								<label for="vehicle-inquiry-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy-hidden" tabindex="15" type="checkbox" checked />
+								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy-hidden" type="checkbox" checked />
 							</div>
 						</div>
 						<div class="eagle-form-button">
 							<div>
-								<input onclick="eagle_process_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $sale_class ) . '_vehicle_inquiry&#39;'; ?> , '3' )" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
+								<input onclick="return eagle_process_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $sale_class ) . '_vehicle_inquiry&#39;'; ?> , '3' )" type="submit" value="Send Inquiry" class="submit" tabindex="25" />
 							</div>
 						</div>
 						<div class="eagle-form-full">

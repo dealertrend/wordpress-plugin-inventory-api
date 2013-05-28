@@ -1,6 +1,6 @@
 // Eagle Listing JS
 if ( jQuery('#eagle-listing').length ) {
-
+	var eagle_mobile_run_once = false;
 	// Show hidden form on click
 	jQuery('.eagle-show-form').click(function() {
 		jQuery('#vehicle-inquiry-year-hidden').val( jQuery(this).siblings('.eagle-hidden-form-values').children('.eagle-form-year').text() );
@@ -18,7 +18,7 @@ if ( jQuery('#eagle-listing').length ) {
 		jQuery('#vehicle-inquiry-subpre-hidden').val( jQuery(this).attr('name') );
 
 		form_url = jQuery(this).siblings('.eagle-hidden-form-values').children('.eagle-form-url').text();
-		jQuery('.eagle-form-button .submit').attr("onclick", "eagle_process_forms(" + form_url + ",'3')");
+		jQuery('.eagle-form-button .submit').attr("onclick", "return eagle_process_forms(" + form_url + ",'3')");
 		jQuery('.eagle-hidden-form').dialog({
 			autoOpen: true,
 			height: 400,
@@ -40,10 +40,10 @@ if ( jQuery('#eagle-listing').length ) {
 
 		if( jQuery(this).attr('class') == 'collapsed'){
 			jQuery(this).siblings('ul').css({'display':'block'});
-			jQuery(this).attr('class','not-collapsed')
+			jQuery(this).attr('class','not-collapsed');
 		} else {
 			jQuery(this).siblings('ul').css({'display':'none'});
-			jQuery(this).attr('class','collapsed')
+			jQuery(this).attr('class','collapsed');
 		}
 
 	});
@@ -79,16 +79,25 @@ if ( jQuery('#eagle-listing').length ) {
 		centerHeight = jQuery('#eagle-content-center').height();
 
 		jQuery('#eagle-mobile-search-bar').click( function(){
+
+			if (eagle_mobile_run_once == false){
+				eagle_mobile_run_once = true;
+				jQuery('.eagle-sidebar-content h4').each(function(){
+					jQuery(this).attr('class','collapsed');
+					jQuery(this).siblings('ul').css({'display':'none'});
+				});
+			}
+
 			click_name = jQuery(this).attr('class');
 			if( click_name == 'collapsed' ) {
 				jQuery(this).attr('class','not-collapsed');
 				jQuery(this).css({
-					'background-color':'#000',
+					'background-color':'#000'
 				});
 				jQuery(this).siblings('#eagle-content-left').css({
 					'position':'absolute',
 					'z-index':'2',
-					'background-color':'#CA204D',
+					'background-color':'#E1E1E1',
 					'top': '1%',
 					'height': leftHeight + 'px',
 					'border-bottom': '3px solid #000',
@@ -102,7 +111,7 @@ if ( jQuery('#eagle-listing').length ) {
 			} else {
 				jQuery(this).attr('class','collapsed');
 				jQuery(this).css({
-					'background-color':'#CA204D',
+					'background-color':'#CA204D'
 				});
 				jQuery(this).children('a').css({'color':'#FFF'});
 				jQuery(this).siblings('#eagle-content-left').slideUp('slow');
@@ -201,7 +210,7 @@ jQuery(document).ready(function() {
 	);
 
 	// Clear Default Form Values
-	jQuery( '.eagle-form-full input' ).click(
+	jQuery( '.eagle-form-full input' ).focus(
 		function() {
 			if ( jQuery(this).attr('alt') == 'empty' ) {
 				jQuery(this).attr('alt','');
@@ -210,7 +219,7 @@ jQuery(document).ready(function() {
 			}
 		}
 	)
-	jQuery( '.eagle-form-full textarea' ).click(
+	jQuery( '.eagle-form-full textarea' ).focus(
 		function() {
 			if ( jQuery(this).attr('alt') == 'empty' ) {
 				jQuery(this).attr('alt','');
@@ -269,30 +278,20 @@ function eagle_process_forms( url, form_id ) {
 		if ( form_errors ) {
 			form_error += form_errors;
 			form.find('.form-error').css({'display':'block'}).html( form_error );
-			form.submit(function(e) {
-				if( e.preventDefault ){
-					e.preventDefault();
-				} else {
-					e.returnValue = false;
-				}
-			});
+			return false;
 		} else {
 			form.find('.form-error').css({'display':'none'}).html('');
 			if( form_id == 3 ){
 				jQuery('.eagle-hidden-form').dialog( "close" );
 			}
-			form.submit(function(e) {
-				if ( url.length > 1) {
-					jQuery(form).attr('action', url);
-					return true;
-				} else {
-					if( e.preventDefault ){
-						e.preventDefault();
-					} else {
-						e.returnValue = false;
-					}
-				}
-			});
+
+			if ( url.length > 1) {
+				jQuery(form).attr('action', url);
+				return true;
+			} else {
+				return false;
+			}
+
 		}
 	}
 }

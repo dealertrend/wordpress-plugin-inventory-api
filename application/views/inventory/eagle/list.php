@@ -133,7 +133,7 @@
 				</div>
 			</div>
 			<div id="eagle-content-center"> <!-- Eagle Content Center -->
-				<div id="eagle-mobile-search-bar" class="collapsed"><a href="#eagle-content-center">Advance Search</a></div>
+				<div id="eagle-mobile-search-bar" class="collapsed"><a href="#eagle-content-center">Inventory Search</a></div>
 				<div id="eagle-content-left"> <!-- Eagle Content Left -->
 					<div id="eagle-content-left-wrapper">
 						<div class="eagle-sidebar sidebar-new-used">
@@ -454,7 +454,7 @@
 		</div>
 
 		<div class="eagle-forms eagle-hidden-form" style="display: none;">
-			<div class="eagle-form-headers active-form" name="form-info">
+			<div class="eagle-form-headers active-form" name="form-info" tabindex="19">
 			</div>
 			<div class="eagle-form-headers-sub" name="form-info-sub">
 			</div>
@@ -509,12 +509,12 @@
 							</div>
 							<div style="display:none">
 								<label for="vehicle-inquiry-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy-hidden" tabindex="15" type="checkbox" checked />
+								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy-hidden" type="checkbox" checked />
 							</div>
 						</div>
 						<div class="eagle-form-button">
 							<div>
-								<input onclick="" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
+								<input onclick="" type="submit" value="Send Inquiry" class="submit" tabindex="25" />
 							</div>
 						</div>
 						<div class="eagle-form-full">
