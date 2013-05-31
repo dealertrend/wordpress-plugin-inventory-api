@@ -525,7 +525,7 @@ class Plugin {
 
 				$company_id = $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ];
 
-				$sitemap_request = 'https://vms-beta.dealertrend.com/api/companies/' . $company_id . '/vehicles.json';
+				$sitemap_request = 'http://api.dealertrend.com/api/companies/' . $company_id . '/vehicles.json';
 				$sitemap_handler = new http_request( $sitemap_request , 'vehicle_sitemap' );
 
 				$theme_path = dirname( __FILE__ ) . '/application/views/sitemap';
