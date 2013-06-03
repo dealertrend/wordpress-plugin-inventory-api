@@ -30,8 +30,8 @@
 	$do_not_carry = remove_query_arg( 'page' , $query );
 
 	$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
-	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
-	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/used/' : add_query_arg( array( 'saleclass' => 'used' ) );
+	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/New/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
+	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/Used/' : add_query_arg( array( 'saleclass' => 'used' ) );
 
 ?>
 

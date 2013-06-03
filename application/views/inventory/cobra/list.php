@@ -49,8 +49,8 @@ $total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_fo
 $do_not_carry = remove_query_arg( 'page' , $query );
 $tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
 
-$new = ! empty( $wp_rewrite->rules ) ? '/inventory/new/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
-$used = ! empty( $wp_rewrite->rules ) ? '/inventory/used/' : add_query_arg( array( 'saleclass' => 'used' ) );
+$new = ! empty( $wp_rewrite->rules ) ? '/inventory/New/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
+$used = ! empty( $wp_rewrite->rules ) ? '/inventory/Used/' : add_query_arg( array( 'saleclass' => 'used' ) );
 
 $vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
 $price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
