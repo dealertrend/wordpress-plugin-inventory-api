@@ -152,7 +152,7 @@
 
 	function display_output( $output, $style_url ){
 
-		header( 'HTTP/1.1 200 OK', true, 200 );
+		//header( 'HTTP/1.0 200 OK', true, 200 );
 		// Prevent the search engines from indexing the XML Sitemap.
 		header( 'X-Robots-Tag: noindex, follow', true );
 		header( 'Content-Type: text/xml' );
