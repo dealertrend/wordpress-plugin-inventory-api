@@ -1,6 +1,8 @@
-<?php	global $wp_rewrite;
+<?php
 
-	$inventory_link = ! empty( $wp_rewrite->rules ) ? '/inventory/' : '?taxonomy=inventory';
+	$rules = get_option( 'rewrite_rules' );
+
+	$inventory_link = isset($rules['^(inventory)']) ? '/inventory/' : '?taxonomy=inventory';
 	$site_link = '<span style="white-space:nowrap;"><a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a></span>';
 ?>
 	<div id="help">
