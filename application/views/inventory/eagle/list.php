@@ -133,13 +133,13 @@
 				</div>
 			</div>
 			<div id="eagle-content-center"> <!-- Eagle Content Center -->
-				<div id="eagle-mobile-search-bar" class="collapsed"><a href="#eagle-content-center">Inventory Search</a></div>
+				<div id="eagle-mobile-search-wrap" class="inactive"><div id="eagle-mobile-search-img"></div><div id="eagle-mobile-search-text">Search</div></div>
 				<div id="eagle-content-left"> <!-- Eagle Content Left -->
 					<div id="eagle-content-left-wrapper">
 						<div class="eagle-sidebar sidebar-new-used">
 							<h3>Search New and Used:</h3>
 							<div class="eagle-sidebar-content content-new-used">
-								<h4 class="not-collapsed">Condition</h4>
+								<h4 class="" name="condition">Condition</h4>
 								<ul>
 									<li><a href="<?php echo $new ?>" title="View New Inventory">New Vehicles</a></li>
 									<li><a href="<?php echo $used ?>" title="View Used Inventory">Used Vehicles</a></li>
@@ -149,7 +149,7 @@
 						<div class="eagle-sidebar sidebar-refine-search">
 							<h3>Refine Your Search By:</h3>
 							<div class="eagle-sidebar-content content-bodystyle">
-								<h4 class="not-collapsed">Body Styles</h4>
+								<h4 class="" name="styles">Body Styles</h4>
 								<ul>
 									<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'car' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'car' ? 'class="active"' : NULL; ?>>Car</a></li>
 									<li><a href="<?php echo add_query_arg( array( 'vehicleclass' => 'truck' ) , $do_not_carry ); ?>" <?php echo $vehicleclass == 'truck' ? 'class="active"' : NULL; ?>>Truck</a></li>
@@ -161,7 +161,7 @@
 							<div class="eagle-sidebar-content content-make-model-trim">
 								<?php
 									if ( $trim_count != 0 ) {
-										$sidebar_content = '<h4 class="not-collapsed">Trims</h4>';
+										$sidebar_content = '<h4 class="" name="vehicles">Trims</h4>';
 										$sidebar_content .= '<ul>';
 										foreach( $trims as $trim ) {
 											$trim_safe = str_replace( '/' , '%2F' , $trim );
@@ -176,7 +176,7 @@
 										$sidebar_content .= '</ul>';
 
 									} else if ( $model_count != 0) {
-										$sidebar_content = '<h4 class="not-collapsed">Models</h4>';
+										$sidebar_content = '<h4 class="" name="vehicles">Models</h4>';
 										$sidebar_content .= '<ul>';
 										foreach( $models as $model ) {
 											$model_safe = str_replace( '/' , '%2F' , $model );
@@ -187,10 +187,10 @@
 												$sidebar_content .= '<li><a href="' . @add_query_arg( array( 'make' => $parameters[ 'make' ] , 'model' => $mode_safe ) , $do_not_carry ) . '">' . $model . '</a></li>';
 											}
 										}
-										$sidebar_content .= '<li><span class="no-style"><a href="/inventory/' . $sale_class . '/" class="eagle-filter-prev" title="View ' . $sale_class . ' Vehicles">&#60; View ' . $sale_class . ' Vehicles</a></span></li>';
+										$sidebar_content .= '<li><span class="no-style"><a href="/inventory/' . $sale_class . '/" class="eagle-filter-prev" title="View ' . $sale_class . ' Vehicles">&#60; All ' . $sale_class . ' Vehicles</a></span></li>';
 										$sidebar_content .= '</ul>';
 									} else if ( $make_count != 0) {
-										$sidebar_content = '<h4 class="not-collapsed">Makes</h4>';
+										$sidebar_content = '<h4 class="" name="vehicles">Makes</h4>';
 										$sidebar_content .= '<ul>';
 											foreach( $makes as $make ) {
 												$make_safe = str_replace( '/' , '%2F' , $make );
@@ -210,14 +210,14 @@
 								?>
 							</div>
 							<div class="eagle-sidebar-content content-price-range">
-								<h4 class="not-collapsed">Price Range</h4>
+								<h4 class="" name="price">Price Range</h4>
 								<ul>
-									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from == "0" ? 'class="active"' : NULL; ?>>$0 - $10,000</a></li>
+									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '0', 'price_to' => '10000' ) , $do_not_carry ); ?>" <?php echo $price_from == "0" ? 'class="active"' : NULL; ?>>$10,000 &#38; Under</a></li>
 									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '10001', 'price_to' => '20000' ) , $do_not_carry ); ?>" <?php echo $price_from == 10001 ? 'class="active"' : NULL; ?>>$10,001 - $20,000</a></li>
 									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '20001', 'price_to' => '30000' ) , $do_not_carry ); ?>" <?php echo $price_from == 20001 ? 'class="active"' : NULL; ?>>$20,001 - $30,000</a></li>
 									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '30001', 'price_to' => '40000' ) , $do_not_carry ); ?>" <?php echo $price_from == 30001 ? 'class="active"' : NULL; ?>>$30,001 - $40,000</a></li>
 									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '40001', 'price_to' => '50000' ) , $do_not_carry ); ?>" <?php echo $price_from == 40001 ? 'class="active"' : NULL; ?>>$40,001 - $50,000</a></li>
-									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>" <?php echo $price_from == 50001 ? 'class="active"' : NULL; ?>>$50,001+</a></li>
+									<li><a rel="nofollow" href="<?php echo @add_query_arg( array( 'price_from' => '50001', 'price_to' => '' ) , $do_not_carry ); ?>" <?php echo $price_from == 50001 ? 'class="active"' : NULL; ?>>$50,001 &#38; Over</a></li>
 								</ul>
 							</div>
 						</div>

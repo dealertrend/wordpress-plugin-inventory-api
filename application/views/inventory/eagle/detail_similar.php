@@ -72,6 +72,8 @@
 				$sim_value .= '<span class="eagle-similar-make">' . $sim_make . '</span>';
 				$sim_value .= '<span class="eagle-similar-make">' . $sim_model . '</span>';
 				$sim_value .= '</a></div>';
+				// Similar Content Wrapper -start
+				$sim_value .= '<div class="eagle-similar-content-wrap">';
 				// Similar Photo
 				$sim_value .= '<div class="eagle-similar-column-left">';
 				$sim_value .= '<div class="eagle-similar-photo">';
@@ -83,7 +85,6 @@
 				$sim_value .= '<div class="eagle-similar-info">';
 				$sim_value .= '<div class="eagle-similar-details">';
 				$sim_value .= '<span class="eagle-similar-stock-number">Stock #: ' . $sim_stock_number . '</span>';
-				//$sim_value .= '<span class="eagle-similar-vin">VIN: ' . $sim_vin . '</span>';
 				$sim_value .= '<span class="eagle-similar-year">Year: ' . $sim_year . '</span>';
 				$sim_value .= '<span class="eagle-similar-trim">Trim: ' . $sim_trim . '</span>';
 				$sim_value .= '</div>';
@@ -91,6 +92,8 @@
 				$sim_value .= $sim_main_price;
 				$sim_value .= '</div>';
 				$sim_value .= '</div></div>';
+				// Similar Content Wrapper -end
+				$sim_value .= '</div>';
 				// Similar Button
 				$sim_value .= '<div class="eagle-similar-button">';
 				$sim_value .= '<a href="' . $sim_inventory_url . '" title="More Information: "' . $sim_generic_vehicle_title . '">More Information</a>';

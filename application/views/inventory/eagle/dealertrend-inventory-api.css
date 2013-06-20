@@ -12,6 +12,7 @@
 	float: none;
 	max-width: 1000px;
 	margin: 0 auto;
+	text-rendering: auto;
 }
 .eagle-breadcrumbs{
 	background-color: #D7D7D7;
@@ -45,7 +46,7 @@
 .eagle-search{
 	float: left;
 	max-width: 300px;
-	width: 30%;
+	width: 32%;
 }
 #eagle-search-box{
 	padding: 0;
@@ -64,7 +65,7 @@
 	float: right;
 	margin: .4% 0 0;
 	max-width: 600px;
-	width: 68%;
+	width: 67%;
 	text-align: right;
 	font-size: .8em;
 	line-height: 1.5em;
@@ -145,15 +146,48 @@
 	float: left;
 	width: 22%;
 	margin: 2% 0 0;
+	position: relative;
 }
-#eagle-mobile-search-bar{
+#eagle-mobile-search-wrap{
+	color: #000;
 	display: none;
-	background-image: url('images/minus_17x17.jpg');
-	background-position: right 2% center;
-	background-repeat: no-repeat;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #CA204D;
+	position: relative;
+	z-index: 3;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.2em;
+	cursor: pointer;
+	padding: 6px 0;
+	border-radius: 0 0 9px 9px;
+	width: 45%;
+	box-shadow: 0px 5px 5px #888888
 }
-#eagle-mobile-search-bar.collapsed{
-	background-image: url('images/plus_17x17.jpg');
+#eagle-mobile-search-wrap.inactive{
+	color: #FFF;
+	background-color: #CA204D;
+}
+#eagle-mobile-search-img{
+	width: 32px;
+	height: 16px;
+	background-repeat: no-repeat;
+	background-image: url('images/icon_menu_black.jpg');
+	float: left;
+	overflow: hidden;
+	display: block;
+	margin: 0 0 0 5%;
+}
+#eagle-mobile-search-wrap.inactive #eagle-mobile-search-img{
+	background-image: url('images/icon_menu_white.jpg');
+}
+#eagle-mobile-search-text{
+	float: left;
+	overflow: hidden;
+	display: block;
+	width: 65%;
 }
 .eagle-sidebar{
 	display: block;
@@ -203,7 +237,7 @@
 	color: #CA204D;
 }
 .eagle-sidebar-content .eagle-filter-prev{
-	font-size: 1em;
+	font-size: .9em;
 	font-weight: bold;
 	line-height: 1.2em;
 	text-decoration: none;
@@ -233,6 +267,7 @@
 	margin: 2% 0 0;
 	border-left: 1px solid #FFF;
 	padding: 0 0 0 1%;
+	position: relative;
 }
 .eagle-vehicle{
 	display: block;
@@ -1114,13 +1149,18 @@
 .eagle-similar-headline span{
 	margin: 0 1%;
 }
+.eagle-similar-content-wrap{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
 .eagle-similar-column-left{
 	width: 42%;
 	display: block;
 	float: left;
 	vertical-align: top;
 	margin: 0 1%;
-	height: 65px;
 }
 .eagle-similar-column-right{
 	width: 54%;
@@ -1128,7 +1168,6 @@
 	float: left;
 	vertical-align: top;
 	margin: 0 0 0 1%;
-	height: 65px;
 }
 .eagle-similar-photo a{
 	display: block;

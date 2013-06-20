@@ -20,58 +20,40 @@
 	div#eagle-sorting-columns{
 		display: none;
 	}
-	div#eagle-content-left{
-		display: none;
-		width: 100%;
-		float: none;
-		clear: both;
-	}
-	div.eagle-sidebar-content h4{
-		background-image: url('../images/minus_17x17.jpg');
-		background-position: right 2% center;
-		padding: 1% 0 1% 6%;
-		background-color: #CA204D;
-		color: #ECECEC;
-	}
-	div.eagle-sidebar-content h4.collapsed{
-		background-image: url('../images/plus_17x17.jpg');
-		background-color: #CA204D;
-		color: #ECECEC;
-	}
 	div.eagle-sidebar-content ul li{
-		width: 48%;
-		display: inline-block;
-		vertical-align: top;
 		font-size: 1em;
 		font-weight: bold;
-		line-height: 1.2em;
+		line-height: 1.6em;
 	}
-	div#eagle-mobile-search-bar{
+	div#eagle-mobile-search-wrap{
 		display: block;
-		position: relative;
-		text-align: center;
-		background-color: #CA204D;
-		z-index:3;
 	}
-	div#eagle-mobile-search-bar a{
-		display: block;
-		text-decoration: none;
-		color: #FFF;
-		padding: 5px 0;
-		min-width: 132px;
-		width: 100%;
+	div#eagle-content-left{
+		display: none;
+		width: 45%;
 		float: none;
 		clear: both;
-		cursor: pointer;
-		font-weight: bold;
-		text-align: center;
-		font-size: 1.2em;
+		z-index: 1;
+		font-size: .8em;
 	}
 	div#eagle-content-right{
 		width: 100%;
 		float: none;
 		clear: both;
+		z-index: 2;
+		font-size: 1em;
 	}
+	div#eagle-content-left.mobileview{
+		position: absolute;
+		top: 1.5%;
+	}
+	div#eagle-content-right.mobileview {
+		overflow: hidden;
+		-webkit-transform: translateX(45%);
+		-moz-transform: translateX(45%);
+		-o-transform: translateX(45%);
+		transform: translateX(45%); 
+	} 
 	div.eagle-column-left{
 		width: 100%;
 		padding: 0;
