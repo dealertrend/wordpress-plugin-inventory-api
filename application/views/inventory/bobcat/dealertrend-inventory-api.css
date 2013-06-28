@@ -56,12 +56,44 @@
 .dealertrend.inventory.detail .headline { background:#1e1e1e; display:block; width:100%; margin-bottom:10px; }
 .dealertrend.inventory.detail .headline h2 { color:white; font-size:20px; line-height:20px; padding:10px;  }
 
-.dealertrend.inventory.detail .left-column { float:left; }
-.dealertrend.inventory.detail .right-column { float:right; }
+.dealertrend.inventory.detail .left-column {
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 32%;
+}
+.dealertrend.inventory.detail .right-column {
+	display: block;
+	overflow: hidden;
+	float:right;
+	width: 67%;
+}
 
-.dealertrend.inventory.detail .slideshow { width:320px; }
-.dealertrend.inventory.detail .slideshow img { background:transparent url('images/no_image.jpg') no-repeat center; border:5px solid #1e1e1e; }
-.dealertrend.inventory.detail .slideshow .navigation { line-height:25px; display:block; margin:5px 0 0 5px; }
+.dealertrend.inventory.detail .slideshow {
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
+}
+.dealertrend.inventory.detail .slideshow .images{
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	max-width: 320px;
+	max-height: 240px;
+	height: 240px;
+}
+.dealertrend.inventory.detail .slideshow .images img {
+	background:transparent url('images/no_image.jpg') no-repeat center;
+	border:5px solid #1e1e1e;
+	width: 96% !important;
+}
+.dealertrend.inventory.detail .slideshow .navigation {
+	line-height:25px;
+	display:block;
+	margin:5px 0 0 5px;
+}
 .dealertrend.inventory.detail .slideshow .navigation a img { margin:0 0px 10px 5px; background:white url('images/thumb_error.png') no-repeat 20px center; padding:3px; display:block; border:1px solid #ccc; float:left; height:40px !important; }
 .dealertrend.inventory.detail .slideshow .navigation a img:hover { background-color:turquoise; }
 .dealertrend.inventory.detail .slideshow .navigation a.activeSlide img { background-color:teal; }

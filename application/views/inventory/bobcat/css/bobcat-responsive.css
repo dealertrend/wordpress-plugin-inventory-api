@@ -1,0 +1,21 @@
+@media all and (max-width: 720px){
+	div.call-to-action{
+		display: none;
+	}
+	.dealertrend.inventory.detail div.left-column, .dealertrend.inventory.detail div.right-column{
+		float: none;
+		clear: both;
+		width: 100%;
+	}
+	.dealertrend.inventory.detail div.slideshow div.images{
+		margin: 0 auto;
+	}
+	.dealertrend.inventory.detail div.slideshow div.navigation{
+		margin: 5px auto;
+		max-width: 368px;
+		width: 100%;
+	}
+	div.right-column .details, div.right-column .form{
+		margin: 0 auto;
+	}
+}

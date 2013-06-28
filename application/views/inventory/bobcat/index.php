@@ -5,6 +5,7 @@
 	global $wp_rewrite;
 
 	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 
@@ -28,6 +29,15 @@
 
 	foreach( $default_scripts as $key => $value ) {
 		wp_enqueue_script( $value );
+	}
+
+	if ( empty( $remove_responsive ) ) {
+		wp_enqueue_style(
+			'dealertrend-bobcat-responsive' ,
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/bobcat/css/bobcat-responsive.css' ,
+			false ,
+			'1.0'
+		);
 	}
 
 	switch( $type ) {

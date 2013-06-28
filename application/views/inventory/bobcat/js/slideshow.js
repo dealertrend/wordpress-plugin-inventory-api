@@ -8,6 +8,7 @@ dealertrend(document).ready(function() {
 		pager: '.slideshow .navigation',
 		pagerAnchorBuilder: function(idx, slide) { 
 			return '<a href="#"><img src="' + slide.src + '" width="60" height="50" /></a>';
-		} 
+		},
+		fit: 1
 	});
 });
