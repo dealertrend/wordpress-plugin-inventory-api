@@ -141,8 +141,20 @@
 							<div class="eagle-sidebar-content content-new-used">
 								<h4 class="" name="condition">Condition</h4>
 								<ul>
-									<li><a href="<?php echo $new ?>" title="View New Inventory">New Vehicles</a></li>
-									<li><a href="<?php echo $used ?>" title="View Used Inventory">Used Vehicles</a></li>
+									<?php
+										switch( $sale_class_filter ) {
+											case 'all':
+												echo '<li><a href="' . $new . '" title="View New Inventory">New Vehicles</a></li>';
+												echo '<li><a href="' . $used . '" title="View Used Inventory">Used Vehicles</a></li>';
+												break;
+											case 'new':
+												echo '<li><a href="' . $new . '" title="View New Inventory">New Vehicles</a></li>';
+												break;
+											case 'used':
+												echo '<li><a href="' . $used . '" title="View Used Inventory">Used Vehicles</a></li>';
+												break;
+										}
+									?>
 								</ul>
 							</div>
 						</div>
