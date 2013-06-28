@@ -76,7 +76,7 @@
 			natcasesort($make_values);
 		?>
 		<tr>
-			<td width="125"><label for="vms-makes">New Makes Filter: </label></td>
+			<td width="125"><label for="vms-makes">New Make Filter: </label></td>
 			<td>
 				<select id="vms-makes" name="vehicle_management_system[makes_new][]" class="vms-makes" size="4" multiple="multiple">
 					<?php $this->create_dd_options($make_values, $vms_makes); ?>
