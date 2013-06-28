@@ -40,6 +40,7 @@
 	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
 	$certified = $inventory->certified;
 	$vehicle_class = $inventory->vehicleclass;
+	$acode = $inventory->ads_acode;
 
 	//$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 	$primary_price = 0;
@@ -374,32 +375,44 @@ function video_popup(url , title) {
 
 					?>
 				</div>
-
 				<?php
-					if( $company_information->country_code != 'CA' ) {
 					$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
 					$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
-					if( $fuel_city != false && $fuel_highway != false ) {
-				?>
-				<div id="dolphin-fuel-economy">
-					<div id="dolphin-fuel-headline">Est. Fuel Economy</div>
-					<div id="dolphin-fuel-details">
-						<div id="dolphin-fuel-city">
-							<div class="dolphin-fuel-text">City</div>
-							<div class="dolphin-fuel-number"><strong><?php echo $fuel_city; ?></strong></div>
-						</div>
-						<div id="dolphin-fuel-img">
-							<img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/mpg_s_39x52.png" />
-						</div>
-						<div id="dolphin-fuel-highway">
-							<div class="dolphin-fuel-text">Hwy</div>
-							<div class="dolphin-fuel-number"><strong><?php echo $fuel_highway; ?></strong></div>
-						</div>
-					</div>
-					<div id="dolphin-fuel-disclaimer"><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></div>
-				</div>
-				<?php } } ?>
+					if( $company_information->country_code == 'CA' ) {
+						$fuel_economy = $vehicle_reference_system->get_fuel_economy( $acode )->please();
+						if( isset( $fuel_economy[ 'body' ] ) ) {
+							$fuel_economy = json_decode( $fuel_economy[ 'body' ] );
+							$fuel_economy = $fuel_economy[ 0 ];
+						} else {
+							$fuel_economy = false;
+						}
+						if( $fuel_economy != false ){
+							$fuel_city = $fuel_economy->city_lp_100km;
+							$fuel_highway = $fuel_economy->highway_lp_100km;
+						}
+					}
 
+					if( $fuel_city != false && $fuel_highway != false ) {
+						$fuel_text = '<div id="dolphin-fuel-economy">';
+						$fuel_text .= '<div id="dolphin-fuel-headline">Est. Fuel Economy</div>';
+						$fuel_text .= '<div id="dolphin-fuel-details">';
+						$fuel_text .= '<div id="dolphin-fuel-city">';
+						$fuel_text .= '<div class="dolphin-fuel-text">City</div>';
+						$fuel_text .= '<div class="dolphin-fuel-number"><strong>' . $fuel_city . '</strong></div>';
+						$fuel_text .= '</div>';
+						$fuel_text .= '<div id="dolphin-fuel-img"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/mpg_s_39x52.png" /></div>';
+						$fuel_text .= '<div id="dolphin-fuel-highway">';
+						$fuel_text .= '<div class="dolphin-fuel-text">Hwy</div>';
+						$fuel_text .= '<div class="dolphin-fuel-number"><strong>' . $fuel_highway . '</strong></div>';
+						$fuel_text .= '</div>';
+						$fuel_text .= '</div>';
+						$fuel_text .= '<div id="dolphin-fuel-disclaimer"><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle&#39;s condition.</small></div>';
+						$fuel_text .= '</div>';
+
+						echo $fuel_text;
+					}
+				
+				?>
 			</div> <!-- Column Middle End -->
 			<div id="dolphin-column-right"> <!-- Column Right -->
 				<div class="dolphin-forms">

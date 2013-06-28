@@ -35,6 +35,7 @@
 	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
+	$acode = $inventory->ads_acode;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
@@ -156,20 +157,37 @@ $now_text = 'Now: ';
 			<?php
 				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
 				$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
+				if( $company_information->country_code == 'CA' ) {
+					$fuel_economy = $vehicle_reference_system->get_fuel_economy( $acode )->please();
+					if( isset( $fuel_economy[ 'body' ] ) ) {
+						$fuel_economy = json_decode( $fuel_economy[ 'body' ] );
+						$fuel_economy = $fuel_economy[ 0 ];
+					} else {
+						$fuel_economy = false;
+					}
+					if( $fuel_economy != false ){
+						$fuel_city = $fuel_economy->city_lp_100km;
+						$fuel_highway = $fuel_economy->highway_lp_100km;
+					}
+				}
+
 				if( $fuel_city != false && $fuel_highway != false ) {
+					$fuel_text = '<div class="fuel-economy">';
+					$fuel_text .= '<div id="cobra-fuel-city">';
+					$fuel_text .= '<p>City</p>';
+					$fuel_text .= '<p><strong>' . $fuel_city . '</strong></p>';
+					$fuel_text .= '</div>';
+					$fuel_text .= '<div id="cobra-fuel-highway">';
+					$fuel_text .= '<p>Highway</p>';
+					$fuel_text .= '<p><strong>' . $fuel_highway . '</strong></p>';
+					$fuel_text .= '</div>';
+					$fuel_text .= '<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle&#39;s condition.</small></p>';
+					$fuel_text .= '</div>';
+
+					echo $fuel_text;
+				}
+				
 			?>
-			<div class="fuel-economy">
-				<div id="cobra-fuel-city">
-					<p>City</p>
-					<p><strong><?php echo $fuel_city; ?></strong></p>
-				</div>
-				<div id="cobra-fuel-highway">
-					<p>Hwy</p>
-					<p><strong><?php echo $fuel_highway; ?></strong></p>
-				</div>
-				<p><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></p>
-			</div>
-			<?php } ?>
 			<div class="detail-buttons">
 				<a id="calculate" href="">Payment Calculator</a>
 			</div>

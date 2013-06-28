@@ -443,6 +443,14 @@ class Plugin {
 							(array) $this->parameters + (array) $seo_hack,
 							$this->options[ 'alt_settings' ][ 'discourage_seo_visibility' ]
 						);
+						$country_code = $data->country_code;
+
+						if ( $country_code == 'CA' ){
+							$vehicle_reference_system = new vehicle_reference_system(
+								$this->options[ 'vehicle_reference_system' ][ 'host' ],
+								$country_code
+							);
+						}
 					}
 
 					if( $handle = opendir( $theme_path ) ) {
@@ -705,12 +713,9 @@ class Plugin {
 	function add_filter_hooks() {
 		/**
 		 * Filter to add custom link to index sitemap for wpseo by yoast
-		 *
-		 *
 		 **/
 		add_filter('wpseo_sitemap_index', array( &$this, 'add_custom_sitemap_link' ) );
 		add_filter( 'redirect_canonical', array( &$this, 'stop_canonical' ) );
-
 	}
 
 	function add_custom_sitemap_link () {

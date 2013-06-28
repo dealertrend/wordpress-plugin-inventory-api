@@ -41,7 +41,7 @@
 	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
 	$certified = $inventory->certified;
 	$vehicle_class = $inventory->vehicleclass;
-
+	$acode = $inventory->ads_acode;
 	$primary_price = 0;
 
 	$traffic_source = isset( $_COOKIE[ 'dealertrend-traffic-source' ] ) ? $_COOKIE[ 'dealertrend-traffic-source' ] : false;
@@ -310,29 +310,43 @@
 									</div>
 									<div id="eagle-vehicle-detail-right">
 										<?php
-											if( $company_information->country_code != 'CA' ) {
 											$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;
 											$fuel_highway = !empty( $fuel_economy ) && !empty( $fuel_economy->highway ) ? $fuel_economy->highway : false;
+											if( $company_information->country_code == 'CA' ) {
+												$fuel_economy = $vehicle_reference_system->get_fuel_economy( $acode )->please();
+												if( isset( $fuel_economy[ 'body' ] ) ) {
+													$fuel_economy = json_decode( $fuel_economy[ 'body' ] );
+													$fuel_economy = $fuel_economy[ 0 ];
+												} else {
+													$fuel_economy = false;
+												}
+												if( $fuel_economy != false ){
+													$fuel_city = $fuel_economy->city_lp_100km;
+													$fuel_highway = $fuel_economy->highway_lp_100km;
+												}
+											}
+
 											if( $fuel_city != false && $fuel_highway != false ) {
+												$fuel_text = '<div id="eagle-fuel-headline">Fuel Economy:</div>';
+												$fuel_text .= '<div id="eagle-fuel-economy">';
+												$fuel_text .= '<div id="eagle-fuel-details">';
+												$fuel_text .= '<div id="eagle-fuel-city">';
+												$fuel_text .= '<div class="eagle-fuel-text">City</div>';
+												$fuel_text .= '<div class="eagle-fuel-number"><strong>' . $fuel_city . '</strong></div>';
+												$fuel_text .= '</div>';
+												$fuel_text .= '<div id="eagle-fuel-img"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/mpg_s_39x52.png" /></div>';
+												$fuel_text .= '<div id="eagle-fuel-highway">';
+												$fuel_text .= '<div class="eagle-fuel-text">Hwy</div>';
+												$fuel_text .= '<div class="eagle-fuel-number"><strong>' . $fuel_highway . '</strong></div>';
+												$fuel_text .= '</div>';
+												$fuel_text .= '</div>';
+												$fuel_text .= '<div id="eagle-fuel-disclaimer"><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle&#39;s condition.</small></div>';
+												$fuel_text .= '</div>';
+
+												echo $fuel_text;
+											}
+				
 										?>
-										<div id="eagle-fuel-headline">Fuel Economy:</div>
-										<div id="eagle-fuel-economy">
-											<div id="eagle-fuel-details">
-												<div id="eagle-fuel-city">
-													<div class="eagle-fuel-text">City</div>
-													<div class="eagle-fuel-number"><strong><?php echo $fuel_city; ?></strong></div>
-												</div>
-												<div id="eagle-fuel-img">
-													<img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/mpg_s_39x52.png" />
-												</div>
-												<div id="eagle-fuel-highway">
-													<div class="eagle-fuel-text">Hwy</div>
-													<div class="eagle-fuel-number"><strong><?php echo $fuel_highway; ?></strong></div>
-												</div>
-											</div>
-											<div id="eagle-fuel-disclaimer"><small>Actual mileage will vary with options, driving conditions, driving habits and vehicle's condition.</small></div>
-										</div>
-										<?php } } ?>
 									</div>
 								</div>
 							</div>
