@@ -153,6 +153,9 @@
 											case 'used':
 												echo '<li><a href="' . $used . '" title="View Used Inventory">Used Vehicles</a></li>';
 												break;
+											case 'certified':
+												echo '<li><a href="' . $used . '" title="View Certified Used Inventory">Certified Vehicles</a></li>';
+												break;
 										}
 									?>
 								</ul>

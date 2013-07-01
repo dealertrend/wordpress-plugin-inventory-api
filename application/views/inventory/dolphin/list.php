@@ -184,9 +184,25 @@
 					</div>
 					<div id="dolphin-search-mid">
 						<select id="dolphin-saleclass" class="dolphin-select">
-							<option value="New" <?php echo (strtolower( $sale_class ) == 'new' ? 'selected' : NULL); ?>>New Vehicles</option>
-							<option value="Used" <?php echo (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL); ?>>Pre-Owned Vehicles</option>
-							<option value="Certified" <?php echo (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL); ?>>Certified Pre-Owned</option>
+							<?php
+								switch( $sale_class_filter ) {
+									case 'all':
+										echo '<option value="New" ' . (strtolower( $sale_class ) == 'new' ? 'selected' : NULL) . ' >New Vehicles</option>';
+										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										break;
+									case 'new':
+										echo '<option value="New" selected >New Vehicles</option>';
+										break;
+									case 'used':
+										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										break;
+									case 'certified':
+										echo '<option value="Certified" selected >Certified Pre-Owned</option>';
+										break;
+								}
+							?>
 						</select>
 						<button id="dolphin-search-submit">GO :</button>
 					</div>

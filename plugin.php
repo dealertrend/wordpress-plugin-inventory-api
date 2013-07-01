@@ -612,10 +612,14 @@ class Plugin {
 
 				switch( $this->options[ 'vehicle_management_system' ][ 'saleclass' ] ) {
 					case 'new':
-						$server_parameters[ 'saleclass' ] = 'new';
+						$server_parameters[ 'saleclass' ] = 'New';
 						break;
 					case 'used':
-						$server_parameters[ 'saleclass' ] = 'used';
+						$server_parameters[ 'saleclass' ] = 'Used';
+						break;
+					case 'certified':
+						$server_parameters[ 'saleclass' ] = 'Used';
+						$server_parameters[ 'certified' ] = 'yes';
 						break;
 				}
 
