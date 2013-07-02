@@ -157,8 +157,8 @@
 
 #armadillo-listing-items > h2 { display:block; line-height:20px; padding:10px; }
 
-.armadillo-column-left { width:200px; float:left; }
-.armadillo-column-right { float:left; width:530px; overflow:hidden; }
+.armadillo-column-left { width: 28%; float:left; }
+.armadillo-column-right { float:left; width: 70%; overflow:hidden; }
 
 .armadillo-item { background:white; clear:both; position:relative; color:#666; position:relative; padding-bottom:5px; border-bottom:1px solid #a8a8a8; }
 .armadillo-item .armadillo-column-left { padding-left:10px; margin-top:15px;}
@@ -242,19 +242,19 @@
 #armadillo-detail .armadillo-header { background:#858585; color:white; font-size:18px; text-transform:uppercase; height:30px; line-height:30px; text-indent:5px; }
 #armadillo-detail .armadillo-column-left{
 	float:left;
-	width:33% !important;
+	width:33%;
 	max-width: 302px;
 	padding: 0 0 0 2%;
 }
 #armadillo-detail .armadillo-column-middle{
 	float:left;
-	width:31% !important;
+	width:31%;
 	max-width: 288px;
 	padding: 0 0 0 2%;
 }
 #armadillo-detail .armadillo-column-right {
 	float:left;
-	width:31% !important;
+	width:31%;
 	max-width: 288px;
 	padding: 0 0 0 1%;
 }
