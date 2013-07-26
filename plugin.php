@@ -69,6 +69,7 @@ class Plugin {
 		$this->setup_routing();
 		$this->queue_templates();
 		$this->add_filter_hooks();
+		$this->add_menu_link();
 	}
 
 	private function get_master_file() {
@@ -751,6 +752,27 @@ class Plugin {
 			return false;
 		}
 		return $redirect;
+	}
+
+	function add_menu_link() {
+		/**
+		 * Adds a link to the admin bar for VMS
+		 **/
+		add_action( 'wp_before_admin_bar_render', array( $this, "add_vms_link" ) );
+	}
+
+	function add_vms_link() {
+		global $wp_admin_bar;
+		if ( !is_super_admin() || !is_admin_bar_showing() )
+			return;
+
+		$wp_admin_bar->add_menu( array(
+			'id'   => 'vms_link',
+			'meta' => array( target => '_blank'),
+			'title' => 'VMS',
+			'href' => 'http://manager.dealertrend.com'
+			)
+		);
 	}
 
 }
