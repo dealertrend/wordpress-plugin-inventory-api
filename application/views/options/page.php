@@ -83,6 +83,11 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] = $_POST[ 'inv_responsive' ];
 			$inventory_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] : 'smoothness';
 			$this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] = $inventory_theme;
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ] = $_POST[ 'phone_new' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
+
 
 		} elseif( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
 
@@ -106,6 +111,10 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] = $_POST[ 'inv_responsive' ];
 			$inventory_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] : 'smoothness';
 			$this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] = $inventory_theme;
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ] = $_POST[ 'phone_new' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
 
 		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {
 

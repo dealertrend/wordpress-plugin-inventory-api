@@ -282,6 +282,7 @@
 							$drive_train = $inventory_item->drive_train;
 							$doors = $inventory_item->doors;
 							$headline = $inventory_item->headline;
+							$saleclass_item = $inventory_item->saleclass;
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -403,7 +404,16 @@
 										<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
 									</div>
 									<div class="armadillo-contact-information">
-										<?php echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $contact_information->phone : NULL; ?>
+										<?php
+											if ( strtolower( $saleclass_item ) == 'new' && !empty( $phone_new ) ) {
+												$phone_value = $phone_new;
+											} elseif ( strtolower( $saleclass_item ) == 'used' && !empty( $phone_used ) ) {
+												$phone_value = $phone_used;
+											} else {
+												$phone_value = $contact_information->phone;
+											}
+											echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $phone_value : NULL;
+										?>
 									</div>
 									<br class="armadillo-clear" />
 								</div>

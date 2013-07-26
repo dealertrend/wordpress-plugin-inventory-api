@@ -120,8 +120,16 @@ function video_popup(url , title) {
 			<?php
 				$value = '<div id="dolphin-contact-details">';
 				$value .= '<span id="dolphin-contact-greeting">' . $greeting . ' </span><strong id="dolphin-contact-dealer">' . $dealer_name . '</strong>';
-				if( $phone != NULL ) {
-					$value .= '<span id="dolphin-contact-phone">: <strong>' . $phone . '</strong></span>';
+
+				if ( strtolower( $sale_class ) == 'new' && !empty( $phone_new ) ) {
+					$phone_value = $phone_new;
+				} elseif ( strtolower( $sale_class ) == 'used' && !empty( $phone_used ) ) {
+					$phone_value = $phone_used;
+				} else {
+					$phone_value = $phone;
+				}
+				if( $phone_value != NULL ) {
+					$value .= '<span id="dolphin-contact-phone">: <strong>' . $phone_value . '</strong></span>';
 				}
 				$value .= '</div>';
 				if( $internet_manager != NULL ) {

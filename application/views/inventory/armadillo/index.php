@@ -7,6 +7,10 @@
 	$sale_class_filter = $this->options[ 'vehicle_management_system' ][ 'saleclass' ];
 	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
 	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
+	$phone_new = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ];
+	$phone_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ];
+	$name_new = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ];
+	$name_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ];
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 

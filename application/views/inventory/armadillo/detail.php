@@ -216,11 +216,27 @@ function video_popup(url , title) {
 				<div class="armadillo-header">Contact Information</div>
 				<?php
 					echo '<p>' . $greeting . ' <strong>' . $dealer_name . '</strong></p>';
-					if( $internet_manager != NULL ) {
-						echo '<p><span id="armadillo-internet-manager-label">Internet Manager:</span> <strong>' . $internet_manager . '</strong></p>';
+					if ( strtolower( $sale_class ) == 'new' && !empty( $name_new ) ) {
+						$name_value = $name_new;
+					} elseif ( strtolower( $sale_class ) == 'used' && !empty( $name_used ) ) {
+						$name_value = $name_used;
+					} else {
+						$name_value = $internet_manager;
 					}
-					if( $phone != NULL ) {
-						echo '<p>Phone Number: <strong>' . $phone . '</strong></p>';
+					if( $name_value != NULL ) {
+						echo '<p><span id="armadillo-internet-manager-label">Internet Manager:</span> <strong>' . $name_value . '</strong></p>';
+					}
+
+
+					if ( strtolower( $sale_class ) == 'new' && !empty( $phone_new ) ) {
+						$phone_value = $phone_new;
+					} elseif ( strtolower( $sale_class ) == 'used' && !empty( $phone_used ) ) {
+						$phone_value = $phone_used;
+					} else {
+						$phone_value = $phone;
+					}
+					if( $phone_value != NULL ) {
+						echo '<p>Phone Number: <strong>' . $phone_value . '</strong></p>';
 					}
 				?>
 			</div>

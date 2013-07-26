@@ -32,7 +32,13 @@ class Plugin {
 			'data' => array(
 				'makes_new' => array()
 			),
-			'inv_responsive' => ''
+			'inv_responsive' => '',
+			'custom_contact' => array(
+				'phone_new' => '',
+				'phone_used' => '',
+				'name_new' => '',
+				'name_used' => ''
+			)
 		),
 		'vehicle_reference_system' => array(
 			'host' => '',

@@ -425,7 +425,16 @@
 					</div>
 					<div class="dolphin-more-info">
 						<div class="dolphin-contact-information">
-							<?php echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $contact_information->phone : NULL; ?>
+							<?php
+								if ( strtolower( $saleclass ) == 'new' && !empty( $phone_new ) ) {
+									$phone_value = $phone_new;
+								} elseif ( strtolower( $saleclass ) == 'used' && !empty( $phone_used ) ) {
+									$phone_value = $phone_used;
+								} else {
+									$phone_value = $contact_information->phone;
+								}
+								echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $phone_value : NULL;
+							?>
 						</div>
 						<div class="dolphin-detail-button">
 							<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>

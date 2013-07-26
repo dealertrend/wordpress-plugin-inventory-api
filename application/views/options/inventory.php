@@ -92,7 +92,22 @@
 				<br />
 			</td>
 		</tr>
-
+		<tr>
+		  <td width="200"><label for="phone_new">Phone # New:</label></td>
+		  <td><input type="text" id="phone_new" name="phone_new" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ] ?>" class="long_input" /></td>
+		</tr>
+		<tr>
+		  <td width="200"><label for="phone_used">Phone # Used:</label></td>
+		  <td><input type="text" id="phone_used" name="phone_used" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] ?>" class="long_input" /></td>
+		</tr>
+		<tr>
+		  <td width="200"><label for="name_new">Name New:</label></td>
+		  <td><input type="text" id="name_new" name="name_new" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] ?>" class="long_input" /></td>
+		</tr>
+		<tr>
+		  <td width="200"><label for="name_used">Name Used:</label></td>
+		  <td><input type="text" id="name_used" name="name_used" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] ?>" class="long_input" /></td>
+		</tr>
 		<tr>
 			<td>
 			<input type="hidden" name="action" value="update" />

@@ -389,8 +389,17 @@
 
 				<div id="eagle-content-detail-right"> <!-- Eagle Content Detail Right -->
 					<div id="eagle-contact-information">
+						<?php
+							if ( strtolower( $sale_class ) == 'new' && !empty( $phone_new ) ) {
+								$phone_value = $phone_new;
+							} elseif ( strtolower( $sale_class ) == 'used' && !empty( $phone_used ) ) {
+								$phone_value = $phone_used;
+							} else {
+								$phone_value = $phone;
+							}
+						?>
 						<div id="eagle-contact-name"><?php echo $dealer_name; ?></div>
-						<div id="eagle-contact-phone"><?php echo $phone; ?></div>
+						<div id="eagle-contact-phone"><?php echo $phone_value; ?></div>
 						<div id="eagle-contact-message"><?php echo $greeting; ?></div>
 					</div>
 					<div class="eagle-content-sidebar-wrapper">
