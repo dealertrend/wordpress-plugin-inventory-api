@@ -291,7 +291,8 @@ class Options_Page {
 				echo 'Showcase</a></li>';
 			}
 			echo
-			'<li><a href="#settings"><span class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-gear" style="float: left; margin-right: .3em;"></span></span>Settings</a></li>
+			'<li><a href="#shortcode"><span class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-gear" style="float: left; margin-right: .3em;"></span></span>Shortcode</a></li>
+			<li><a href="#settings"><span class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-gear" style="float: left; margin-right: .3em;"></span></span>Settings</a></li>
 			<li><a href="#help">Help</a></li>
 		</ul>';
 		include( dirname( __FILE__ ) . '/feed-status.php' );
@@ -311,6 +312,7 @@ class Options_Page {
 		}
 		include( dirname( __FILE__ ) . '/settings.php' );
 		include( dirname( __FILE__ ) . '/help.php' );
+		include( dirname( __FILE__ ) . '/shortcode.html' );
 		echo '</div>';
 	}
 

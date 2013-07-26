@@ -76,6 +76,7 @@ class Plugin {
 		$this->queue_templates();
 		$this->add_filter_hooks();
 		$this->add_menu_link();
+		$this->add_shortcode();
 	}
 
 	private function get_master_file() {
@@ -779,6 +780,68 @@ class Plugin {
 			'href' => 'http://manager.dealertrend.com'
 			)
 		);
+	}
+
+	function add_shortcode() {
+		add_shortcode( 'inventory_list', array( $this, 'sc_list_view' ) );
+	}
+
+	function sc_list_view( $atts ) {
+
+		//Shortcode Attributes
+		$sc_defaults = array (
+			'saleclass' => 'New',
+			'make' => '',
+			'model' => '',
+			'trim' => '',
+			'vehicleclass' => '',
+			'price_from' => '',
+			'price_to' => '',
+			'certified' => '',
+			'tag' => '', //icons
+			'limit' => '10', //per_page
+			'style' => 'newspaper'
+		);
+		extract( shortcode_atts( $sc_defaults, $atts ) );
+
+		//Clean Arrays
+		$sc_atts = array_merge( $sc_defaults, $atts );
+		$sc_style = $sc_atts[ 'style' ];
+		$sc_atts[ 'icons' ] = $sc_atts[ 'tag' ];
+		$sc_atts[ 'per_page' ] = $sc_atts[ 'limit' ];
+		unset( $sc_atts[ 'style' ] );
+		unset( $sc_atts[ 'tag' ] );
+		unset( $sc_atts[ 'limit' ] );
+		foreach( $sc_atts as $key => $att ){
+			if ( empty( $att ) ) {
+				unset( $sc_atts[ $key ] );
+			}
+		}
+
+		//Setup VMS Class
+		$vehicle_management_system = new vehicle_management_system(
+			$this->options[ 'vehicle_management_system' ][ 'host' ],
+			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+		);
+		//Get Company Info
+		$company_information = $vehicle_management_system->get_company_information()->please();
+
+		//Check and call File
+		$file_path = dirname( __FILE__ ) . '/application/views/shortcode';
+		if( $handle = opendir( $file_path ) ) {
+			while( false != ( $file = readdir( $handle ) ) ) {
+				if( $file == 'index.php' ) {
+					include_once( $file_path . '/index.php' );
+				}
+			}
+			closedir( $handle );
+		} else {
+			echo __FUNCTION__ . ' Could not open directory at: ' . $file_path;
+			return false;
+		}
+
+		//Display shortcode
+		return $sc_content;
 	}
 
 }
