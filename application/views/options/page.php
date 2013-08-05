@@ -63,6 +63,7 @@ class Options_Page {
 		if( count( $makes ) > 0 ) {
 			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] = $makes;
 			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = $models;
+			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'year-filter' ] = $_POST[ 'vrs-year-filter' ];
 		}
 
 		if( count( $vms_makes ) > 0 ) {

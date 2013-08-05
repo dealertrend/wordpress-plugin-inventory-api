@@ -213,24 +213,24 @@
 	padding-bottom:5px;
 }
 
-table           { display: table }
-tr              { display: table-row }
-thead           { display: table-header-group }
-tbody           { display: table-row-group }
-tfoot           { display: table-footer-group }
-col             { display: table-column }
-colgroup        { display: table-column-group }
-td, th          { display: table-cell }
-caption         { display: table-caption }
-th              { font-weight: bolder; text-align: center }
-caption         { text-align: center }
-table           { border-spacing: 2px; }
-thead, tbody,
-tfoot           { vertical-align: middle }
-td, th, tr      { vertical-align: inherit }
+#showcase table           { display: table; }
+#showcase tr              { display: table-row; }
+#showcase thead           { display: table-header-group; }
+#showcase tbody           { display: table-row-group; }
+#showcase tfoot           { display: table-footer-group; }
+#showcase col             { display: table-column; }
+#showcase colgroup        { display: table-column-group; }
+#showcase td, th          { display: table-cell; }
+#showcase caption         { display: table-caption; }
+#showcase th              { font-weight: bolder; text-align: center; }
+#showcase caption         { text-align: center; }
+#showcase table           { border-spacing: 2px; }
+#showcase thead, tbody,
+#showcase tfoot           { vertical-align: middle; }
+#showcase td, th, tr      { vertical-align: inherit; }
 
 #showcase #trims {
-overflow: scroll;
+	overflow: scroll;
 }
 #trims table {
   border-spacing: 10px;
@@ -291,10 +291,13 @@ overflow: scroll;
     box-shadow: 0 1px 5px #666666;
     max-height: 228px;
     padding: 1%;
-    max-width: 330px;
+    max-width: 320px;
     vertical-align: top;
-    width: 97%;
+    width: 35%;
     height: 100%;
+	overflow: hidden;
+	float: right;
+	margin: 0 1% 0 0;
 }
 #showcase #sidebar-widget-area .widget {
     background-color: #D6D6D6;
@@ -337,6 +340,7 @@ overflow: scroll;
 #showcase #sidebar-widget-area .widget .gform_wrapper .gform_footer .button {
     float:right;
     margin: 2% 1%;
+	padding: 1%;
 }
 #showcase #sidebar-widget-area .widget .gform_wrapper .gform_body ul li {
     list-style: none outside none;

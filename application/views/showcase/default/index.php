@@ -36,6 +36,7 @@
 		status_header( 400 );
 		$type = false;
 	}
+	$year_filter = $this->options[ 'vehicle_reference_system' ][ 'data' ][ 'year-filter' ];
 
 	get_header();
 

@@ -25,6 +25,7 @@
 				echo '<tr><td><input type="hidden" name="action" value="update" /></td></tr>';
 
 				if( count( $makes ) > 0 ) {
+					// Models
 					echo '<tr><td><label for="models">Models: </label></td>';
 					echo '<td><select id="models" name="vehicle_reference_system[models][]" class="vrs-models" size="4" multiple="multiple">';
 					foreach( $makes as $make ) {
@@ -37,6 +38,13 @@
 						echo '</optgroup>';
 					}
 					echo '</select></tr>';
+
+					// Year-Filter
+					echo '<tr><td width="125">Year Filter:</td><td><select name="vrs-year-filter">';
+					echo '<option value="0" ' . ( ($this->instance->options[ "vehicle_reference_system" ][ "data" ][ "year-filter" ] == "0")?"selected":"" ) . ' >Default</option>';
+					echo '<option value="1" ' . ( ($this->instance->options[ "vehicle_reference_system" ][ "data" ][ "year-filter" ] == "1")?"selected":"" ) . ' >Current Year Only</option>';
+					echo '</select></td></tr>';
+
 				}
 				echo '<tr><td></td><td style="padding-left:175px;"><input type="submit" class="button-primary" value="Save"></td></tr>';
 				wp_nonce_field( 'dealertrend_inventory_api' );

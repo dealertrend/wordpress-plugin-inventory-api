@@ -44,7 +44,8 @@ class Plugin {
 			'host' => '',
 			'data' => array(
 				'makes' => array(),
-				'models' => array()
+				'models' => array(),
+				'year-filter' => '0'
 			),
 			'theme' => 'default'
 		),
