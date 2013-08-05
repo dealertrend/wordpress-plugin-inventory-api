@@ -72,7 +72,11 @@ class ajax {
 							unset( $json[ $key ] );
 						}
 					}
-					$index = mt_rand( 0 , count( $json ) - 1 );
+					if( count( $json ) == 0 ){
+						$index = 0;
+					} else {
+						$index = mt_rand( 0 , count( $json ) - 1 );
+					}
 					$json = $json[ $index ];
 					$review = $vehicle_reference_system->get_review( $options[ $index ] )->please();
 
