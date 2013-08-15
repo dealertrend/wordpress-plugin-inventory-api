@@ -832,7 +832,7 @@ class Plugin {
 		if( $handle = opendir( $file_path ) ) {
 			while( false != ( $file = readdir( $handle ) ) ) {
 				if( $file == 'index.php' ) {
-					include_once( $file_path . '/index.php' );
+					include( $file_path . '/index.php' );
 				}
 			}
 			closedir( $handle );
