@@ -35,6 +35,7 @@ class Options_Page {
 			case 'update':
 				$this->process_options( $data );
 				$this->save_options( $data );
+				$this->update_rewrite_rules();
 			break;
 			case 'reset':
 				$this->reset_options();
@@ -132,6 +133,10 @@ class Options_Page {
 	}
 
 	function reset_options( $data ) {
+	}
+
+	function update_rewrite_rules() {
+		$this->instance->flush_rewrite_rules( true );
 	}
 
 	function uninstall_plugin() {

@@ -309,11 +309,16 @@ class Plugin {
 		return $new_rules + $existing_rules;
 	}
 
-	function flush_rewrite_rules() {
-		$pagenow = $_SERVER['SCRIPT_NAME'];
-		if ( is_admin() && isset($_GET['activate'] ) && $pagenow == "/wp-admin/plugins.php" ) {
-			global $wp_rewrite;
-			return $wp_rewrite->flush_rules();
+	function flush_rewrite_rules( $override = false ) {
+		if( $override === false ) {
+			$pagenow = $_SERVER['SCRIPT_NAME'];
+			if ( is_admin() && isset($_GET['activate'] ) && ( $pagenow == "/wp-admin/plugins.php" || $pagenow == "/wp-admin/network/plugins.php" ) ) {
+				global $wp_rewrite;
+				return $wp_rewrite->flush_rules();
+			}
+		} else {
+				global $wp_rewrite;
+				return $wp_rewrite->flush_rules();
 		}
 	}
 
