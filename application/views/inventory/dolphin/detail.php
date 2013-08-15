@@ -285,7 +285,7 @@ function video_popup(url , title) {
 							$vehicle_info .= '</div>';
 						}
 
-						if ( !empty( $sale_text ) && $sale_price > 0 ) {
+						if ( !empty( $sale_text ) && $sale_price > 0 && $incentive_price > 0 ) {
 							$vehicle_info .= '<div class="dolphin-vehicle-overview-wrap">';
 							$vehicle_info .= '<div class="dolphin-vehicle-overview-left">Price Was:</div>';
 							$vehicle_info .= '<div class="dolphin-vehicle-overview-right">$' . number_format( $sale_price , 0 , '.' , ',' ) . '</div>';
