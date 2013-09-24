@@ -137,8 +137,8 @@ class Plugin {
 				'1.8.11'
 			);
 			wp_register_style(
-				'dealertrend-inventory-api-admin',
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/dealertrend-inventory-api.css',
+				'cardealerpress-admin',
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/css/cardealerpress.css',
 				array( $admin_jquery_ui_theme , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 				$this->plugin_information[ 'Version' ]
 			);
@@ -170,8 +170,8 @@ class Plugin {
 				true
 			);
 			wp_register_script(
-				'dealertrend-inventory-api-admin' ,
-				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/dealertrend-inventory-api-admin.js',
+				'cardealerpress-admin' ,
+				$this->plugin_information[ 'PluginURL' ] . '/application/views/options/js/cardealerpress.js',
 				array( 'jquery' , 'jquery-ui-core' , 'jquery-ui-tabs' , 'jquery-ui-dialog' , 'jquery-ui-multiselect' , 'jquery-ui-multiselect-filter' ),
 				$this->plugin_information[ 'Version' ],
 				true
@@ -273,7 +273,7 @@ class Plugin {
 		);
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
-			wp_enqueue_style( 'dealertrend-inventory-api-admin' );
+			wp_enqueue_style( 'cardealerpress-admin' );
 		}
 	}
 
@@ -291,7 +291,7 @@ class Plugin {
 	}
 
 	function admin_scripts() {
-		wp_enqueue_script( 'dealertrend-inventory-api-admin' );
+		wp_enqueue_script( 'cardealerpress-admin' );
 	}
 
 	function add_rewrite_rules( $existing_rules ) {

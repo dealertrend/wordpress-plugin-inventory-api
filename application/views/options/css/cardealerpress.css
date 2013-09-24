@@ -1,0 +1,128 @@
+.success, .fail, .warning { font-weight:bold; }
+.success { color:green; }
+.fail { color:red; }
+.warning { color:red; }
+
+.long_input { width:200px; }
+small.status { font-weight:bold; }
+
+#icon-dealertrend { background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px; width:46px; }
+h2 { line-height:32px; }
+
+#apollo-custom-message-header, #apollo-custom-video-header, #inventory-tags-header{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+}
+#apollo-add-custom-message, #apollo-add-custom-video, #inventory-add-tag{
+    display: block;
+    width: 48%;
+	float: left;
+	text-decoration: underline;
+	font-size: 10px;
+	cursor: pointer;
+	color: #2687B2;
+}
+#apollo-help-message{
+    display: block;
+    width: 48%;
+	float: right;
+    font-size: 10px;
+    color: #3A9056;
+	cursor: pointer;
+}
+#apollo-help-message span{
+	font-weight: bold;
+	color: #FFF;
+	background-color: #3A9056;
+	padding: 0 1.5%;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#apollo-add-custom-message span, #apollo-add-custom-video span{
+	font-weight: bold;
+	font-size: 14px;
+}
+.custom-message-wrapper, .custom-video-wrapper, .inventory-tags-wrapper{
+	border-top: 1px solid #000;
+	margin: 4% 0;
+}
+.apollo-custom-message-remove, .apollo-custom-video-remove, .inventory-tag-remove{
+	display: block;
+	text-align: right;
+	margin: 0 4% 0 0;
+	font-size: 10px;
+	color: #FF0000;
+	cursor: pointer;
+	text-decoration: underline;
+}
+.apollo_label{
+    width: 120px;
+    vertical-align: top;
+    max-width: 200px;
+    display: inline-block;
+    text-align: right;
+    padding: 1% 0 0 0;
+}
+.custom-message-value input.apollo_input_num{
+    width: 38px;
+}
+.custom-message-value > input, .custom-video-value > input{
+    width: 174px;
+}
+#apollo-help-dialog-box{
+	display: none;
+}
+
+.inventory-tag-label{
+    width: 70px;
+    max-width: 70px;
+    display: inline-block;
+}
+a.inventory-tag-label{
+    background-color: #D6D6D6;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+    line-height: 21px;
+    color: #2C9ACB;
+}
+a.inventory-tag-label:hover{
+    color: #FF0000;
+}
+.inventory-tag-value{
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: both;
+}
+input.inventory-tag-number{
+	width: 38px;
+}
+a.custom_media_upload{
+    display: block;
+    float: left;
+    margin: 6% 0 2%;
+}
+img.custom_media_image{
+    display: block;
+    float: right;
+    width: 100%;
+    max-width: 40px;
+    max-height: 40px;
+    margin: 2% 6% 2% 0;
+}
+input.custom_media_url{
+    display: block;
+	float: none;
+	clear: both;
+	width: 95%;
+}
+.eagle-border-bottom{
+	border-bottom: 1px solid #000;
+}
