@@ -435,6 +435,7 @@ class Plugin {
 					$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
 					$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
+					$inventory_functions = dirname( __FILE__ ) . '/application/views/inventory/functions.php';
 
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 
@@ -719,8 +720,13 @@ class Plugin {
 	function get_themes( $type ) {
 		$directories = scandir( dirname( __FILE__ ) . '/application/views/' . $type . '/' );
 		$ignore = array( '.' , '..' );
+		$exclude = array( 'php' );
 		foreach( $directories as $key => $value ) {
-			if( in_array( $value , $ignore ) ) {
+			$ext = pathinfo($value, PATHINFO_EXTENSION);
+			if( in_array( $ext, $exclude ) ){
+				unset( $directories[ $key ] );
+			}
+			if( in_array( $value , $ignore ) ){
 				unset( $directories[ $key ] );
 			}
 		}

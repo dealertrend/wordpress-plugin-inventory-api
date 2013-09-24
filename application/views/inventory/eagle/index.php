@@ -163,6 +163,7 @@
 
 	$breadcrumbs = '<div class="eagle-breadcrumbs">' . $breadcrumbs . '</div>';
 
+	include( $inventory_functions );	//Global Inventory Functions
 	echo '<div id="dealertrend-inventory-api">';
 	if ( !isset($setprintpage) ){
 		include( dirname( __FILE__ ) . '/' . $type . '.php' );

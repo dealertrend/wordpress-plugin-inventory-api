@@ -136,6 +136,7 @@
 
 	$breadcrumbs = '<div class="bobcat-breadcrumbs">' . $breadcrumbs . '</div>';
 
+	include( $inventory_functions );	//Global Inventory Functions
 	echo '<div id="dealertrend-inventory-api">';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';
