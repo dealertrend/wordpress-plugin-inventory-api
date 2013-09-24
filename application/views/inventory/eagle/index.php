@@ -103,11 +103,12 @@
 	$city = $company_information->seo->city;
 	$state = $company_information->seo->state;
 	$company_name = strtoupper( $company_information->name );
+	$company_name_override = $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'name_override' ];
 
 	$parameters = $this->parameters;
 	$query = '?' . http_build_query( $_GET );
 
-	$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page">' . urldecode( $company_name ) . '</a>';
+	$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page"><span>&gt;</span>' . ( !empty($company_name_override) ? $company_name_override: urldecode( $company_name ) ) . '</a>';
 	$put_in_trail = array(
 		'saleclass',
 		'make',

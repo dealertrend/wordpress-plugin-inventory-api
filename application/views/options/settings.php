@@ -37,7 +37,7 @@
         <tr>
           <td width="125"><label for="company-id">Company ID:</a></td>
           <td>
-            <input type="text" name="vehicle_management_system[company_information][id]" id="company-id" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ?>" />
+            <input type="text" name="vehicle_management_system[company_information][id]" id="company-id" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>" />
           </td>
         </tr>
         <tr>
@@ -51,6 +51,12 @@
 				<br />
 			</td>
 		</tr>
+        <tr>
+          <td width="125" style="vertical-align:top; padding: 2% 0 0 0"><label for="company-name-override">Company Name Override:</a></td>
+          <td>
+            <input type="text" name="vehicle_management_system[company_information][name_override]" id="company-name-override" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'name_override' ]; ?>" /><br><small>Overrides name displayed in breadcrumbs for inventory themes.</small>
+          </td>
+        </tr>
       </table>
       <table>
         <tr>
