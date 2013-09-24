@@ -298,6 +298,11 @@
 									?>
 									<div class="eagle-vehicle" id="<?php echo $vin; ?>">
 										<div class="eagle-listing-top"> <!-- Eagle Listing Top -->
+											<?php
+												if( !empty($custom_settings['display_headlines']) ){
+													echo '<div class="eagle-listing-vehicle-headline">' . $headline . '</div>';
+												}
+											?>
 											<div class="eagle-column-left">
 												<div class="eagle-main-line">
 													<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" class="details">
@@ -413,6 +418,10 @@
 											</div>
 										</div>
 										<div class="eagle-listing-bottom"> <!-- Eagle Listing Bottom -->
+											<?php
+												if( !empty( $custom_settings[ 'display_tags' ] ) ){
+												}
+											?>
 											<div class="eagle-listing-buttons">
 												<div class="eagle-listing-button eagle-show-form eagle-confirm-button" name="Confirm Availability">Confirm Availability</div>
 												<div class="eagle-listing-button eagle-show-form eagle-question-button" name="Ask a Question">Ask a Question</div>

@@ -90,6 +90,7 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
 
+			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
 
 		} elseif( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
 
@@ -117,6 +118,7 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
 
 		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {
 

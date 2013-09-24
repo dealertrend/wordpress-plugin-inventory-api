@@ -496,7 +496,40 @@
 	font-size: .8em;
 	text-align: center;
 }
-
+.eagle-listing-vehicle-headline{
+    display: block;
+    width: 100%;
+    color: #CA204D;
+    background-color: #F6F6F6;
+    padding: 0 1%;
+    margin: 0 0 1% 0;
+    font-size: .8em;
+    font-weight: bold
+}
+.eagle-listing-tags{
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+	overflow: hidden;
+}
+.eagle-listing-tags img{
+    display: inline;
+    vertical-align: center;
+}
+.eagle-detail-tags{
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+	overflow: hidden;
+	text-align: center;
+	padding: 2% 0 0 0;
+}
+.eagle-detail-tags img{
+    display: inline;
+    vertical-align: center;
+}
 /****************************
 	Detail
 ****************************/
@@ -915,17 +948,20 @@
 	font-size: 1em;
 	font-weight: bold;
 	line-height: 1.2em;
-	display: none;
+}
+#eagle-contact-vehicle-location{
+    color: #FFFFFF;
+    font-size: .8em;
 }
 #eagle-contact-phone{
 	font-size: 1.6em;
 	font-weight: bold;
-	color: #FFF;
+	color: #FFFFFF;
 	line-height: 1.8em;
 }
 #eagle-contact-message{
 	font-size: 1em;
-	color: #FFF;
+	color: #FFFFFF;
 }
 
 .eagle-content-sidebar-wrapper{
@@ -1087,7 +1123,9 @@
 	cursor: pointer;
 }
 
-
+.eagle-dialog-form{
+	z-index: 100;
+}
 /******************
 	Similar Vehicle Elements
 ******************/

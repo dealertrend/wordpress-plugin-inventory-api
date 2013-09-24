@@ -164,6 +164,8 @@
 	$breadcrumbs = '<div class="eagle-breadcrumbs">' . $breadcrumbs . '</div>';
 
 	include( $inventory_functions );	//Global Inventory Functions
+	$custom_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] );
+
 	echo '<div id="dealertrend-inventory-api">';
 	if ( !isset($setprintpage) ){
 		include( dirname( __FILE__ ) . '/' . $type . '.php' );

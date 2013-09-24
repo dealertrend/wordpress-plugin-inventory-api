@@ -32,6 +32,7 @@
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
 	$drive_train = $inventory->drive_train;
+	$vehicle_location = $inventory->vehicle_location;
 	$video_url = isset( $inventory->video_url ) ? $inventory->video_url : false;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 	$contact_information = $inventory->contact_info;
@@ -77,6 +78,9 @@
 						</h2>
 					</div>
 					<div id="eagle-sub-headline">
+						<?php
+							if( empty( $custom_settings[ 'remove_sub_headline_d' ] ) ){
+						?>
 						<h3>
 							<span class="eagle-make"><?php echo $make; ?></span>
 							<span class="eagle-model"><?php echo $model; ?></span>
@@ -85,6 +89,19 @@
 							<span class="eagle-state"><?php echo $company_information->state; ?></span>
 
 						</h3>
+						<?php
+							}
+						?>
+
+						<?php
+							if( !empty( $custom_settings[ 'display_vehicle_location_sub_headline_d' ] ) ){
+						?>
+						<h3>
+							<span class="eagle-sh-vehicle-location"><?php echo $vehicle_location; ?></span>
+						</h3>
+						<?php
+							}
+						?>
 					</div>
 				</div>
 				<div id="eagle-top-price">
@@ -162,14 +179,17 @@
 					<div id="eagle-get-price">
 						<div class="eagle-get-price-button eagle-show-form" name="Send Me The ePrice">GET YOUR ePRICE</div>
 					</div>
+					<?php
+						if( !empty( $custom_settings[ 'display_tags' ] ) ){
+						}
+					?>
 				</div>
 				<?php
-					if ( !empty( $headline ) ){
-						$eagle_value = '<div id="eagle-custom-headline">';
-						$eagle_value .= $headline;
-						$eagle_value .= '</div>';
-
-						echo $eagle_value;
+					if( !empty($custom_settings['display_headlines']) ){
+						if ( !empty( $headline ) ){
+							$eagle_value = '<div id="eagle-custom-headline">' . $headline . '</div>';
+							echo $eagle_value;
+						}
 					}
 				?>
 			</div>
@@ -397,10 +417,20 @@
 							} else {
 								$phone_value = $phone;
 							}
+							$contact_info_value = '';
+
+							if( !empty($custom_settings['display_dealer_name_sidebar_d']) ){
+								$contact_info_value .= '<div id="eagle-contact-name">' . $dealer_name . '</div>';
+							}
+							if( !empty($custom_settings['display_vehicle_location_sidebar_d']) ){
+								$contact_info_value .= '<div id="eagle-contact-vehicle-location">' . $vehicle_location . '</div>';
+							}
+							$contact_info_value .= '<div id="eagle-contact-phone">' . $phone_value . '</div>';
+							$contact_info_value .= '<div id="eagle-contact-message">' . $greeting . '</div>';
+
+							echo $contact_info_value;
 						?>
-						<div id="eagle-contact-name"><?php echo $dealer_name; ?></div>
-						<div id="eagle-contact-phone"><?php echo $phone_value; ?></div>
-						<div id="eagle-contact-message"><?php echo $greeting; ?></div>
+
 					</div>
 					<div class="eagle-content-sidebar-wrapper">
 						<div class="eagle-forms">

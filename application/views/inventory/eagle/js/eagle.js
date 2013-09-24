@@ -20,6 +20,7 @@ if ( jQuery('#eagle-listing').length ) {
 		form_url = jQuery(this).siblings('.eagle-hidden-form-values').children('.eagle-form-url').text();
 		jQuery('.eagle-form-button .submit').attr("onclick", "return eagle_process_forms(" + form_url + ",'3')");
 		jQuery('.eagle-hidden-form').dialog({
+			dialogClass: 'eagle-dialog-form',
 			autoOpen: true,
 			height: 400,
 			width: 300,
@@ -212,6 +213,7 @@ if ( jQuery('#eagle-detail').length ) {
 	jQuery('.eagle-show-form').click(function() {
 		jQuery('#vehicle-inquiry-subpre-hidden').val( jQuery(this).attr('name') );
 		jQuery('.eagle-hidden-form').dialog({
+			dialogClass: 'eagle-dialog-form',
 			autoOpen: true,
 			height: 400,
 			width: 300,
