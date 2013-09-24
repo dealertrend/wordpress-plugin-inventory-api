@@ -88,6 +88,8 @@
 					$stock_number = $inventory_item->stock_number;
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
+					$tags = $inventory_item->tags;
+					$certified_inv = $inventory_item->certified;
 					$headline = $inventory_item->headline;
 					$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 					$doors = $inventory_item->doors . 'D';
@@ -124,7 +126,15 @@
 							<span class="odometer">Odometer: <?php echo $odometer; ?></span>
 						</div>
 						<div class="right-column">
-							<span class="icons"><?php echo $icons; ?></span>
+							<?php
+								if( !empty( $tags ) ){
+									echo '<span class="icons">';
+										apply_special_tags( $tags, $on_sale, $certified_inv);
+										$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+										echo $tag_icons;
+									echo '</span>';
+								}
+							?>
 						</div>
 						<div class="call-to-action">
 							<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">Click Here for More Details</a>

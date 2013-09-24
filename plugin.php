@@ -39,6 +39,10 @@ class Plugin {
 				'phone_used' => '',
 				'name_new' => '',
 				'name_used' => ''
+			),
+			'tags' => array(
+				'data' => array(),
+				'counter' => '0'
 			)
 		),
 		'vehicle_reference_system' => array(

@@ -27,6 +27,8 @@
 	$description = $inventory->description;
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
+	$tags = $inventory->tags;
+	$certified_inv = $inventory->certified;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
@@ -186,9 +188,16 @@ function video_popup(url , title) {
 						}
 					?>
 				</div>
-				<div class="dolphin-icons">
-					<?php echo $icons; ?>
-				</div>
+				<?php
+					if( !empty( $tags ) ){
+						echo '<div class="dolphin-icons">';
+							apply_special_tags( $tags, $on_sale, $certified_inv);
+							$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+							echo $tag_icons;
+						echo '</div>';
+					}
+				?>
+
 				<?php
 					if( $carfax ) {
 						echo '<div id="dolphin-carfax"><a href="' . $carfax . '" target="_blank"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg" /></a></div>';
@@ -579,90 +588,9 @@ function video_popup(url , title) {
 
 
 				<div class="dolphin-forms">
-					<div class="dolphin-form-headers" name="form-friend">
+					<a href="mailto:?Subject=<?php echo str_replace( ' ', '%20', $company_information->name ) . '%20-%20Tell-A-Friend%20-%20' . str_replace( ' ', '%20', $year_make_model); ?>" target="_top"><div class="dolphin-form-headers" name="form-friend">
 						Tell A Friend
-					</div>
-					<div id="dolphin-form-friend" class="dolphin-form" name="hidden" style="display: none;">
-						<form name="form-friend" id="form-friend" action="#" method="post">
-							<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
-							<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
-							<input type="hidden" name="return_url" value="<?php echo $share_link; ?>" id="return_url_tellafriend"/>
-							<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
-							<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
-							<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-							<input type="hidden" name="from_name" value="" id="form-friend-from-name" />
-							<input type="hidden" name="friend_name" value="" id="form-friend-name" />
-							<input type="hidden" name="subject" value="<?php echo $company_information->name; ?> - Tell-A-Friend - <?php echo $year_make_model; ?>" />
-							<div class="dolphin-form-table">
-								<div class="dolphin-form-full">
-									<label class="form-single-label">From</label>
-								</div>
-								<div class="dolphin-form-one-half">
-									<div class="required">
-										<label for="friend-from-f-name">First Name*</label>
-										<input maxlength="70" id="friend-from-f-name" name="f_name_from" tabindex="30" type="text" />
-									</div>
-									<div>
-										<label for="friend-from-l-name">Last Name</label>
-										<input maxlength="70" id="friend-from-l-name" name="l_name_from" tabindex="31" type="text" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div>
-										<label for="friend-from-email">Email Address*</label>
-										<input type="text" id="friend-from-email" maxlength="255" name="from_email" tabindex="32" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<label class="form-single-label">To</label>
-								</div>
-								<div class="dolphin-form-one-half">
-									<div class="required">
-										<label for="friend-to-f-name">First Name*</label>
-										<input maxlength="70" id="friend-to-f-name" name="f_name_to" tabindex="33" type="text" />
-									</div>
-									<div>
-										<label for="friend-to-l-name">Last Name</label>
-										<input maxlength="70" id="friend-to-l-name" name="l_name_to" tabindex="34" type="text" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div>
-										<label for="friend-to-email">Email Address*</label>
-										<input type="text" id="friend-to-email" maxlength="255" name="friend_email" tabindex="35" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div>
-										<label for="friend-comments">Comments</label>
-										<textarea rows="10" name="comments" id="friend-comments" tabindex="36" ></textarea>
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div style="display:none">
-										<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
-									</div>
-									<div>
-										<label for="friend-notify" style="float:left; margin-right:10px;">Notify me when e-mail is opened</label>
-										<input id="friend-notify" type="checkbox" name="notify" tabindex="37" />
-									</div>
-									<div>
-										<label for="friend-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-										<input type="checkbox" class="privacy" id="friend-privacy" name="privacy" checked tabindex="38" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div>
-										<input onclick="dolphin_detail_forms(<?php echo '&#39;' . $form_submit_url . 'vehicle_tell_a_friend&#39;'; ?> , '2' )" type="submit" value="Tell Friend" class="submit" tabindex="39" />
-									</div>
-								</div>
-								<div class="dolphin-form-full">
-									<div class="form-error" style="display: none;">
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
+					</div></a>
 				</div>
 
 

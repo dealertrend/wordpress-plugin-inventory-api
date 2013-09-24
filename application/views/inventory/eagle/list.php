@@ -270,6 +270,7 @@
 									$stock_number = $inventory_item->stock_number;
 									$odometer = $inventory_item->odometer;
 									$icons = $inventory_item->icons;
+									$tags = $inventory_item->tags;
 									$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 									$body_style = $inventory_item->body_style;
 									$drive_train = $inventory_item->drive_train;
@@ -420,6 +421,13 @@
 										<div class="eagle-listing-bottom"> <!-- Eagle Listing Bottom -->
 											<?php
 												if( !empty( $custom_settings[ 'display_tags' ] ) ){
+													if( !empty( $tags ) ){
+														echo '<div class="eagle-listing-tags">';
+															apply_special_tags( $tags, $on_sale, $certified);
+															$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+															echo $tag_icons;
+														echo '</div>';
+													}
 												}
 											?>
 											<div class="eagle-listing-buttons">

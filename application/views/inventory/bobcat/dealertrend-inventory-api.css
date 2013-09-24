@@ -1,3 +1,13 @@
+#dealertrend-inventory-api{
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: both;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 #top.clear,
 .dealertrend.inventory .listing .clear,
 .dealertrend.inventory.detail .clear { clear:both; display:block; width:100%; height:0; line-height:0; }

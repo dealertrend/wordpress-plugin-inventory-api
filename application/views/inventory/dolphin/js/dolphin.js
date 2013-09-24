@@ -87,16 +87,18 @@ if ( jQuery('#dolphin-detail').length ) {
 	jQuery('.dolphin-form-headers').click(function() {
 		form_display = jQuery(this).siblings('.dolphin-form').attr('name');
 
-		jQuery('.dolphin-form-headers').each(function() {
-		    jQuery(this).siblings('.dolphin-form').attr('name', 'hidden');
-		    jQuery(this).attr('class','dolphin-form-headers');
-		    jQuery(this).siblings('.dolphin-form').slideUp();
-		});
+		if( jQuery(this).attr('name') != 'form-friend' ) {
+			jQuery('.dolphin-form-headers').each(function() {
+				jQuery(this).siblings('.dolphin-form').attr('name', 'hidden');
+				jQuery(this).attr('class','dolphin-form-headers');
+				jQuery(this).siblings('.dolphin-form').slideUp();
+			});
 
-		if ( form_display.match( /hidden/i ) != null ) {
-		    jQuery(this).siblings('.dolphin-form').attr('name', 'active');
-		    jQuery(this).attr('class', 'dolphin-form-headers active-form');
-		    jQuery(this).siblings('.dolphin-form').slideDown();
+			if ( form_display.match( /hidden/i ) != null ) {
+				jQuery(this).siblings('.dolphin-form').attr('name', 'active');
+				jQuery(this).attr('class', 'dolphin-form-headers active-form');
+				jQuery(this).siblings('.dolphin-form').slideDown();
+			}
 		}
 	});
 
@@ -228,13 +230,6 @@ function dolphin_detail_forms( url, form_id ) {
 				jQuery('#vehicle-testdrive-name').val(required_values['First Name'] + ' ' + required_values['Last Name']);
 				jQuery('#vehicle-testdrive-timetocall').val( jQuery('#vehicle-testdrive-date').val() + ' - ' + jQuery('#vehicle-testdrive-time').val() );
 				break;
-			case '2': //Tell Friend
-				form = jQuery('#form-friend');
-				required_values = get_dolphin_detail_form_required_values( form_id );
-				form_errors = dolphin_detail_form_error_check( required_values );
-				jQuery('#form-friend-from-name').val(required_values['First Name'] + ' ' + jQuery('#friend-from-l-name').val() );
-				jQuery('#form-friend-name').val(required_values['Friend First Name'] + ' ' + jQuery('#friend-to-l-name').val() );
-				break;
 		}
 	}
 
@@ -271,13 +266,6 @@ function get_dolphin_detail_form_required_values( id ) {
 			obj['Last Name'] = jQuery('#vehicle-testdrive-l-name').val();
 			obj['Email'] = jQuery('#vehicle-testdrive-email').val();
 			obj['Privacy'] = jQuery('#vehicle-testdrive-privacy:checked').val();
-			break;
-		case '2':
-			obj['First Name'] = jQuery('#friend-from-f-name').val();
-			obj['Friend First Name'] = jQuery('#friend-to-f-name').val();
-			obj['Email'] = jQuery('#friend-from-email').val();
-			obj['Email2'] = jQuery('#friend-to-email').val();
-			obj['Privacy'] = jQuery('#friend-privacy:checked').val();
 			break;
 	}
 

@@ -28,6 +28,7 @@
 	$description = $inventory->description;
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
+	$tags = $inventory->tags;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
@@ -181,6 +182,13 @@
 					</div>
 					<?php
 						if( !empty( $custom_settings[ 'display_tags' ] ) ){
+							if( !empty( $tags ) ){
+								echo '<div class="eagle-detail-tags">';
+									apply_special_tags( $tags, $on_sale, $certified);
+									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+									echo $tag_icons;
+								echo '</div>';
+							}
 						}
 					?>
 				</div>

@@ -26,6 +26,8 @@
 	$description = $inventory->description;
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
+	$tags = $inventory->tags;
+	$certified_inv = $inventory->certified;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
@@ -100,41 +102,6 @@ function video_popup(url , title) {
 		</fieldset>
 	</form>
 </div>
-
-<div id="armadillo-friend-form" title="Send to a Friend">
-	<h3>Send to a Friend</h3>
-	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
-	<form name="formtellafriend" id="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
-		<fieldset>
-			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
-			<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
-			<input type="hidden" name="return_url" value="<?php echo $site_url; ?>" id="return_url_tellafriend"/>
-			<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
-			<input type="hidden" name="stock" value="<?php echo $stock_number; ?>"/>
-			<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-			<label for="formtellafriend-from-name">Your First &amp; Last Name</label>
-			<input type="text" maxlength="70" name="from_name" id="formtellafriend-from-name" class="text ui-widget-content ui-corner-all" />
-			<label for="formtellafriend-from-email">Email Address</label>
-			<input type="text" id="formtellafriend-from-email" maxlength="255" name="from_email" class="text ui-widget-content ui-corner-all" />
-			<label for="formtellafriend-friend-name">Your Friend's Name</label>
-			<input type="text" maxlength="70" name="friend_name" id="formtellafriend-friend-name" class="text ui-widget-content ui-corner-all" />
-			<label for="formtellafriend-friend-email">Friend's Email Address</label>
-			<input type="text" maxlength="255" name="friend_email" id="formtellafriend-friend-email"class="text ui-widget-content ui-corner-all" />
-			<label for="formtellafriend-subject">Subject</label>
-			<input type="text" maxlength="256" name="subject" id="formtellafriend-subject" value="<?php echo $company_information->name; ?> - Tell-A-Friend - <?php echo $year_make_model; ?>" class="text ui-widget-content ui-corner-all" />
-			<label for="formtellafriend-comments">Comments</label>
-			<textarea rows="10" name="comments" id="formtellafriend-comments" class="text ui-widget-content ui-corner-all" ></textarea>
-			<label for="formtellafriend-notify" style="float:left; margin-right:10px;">Notify me when e-mail is opened</label>
-			<input id="formtellafriend-notify" type="checkbox" name="notify" value="yes" />
-			<label for="formtellafriend-privacy" style="float:left; margin-right:10px;">Agree to <a target="_blank" href="/privacy">Privacy Policy</a></label>
-			<input type="checkbox" class="privacy" id="formtellafriend-privacy" name="privacy" value="Yes" checked="checked" />
-			<div style="display:none">
-				<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
-			</div>
-		</fieldset>
-	</form>
-</div>
-
 
 <div id="armadillo-wrapper">
 	<div id="armadillo-detail">
@@ -246,7 +213,7 @@ function video_popup(url , title) {
 				</div>
 				<a id="armadillo-schedule" href="#armadillo-schedule-form">Schedule Test Drive</a>
 				<a id="armadillo-facebook" href="http://www.addthis.com/bookmark.php?pub=dealertrend&amp;v=250&amp;source=tbx-250&amp;s=facebook&url=&amp;title=&amp;content=" target="_blank">Share on Facebook</a>
-				<a id="armadillo-friend" href="#armadillo-friend-form">Send to a Friend</a>
+				<a id="armadillo-friend" href="mailto:?Subject=<?php echo str_replace( ' ', '%20', $company_information->name ) . '%20-%20Tell-A-Friend%20-%20' . str_replace( ' ', '%20', $year_make_model); ?>">Send to a Friend</a>
 				<a id="armadillo-calculate" class="hide-form">Calculate Payments</a>
 
 				<div id="armadillo-calculate-form" title="Calculate Payments" style="width: 84%; padding: 2% 8%;">
@@ -426,9 +393,15 @@ function video_popup(url , title) {
 				}
 				
 			?>
-			<div class="armadillo-icons">
-				<?php echo $icons; ?>
-			</div>
+			<?php
+				if( !empty( $tags ) ){
+					echo '<div class="armadillo-icons">';
+						apply_special_tags( $tags, $on_sale, $certified_inv);
+						$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+						echo $tag_icons;
+					echo '</div>';
+				}
+			?>
 			<?php
 				if( ! empty( $dealer_options ) || ! empty( $description ) ) {
 			?>

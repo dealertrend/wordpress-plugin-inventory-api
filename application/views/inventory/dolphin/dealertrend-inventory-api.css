@@ -517,6 +517,9 @@
 .dolphin-forms:last-child .dolphin-form{
     margin: 0;
 }
+.dolphin-forms > a{
+    text-decoration: none;
+}
 .dolphin-form-headers{
     width: 100%;
     margin: 0 auto 6%;

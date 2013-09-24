@@ -89,7 +89,8 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
-
+			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ] = $_POST[ 'inventory_tags_counter' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ] = ( !empty($_POST[ 'inventory_tag' ]) ) ? $_POST[ 'inventory_tag' ]: array();
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
 
 		} elseif( isset( $_POST[ 'vehicle_management_system' ] ) || isset( $_POST[ 'vehicle_reference_system' ] ) ) {
@@ -118,7 +119,10 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ] = $_POST[ 'inventory_tags_counter' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ] = ( !empty($_POST[ 'inventory_tag' ]) ) ? $_POST[ 'inventory_tag' ]: array();
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
+
 
 		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {
 
@@ -258,6 +262,14 @@ class Options_Page {
 	}
 
 	function show_page() {
+
+		if(function_exists( 'wp_enqueue_media' )){
+			wp_enqueue_media();
+		}else{
+			wp_enqueue_style('thickbox');
+			wp_enqueue_script('media-upload');
+			wp_enqueue_script('thickbox');
+		}
 
 		include( dirname( __FILE__ ) . '/uninstall-dialog.php' );
 

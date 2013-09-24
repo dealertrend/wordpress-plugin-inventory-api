@@ -290,6 +290,8 @@
 						$stock_number = $inventory_item->stock_number;
 						$odometer = $inventory_item->odometer;
 						$icons = $inventory_item->icons;
+						$tags = $inventory_item->tags;
+						$certified_inv = $inventory_item->certified;
 						$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 						$body_style = $inventory_item->body_style;
 						$drive_train = $inventory_item->drive_train;
@@ -320,9 +322,16 @@
 							<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 						</a>
 					</div>
-					<div class="dolphin-icons"> <!-- dolphin icons -->
-						<?php echo $icons; ?>
-					</div>
+					 <!-- dolphin icons -->
+					<?php
+						if( !empty( $tags ) ){
+							echo '<div class="dolphin-icons">';
+								apply_special_tags( $tags, $on_sale, $certified_inv);
+								$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+								echo $tag_icons;
+							echo '</div>';
+						}
+					?>
 				</div>
 				<div class="dolphin-column-right"> <!-- dolphin column right -->
 					<div class="dolphin-headline">

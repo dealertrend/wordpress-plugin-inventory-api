@@ -137,6 +137,9 @@
 	$breadcrumbs = '<div class="bobcat-breadcrumbs">' . $breadcrumbs . '</div>';
 
 	include( $inventory_functions );	//Global Inventory Functions
+	$default_tag_names = get_default_tag_names();
+	$custom_tag_icons = $this->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
+
 	echo '<div id="dealertrend-inventory-api">';
 	include( dirname( __FILE__ ) . '/' . $type . '.php' );
 	echo '</div>';

@@ -277,6 +277,8 @@
 							$stock_number = $inventory_item->stock_number;
 							$odometer = $inventory_item->odometer;
 							$icons = $inventory_item->icons;
+							$tags = $inventory_item->tags;
+							$certified_inv = $inventory_item->certified;
 							$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 							$body_style = $inventory_item->body_style;
 							$drive_train = $inventory_item->drive_train;
@@ -339,9 +341,15 @@
 										<span class="armadillo-odometer">Odometer: <?php echo $odometer; ?></span>
 										<span class="armadillo-vin">VIN: <?php echo $vin; ?></span>
 									</div>
-									<div class="armadillo-icons">
-										<?php echo $icons; ?>
-									</div>
+									<?php
+										if( !empty( $tags ) ){
+											echo '<div class="armadillo-icons">';
+												apply_special_tags( $tags, $on_sale, $certified_inv);
+												$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
+												echo $tag_icons;
+											echo '</div>';
+										}
+									?>
 									<?php
 										if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
 									?>
