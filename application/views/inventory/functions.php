@@ -25,17 +25,15 @@
 		return $icons;
 	}
 
-	function apply_special_tags( &$tags, $on_sale = false, $certified = false ){
+	function apply_special_tags( &$tags, $on_sale = false, $certified = 'false' ){
 
 		if( !empty($on_sale) ){
 			$tags[] = 'on-sale';
 		}
 
-		if( !empty($certified) ){
+		if( $certified != 'false' ){
 			$tags[] = 'certified';
 		}
-
-		return $tags;
 
 	}
 
