@@ -251,7 +251,6 @@ class Plugin {
 
 	function setup_routing() {
 		add_action( 'rewrite_rules_array' , array( &$this , 'add_rewrite_rules' ) , 1 );
-		add_action( 'init' , array( &$this , 'flush_rewrite_rules' ) , 1 );
 		add_action( 'init' , array( &$this , 'create_taxonomies' ) );
 	}
 
