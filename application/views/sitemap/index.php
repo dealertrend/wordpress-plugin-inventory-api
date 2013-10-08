@@ -94,7 +94,7 @@
 
 				$value = '<url>' . "\n";
 				$value .= '<loc>' . $new[0] . '</loc>' . "\n";
-				$value .= '<lastmod>' . $last_mod . ' 20:00' . '</lastmod>' . "\n";
+				$value .= '<lastmod>' . $last_mod . '</lastmod>' . "\n";
 				$value .= '<changefreq>daily</changefreq>' . "\n";
 				$value .= '<priority>' . $new[1] . '</priority>' . "\n";
 				$value .= '</url>' . "\n";
@@ -123,7 +123,7 @@
 
 				$value = '<url>' . "\n";
 				$value .= '<loc>' . $used[0] . '</loc>' . "\n";
-				$value .= '<lastmod>' . $last_mod . ' 20:00' . '</lastmod>' . "\n";
+				$value .= '<lastmod>' . $last_mod . '</lastmod>' . "\n";
 				$value .= '<changefreq>daily</changefreq>' . "\n";
 				$value .= '<priority>' . $used[1] . '</priority>' . "\n";
 				$value .= '</url>' . "\n";
