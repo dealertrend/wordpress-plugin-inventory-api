@@ -178,36 +178,6 @@
 			<form action="#" method="POST" id="dolphin-search"> <!-- Vehicle Search -->
 				<input type="hidden" id="hidden-rewrite" value="<?php if ( !empty( $wp_rewrite->rules ) ) { echo 'true'; } ?>" name="h_taxonomy" />
 				<input type="hidden" id="hidden-saleclass" value="<?php echo ucwords( strtolower( $sale_class ) ) ?>" name="h_saleclass" />
-				<div id="dolphin-search-top">
-					<div id="dolphin-search-text"> <!-- Search Filter Text -->
-						Search
-					</div>
-					<div id="dolphin-search-mid">
-						<select id="dolphin-saleclass" class="dolphin-select">
-							<?php
-								switch( $sale_class_filter ) {
-									case 'all':
-										echo '<option value="New" ' . (strtolower( $sale_class ) == 'new' ? 'selected' : NULL) . ' >New Vehicles</option>';
-										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
-										break;
-									case 'new':
-										echo '<option value="New" selected >New Vehicles</option>';
-										break;
-									case 'used':
-										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
-										break;
-									case 'certified':
-										echo '<option value="Certified" selected >Certified Pre-Owned</option>';
-										break;
-								}
-							?>
-						</select>
-						<button id="dolphin-search-submit">GO :</button>
-					</div>
-					<input id="dolphin-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
-				</div>
 				<div id="dolphin-search-advance" style="display: none;">
 					<div class="dolphin-advance-peram">
 						<label class="dolphin-label" for="price-range">Price Range -</label><span>(From: 1000 To: 10000)</span><br>
@@ -240,6 +210,36 @@
 							<option value="van,minivan" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
 						</select>
 					</div>
+				</div>
+				<div id="dolphin-search-top">
+					<div id="dolphin-search-text"> <!-- Search Filter Text -->
+						Search
+					</div>
+					<div id="dolphin-search-mid">
+						<select id="dolphin-saleclass" class="dolphin-select">
+							<?php
+								switch( $sale_class_filter ) {
+									case 'all':
+										echo '<option value="New" ' . (strtolower( $sale_class ) == 'new' ? 'selected' : NULL) . ' >New Vehicles</option>';
+										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										break;
+									case 'new':
+										echo '<option value="New" selected >New Vehicles</option>';
+										break;
+									case 'used':
+										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										break;
+									case 'certified':
+										echo '<option value="Certified" selected >Certified Pre-Owned</option>';
+										break;
+								}
+							?>
+						</select>
+						<button id="dolphin-search-submit">GO :</button>
+					</div>
+					<input id="dolphin-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
 				</div>
 				<div id="dolphin-apply-search">
 					<input type="checkbox" name="apply_search" <?php if ( !empty( $apply_search ) ) { echo 'checked'; } ?> />
