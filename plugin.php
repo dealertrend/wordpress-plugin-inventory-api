@@ -50,9 +50,11 @@ class Plugin {
 			'data' => array(
 				'makes' => array(),
 				'models' => array(),
-				'year-filter' => '0'
+				'year_filter' => '0',
+				'models_manual' => array()
 			),
-			'theme' => 'default'
+			'theme' => 'default',
+			'theme_settings' => array()
 		),
 		'jquery' => array(
 			'ui' => array(
@@ -62,7 +64,10 @@ class Plugin {
 			)
 		),
 		'alt_settings' => array(
-			'discourage_seo_visibility' => ''
+			'discourage_seo_visibility' => '',
+			'gravity_forms' => array(
+				'showcase' => ''
+			)
 		)
 	);
 

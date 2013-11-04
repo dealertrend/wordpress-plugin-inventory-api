@@ -1,10 +1,13 @@
-<div id="inventory">
-	<form name="dealertrend_inventory_api_theme_settings_inventory" method="post" action="#inventory">
-	<?php
-		wp_nonce_field( 'dealertrend_inventory_api' );
+<div id="inventory" class="settings-wrapper">
+	<div class="form-save-wrapper">
+		<div class="form-save-button" name="inventory-form">Save Inventory Settings</div>
+	</div>
+	<form id="inventory-form" name="dealertrend_inventory_api_theme_settings_inventory" method="post" action="#inventory">
+	<?php 
+		wp_nonce_field( 'dealertrend_inventory_api' ); 
 		$theme_name = ucwords( $this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] );
 	?>
-		<table width="450">
+		<table width="450" class="table-left">
 		<tr>
 			<td colspan="2"><h3 class="title">Inventory Theme Settings</h3></td>
 		</tr>
@@ -112,47 +115,11 @@
 		  <td><input type="text" id="name_used" name="name_used" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] ?>" class="long_input" /></td>
 		</tr>
 		<tr>
-			<td colspan="2"><h3 class="title">Tags</h3></td>
+			<td><h3 class="title">Tags</h3></td>
+			<td>
+				<div class="edit-table-button" name="tag-table">Edit Tags</div>
+			</td>
 		</tr>
-			<tr id="inventory-tags-tr">
-				<td width="125" class="inventory-tags-wrapper" >Tag Icons</td>
-				<td id="inventory-tags-td" class="inventory-tags-wrapper">
-					<?php
-						$this_value = $this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ];
-						$this_array = $this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
-					?>
-					<input id="inventory-tags-counter" type="hidden" name="inventory_tags_counter" value="<?php echo $this_value; ?>" readonly />
-					<div id="inventory-tags-header">
-						<div id="inventory-add-tag">Apply Icon to Tag <span>+</span></div>
-					</div>
-					<?php
-						if( !empty($this_array) ){
-							foreach( $this_array as $key => $value){
-								$id_value = 'inventory-tag-'.$key;
-								echo '<div class="inventory-tags-wrapper ' . $id_value . '">';
-
-								echo '<div id="' . $id_value . '" class="inventory-tag-remove ' . $id_value . '">Remove -</div>';
-								echo '<div class="inventory-tag-value ' . $id_value . '">';
-								echo '<label for="inventory_tag[' . $key . '][name]" class="inventory-tag-label ' . $id_value . '">Tag Name:</label>';
-								echo '<input type="text" name="inventory_tag[' . $key . '][name]" id="inventory-tag-' . $key . '-name" class="inventory-tag-text ' . $id_value . '" value="' . $value['name'] . '" />';
-								echo '</div>';
-								echo '<div class="inventory-tag-value ' . $id_value . '">';
-								echo '<label for="inventory_tag[' . $key . '][order]" class="inventory-tag-label ' . $id_value . '">Tag Order:</label>';
-								echo '<input type="number" name="inventory_tag[' . $key . '][order]" id="inventory-tag-' . $key . '-order" class="inventory-tag-number ' . $id_value . '" value="' . $value['order'] . '" />';
-								echo '</div>';
-								echo '<div class="inventory-tag-value ' . $id_value . '">';
-								echo '<a id="' . $id_value . '" href="#" for="inventory_tag[' . $key . '][url]" class="custom_media_upload inventory-tag-label ' . $id_value . '">Upload</a>';
-								echo '<img class="custom_media_image inventory-tag-label ' . $id_value . '" src="' . $value['url'] . '" />';
-								echo '<input id="inventory-tag-' . $key . '-url" class="custom_media_url inventory-tag-text ' . $id_value . '" type="text" name="inventory_tag[' . $key . '][url]" value="' . $value['url'] . '">';
-								echo '</div>';
-
-
-								echo '</div>';
-							}
-						}
-					?>
-				</td>
-			</tr>
 
 		<?php
 			if( $theme_name == 'Eagle' ){
@@ -208,5 +175,55 @@
 			</td>
 		</tr>
 		</table>
+		<div id="tag-table" class="hidden-table">
+			<?php
+				$this_value = $this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ];
+				$this_array = $this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
+			?>
+			<div class="hidden-table-buttons-wrapper">
+				<input id="inventory-tags-counter" type="hidden" name="inventory_tags_counter" value="<?php echo $this_value; ?>" readonly />
+				<div id="inventory-add-tag" class="table-add-button">Apply Icon to Tag <span>+</span></div>
+			</div>
+
+			<div class="hidden-table-headers">
+				<div class="tag-name">Tag<br>Name</div>
+				<div class="tag-order">Tag<br>Order</div>
+				<div class="tag-upload">Tag<br>Upload</div>
+				<div class="tag-icon">Tag<br>Icon</div>
+				<div class="tag-remove">Tag<br>Remove</div>
+			</div>
+
+			<div id="inventory-tags-tr">
+				<div id="inventory-tags-td">
+					<?php
+						if( !empty($this_array) ){
+							foreach( $this_array as $key => $value){
+								$id_value = 'inventory-tag-'.$key;
+								echo '<div class="inventory-tags-wrapper ' . $id_value . '">';
+
+								echo '<div class="tag-name inventory-tag-value ' . $id_value . '">';
+								echo '<input type="text" name="inventory_tag[' . $key . '][name]" id="inventory-tag-' . $key . '-name" class="inventory-tag-text ' . $id_value . '" value="' . $value['name'] . '" />';
+								echo '</div>';
+								echo '<div class="tag-order inventory-tag-value ' . $id_value . '">';
+								echo '<input type="number" name="inventory_tag[' . $key . '][order]" id="inventory-tag-' . $key . '-order" class="inventory-tag-number ' . $id_value . '" value="' . $value['order'] . '" />';
+								echo '</div>';
+								echo '<div class="tag-upload inventory-tag-value ' . $id_value . '">';
+								echo '<a id="' . $id_value . '" href="#" for="inventory_tag[' . $key . '][url]" class="custom_media_upload inventory-tag-label ' . $id_value . '">Upload</a>';
+								echo '<input id="inventory-tag-' . $key . '-url" class="custom_media_url inventory-tag-text ' . $id_value . '" type="text" name="inventory_tag[' . $key . '][url]" value="' . $value['url'] . '">';
+								echo '</div>';
+
+								echo '<div class="tag-icon ' . $id_value . '">';
+								echo '<img class="custom_media_image inventory-tag-label ' . $id_value . '" src="' . $value['url'] . '" />';
+								echo '</div>';
+
+								echo '<div id="' . $id_value . '" class="tag-remove inventory-tag-remove ' . $id_value . '"><span>[x]</span></div>';
+
+								echo '</div>';
+							}
+						}
+					?>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>

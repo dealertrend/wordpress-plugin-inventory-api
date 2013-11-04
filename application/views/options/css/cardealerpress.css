@@ -9,27 +9,244 @@ small.status { font-weight:bold; }
 #icon-dealertrend { background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px; width:46px; }
 h2 { line-height:32px; }
 
-#apollo-custom-message-header, #apollo-custom-video-header, #inventory-tags-header{
+#option-tabs, #option-tabs .settings-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	position: relative;
+}
+
+.form-save-wrapper{
+    display: block;
+    position: relative;
+    max-width: 450px;
+    width: 100%;
+    height: 28px;
+}
+.form-save-button{
+    display: block;
+    max-width: 225px;
+    width: 100%;
+    margin: 0;
+    background-color: #21759B;
+    text-align: center;
+    color: #E9E9E9;
+    font-weight: bold;
+    line-height: 21px;
+    padding: 0;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    box-shadow: 4px 4px 4px #000;
+    -webkit-box-shadow: 4px 4px 4px #000;
+    position: fixed;
+    margin: 0 0 0 5%;
+    cursor: pointer;
+}
+.form-save-button:hover{
+    background-color: #E9E9E9;
+    color: #21759B;
+    box-shadow: 2px 2px 2px #000;
+    -webkit-box-shadow: 2px 2px 2px #000;
+}
+p.submit{
+	display: none;
+}
+.table-left {
+	display: block;
+	float: left;
+	overflow: hidden;
+}
+.hidden-table{
+	display: none;
+	overflow: hidden;
+	float: left;
+	max-width: 500px;
+	width: 100%;
+	border-left: 2px solid #000;
+	padding: 0 0 0 2%;
+}
+.hidden-table.active{
+	display: block;
+}
+.hidden-table-buttons-wrapper{
+    display: block;
+    position: relative;
+    max-width: 450px;
+    width: 100%;
+    height: 28px;
+	margin: -5% 0 8% 0;
+}
+.table-add-button{
+    display: block;
+    max-width: 225px;
+    width: 100%;
+    margin: 0;
+    background-color: #21759B;
+    text-align: center;
+    color: #E9E9E9;
+    font-weight: bold;
+    line-height: 21px;
+    padding: 0;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    box-shadow: 4px 4px 4px #000;
+    -webkit-box-shadow: 4px 4px 4px #000;
+    position: fixed;
+    margin: 0 0 0 8%;
+    cursor: pointer;
+	background-color: #008000;
+}
+
+.table-add-button:hover{
+	background-color: #E9E9E9;
+	color: #008000;
+    box-shadow: 2px 2px 2px #000;
+    -webkit-box-shadow: 2px 2px 2px #000;
+}
+
+.hidden-table-headers{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 99.5%;
+	margin: 0 0 0 0;
+	border: 1px solid #000;
+}
+.hidden-table-headers > div{
+    display: block;
+    text-align: center;
+    float: left;
+    border-right: 1px solid #000;
+}
+.hidden-table-headers > div:last-child{
+    border: none;
+}
+.tag-name{
+    width: 20%;
+}
+.tag-order, .tag-remove{
+    width: 12%;
+}
+.tag-upload{
+    width: 40%;
+}
+.tag-icon{
+    width: 15%;
+}
+.video-make{
+	width: 28%;
+}
+.video-model{
+	width: 28%;
+}
+.video-url{
+	width: 28%;
+}
+.video-remove{
+	width: 15%;
+}
+.message-count, .message-operator, .message-remove{
+    width: 12%;
+}
+.message-text, .message-form{
+    width: 31%;
+}
+.inventory-tags-wrapper, .custom-video-wrapper, .custom-message-wrapper{
     display: block;
     overflow: hidden;
     clear: both;
     float: none;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    width: 99.5%;
 }
-#apollo-add-custom-message, #apollo-add-custom-video, #inventory-add-tag{
+
+.inventory-tags-wrapper > div, .custom-video-wrapper > div, .custom-message-wrapper > div{
     display: block;
-    width: 48%;
-	float: left;
-	text-decoration: underline;
-	font-size: 10px;
+    overflow: hidden;
+    float: left;
+    border-right: 1px solid #000;
+	height: 34px;
+	padding: 1% 0 0;
+}
+div.custom-message-wrapper, div.custom-message-wrapper > div{
+    height: 100px;
+}
+.inventory-tags-wrapper > div:last-child, .custom-video-wrapper > div:last-child, .custom-message-wrapper > div:last-child{
+    border:none;
+}
+.tag-name input, .tag-order input, .video-make input, .video-model input, .video-url input, .message-count input, .message-form input, .message-operator select{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+.tag-icon img{
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    max-width: 32px;
+    max-height: 32px;
+    width: 100%;
+}
+.tag-upload .inventory-tag-label{
+    display: block;
+    float: left;
+    margin: 1% 2% 0;
+    background-color: #D6D6D6;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    line-height: 21px;
+    color: #2C9ACB;
+    width: 28%;
+}
+.tag-upload .inventory-tag-text{
+    display: block;
+    float: left;
+    width: 62%;
+}
+.message-text textarea{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    height: 90px;
+    resize: none;
+}
+.tag-remove span, .video-remove span, .message-remove span{
+    display: block;
+    background-color: #FF0000;
+    color: #FFF;
+    padding: 4%;
+    margin: 2% auto;
+    text-align: center;
+    max-width: 20px;
+    font-weight: bold;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    box-shadow: 2px 2px 2px #000;
+    -webkit-box-shadow: 2px 2px 2px #000;
 	cursor: pointer;
-	color: #2687B2;
 }
+.tag-remove span:hover, .video-remove span:hover{
+	background-color: #000;
+}
+
+
+
 #apollo-help-message{
-    display: block;
-    width: 48%;
+	display: block;
+	width: 48%;
 	float: right;
-    font-size: 10px;
-    color: #3A9056;
+	font-size: 10px;
+	color: #3A9056;
 	cursor: pointer;
 }
 #apollo-help-message span{
@@ -42,87 +259,53 @@ h2 { line-height:32px; }
 	border-radius: 4px;
 }
 
-#apollo-add-custom-message span, #apollo-add-custom-video span{
-	font-weight: bold;
-	font-size: 14px;
-}
-.custom-message-wrapper, .custom-video-wrapper, .inventory-tags-wrapper{
-	border-top: 1px solid #000;
-	margin: 4% 0;
-}
-.apollo-custom-message-remove, .apollo-custom-video-remove, .inventory-tag-remove{
-	display: block;
-	text-align: right;
-	margin: 0 4% 0 0;
-	font-size: 10px;
-	color: #FF0000;
-	cursor: pointer;
-	text-decoration: underline;
-}
+
+
 .apollo_label{
-    width: 120px;
-    vertical-align: top;
-    max-width: 200px;
-    display: inline-block;
-    text-align: right;
-    padding: 1% 0 0 0;
+	width: 120px;
+	vertical-align: top;
+	max-width: 200px;
+	display: inline-block;
+	text-align: right;
+	padding: 1% 0 0 0;
 }
-.custom-message-value input.apollo_input_num{
-    width: 38px;
-}
-.custom-message-value > input, .custom-video-value > input{
-    width: 174px;
-}
+
 #apollo-help-dialog-box{
 	display: none;
 }
 
 .inventory-tag-label{
-    width: 70px;
-    max-width: 70px;
-    display: inline-block;
+	width: 70px;
+	max-width: 70px;
+	display: inline-block;
 }
-a.inventory-tag-label{
-    background-color: #D6D6D6;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-    line-height: 21px;
-    color: #2C9ACB;
-}
+
 a.inventory-tag-label:hover{
-    color: #FF0000;
+	color: #FF0000;
 }
-.inventory-tag-value{
-    display: block;
-    overflow: hidden;
-    float: none;
-    clear: both;
-}
+
 input.inventory-tag-number{
 	width: 38px;
 }
-a.custom_media_upload{
-    display: block;
-    float: left;
-    margin: 6% 0 2%;
-}
-img.custom_media_image{
-    display: block;
-    float: right;
-    width: 100%;
-    max-width: 40px;
-    max-height: 40px;
-    margin: 2% 6% 2% 0;
-}
-input.custom_media_url{
-    display: block;
-	float: none;
-	clear: both;
-	width: 95%;
-}
+
 .eagle-border-bottom{
 	border-bottom: 1px solid #000;
+}
+
+.edit-table-button{
+	display: block;
+	width: 84%;
+	text-align: center;
+	margin: 0;
+	padding: 1% 0;
+	background-color: #D2D2D2;
+	color: #2D759B;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	box-shadow: 4px 4px 4px #000;
+	-webkit-box-shadow: 4px 4px 4px #000;
+	cursor: pointer;
 }

@@ -4,8 +4,11 @@
   $site_link = '<span style="white-space:nowrap;"><a href="http://www.dealertrend.com" target="_blank" title="DealerTrend, Inc: Shift Everything">DealerTrend, Inc.</a></span>';
 ?>
 
-  <div id="settings">
-    <form name="dealertrend_inventory_api_plugin_settings" method="post" action="#feeds">
+  <div id="settings" class="settings-wrapper">
+	<div class="form-save-wrapper">
+		<div class="form-save-button" name="settings-form">Save Settings</div>
+	</div>
+    <form id="settings-form" name="dealertrend_inventory_api_plugin_settings" method="post" action="#feeds">
       <?php wp_nonce_field( 'dealertrend_inventory_api' ); ?>
       <table width="450">
         <tr>

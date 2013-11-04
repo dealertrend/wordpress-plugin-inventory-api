@@ -66,7 +66,7 @@ jQuery( document ).ready( function() {
     implement_ui();
 } );
 
-jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) { 
+jQuery( document ).ajaxSuccess( function( evt, request, settings ) { 
 	if ( settings != undefined ) {
 		if( typeof( settings.data ) !== 'undefined' ) {
 		    if( settings.data.search( '/id_base=vehicle_reference_system_widget.*action=save-widget/ig' ) ) {
@@ -76,6 +76,24 @@ jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) {
 	}
 });
 
+//
+
+	jQuery('.edit-table-button').click(function(){
+		table_name = jQuery(this).attr('name');
+		if( jQuery('#'+table_name+'.active').length ){
+			jQuery('#'+table_name).removeClass('active');
+		} else {
+			jQuery('.hidden-table.active').removeClass('active');
+			jQuery('#'+table_name).addClass('active');
+		}
+
+	});
+
+	jQuery('.form-save-button').click(function(){
+		form_name = jQuery(this).attr('name');
+		jQuery('#'+form_name).submit();
+	});
+
 // Inventory Tags
 
 	jQuery('#inventory-add-tag').click(function(){
@@ -84,23 +102,22 @@ jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) {
 		id_value = 'inventory-tag-'+current_v;
 
 		main_wrapper = '<div class="inventory-tags-wrapper '+id_value+'">';
-		sub_wrapper = '<div class="inventory-tag-value '+id_value+'">';
 		div_close = '</div>';
-		remove_element = '<div id="'+id_value+'" class="inventory-tag-remove '+id_value+'">Remove -</div>';
+		remove_element = '<div id="'+id_value+'" class="tag-remove inventory-tag-remove '+id_value+'"><span>[x]</span></div>';
 
-		label_name = '<label for="inventory_tag['+current_v+'][name]" class="inventory-tag-label '+id_value+'">Tag Name: </label>';
-		input_name = '<input type="text" name="inventory_tag['+current_v+'][name]" id="inventory-tag-'+current_v+'-name" class="inventory-tag-text '+id_value+'" value="" />';
-		label_order = '<label for="inventory_tag['+current_v+'][order]" class="inventory-tag-label '+id_value+'">Tag Order: </label>';
-		input_order = '<input type="number" name="inventory_tag['+current_v+'][order]" id="inventory-tag-'+current_v+'-order" class="inventory-tag-number '+id_value+'" value="" />';
-		label_url = '<a id="'+id_value+'" href="#" for="inventory_tag['+current_v+'][url]" class="custom_media_upload inventory-tag-label '+id_value+'">Upload</a>';
-		img_url = '<img class="custom_media_image inventory-tag-label '+id_value+'" src="" />';
-		input_url = '<input id="inventory-tag-'+current_v+'-url" class="custom_media_url inventory-tag-text '+id_value+'" type="text" name="inventory_tag['+current_v+'][url]" value="">';
+		input_name = '<div class="tag-name inventory-tag-value '+id_value+'"><input type="text" name="inventory_tag['+current_v+'][name]" id="inventory-tag-'+current_v+'-name" class="inventory-tag-text '+id_value+'" value="" /></div>';
+
+		input_order = '<div class="tag-order inventory-tag-value '+id_value+'"><input type="number" name="inventory_tag['+current_v+'][order]" id="inventory-tag-'+current_v+'-order" class="inventory-tag-number '+id_value+'" value="" /></div>';
+
+		input_upload = '<div class="tag-upload inventory-tag-value '+id_value+'"><a id="'+id_value+'" href="#" for="inventory_tag['+current_v+'][url]" class="custom_media_upload inventory-tag-label '+id_value+'">Upload</a><input id="inventory-tag-'+current_v+'-url" class="custom_media_url inventory-tag-text '+id_value+'" type="text" name="inventory_tag['+current_v+'][url]" value=""></div>';
+		img_icon = '<div class="tag-icon '+id_value+'>"<img class="custom_media_image inventory-tag-label '+id_value+'" src="" /></div>';
 
 		content = main_wrapper;
+		content += input_name;
+		content += input_order;
+		content += input_upload;
+		content += img_icon;
 		content += remove_element;
-		content += sub_wrapper + label_name + input_name + div_close;
-		content += sub_wrapper + label_order + input_order + div_close;
-		content += sub_wrapper + label_url + img_url + input_url + div_close;
 		content += div_close;
 
 		jQuery('#inventory-tags-td').append(content);
@@ -128,9 +145,9 @@ jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) {
     	.open();
 	});
 
-	jQuery('#inventory-tags-td').on( 'click', '.inventory-tag-remove', function (e) {
-		message_id = e.target.id;
-		jQuery('.' + message_id).remove();
+	jQuery('#inventory-tags-td').on( 'click', '.inventory-tag-remove span', function (e) {
+		message_id = jQuery(e.target).parent();
+		jQuery('.' + message_id[0].id).remove();
 	});
 
 
@@ -141,34 +158,31 @@ jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) {
 		id_value = 'apollo-custom-message-'+current_v;
 
 		main_wrapper = '<div class="custom-message-wrapper '+id_value+'">';
-		sub_wrapper = '<div class="custom-message-value '+id_value+'">';
 		div_close = '</div>';
-		remove_element = '<div id="'+id_value+'" class="apollo-custom-message-remove '+id_value+'">Remove -</div>';
+		remove_element = '<div id="'+id_value+'" class="message-remove apollo-custom-message-remove '+id_value+'"><span>[x]</span></div>';
 
-		label_count = '<label for="apollo_custom_message['+current_v+'][count]" class="apollo_label '+id_value+'">Value To Evaluate:</label>';
-		input_count = '<input type="number" name="apollo_custom_message['+current_v+'][count]" id="apollo_custom_message_'+current_v+'_count" class="apollo_input_num '+id_value+'" value="0" />';
-		label_message = '<label for="apollo_custom_message['+current_v+'][message]" class="apollo_label '+id_value+'">Message:</label>';
-		input_message = '<textarea type="text" name="apollo_custom_message['+current_v+'][message]" id="apollo_custom_message_'+current_v+'_message" class="'+id_value+'" />';
-		label_form = '<label for="apollo_custom_message['+current_v+'][form_title]" class="apollo_label '+id_value+'">Form Title:</label>';
-		input_form = '<input type="text" name="apollo_custom_message['+current_v+'][form_title]" id="apollo_custom_message_'+current_v+'_count" class="'+id_value+'" />';
+		input_count = '<div class="message-count custom-message-value '+id_value+'"><input type="number" name="vrs_theme_settings[apollo][custom_message][data]['+current_v+'][count]" id="apollo_custom_message_'+current_v+'_count" class="apollo_input_num '+id_value+'" value="0" /></div>';
 
-		label_operator = '<label for="apollo_custom_message['+current_v+'][count_operator]" class="apollo_label '+id_value+'" >Value Operator:</label>';
-		select_s = '<select name="apollo_custom_message['+current_v+'][count_operator]" id="apollo_custom_message_['+current_v+']_count_operator" class="'+id_value+'" >';
+		input_message = '<div class="message-text custom-message-value '+id_value+'"><textarea type="text" name="vrs_theme_settings[apollo][custom_message][data]['+current_v+'][message]" id="apollo_custom_message_'+current_v+'_message" class="'+id_value+'" /></div>';
+
+		input_form = '<div class="message-form custom-message-value '+id_value+'"><input type="text" name="vrs_theme_settings[apollo][custom_message][data]['+current_v+'][form_title]" id="apollo_custom_message_'+current_v+'_count" class="'+id_value+'" /></div>';
+
+		select_s = '<div class="message-operator custom-message-value '+id_value+'"><select name="vrs_theme_settings[apollo][custom_message][data]['+current_v+'][count_operator]" id="apollo_custom_message_['+current_v+']_count_operator" class="'+id_value+'" >';
 		option_1 = '<option class="'+id_value+'" value=">" >&gt;</option>';
 		option_2 = '<option class="'+id_value+'" value="<" >&lt;</option>';
 		option_3 = '<option class="'+id_value+'" value=">=" >&ge;</option>';
 		option_4 = '<option class="'+id_value+'" value="<=" >&le;</option>';
 		option_5 = '<option class="'+id_value+'" value="=" >=</option>';
 		option_6 = '<option class="'+id_value+'" value="!=" >&ne;</option>';
-		select_e = '</select>';
+		select_e = '</select></div>';
 		select_operator = select_s + option_1 + option_2 + option_3 + option_4 + option_5 + option_6 + select_e;
 
 		content = main_wrapper;
+		content += input_count;
+		content += select_operator;
+		content += input_message;
+		content += input_form;
 		content += remove_element;
-		content += sub_wrapper + label_count + input_count + div_close;
-		content += sub_wrapper + label_operator + select_operator + div_close;
-		content += sub_wrapper + label_message + input_message + div_close;
-		content += sub_wrapper + label_form + input_form + div_close;
 		content += div_close;
 
 		jQuery('#apollo-custom-message-td').append(content);
@@ -181,36 +195,32 @@ jQuery( 'body' ).ajaxSuccess( function( evt, request, settings ) {
 		id_value = 'apollo-custom-video-'+current_v;
 
 		main_wrapper = '<div class="custom-video-wrapper '+id_value+'">';
-		sub_wrapper = '<div class="custom-video-value '+id_value+'">';
 		div_close = '</div>';
-		remove_element = '<div id="'+id_value+'" class="apollo-custom-video-remove '+id_value+'">Remove -</div>';
+		remove_element = '<div id="'+id_value+'" class="video-remove apollo-custom-video-remove '+id_value+'"><span>[x]</span></div>';
 
-		label_make = '<label for="apollo_custom_video['+current_v+'][make]" class="apollo_label '+id_value+'">Make:</label>';
-		input_make = '<input type="text" name="apollo_custom_video['+current_v+'][make]" id="apollo_custom_video_'+current_v+'_make" class="apollo_input_text '+id_value+'" value="" />';
-		label_model = '<label for="apollo_custom_video['+current_v+'][model]" class="apollo_label '+id_value+'">Model:</label>';
-		input_model = '<input type="text" name="apollo_custom_video['+current_v+'][model]" id="apollo_custom_video_'+current_v+'_model" class="apollo_input_text '+id_value+'" value="" />';
-		label_url = '<label for="apollo_custom_video['+current_v+'][url]" class="apollo_label '+id_value+'">Video URL:</label>';
-		input_url = '<input type="text" name="apollo_custom_video['+current_v+'][url]" id="apollo_custom_video_'+current_v+'_url" class="apollo_input_text '+id_value+'" value="" />';
+		input_make = '<div class="video-make custom-video-value '+id_value+'"><input type="text" name="vrs_theme_settings[apollo][custom_videos][data]['+current_v+'][make]" id="apollo_custom_video_'+current_v+'_make" class="apollo_input_text '+id_value+'" value="" /></div>';
+		input_model = '<div class="video-model custom-video-value '+id_value+'"><input type="text" name="vrs_theme_settings[apollo][custom_videos][data]['+current_v+'][model]" id="apollo_custom_video_'+current_v+'_model" class="apollo_input_text '+id_value+'" value="" /></div>';
+		input_url = '<div class="video-url custom-video-value '+id_value+'"><input type="text" name="vrs_theme_settings[apollo][custom_videos][data]['+current_v+'][url]" id="apollo_custom_video_'+current_v+'_url" class="apollo_input_text '+id_value+'" value="" /></div>';
 
 		content = main_wrapper;
+		content += input_make;
+		content += input_model;
+		content += input_url;
 		content += remove_element;
-		content += sub_wrapper + label_make + input_make + div_close;
-		content += sub_wrapper + label_model + input_model + div_close;
-		content += sub_wrapper + label_url + input_url + div_close;
 		content += div_close;
 
 		jQuery('#apollo-custom-video-td').append(content);
 
 	});
 
-	jQuery('#apollo-custom-message-td').on( 'click', '.apollo-custom-message-remove', function (e) {
-		message_id = e.target.id;
-		jQuery('.' + message_id).remove();
+	jQuery('#apollo-custom-message-td').on( 'click', '.apollo-custom-message-remove span', function (e) {
+		message_id = jQuery(e.target).parent();
+		jQuery('.' + message_id[0].id).remove();
 	});
 
-	jQuery('#apollo-custom-video-td').on( 'click', '.apollo-custom-video-remove', function (e) {
-		message_id = e.target.id;
-		jQuery('.' + message_id).remove();
+	jQuery('#apollo-custom-video-td').on( 'click', '.apollo-custom-video-remove span', function (e) {
+		message_id = jQuery(e.target).parent();
+		jQuery('.' + message_id[0].id).remove();
 	});
 
 	jQuery('#apollo-help-message').click(function(){
