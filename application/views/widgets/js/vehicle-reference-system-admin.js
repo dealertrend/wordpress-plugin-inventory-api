@@ -1,11 +1,9 @@
-var dealertrend_admin = jQuery.noConflict();
-
 function implement_ui() {
 
-    dealertrend_admin( 'select[multiple="multiple"]' ).each( function() {
+    jQuery( 'select[multiple="multiple"]' ).each( function() {
         var label;
         var classes;
-        var instance =  dealertrend_admin( this );
+        var instance =  jQuery( this );
 
         if( instance.has( 'button' ).length ) {
             return true;
@@ -36,11 +34,11 @@ function implement_ui() {
     } );
 }
 
-dealertrend_admin( document ).ready( function() {
+jQuery( document ).ready( function() {
     implement_ui();
 } );
 
-dealertrend_admin( 'body' ).ajaxSuccess( function( evt, request, settings ) {
+jQuery( document ).ajaxSuccess( function( evt, request, settings ) {
 	if ( settings != undefined ) {
 		if( typeof( settings.data ) !== 'undefined' ) {
 		    if( settings.data.search( '/id_base=vehicle_reference_system_widget.*action=save-widget/ig' ) ) {

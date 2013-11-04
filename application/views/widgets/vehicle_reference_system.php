@@ -113,13 +113,21 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		extract( $args );
 
-		$title = isset( $instance[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $instance[ 'title' ] ) ? '' : $instance[ 'title' ] , $instance , $this->id_base ) : NULL;
-		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
-		$float = isset( $instance[ 'float' ] ) && $instance[ 'float' ] == true ? 'float: ' . $instance[ 'float' ] . ';' : false;
-		$carousel = isset( $instance[ 'carousel' ] ) && $instance[ 'carousel' ] == true ? 'carousel' : false;
+		$settings = isset( $instance[ 'settings' ] ) ? esc_attr( $instance[ 'settings' ] ) : array();
+		$title = isset( $settings[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $settings[ 'title' ] ) ? '' : $settings[ 'title' ] , $settings , $this->id_base ) : NULL;
+		$layout = isset( $settings[ 'layout' ] ) ? $settings[ 'layout' ] : 'small';
+		$float = isset( $settings[ 'float' ] ) ? esc_attr( $settings[ 'float' ] ) : false;
+		$carousel = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
 
-		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
-		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
+		$showcase = isset( $instance[ 'showcase' ] ) ? $instance[ 'showcase' ] : array();
+		$sc_setup = isset( $showcase[ 'setup' ] ) ? $showcase[ 'setup' ] : '';
+		$sc_link = isset( $showcase[ 'link' ] ) ? $showcase[ 'link' ] : '';
+
+		$data = isset( $instance[ 'data' ] ) ? $instance[ 'data' ] : array();
+		$makes = isset( $data[ 'makes' ] ) ? $data[ 'makes' ] : array();
+		$year_filter = isset( $data[ 'year_filter' ] ) ? $data[ 'year_filter' ] : 0;
+		$years = $this->get_valid_years_w( $year_filter );
+
 		$country_code = $this->set_country_code();
 		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ],
@@ -133,7 +141,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 		}
 
 		$check_feed = $vehicle_reference_system->check_feed()->please();
-
 		if( $check_feed[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to retrieve feed.</p>';
 			return false;
@@ -156,55 +163,31 @@ class vehicle_reference_system_widget extends WP_Widget {
 		foreach( $makes as $make ) {
 			echo '<div id="vrs-' . $this->id . '-' . preg_replace( '/(\W+)/i' , '_' , $make ) . '" class="vrs-widget items ' . $carousel . '">';
 
-			$current_year = date( 'Y' );
-			$last_year = $current_year - 1;
-			$next_year = $current_year + 1;
+			$models = $this->get_model_array_w( $vehicle_reference_system, $years, $make, $year_filter, $data );
 
-			$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
-			$model_data[ $last_year ] = json_decode( $model_data[ $last_year ][ 'body' ] );
-			$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
-			$model_data[ $current_year ] = json_decode( $model_data[ $current_year ][ 'body' ] );
-			$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
-			$model_data[ $next_year ] = json_decode( $model_data[ $next_year ][ 'body' ] );
-
-			$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
-			$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
-			$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
-
-			$model_data = array_merge( $model_data[ $next_year ] , $model_data[ $current_year ] , $model_data[ $last_year ] );
-
-			$i_can_haz_model = array();
-			foreach( $model_data as $key => $value ) {
-				$existing_data = array_search( $value->name , $i_can_haz_model );
-				if( $existing_data === false ) {
-					$i_can_haz_model[ $key ] = $value->name;
-				} else {
-					$model_data[ $existing_data ] = $value;
-					unset( $model_data[ $key ] );
-				}
-			}
-
-			$model_values = $model_data;
 			echo '<div>';
-			if( isset( $model_values ) && is_array( $model_values) ) {
-				foreach( $model_values as $model ) {
-					if( in_array( $model->name , $instance[ 'models' ] ) ) {
-						if( !empty( $wp_rewrite->rules ) ) {
-							$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model->name . '/';
+			if( isset( $models ) && is_array( $models ) ) {
+				foreach( $models as $model ) {
+						if( empty($sc_link) ){ 
+							if( !empty( $wp_rewrite->rules ) ) {
+								$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model['name'] . '/';
+							} else {
+								$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model['name'];
+							}
 						} else {
-							$inventory_url = '?taxonomy=inventory&amp;saleclass=New&amp;make=' . $make . '&amp;model=' . $model->name;
+								$inventory_url = '/showcase/' . $make . '/' . $model['name'] . '/';
 						}
-						$generic_vehicle_title = $model->name;
-						$thumbnail = urldecode( $model->image_urls->small );
+						$generic_vehicle_title = $model['name'];
+						$thumbnail = urldecode( $model['img'] );
 						echo '<div class="vrs-widget-item">';
 						echo '<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">';
 						echo '<span class="vrs-widget-thumbnail"><img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" /></span>';
 						echo '<span class="vrs-widget-main-line">';
-						echo '<span class="vrs-widget-make">' . $model->name . '</span>';
+						echo '<span class="vrs-widget-make">' . $model['name'] . '</span>';
 						echo '</span>';
 						echo '</a>';
 						echo '</div>';
-					}
+					
 				}
 			} else {
 				echo '<div class="vrs-widget-item">';
@@ -233,124 +216,137 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 	function update( $new_instance , $old_instance ) {
 		$instance = $old_instance;
-		$instance[ 'title' ] = isset( $new_instance[ 'title' ] ) ? strip_tags( $new_instance[ 'title' ] ) : NULL;
-		$instance[ 'layout' ] = isset( $new_instance[ 'layout' ] ) ? $new_instance[ 'layout' ] : 'small';
-		$instance[ 'float' ] = isset( $new_instance[ 'float' ] ) ? $new_instance[ 'float' ] : false;
-		$instance[ 'carousel' ] = isset( $new_instance[ 'carousel' ] ) ? $new_instance[ 'carousel' ] : false;
-		$instance[ 'makes' ] = isset( $new_instance[ 'makes' ] ) ? $new_instance[ 'makes' ] : array();
-		$instance[ 'models' ] = isset( $new_instance[ 'models' ] ) ? $new_instance[ 'models' ] : array();
+		$instance[ 'settings' ] = isset( $new_instance[ 'settings' ] ) ? $new_instance[ 'settings' ] : array();
+		$instance[ 'showcase' ] = isset( $new_instance[ 'showcase' ] ) ? $new_instance[ 'showcase' ] : array();
+		$instance[ 'data' ] = isset( $new_instance[ 'data' ] ) ? $new_instance[ 'data' ] : array();
 
 		return $instance;
 	}
 
 	function form( $instance ) {
-		$title = isset( $instance[ 'title' ] ) ? esc_attr( $instance[ 'title' ] ) : NULL;
-		$layout = isset( $instance[ 'layout' ] ) ? $instance[ 'layout' ] : 'small';
-		$float = isset( $instance[ 'float' ] ) ? esc_attr( $instance[ 'float' ] ) : false;
-		$carousel = isset( $instance[ 'carousel' ] ) ? $instance[ 'carousel' ] : false;
-		$makes = isset( $instance[ 'makes' ] ) ? $instance[ 'makes' ] : array();
-		$models = isset( $instance[ 'models' ] ) ? $instance[ 'models' ] : array();
+
+		$settings = isset( $instance[ 'settings' ] ) ? esc_attr( $instance[ 'settings' ] ) : array();
+		$title = isset( $settings[ 'title' ] ) ? esc_attr( $settings[ 'title' ] ) : NULL;
+		$layout = isset( $settings[ 'layout' ] ) ? $settings[ 'layout' ] : 'small';
+		$float = isset( $settings[ 'float' ] ) ? esc_attr( $settings[ 'float' ] ) : false;
+		$carousel = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
+
+		$showcase = isset( $instance[ 'showcase' ] ) ? $instance[ 'showcase' ] : array();
+		$sc_setup = isset( $showcase[ 'setup' ] ) ? $showcase[ 'setup' ] : '';
+		$sc_link = isset( $showcase[ 'link' ] ) ? $showcase[ 'link' ] : '';
+
+		$data = isset( $instance[ 'data' ] ) ? $instance[ 'data' ] : array();
+		$year_filter = isset( $data[ 'year_filter' ] ) ? $data[ 'year_filter' ] : 0;
+
 		$country_code = $this->set_country_code();
+
 		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
 			$this->options[ 'vehicle_reference_system' ][ 'host' ],
 			$country_code
 		);
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'title' ) . '">' . _e( 'Title:' ) . '</label>';
-		echo '<input class="widefat" id="' . $this->get_field_id( 'title' ) . '" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . $title . '" />';
+		echo '<label for="' . $this->get_field_id( 'settings' ) . '[title]">' . _e( 'Title:' ) . '</label>';
+		echo '<input class="widefat" id="' . $this->get_field_id( 'settings' ) . '-title" name="' . $this->get_field_name( 'settings' ) . '[title]" type="text" value="' . $title . '" />';
 		echo '</p>';
 
-		$current_year = date( 'Y' );
-		$last_year = $current_year - 1;
-		$next_year = $current_year + 1;
-
-		$make_data[ $last_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $last_year ) );
-		$make_data[ $last_year ] = json_decode( $make_data[ $last_year ][ 'body' ] );
-		$make_data[ $current_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $current_year ) );
-		$make_data[ $current_year ] = json_decode( $make_data[ $current_year ][ 'body' ] );
-		$make_data[ $next_year ] = $vehicle_reference_system->get_makes()->please( array( 'year' => $next_year ) );
-		$make_data[ $next_year ] = json_decode( $make_data[ $next_year ][ 'body' ] );
-
-		$make_data[ $last_year ] = is_array( $make_data[ $last_year ] ) ? $make_data[ $last_year ] : array();
-		$make_data[ $current_year ] = is_array( $make_data[ $current_year ] ) ? $make_data[ $current_year ] : array();
-		$make_data[ $next_year ] = is_array( $make_data[ $next_year ] ) ? $make_data[ $next_year ] : array();
-
-		$make_data = array_merge( $make_data[ $next_year ] , $make_data[ $current_year ] , $make_data[ $last_year ] );
-
-		# It would be cool if there was a better way to do this.
-		$i_can_haz_make = array();
-		foreach( $make_data as $key => $value ) {
-			$existing_data = array_search( $value->name , $i_can_haz_make );
-			if( $existing_data === false ) {
-				$i_can_haz_make[ $key ] = $value->name;
-			} else {
-				$make_data[ $existing_data ] = $value;
-				unset( $make_data[ $key ] );
-			}
-		}
-
-		$make_values = $make_data;
+		echo '<hr>';
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'makes' ) . '">' . _e( 'Makes:' ) . '</label>';
-		echo '<select id="' . $this->get_field_id( 'makes' ) . '" name="' . $this->get_field_name( 'makes' ) . '[]" class="vrs-makes" size="4" multiple="multiple">';
-		foreach( $make_values as $make ) {
-			$selected = in_array( $make->name , $makes ) ? 'selected' : NULL;
-			echo '<option value="' . $make->name . '" ' . $selected . '>' . $make->name . '</option>';
-		}
-		echo '</select>';
+		echo '<label for="' . $this->get_field_id( 'showcase' ) . '[setup] ">' . _e( 'Use Showcase Setup:' ) . '</label>';
+		$checked = ( $sc_setup == true ) ? 'checked="checked"' : NULL;
+		echo '<input  id="' . $this->get_field_id( 'showcase' ) . '-setup" name="' . $this->get_field_name( 'showcase' ) . '[setup]" type="checkbox" ' . $checked . ' value="true" />';
 		echo '</p>';
 
-		if( count( $makes ) > 0 ) {
+		echo '<p>';
+		echo '<label for="' . $this->get_field_id( 'showcase' ) . '[link] ">' . _e( 'Link to Showcase:' ) . '</label>';
+		$checked = ( $sc_link == true ) ? 'checked="checked"' : NULL;
+		echo '<input  id="' . $this->get_field_id( 'showcase' ) . '-link" name="' . $this->get_field_name( 'showcase' ) . '[link]" type="checkbox" ' . $checked . ' value="true" />';
+		echo '</p>';
+
+		if( empty($sc_setup) ){
+			$years = $this->get_valid_years_w( $year_filter );
+			$makes = $this->get_make_array_w( $vehicle_reference_system, $years );
+			$makes = $this->remove_data_dups( $makes, 'name');
+			natcasesort($makes);
+
+			$selected_makes = isset( $data[ 'makes' ] ) ? $data[ 'makes' ] : array();
+
 			echo '<p>';
-			echo '<label for="' . $this->get_field_id( 'models' ) . '">' . _e( 'Models:' ) . '</label>';
-			echo '<select id="' . $this->get_field_id( 'models' ) . '" name="' . $this->get_field_name( 'models' ) . '[]" class="vrs-models" size="4" multiple="multiple">';
-			foreach( $makes as $make ) {
-				$model_data[ $last_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $last_year ) );
-				$model_data[ $last_year ] = json_decode( $model_data[ $last_year ][ 'body' ] );
-				$model_data[ $current_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $current_year ) );
-				$model_data[ $current_year ] = json_decode( $model_data[ $current_year ][ 'body' ] );
-				$model_data[ $next_year ] = $vehicle_reference_system->get_models()->please( array( 'make' => $make , 'year' => $next_year ) );
-				$model_data[ $next_year ] = json_decode( $model_data[ $next_year ][ 'body' ] );
-
-				$model_data[ $last_year ] = is_array( $model_data[ $last_year ] ) ? $model_data[ $last_year ] : array();
-				$model_data[ $current_year ] = is_array( $model_data[ $current_year ] ) ? $model_data[ $current_year ] : array();
-				$model_data[ $next_year ] = is_array( $model_data[ $next_year ] ) ? $model_data[ $next_year ] : array();
-
-				$model_data = array_merge( $model_data[ $last_year ] , $model_data[ $current_year ] , $model_data[ $next_year ] );
-
-				# It would be cool if there was a better way to do this.
-				$i_can_haz_model = array();
-				foreach( $model_data as $key => $value ) {
-					$existing_data = array_search( $value->name , $i_can_haz_model );
-					if( $existing_data === false ) {
-						$i_can_haz_model[ $key ] = $value->name;
-					} else {
-						$model_data[ $existing_data ] = $value;
-						unset( $model_data[ $key ] );
-					}
-				}
-				$model_values = $model_data;
-				echo '<optgroup label="' . $make . '">';
-				foreach( $model_values as $model ) {
-					$selected = in_array( $model->name , $models ) ? 'selected' : NULL;
-					echo '<option value="' . $model->name . '" ' . $selected . '>' . $model->name . '</option>';
-				}
-				echo '</optgroup>';
-			}
+			echo '<label for="' . $this->get_field_id( 'data' ) . '[makes][]">' . _e( 'Makes:' ) . '</label>';
+			echo '<select id="' . $this->get_field_id( 'data' ) . '-makes" name="' . $this->get_field_name( 'data' ) . '[makes][]" class="vrs-makes" size="4" multiple="multiple">';
+				$this->create_dd_w($makes, $selected_makes);
 			echo '</select>';
 			echo '</p>';
+
+			if( count($selected_makes) > 0 ){
+				echo '<p>';
+				echo '<label for="' . $this->get_field_id( 'data' ) . '[year_filter]">' . _e( 'Year Filter:' ) . '</label>';
+				echo '<select id="' . $this->get_field_id( 'data' ) . '-year-filter" name="' . $this->get_field_name( 'data' ) . '[year_filter]" class="vrs-layout">';
+					echo '<option value="0" ' . ( ($year_filter == 0)?"selected":"" ) . ' >Default</option>';
+					echo '<option value="1" ' . ( ($year_filter == 1)?"selected":"" ) . ' >Current Year Only</option>';
+					echo '<option value="2" ' . ( ($year_filter == 2)?"selected":"" ) . ' >Manual Selection</option>';
+				echo '</select>';
+				echo '</p>';
+
+				if( $year_filter != 2 ){
+					echo '<label for="' . $this->get_field_id( 'data' ) . '[models][]">' . _e( 'Models:' ) . '</label>';
+					echo '<select id="' . $this->get_field_id( 'data' ) . '-models" name="' . $this->get_field_name( 'data' ) . '[models][]" class="vrs-models" size="4" multiple="multiple">';
+					foreach( $selected_makes as $make ){
+						$models = $this->get_model_array_w( $vehicle_reference_system, $years, $make, FALSE, FALSE, TRUE );
+						$models = $this->remove_data_dups( $models, 'name');
+						natcasesort($models);
+						$selected_models = isset( $data[ 'models' ] ) ? $data[ 'models' ] : array();
+
+						echo '<optgroup label="' . $make . '">';
+							$this->create_dd_w($models, $selected_models);
+						echo '</optgroup>';
+					}
+					echo '</select>';
+				} else {
+					echo '<label for="' . $this->get_field_id( 'data' ) . '[models_next][]">' . _e( 'Next Model Year:' ) . '</label>';
+					echo '<select id="' . $this->get_field_id( 'data' ) . '-models-next" name="' . $this->get_field_name( 'data' ) . '[models_next][]" class="vrs-models" size="4" multiple="multiple">';
+					foreach( $selected_makes as $make ){
+						$models = $this->get_model_array_w( $vehicle_reference_system, array( 0 => $years[0] ), $make, FALSE, FALSE, TRUE );
+						$models = $this->remove_data_dups( $models, 'name');
+						natcasesort($models);
+						$selected_models_n = isset( $data[ 'models_next' ] ) ? $data[ 'models_next' ] : array();
+
+						echo '<optgroup label="' . $make . '">';
+							$this->create_dd_w($models, $selected_models_n);
+						echo '</optgroup>';
+					}
+					echo '</select>';
+
+					echo '<label for="' . $this->get_field_id( 'data' ) . '[models_current][]">' . _e( 'Current Model Year:' ) . '</label>';
+					echo '<select id="' . $this->get_field_id( 'data' ) . '-models-current" name="' . $this->get_field_name( 'data' ) . '[models_current][]" class="vrs-models" size="4" multiple="multiple">';
+					foreach( $selected_makes as $make ){
+						$models = $this->get_model_array_w( $vehicle_reference_system, array( 0 => $years[1] ), $make, FALSE, FALSE, TRUE );
+						$models = $this->remove_data_dups( $models, 'name');
+						natcasesort($models);
+						$selected_models_c = isset( $data[ 'models_current' ] ) ? $data[ 'models_current' ] : array();
+
+						echo '<optgroup label="' . $make . '">';
+							$this->create_dd_w($models, $selected_models_c);
+						echo '</optgroup>';
+					}
+					echo '</select>';
+				}
+			}
+			
 		}
+
+		echo '<hr>';
+
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'carousel' ) . '">' . _e( 'Carousel:' ) . '</label>';
+		echo '<label for="' . $this->get_field_id( 'settings' ) . '[carousel]">' . _e( 'Carousel:' ) . '</label>';
 		$checked = ( $carousel == true ) ? 'checked="checked"' : NULL;
-		echo '<input id="' . $this->get_field_id( 'carousel' ) . '" name="' . $this->get_field_name( 'carousel' ) . '" type="checkbox" ' . $checked . '	value="true" />';
+		echo '<input id="' . $this->get_field_id( 'settings' ) . '-carousel" name="' . $this->get_field_name( 'settings' ) . '[carousel]" type="checkbox" ' . $checked . '	value="true" />';
 		echo '</p>';
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'layout' ) . '">' . _e( 'Layout:' ) . '</label>';
-		echo '<select id="' . $this->get_field_id( 'layout' ) . '" name="' . $this->get_field_name( 'layout' ) . '" class="vrs-layout">';
+		echo '<label for="' . $this->get_field_id( 'settings' ) . '[layout]">' . _e( 'Layout:' ) . '</label>';
+		echo '<select id="' . $this->get_field_id( 'settings' ) . '-layout" name="' . $this->get_field_name( 'settings' ) . '[layout]" class="vrs-layout">';
 		$layout_options = array( 'small' , 'medium' , 'large' );
 		foreach( $layout_options as $layout_possibility ) {
 			$selected = $layout == $layout_possibility ? 'selected' : NULL;
@@ -360,8 +356,8 @@ class vehicle_reference_system_widget extends WP_Widget {
 		echo '</p>';
 
 		echo '<p>';
-		echo '<label for="' . $this->get_field_id( 'float' ) . '">' . _e( 'Float:' ) . '</label>';
-		echo '<select name="' . $this->get_field_name( 'float' ) . '" id="' . $this->get_field_id( 'float' ) . '">';
+		echo '<label for="' . $this->get_field_id( 'settings' ) . '[float]">' . _e( 'Float:' ) . '</label>';
+		echo '<select name="' . $this->get_field_name( 'settings' ) . '-float" id="' . $this->get_field_id( 'settings' ) . '[float]">';
 		$float_values = array( 'none' , 'left' , 'right' );
 		foreach( $float_values as $float_option ) {
 			$selected = ( $float_option == $float ) ? 'selected' : NULL;
@@ -374,6 +370,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 	function load_options() {
 		$this->options = get_option( 'dealertrend_inventory_api' );
 	}
+
 	function set_country_code() {
 		$get_company_information = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_management_system(
 			$this->options[ 'vehicle_management_system' ][ 'host' ],
@@ -398,6 +395,107 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		return $country_code_value;
 	}
+
+	function get_valid_years_w( $filter ){
+
+		$current_year = date( 'Y' );
+
+		switch( $filter ){
+			case 0: // Default Next, Current and Past Year
+				$value = array( ($current_year + 1), $current_year, ($current_year - 1) );
+				break;
+			case 1: // Current Year Only
+				$value = array( $current_year );
+				break;
+			case 2: // Manual Next and Current Year
+				$value = array( ($current_year + 1), $current_year );
+				break;
+		}
+
+		return $value;
+	}
+
+	function get_make_array_w( $vrs_object, $years ){
+		$value = array();
+		foreach( $years as $year ){
+			$temp = $vrs_object->get_makes()->please( array( 'year' => $year ) );
+			$temp = isset( $temp[ 'body' ] ) ? json_decode( $temp[ 'body' ] ) : array();
+			$value = array_merge( $value, $temp );
+		}
+
+		return $value;
+	}
+
+	function get_model_array_w( $vrs_object, $years, $make, $filter, $options, $backend = FALSE ){
+		$value = array();
+		foreach( $years as $year ){
+			$temp = $vrs_object->get_models()->please( array( 'make' => $make , 'year' => $year ) );
+			$temp = isset( $temp[ 'body' ] ) ? json_decode( $temp[ 'body' ] ) : array();
+			if( empty( $backend ) ){
+				if( !empty( $temp ) ) {
+					foreach( $temp as $item ) {
+						if( !$this->in_array_r_w( $item->name, $value ) ) {
+							if( $this->check_selected_models_w( $item->name, $filter, $year, $options ) ){
+								$value[] = array( 'name' => $item->name, 'class' => $item->classification, 'year' => $year, 'img' => $item->image_urls->small );
+							}
+						}
+					}
+				}
+			} else {
+				$value = array_merge( $value, $temp );
+			}
+		}
+
+		return $value;
+	}
+
+	function check_selected_models_w( $item, $filter, $year, $options ){
+		$check = false;
+		switch( $filter ){
+			case 2: // Manual Check
+				if( $year != date( 'Y' ) ){
+					( in_array( str_replace( '&', '&amp;', $item ), $options[ 'models_next' ] ) ) ? $check = true : $check = false;
+				} else {
+					( in_array( str_replace( '&', '&amp;', $item ), $options[ 'models_current' ] ) ) ? $check = true : $check = false;
+				}
+				break;
+
+			default: // Default Check
+				( in_array( str_replace( '&', '&amp;', $item ), $options[ 'models' ] ) ) ? $check = true : $check = false;
+				break;
+		}
+
+		return $check;
+
+	}
+
+	function in_array_r_w($needle, $haystack, $strict = false) {
+		foreach ($haystack as $item) {
+		    if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r_w($needle, $item, $strict))) {
+		        return true;
+		    }
+		}
+
+		return false;
+	}
+
+	function create_dd_w( $data, $data_check ){
+		foreach($data as $data_name){
+			$selected = in_array( str_replace( '&', '&amp;', $data_name ) , $data_check ) ? 'selected' : NULL;
+			echo '<option value="' . $data_name . '" ' . $selected . '>' . $data_name . '</option>';
+		}
+	}
+
+	function remove_data_dups( $data, $name) {
+		//Cleans data by removing duplicate entries
+		$cleaned_data = array();
+		foreach($data as $data_scrub){
+			array_push($cleaned_data, $data_scrub->$name);
+		}
+
+		return array_unique($cleaned_data);
+	}
+
 }
 
 ?>
