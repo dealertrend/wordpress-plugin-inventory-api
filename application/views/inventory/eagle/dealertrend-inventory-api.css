@@ -1275,3 +1275,7 @@
 #friendly-print:hover{
 	color: #000;
 }
+
+.hidden-vehicle-prices{
+	display: none;
+}

@@ -175,6 +175,16 @@
 								$value_ais .= '</div>';
 								echo $value_ais;
 							}
+
+							//Clean Price Values
+							echo '<div class="hidden-vehicle-prices">';
+							echo ( strtolower( $sale_class ) == 'new' ) ? '<div class="hidden-msrp" alt="msrp">'.$retail_price.'</div>' : '';
+							echo ( $incentive_price > 0 ) ? '<div class="hidden-rebate" alt="rebate">'.$incentive_price.'</div>' : '';
+							echo '<div class="hidden-sale" alt="sale">'.$sale_price.'</div>';
+							echo '<div class="hidden-asking" alt="asking">'.$asking_price.'</div>';
+							echo '<div class="hidden-main" alt="main">'.$primary_price.'</div>';
+							echo ( $sale_price > 0 && ($asking_price - $sale_price) != 0 ) ? '<div class="hidden-discount" alt="discount">'. ($asking_price - $sale_price) .'</div>' : '';
+							echo '</div>';
 						?>
 					</div>
 					<div id="eagle-get-price">

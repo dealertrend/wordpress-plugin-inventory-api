@@ -42,13 +42,15 @@
 		$icons = '';
 		$temp = array();
 
-		usort( $custom, 'sort_custom_tags' );
+		if( !empty($custom) ){
+			usort( $custom, 'sort_custom_tags' );
 
-		//Get Custom Icons
-		foreach( $custom as $value ){
-			if( in_array($value['name'], $tags) ){
-				$icons .= '<img title="'.$value['name'].'" class="icon-custom icon-emb-'.$value['name'].'" src="'.$value['url'].'" />';
-				$temp[] = $value['name'];
+			//Get Custom Icons
+			foreach( $custom as $value ){
+				if( in_array($value['name'], $tags) ){
+					$icons .= '<img title="'.$value['name'].'" class="icon-custom icon-emb-'.$value['name'].'" src="'.$value['url'].'" />';
+					$temp[] = $value['name'];
+				}
 			}
 		}
 

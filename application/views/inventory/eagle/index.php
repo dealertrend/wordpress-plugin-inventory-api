@@ -139,6 +139,8 @@
 	$inventory_base = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' : $site_url . '?taxonomy=inventory';
 	$crumb_trail = $inventory_base;
 
+	!empty( $sale_class ) ? $inventory_base = $inventory_base . '/' . $sale_class .'/': $inventory_base = $inventory_base;
+
 	foreach( $parameters as $key => $value ) {
 		if( in_array( $key , $put_in_trail ) ) {
 			if( ! empty( $wp_rewrite->rules ) ) {
