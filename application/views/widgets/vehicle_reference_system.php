@@ -117,16 +117,33 @@ class vehicle_reference_system_widget extends WP_Widget {
 		$title = isset( $settings[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $settings[ 'title' ] ) ? '' : $settings[ 'title' ] , $settings , $this->id_base ) : NULL;
 		$layout = isset( $settings[ 'layout' ] ) ? $settings[ 'layout' ] : 'small';
 		$float = isset( $settings[ 'float' ] ) ? $settings[ 'float' ] : false;
-		$carousel = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
+		$carousel_flag = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
 
 		$showcase = isset( $instance[ 'showcase' ] ) ? $instance[ 'showcase' ] : array();
 		$sc_setup = isset( $showcase[ 'setup' ] ) ? $showcase[ 'setup' ] : '';
 		$sc_link = isset( $showcase[ 'link' ] ) ? $showcase[ 'link' ] : '';
 
-		$data = isset( $instance[ 'data' ] ) ? $instance[ 'data' ] : array();
-		$makes = isset( $data[ 'makes' ] ) ? $data[ 'makes' ] : array();
-		$year_filter = isset( $data[ 'year_filter' ] ) ? $data[ 'year_filter' ] : 0;
-		$years = $this->get_valid_years_w( $year_filter );
+		if( empty($sc_setup) ) {
+			$data = isset( $instance[ 'data' ] ) ? $instance[ 'data' ] : array();
+			$makes = isset( $data[ 'makes' ] ) ? $data[ 'makes' ] : array();
+			$year_filter = isset( $data[ 'year_filter' ] ) ? $data[ 'year_filter' ] : 0;
+			$years = $this->get_valid_years_w( $year_filter );
+		} else {
+			$admin_settings = $this->options[ 'vehicle_reference_system' ][ 'data' ];
+			$data = array();
+			$data['makes'] = $admin_settings['makes'];
+			$data['year_filter'] = $admin_settings['year_filter'];
+			$data['models'] = $admin_settings['models'];
+			$data['models_next'] = $admin_settings['models_manual']['next'];
+			$data['models_current'] = $admin_settings['models_manual']['current'];
+			$makes = isset( $data[ 'makes' ] ) ? $data[ 'makes' ] : array();
+			$year_filter = isset( $data[ 'year_filter' ] ) ? $data[ 'year_filter' ] : 0;
+			$years = $this->get_valid_years_w( $year_filter );
+		}
+
+		if( !empty( $carousel_flag ) ){
+			$carousel = 'carousel';
+		}
 
 		$country_code = $this->set_country_code();
 		$vehicle_reference_system = new Wordpress\Plugins\Dealertrend\Inventory\Api\vehicle_reference_system(
