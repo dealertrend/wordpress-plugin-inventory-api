@@ -113,10 +113,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		extract( $args );
 
-		$settings = isset( $instance[ 'settings' ] ) ? esc_attr( $instance[ 'settings' ] ) : array();
+		$settings = isset( $instance[ 'settings' ] ) ? $instance[ 'settings' ] : array();
 		$title = isset( $settings[ 'title' ] ) ? apply_filters( 'widget_title' , empty( $settings[ 'title' ] ) ? '' : $settings[ 'title' ] , $settings , $this->id_base ) : NULL;
 		$layout = isset( $settings[ 'layout' ] ) ? $settings[ 'layout' ] : 'small';
-		$float = isset( $settings[ 'float' ] ) ? esc_attr( $settings[ 'float' ] ) : false;
+		$float = isset( $settings[ 'float' ] ) ? $settings[ 'float' ] : false;
 		$carousel = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
 
 		$showcase = isset( $instance[ 'showcase' ] ) ? $instance[ 'showcase' ] : array();
