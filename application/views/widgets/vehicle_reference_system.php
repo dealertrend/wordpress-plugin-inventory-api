@@ -225,10 +225,10 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 	function form( $instance ) {
 
-		$settings = isset( $instance[ 'settings' ] ) ? esc_attr( $instance[ 'settings' ] ) : array();
-		$title = isset( $settings[ 'title' ] ) ? esc_attr( $settings[ 'title' ] ) : NULL;
+		$settings = isset( $instance[ 'settings' ] ) ? $instance[ 'settings' ] : array();
+		$title = isset( $settings[ 'title' ] ) ? $settings[ 'title' ] : NULL;
 		$layout = isset( $settings[ 'layout' ] ) ? $settings[ 'layout' ] : 'small';
-		$float = isset( $settings[ 'float' ] ) ? esc_attr( $settings[ 'float' ] ) : false;
+		$float = isset( $settings[ 'float' ] ) ? $settings[ 'float' ] : false;
 		$carousel = isset( $settings[ 'carousel' ] ) ? $settings[ 'carousel' ] : false;
 
 		$showcase = isset( $instance[ 'showcase' ] ) ? $instance[ 'showcase' ] : array();
@@ -357,7 +357,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 
 		echo '<p>';
 		echo '<label for="' . $this->get_field_id( 'settings' ) . '[float]">' . _e( 'Float:' ) . '</label>';
-		echo '<select name="' . $this->get_field_name( 'settings' ) . '-float" id="' . $this->get_field_id( 'settings' ) . '[float]">';
+		echo '<select name="' . $this->get_field_name( 'settings' ) . '[float]" id="' . $this->get_field_id( 'settings' ) . '-float">';
 		$float_values = array( 'none' , 'left' , 'right' );
 		foreach( $float_values as $float_option ) {
 			$selected = ( $float_option == $float ) ? 'selected' : NULL;
