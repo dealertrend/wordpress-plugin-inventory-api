@@ -29,4 +29,7 @@
 				<td>If you see this, that means the feed is loaded and the information will be displayed on your website.</td>
 			</tr>
 		</table>
+		<h3 class="title">Sitemap Links</h3>
+			<a target="_blank" href="<?php bloginfo( 'url' ); echo '/new-vehicle-sitemap.xml'; ?>">Inventory New</a>
+			<a target="_blank" href="<?php bloginfo( 'url' ); echo '/used-vehicle-sitemap.xml'; ?>">Inventory Used</a>
 	</div>

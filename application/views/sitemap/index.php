@@ -24,37 +24,50 @@
 	$date_raw = date("Y-m-d");
 	$last_mod = date("Y-m-d", strtotime('-1 day', strtotime($date_raw)));
 
+	//New Make Filter
+	$valid_makes = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
+
 	if ( !empty( $sitemap_data ) ) {
 
 		foreach( $sitemap_data as $data ) {
 
 			if ( $data->sale_class == 'New' ) {
 
-				$clean_model = urlencode( $data->model );
-				$clean_trim = urlencode( $data->trim );
+				$add_vehicle = false;
 
-				$make_value = home_url( '/inventory/New/' . $data->make . '/' );
-				$model_value = home_url( '/inventory/New/' . $data->make . '/' . $clean_model . '/' );
-				if ( !empty( $clean_trim ) ) {
-					$trim_value = home_url( '/inventory/New/' . $data->make . '/' . $clean_model . '/?trim=' . $clean_trim );
+				if( !empty($valid_makes) ){
+					( in_array($data->make, $valid_makes) ) ? $add_vehicle = true : $add_vehicle = false;
 				} else {
-					$trim_value = '';
+					$add_vehicle = true;
 				}
 
-				$vehicle_value = home_url( '/inventory/' . $data->year . '/' . $data->make . '/' . $clean_model . '/' . $state . '/' . $city . '/' . $data->vin . '/' );
+				if( $add_vehicle ) {
+					$clean_model = urlencode( $data->model );
+					$clean_trim = urlencode( $data->trim );
 
-				if ( !in_array( array( $make_value, '.9' ), $new_array ) ) {
-					array_push( $new_array, array( $make_value, '.9' ) );
-				}
+					$make_value = home_url( '/inventory/New/' . $data->make . '/' );
+					$model_value = home_url( '/inventory/New/' . $data->make . '/' . $clean_model . '/' );
+					if ( !empty( $clean_trim ) ) {
+						$trim_value = home_url( '/inventory/New/' . $data->make . '/' . $clean_model . '/?trim=' . $clean_trim );
+					} else {
+						$trim_value = '';
+					}
 
-				if ( !in_array( array( $model_value, '.8' ), $new_array ) ) {
-					array_push( $new_array, array( $model_value, '.8' ) );
-				}
+					$vehicle_value = home_url( '/inventory/' . $data->year . '/' . $data->make . '/' . $clean_model . '/' . $state . '/' . $city . '/' . $data->vin . '/' );
 
-				if ( !in_array( array( $trim_value, '.7' ), $new_array ) && !empty( $trim_value ) ) {
-					array_push( $new_array, array( $trim_value, '.7' ) );
+					if ( !in_array( array( $make_value, '.9' ), $new_array ) ) {
+						array_push( $new_array, array( $make_value, '.9' ) );
+					}
+
+					if ( !in_array( array( $model_value, '.8' ), $new_array ) ) {
+						array_push( $new_array, array( $model_value, '.8' ) );
+					}
+
+					if ( !in_array( array( $trim_value, '.7' ), $new_array ) && !empty( $trim_value ) ) {
+						array_push( $new_array, array( $trim_value, '.7' ) );
+					}
+					array_push( $new_vehicles, array( 'URL' => $vehicle_value, 'MOD' => $data->updated_at, 'PRI' => '.7' ) );
 				}
-				array_push( $new_vehicles, array( 'URL' => $vehicle_value, 'MOD' => $data->updated_at, 'PRI' => '.7' ) );
 
 			} else {
 
