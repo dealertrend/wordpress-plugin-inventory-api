@@ -44,6 +44,7 @@
 		'price_from' => $price_from,
 		'certified' => $certified
 	);
+	$search_error = '';
 
 	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
 	if ( strcasecmp( $sale_class, 'new') == 0 && !empty( $new_makes_filter ) ) { //Get Makes
@@ -59,7 +60,9 @@
 		$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
 		$models = json_decode( $models[ 'body' ] );
 		$model_count = count( $models );
-
+		if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
+			$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		}
 		$model = isset( $parameters[ 'model' ] ) ? $parameters[ 'model' ] : 'all';
 		$parameters[ 'model' ] = $model;
 		$model_text = 'All Models';
@@ -72,7 +75,9 @@
 		$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
 		$trims = json_decode( $trims[ 'body' ] );
 		$trim_count = count( $trims );
-
+		if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
+			$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		}
 		$trim = isset( $parameters[ 'trim' ] ) ? $parameters[ 'trim' ]  : 'all';
 		$parameters[ 'trim' ] = $trim;
 		$trim_text = 'All Trims';
@@ -97,9 +102,7 @@
 			</div>
 		</div>
 		<div id="dolphin-filter-wrapper"> <!-- Search Filter Wrapper -->
-			<div id="dolphin-filter-text"> <!-- Search Filter Text -->
-				Filter
-			</div>
+
 			<div id="dolphin-filters"> <!-- Search Filter -->
 				<div id="dolphin-makes"> <!-- Makes -->
 					<label class="dolphin-label">Makes:</label>
@@ -135,13 +138,11 @@
 								}
 								foreach( $models as $model ) {
 									$model_safe = str_replace( '/' , '%252' , $model );
-									$model_safe = ucwords( strtolower( $model_safe ) );
-
 									$value = '<option value="' . $model_safe . '"';
 									if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
 										$value .= ' selected="selected" ';
 									}
-									$value .= '>' . ucwords( strtolower( $model ) ) . '</option>';
+									$value .= '>' . $model . '</option>';
 									echo $value;
 								}
 							}
@@ -159,13 +160,12 @@
 								}
 								foreach( $trims as $trim ) {
 									$trim_safe = str_replace( '/' , '%252' , $trim );
-									$trim_safe = ucwords( strtolower( $trim_safe ) );
-
+									
 									$value = '<option value="' . $trim_safe . '"';
 									if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
 										$value .= ' selected="selected" ';
 									}
-									$value .= '>' . ucwords( strtolower( $trim ) ) . '</option>';
+									$value .= '>' . $trim . '</option>';
 									echo $value;
 								}
 							}
@@ -210,12 +210,8 @@
 							<option value="van,minivan" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
 						</select>
 					</div>
-				</div>
-				<div id="dolphin-search-top">
-					<div id="dolphin-search-text"> <!-- Search Filter Text -->
-						Search
-					</div>
-					<div id="dolphin-search-mid">
+					<div class="dolphin-advance-peram">
+						<label class="dolphin-label">Sale Class: </label>
 						<select id="dolphin-saleclass" class="dolphin-select">
 							<?php
 								switch( $sale_class_filter ) {
@@ -237,18 +233,24 @@
 								}
 							?>
 						</select>
-						<button id="dolphin-search-submit">GO :</button>
 					</div>
-					<input id="dolphin-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
+					<div class="dolphin-advance-peram">
+						<div class="reset-search"><a href="<?php echo !empty($sale_class) ? '/inventory/' .$sale_class. '/' : '/inventory/'; ?>">Reset Search</a></div>
+					</div>
 				</div>
-				<div id="dolphin-apply-search">
-					<input type="checkbox" name="apply_search" <?php if ( !empty( $apply_search ) ) { echo 'checked'; } ?> />
-					<span>Apply search parameters to filters.</span>
+				<div id="dolphin-search-top">
+					<div id="dolphin-search-mid">
+						<input id="dolphin-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : 'Text Search'; ?>" class="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : 'invalid'; ?>" />
+						<button id="dolphin-search-submit">SEARCH</button>
+					</div>
 				</div>
 			</form>
 			<div id="dolphin-advance-show" name="hidden">
-				Advance>>
+				Advanced Search
 			</div>
+		</div>
+		<div id="search-error">
+			<?php echo $search_error; ?>
 		</div>
 		<div id="dolphin-search-info"> <!-- Search Info -->
 			<div id="dolphin-total-found">

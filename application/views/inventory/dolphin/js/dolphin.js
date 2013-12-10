@@ -11,11 +11,19 @@ if ( jQuery('#dolphin-listing').length ) {
 	    name = jQuery(this).attr('name');
 	    if ( name == 'hidden' ) {
 	        jQuery('#dolphin-search-advance').slideDown();
-	        jQuery(this).attr('name', 'active').text('<<Hide');
+	        jQuery(this).attr('name', 'active').text('Hide Advanced');
 	    } else {
 	        jQuery('#dolphin-search-advance').slideUp();
-	        jQuery(this).attr('name', 'hidden').text('Advance>>');
+	        jQuery(this).attr('name', 'hidden').text('Advanced Search');
 	    }
+	});
+
+	// Dolphin default text clear
+	jQuery('#dolphin-search-box').focus( function() {
+		if( jQuery('#dolphin-search-box.invalid').length ){
+			jQuery(this).removeClass('invalid');
+			jQuery(this).val('');
+		}
 	});
 }
 
@@ -183,20 +191,15 @@ function dolphin_filter_select( type ) {
 			break;
 	}
 
-	add_search = jQuery('#dolphin-apply-search input:checked').val();
+	filter_url = build_url();
+	window.location = filter_url;
 
-	if ( add_search ) {
-		jQuery('#dolphin-search-submit').click();
-	} else {
-		filter_url = build_url( 'filter' );
-		window.location = filter_url;
-	}
 }
 
 function dolphin_search_form() {
 
 	form = jQuery('#dolphin-search');
-	form_url = build_url( 'search' );
+	form_url = build_url();
 
 	form.submit(function(e) {
 		if ( form_url.length > 1) {
@@ -293,7 +296,7 @@ function dolphin_detail_form_error_check( required ) {
 function get_search_params() {
 	obj = {};
 
-	if ( jQuery('#dolphin-search-top select').val() == 'Certified' ) {
+	if ( jQuery('#dolphin-saleclass').val() == 'Certified' ) {
 		obj['saleclass'] = 'Used';
 		obj['certified'] = 'yes';
 	} else {
@@ -301,7 +304,12 @@ function get_search_params() {
 		obj['certified'] = '';
 	}
 
-	obj['search'] = jQuery('#dolphin-search-box').val();
+	if( jQuery('#dolphin-search-box.invalid').length ){
+	obj['search'] = '';
+	} else {
+		obj['search'] = jQuery('#dolphin-search-box').val();
+	}
+
 	obj['price_from'] = jQuery('#dolphin-price-from').val();
 	obj['price_to'] = jQuery('#dolphin-price-to').val();
 	obj['year_from'] = jQuery('#dolphin-year-from').val();
@@ -332,127 +340,73 @@ function get_hidden_params() {
 	return obj;
 }
 
-function build_url( type ) {
+function build_url() {
 
 	s_params = get_search_params();
 	f_params = get_filter_params();
 	h_params = get_hidden_params();
 
-	add_search = jQuery('#dolphin-apply-search input:checked').val();
-
 	url_text = '';
 	url_query = '';
-	f_text = '';
-	f_query = '';
-	s_query = '';
+	url_return = '';
 
 	jQuery.each(s_params, function(key, value) { // Search Params
 		if ( key != 'saleclass' ) {
 			if ( value ) {
-				if ( s_query.length > 1 ) {
-					s_query += '&'+ key + '=' + value;
+				if ( url_query.length > 1 ) {
+					url_query += '&'+ key + '=' + value;
 				} else {
-					s_query = key + '=' + value;
+					url_query = key + '=' + value;
 				}
 			}
 		}
 	});
 
 	if ( h_params['rewrite'] ) {
-		url_text = '/inventory/';
-		url_query = '?';
+		url_text = '/inventory/' + s_params['saleclass'] + '/';
+
 		if ( f_params['make'] ) { // Filter Params (clean)
-			f_text = f_params['make'] + '/';
+			url_text += f_params['make'] + '/';
 			if ( f_params['model'] ) {
-				f_text += f_params['model'] + '/';
+				url_text += f_params['model'] + '/';
 				if  ( f_params['trim'] ) {
-					f_query = 'trim=' + f_params['trim'];
+					if( url_query.length > 1 ){
+						url_query += '&trim=' + f_params['trim'];
+					} else {
+						url_query = 'trim=' + f_params['trim'];
+					}
 				}
 			}
 		}
 
-		if ( add_search ) { // Saleclass (clean)
-			url_text += s_params['saleclass'] + '/';
-		} else {
-			if ( type == 'filter' ) {
-				url_text += h_params['saleclass'] + '/';
-			} else {
-				url_text += s_params['saleclass'] + '/';
-			}
-		}
-
-		if ( add_search ) { // String Query
-			if ( f_query && s_query ) {
-				url_query += f_query + '&' + s_query;
-			} else if ( f_query ) {
-				url_query += f_query;
-			} else {
-				url_query += s_query;
-			}
-		} else {
-			if ( type == 'filter' ) {
-				url_query += f_query;
-			} else {
-				url_query += s_query;
-			}
-		}
 		if ( url_query.length <= 2 ) {
 			url_query = '';
 		}
 
 	} else {
-		url_text = '?taxonomy=inventory';
+		url_text = '?taxonomy=inventory' + '&saleclass=' + s_params['salaclass'];
 		if ( f_params['make'] ) { // Filter Params (not clean)
-			f_query = '&make=' + f_params['make'];
+			url_text += '&make=' + f_params['make'];
 			if ( f_params['model'] ) {
-				f_query += '&model=' + f_params['model'];
+				url_text += '&model=' + f_params['model'];
 				if  ( f_params['trim'] ) {
-					f_query += '&trim=' + f_params['trim'];
+					url_text += '&trim=' + f_params['trim'];
 				}
 			}
 		}
 
-		if ( add_search ) { // Saleclass (not clean)
-			url_text += '&saleclass=' + s_params['salaclass'];
-		} else {
-			if ( type == 'filter' ) {
-				url_text += '&saleclass=' + h_params['salaclass'];
-			} else {
-				url_text += '&saleclass=' + s_params['salaclass'];
-			}
-		}
-
-		if ( add_search ) { // String Query
-			if ( f_query && s_query ) {
-				url_query += '&' + f_query + '&' + s_query;
-			} else if ( f_query ) {
-				url_query += '&' + f_query;
-			} else {
-				url_query += '&' + s_query;
-			}
-		} else {
-			if ( type == 'filter' ) {
-				url_query += '&' + f_query;
-			} else {
-				url_query += '&' + s_query;
-			}
-		}
 		if ( url_query.length <= 2 ) {
 			url_query = '';
 		}
 	}
 
-	if ( type == 'filter' ) { // Filter
-		url_text += f_text + url_query;
-	} else { // Search
-		if ( add_search ) {
-			url_text += f_text + url_query;
-		} else {
-			url_text += url_query;
-		}
+	if( url_query.length > 1 ) {
+		url_return = url_text + '?' + url_query;
+	} else {
+		url_return = url_text;
 	}
 
-	return url_text;
+	return url_return;
 
 }
 

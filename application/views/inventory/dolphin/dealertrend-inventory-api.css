@@ -821,80 +821,77 @@
     width: 96%;
 }
 #dolphin-search-top{
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+#dolphin-search-mid{
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    margin: 0 auto;
     background-color: #3B3B3B;
-    padding: .5% 1%;
-    border-radius: 8px;
-    overflow: hidden;
+    width: 40%;
+    padding: .5% 0;
+    border-radius: 6px;
 }
-#dolphin-search-text{
-    width: 8.8%;
-    float: left;
-    color: #FFF;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 1.2em;
-    border-right: 2px solid #D6D6D6;
+#dolphin-search-box{
     display: block;
+    float: left;
+    width: 62%;
+    background-color: #D6D6D6;
+    border-radius: 4px;
     margin: 0 0 0 1%;
-    padding: 0 .1% .2% 0;
-    min-width: 79.2px;
+    height: 1.8em;
+    padding: 0;
 }
-#dolphin-search-mid {
+#dolphin-search-submit{
     display: block;
-    float: left;
-    margin: 0 0 0 1.2%;
-    overflow: hidden;
-    width: 25%;
-    min-width: 148px;
-}
-#dolphin-search-top button{
+    float: right;
     background-color: #0453BC;
-    color: #FFF;
-    border: none;
+    color: #D6D6D6;
+    font-style: italic;
+    border: 1px solid #D6D6D6;
     border-radius: 6px;
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
     padding: 0;
-    font-size: 1.2em;
-    width: 18%;
-    margin: 0 0 0 2%;
-    min-width: 44px;
+    font-size: 120%;
+    width: 33%;
     line-height: 1.4em;
-	display: block;
-	float: left;
+    margin: 0 1% 0 0;
 }
-#dolphin-search-top > input{
-    width: 62%;
-	max-width: 554px;
+#dolphin-search-submit:hover{
+    color: #0453BC;
     background-color: #D6D6D6;
-    border-radius: 4px;
-    margin: .2% 0 0;
-    height: 1.4em;
-    padding: 0;
 }
-#dolphin-search-top .dolphin-select {
-    background-color: #3B3B3B;
-    border-radius: 4px;
-    color: #FFFFFF;
-    max-width: 150px;
-    width: 68%;
-    margin: 0 .5% 0 2%;
-	display: block;
-	float: left;
+#dolphin-search-box.invalid{
+    color: #606060;
+    font-weight: bold;
+    font-style: italic;
 }
 #dolphin-advance-show{
-    background-color: #0453BC;
-    color: #FFF;
     display: block;
-    width: 8%;
-    padding: 0 1%;
-    border-radius: 0px 0px 8px 8px;
     float: right;
-    margin: -2.2% 2.8% 0 0;
+    background-color: #0453BC;
+    color: #D6D6D6;
+    width: 14%;
+    font-size: 90%;
+    padding: 0 1%;
+    border-radius: 6px;
+    border: 1px solid #D6D6D6;
+    margin: -3% 2.8% 0 0;
     cursor: pointer;
     text-align: center;
-    min-width: 68px;
+}
+#dolphin-advance-show:hover{
+    color: #0453BC;
+    background-color: #D6D6D6;
 }
 #dolphin-search-advance{
     clear: both;
@@ -927,14 +924,47 @@
 .dolphin-advance-peram input{
     background-color: #D6D6D6;
     border-radius: 4px;
-    max-width: 64px;
+    max-width: 54px;
     width: 100%;
     padding: 0;
     height: 1.4em;
 }
 .dolphin-advance-peram select{
-    max-width: 120px;
+    max-width: 160px;
     margin: 1% 0 0 4%;
+	width: 100%;
+}
+.reset-search{
+    display: block;
+    text-align: center;
+    background-color: #C60101;
+    padding: 1% 0;
+    margin: 1.5% 0 0;
+    border-radius: 6px;
+    border: 1px solid #D3D3D3;
+}
+.dolphin-advance-peram .reset-search > a{
+    color: #D3D3D3;
+	display: block;
+	text-decoration: none;
+}
+.reset-search:hover{
+	background-color: #D3D3D3;
+}
+.dolphin-advance-peram .reset-search > a:hover{
+	color: #C60101;
+}
+#search-error{
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #C60101;
+    color: #D3D3D3;
+    text-align: center;
+    border-radius: 6px;
 }
 #dolphin-filter-wrapper{
     float: none;
@@ -944,25 +974,13 @@
     margin: 1% auto 1%;
     background-color: #3B3B3B;
     border-radius: 8px 8px 8px 8px;
-    padding: 0 1%;
-}
-#dolphin-filter-text{
-    width: 8.8%;
-    float: left;
-    color: #FFF;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 1.2em;
-    border-right: 2px solid #D6D6D6;
-    display: block;
-    margin: .6% 0 .6% 1%;
-    padding: 0 0 .2%;
+    padding: 0 1% .6%;
 }
 #dolphin-filters{
     width: 88%;
-    float: left;
     display: block;
     text-align: center;
+	margin: 0 auto;
 }
 #dolphin-filters > div {
     display: block;
