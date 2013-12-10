@@ -329,8 +329,8 @@
 														if ( $odometer > 100 ) {
 															echo '<div class="eagle-odometer"><span>Mileage:</span> ' . $odometer . '</div>';
 														}
-														echo $exterior_color != NULL ? '<div class="eagle-interior-color"><span>Exterior:</span> ' . $exterior_color . '</div>' : NULL;
-														echo $interior_color != NULL ? '<div class="eagle-exterior-color"><span>Interior:</span> ' . $interior_color . '</div>' : NULL;
+														echo $exterior_color != NULL ? '<div class="eagle-exterior-color"><span>Exterior:</span> ' . $exterior_color . '</div>' : NULL;
+														echo $interior_color != NULL ? '<div class="eagle-interior-color"><span>Interior:</span> ' . $interior_color . '</div>' : NULL;
 														echo $transmission != NULL ? '<div class="eagle-transmission"><span>Transmission:</span> ' . $transmission . '</div>' : NULL;
 													?>
 												</div>
