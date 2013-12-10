@@ -83,13 +83,21 @@ class vehicle_management_system {
 
 	public function please( $parameters = array() ) {
 
-		if ( empty( $parameters['search_sim'] ) ) {
+		//Shortcode ID switch for inventory
+		if( isset($parameters['dealer_id']) && $parameters['dealer_id'] > 0 ){
+			$api_url = $this->host . '/' . $parameters['dealer_id'] . '/inventory/vehicles.json';
+			unset( $parameters['dealer_id'] );
+		} else {
+			$api_url = $this->url;
+		}
+
+		if( empty( $parameters['search_sim'] ) ) {
 			$parameters = array_merge( $this->parameters , $parameters );
 		} else {
 			unset( $parameters['search_sim'] );
 		}
 
-		if ( !empty( $parameters['make_filters'] ) ) {
+		if( !empty( $parameters['make_filters'] ) ) {
 			$makes_string = '';
 			foreach ( $parameters['make_filters'] as $new_make ) {
 				if (  empty( $makes_string ) ) {
@@ -104,7 +112,7 @@ class vehicle_management_system {
 		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;
 
-		if ( !empty( $makes_string ) ) {
+		if( !empty( $makes_string ) ) {
 			if ( !empty( $parameter_string ) ) {
 				$parameter_string = $parameter_string . '&' . $makes_string;
 			} else {
@@ -112,7 +120,7 @@ class vehicle_management_system {
 			}
 		}
 
-		$request = $this->url . $parameter_string;
+		$request = $api_url . $parameter_string;
 		$request_handler = new http_request( $request , 'vehicle_management_system' );
 
 		if( $this->tracer !== NULL ) {

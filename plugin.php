@@ -821,7 +821,8 @@ class Plugin {
 			'certified' => '',
 			'tag' => '', //icons
 			'limit' => '10', //per_page
-			'style' => 'newspaper'
+			'style' => 'newspaper',
+			'dealer_id' => 0
 		);
 		extract( shortcode_atts( $sc_defaults, $atts ) );
 
