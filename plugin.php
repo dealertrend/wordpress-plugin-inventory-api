@@ -4,6 +4,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 require_once( dirname( __FILE__ ) . '/application/helpers/http_request.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/ajax.php' );
+require_once( dirname( __FILE__ ) . '/application/helpers/ajax_widgets.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/application/helpers/dynamic_site_headers.php' );
@@ -11,6 +12,7 @@ require_once( dirname( __FILE__ ) . '/application/helpers/updater.php' );
 
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_management_system.php' );
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_reference_system.php' );
+require_once( dirname( __FILE__ ) . '/application/views/widgets/vms_search_box.php' );
 
 class Plugin {
 
@@ -88,6 +90,7 @@ class Plugin {
 		$this->add_filter_hooks();
 		$this->add_menu_link();
 		$this->add_shortcode();
+		$this->register_ajax();
 	}
 
 	private function get_master_file() {
@@ -242,6 +245,7 @@ class Plugin {
 	function load_widgets() {
 		if( $this->options[ 'vehicle_management_system' ][ 'host' ] && $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) {
 			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vehicle_management_system_widget" );' ) );
+			add_action( 'widgets_init' , create_function( '' , 'return register_widget( "vms_search_box_widget" );' ) );
 		}
 
 		if( $this->options[ 'vehicle_reference_system' ][ 'host' ] ) {
@@ -864,6 +868,12 @@ class Plugin {
 
 		//Display shortcode
 		return $sc_content;
+	}
+
+	function register_ajax(){
+		$ajax_widget = new \ajax_widgets();
+		add_action('wp_ajax_nopriv_ajax_widget_request', array(&$ajax_widget, 'ajax_widgets_handle_request') );
+		add_action('wp_ajax_ajax_widget_request', array(&$ajax_widget, 'ajax_widgets_handle_request') );
 	}
 
 }
