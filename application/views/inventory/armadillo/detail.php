@@ -40,6 +40,7 @@
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
 	$acode = $inventory->ads_acode;
+	$autocheck = isset( $inventory->auto_check_url ) ? TRUE : FALSE;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
@@ -358,6 +359,11 @@ function video_popup(url , title) {
 					}
 				?>
 				</div>
+				<?php
+					if( $autocheck ){
+						echo display_autocheck_image( $vin, $sale_class, $type );
+					}
+				?>
 			</div>
 			<?php
 				$fuel_city = !empty( $fuel_economy ) && !empty( $fuel_economy->city ) ? $fuel_economy->city : false;

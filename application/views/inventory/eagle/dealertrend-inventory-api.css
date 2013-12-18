@@ -1279,3 +1279,21 @@
 .hidden-vehicle-prices{
 	display: none;
 }
+
+/********
+autocheck
+********/
+.autocheck-list{
+    display: block;
+    clear: both;
+    float: none;
+    margin: 2% 0 0;
+    cursor: pointer;
+}
+.autocheck-detail{
+    display: block;
+    float: none;
+    clear: both;
+    margin: 0 0 0 6%;
+	cursor: pointer;
+}

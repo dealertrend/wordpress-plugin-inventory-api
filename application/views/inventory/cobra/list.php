@@ -267,6 +267,7 @@ echo '
 						$drive_train = $inventory_item->drive_train;
 						$doors = $inventory_item->doors;
 						$headline = $inventory_item->headline;
+						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 						
 						if( ! empty( $wp_rewrite->rules ) ) {
 							$inventory_url = $site_url . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
@@ -346,7 +347,11 @@ echo '
 							';
 						}
 						echo '
-						</div>
+						</div>';
+						if( $autocheck ){
+							echo display_autocheck_image( $vin, $sale_class, $type );
+						}
+					echo '	
 					</div>
 					<br class="clear" />';
 				}

@@ -918,3 +918,23 @@ ul.selectBox-options a:hover {
 #cobra #cobra-detail-page .saleclass {
 	display:none;
 }
+
+
+/********
+autocheck
+********/
+#cobra .autocheck-list{
+    display: block;
+    float: right;
+    overflow: hidden;
+    margin: 1% 3.5% 0 0;
+    width: 110px;
+	cursor: pointer;
+}
+#cobra .autocheck-detail{
+    display: block;
+    clear: both;
+    float: none;
+    margin: 2% 0 0 0;
+	cursor: pointer;
+}

@@ -449,7 +449,7 @@ class Plugin {
 					$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 					$inventory_functions = dirname( __FILE__ ) . '/application/views/inventory/functions.php';
-
+					include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 
 					$vehicle_management_system = new vehicle_management_system(
@@ -480,17 +480,20 @@ class Plugin {
 							);
 						}
 					}
-
-					if( $handle = opendir( $theme_path ) ) {
-						while( false != ( $file = readdir( $handle ) ) ) {
-							if( $file == 'index.php' ) {
-								include_once( $theme_path . '/index.php' );
-							}
-						}
-						closedir( $handle );
+					if( $this->autocheck_flag ){
+						include_once( dirname( __FILE__ ) . '/application/views/inventory/autocheck.php' );
 					} else {
-						echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
-						return false;
+						if( $handle = opendir( $theme_path ) ) {
+							while( false != ( $file = readdir( $handle ) ) ) {
+								if( $file == 'index.php' ) {
+									include_once( $theme_path . '/index.php' );
+								}
+							}
+							closedir( $handle );
+						} else {
+							echo __FUNCTION__ . ' Could not open directory at: ' . $theme_path;
+							return false;
+						}
 					}
 
 					$this->stop_wordpress();
@@ -633,6 +636,7 @@ class Plugin {
 		$permalink_parameters = !empty( $wp_rewrite->permalink_structure ) ? explode( '/' , $wp->request ) : array();
 		$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
 		$parameters = array();
+		$this->autocheck_flag = false;
 
 		switch( $this->taxonomy ) {
 			case 'inventory';
@@ -651,24 +655,29 @@ class Plugin {
 						break;
 				}
 
-				foreach( $permalink_parameters as $key => $value ) {
-					switch( $key ) {
-						case 0: $index = 'taxonomy'; break;
-						case 1:
-							if( is_numeric( $value ) ) {
-								$index = 'year';
-							} else {
-								$index = 'saleclass';
-							}
-						break;
-						case 2: $index = 'make'; break;
-						case 3: $index = 'model'; break;
-						case 4: $index = 'state'; break;
-						case 5: $index = 'city'; break;
-						case 6: $index = 'vin'; break;
-						default: return; break;
+				if( isset( $permalink_parameters[1] ) && $permalink_parameters[1] == 'autocheck' ){
+					$this->autocheck_flag = true;
+					$this->autocheck_vin = ( isset($permalink_parameters[2]) ) ? $permalink_parameters[2] : 0 ;
+				} else {
+					foreach( $permalink_parameters as $key => $value ) {
+						switch( $key ) {
+							case 0: $index = 'taxonomy'; break;
+							case 1:
+								if( is_numeric( $value ) ) {
+									$index = 'year';
+								} else {
+									$index = 'saleclass';
+								}
+							break;
+							case 2: $index = 'make'; break;
+							case 3: $index = 'model'; break;
+							case 4: $index = 'state'; break;
+							case 5: $index = 'city'; break;
+							case 6: $index = 'vin'; break;
+							default: return; break;
+						}
+						$parameters[ $index ] = $value;
 					}
-					$parameters[ $index ] = $value;
 				}
 			break;
 			case 'showcase':
@@ -800,7 +809,7 @@ class Plugin {
 
 		$wp_admin_bar->add_menu( array(
 			'id'   => 'vms_link',
-			'meta' => array( target => '_blank'),
+			'meta' => array( 'target' => '_blank'),
 			'title' => 'VMS',
 			'href' => 'http://manager.dealertrend.com'
 			)

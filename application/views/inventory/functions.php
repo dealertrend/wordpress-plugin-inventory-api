@@ -80,4 +80,39 @@
 		}
 
 	}
+
+	function display_autocheck_image( $vin, $sc = 'new', $page = 'list' ){
+
+		$autocheck = '';
+		if( strtolower($sc) == 'used' ){
+			$autocheck = '<div class="autocheck-'.$page.'" >';
+			$onclick_string = "'".site_url() . "/inventory/autocheck/".$vin."/','popup', 'width=960,height=800,scrollbars=yes,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0'";
+			$autocheck .= '<a onclick="window.open('.$onclick_string.'); return false"  ><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/autocheck_'.$page.'.png" /></a>';
+			$autocheck .= '</div>';
+		}
+
+		return $autocheck;
+	}
+
+	function get_proxy_site_page( $url ){
+		$options = array(
+		    CURLOPT_RETURNTRANSFER => true,     // return web page
+		    CURLOPT_HEADER         => true,     // return headers
+		    CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+		    CURLOPT_ENCODING       => "",       // handle all encodings
+		    CURLOPT_AUTOREFERER    => true,     // set referer on redirect
+		    CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+		    CURLOPT_TIMEOUT        => 120,      // timeout on response
+		    CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+		);
+
+		$ch = curl_init( $url );
+		curl_setopt_array( $ch, $options );
+		$remoteSite = curl_exec( $ch );
+		$header  = curl_getinfo( $ch );
+		curl_close( $ch );
+
+		$header['content'] = $remoteSite;
+		return $header;
+	}
 ?>

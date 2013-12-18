@@ -36,6 +36,7 @@
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 	$carfax = isset( $inventory->carfax ) ? $inventory->carfax->url : false;
 	$acode = $inventory->ads_acode;
+	$autocheck = isset( $inventory->auto_check_url ) ? TRUE : FALSE;
 
 	$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 
@@ -207,8 +208,11 @@ $now_text = 'Now: ';
 			<?php
 				if( $carfax ) {
  					echo '<a href="' . $carfax . '" class="cobra-carfax" target="_blank">Carfax</a>';
-     		}
-   		?>
+     			}
+				if( $autocheck ){
+					echo display_autocheck_image( $vin, $sale_class, $type );
+				}
+	   		?>
 			<br class="clear" />
 		</div>
 

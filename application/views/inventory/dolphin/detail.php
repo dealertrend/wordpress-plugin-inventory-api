@@ -43,6 +43,7 @@
 	$certified = $inventory->certified;
 	$vehicle_class = $inventory->vehicleclass;
 	$acode = $inventory->ads_acode;
+	$autocheck = isset( $inventory->auto_check_url ) ? TRUE : FALSE;
 
 	//$primary_price = $sale_price != NULL ? $sale_price : $asking_price;
 	$primary_price = 0;
@@ -202,6 +203,11 @@ function video_popup(url , title) {
 					if( $carfax ) {
 						echo '<div id="dolphin-carfax"><a href="' . $carfax . '" target="_blank"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg" /></a></div>';
 					}
+
+					if( $autocheck ){
+						echo display_autocheck_image( $vin, $sale_class, $type );
+					}
+
 				?>
 			</div> <!-- Column Left End -->
 			<div id="dolphin-column-middle"> <!-- Column Middle -->

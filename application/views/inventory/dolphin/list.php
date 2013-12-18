@@ -301,6 +301,8 @@
 						$headline = $inventory_item->headline;
 						$saleclass = $inventory_item->saleclass;
 						$certified = $inventory_item->certified;
+						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
+
 						if( !empty( $wp_rewrite->rules ) ) {
 							$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 						} else {
@@ -450,6 +452,11 @@
 						<div class="dolphin-detail-button">
 							<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
 						</div>
+						<?php
+							if( $autocheck ){
+								echo display_autocheck_image( $vin, $saleclass, $type );
+							}
+						?>
 					</div>
 				</div>
 			</div>

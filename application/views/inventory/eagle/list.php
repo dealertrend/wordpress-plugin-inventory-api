@@ -278,6 +278,7 @@
 									$headline = $inventory_item->headline;
 									$saleclass = $inventory_item->saleclass;
 									$certified = $inventory_item->certified;
+									$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 
 									$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
 									$form_submit_url = $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
@@ -426,6 +427,12 @@
 													<span class="eagle-hidden-form-value eagle-form-subject-post"><?php echo $form_subject; ?></span>
 													<span class="eagle-hidden-form-value eagle-form-url"><?php echo '&#39;' . $form_submit_url . strtolower( $saleclass ) . '_vehicle_inquiry&#39;'; ?></span>
 												</div>
+
+												<?php
+													if( $autocheck ){
+														echo display_autocheck_image( $vin, $saleclass, $type );
+													}
+												?>
 											</div>
 										</div>
 										<div class="eagle-listing-bottom"> <!-- Eagle Listing Bottom -->

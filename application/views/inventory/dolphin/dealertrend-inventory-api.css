@@ -1459,3 +1459,21 @@
     color: #000;
 }
 
+/********
+autocheck
+********/
+.autocheck-list{
+    display: block;
+    clear: both;
+    float: right;
+    margin: 1% 0 0 0;
+    cursor: pointer;
+}
+.autocheck-detail{
+    display: block;
+    clear: both;
+    float: none;
+    text-align: center;
+    margin: 4% 0 0;
+    cursor: pointer;
+}

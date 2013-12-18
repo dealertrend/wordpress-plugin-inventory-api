@@ -285,6 +285,7 @@
 							$doors = $inventory_item->doors;
 							$headline = $inventory_item->headline;
 							$saleclass_item = $inventory_item->saleclass;
+							$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -424,6 +425,11 @@
 											echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $phone_value : NULL;
 										?>
 									</div>
+									<?php
+										if( $autocheck ){
+											echo display_autocheck_image( $vin, $saleclass_item, $type );
+										}
+									?>
 									<br class="armadillo-clear" />
 								</div>
 								<br class="armadillo-clear" />

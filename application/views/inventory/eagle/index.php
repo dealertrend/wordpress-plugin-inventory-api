@@ -166,7 +166,6 @@
 
 	$breadcrumbs = '<div class="eagle-breadcrumbs">' . $breadcrumbs . '</div>';
 
-	include( $inventory_functions );	//Global Inventory Functions
 	$default_tag_names = get_default_tag_names();
 	$custom_tag_icons = $this->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
 	$custom_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] );

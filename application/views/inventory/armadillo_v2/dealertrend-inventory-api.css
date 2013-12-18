@@ -378,3 +378,30 @@
 #armadillo-detail * .ui-corner-all { -moz-border-radius: 0px !important; -webkit-border-radius: 0px !important; border-radius: 0px !important; border-color:#a8a8a8; }
 #armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
 .armadillo-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
+
+/********
+Autocheck
+********/
+.autocheck-list{
+	display: block;
+	float: right;
+	overflow: hidden;
+	margin: 0 7.5% 0;
+	padding: 1% 0 0;
+	text-align: right;
+	width: 108px;
+}
+.autocheck-list a{
+	cursor: pointer;
+}
+.autocheck-detail{
+    display: block;
+    float: none;
+    clear: both;
+    margin: -3% auto 2%;
+    padding: 0;
+    text-align: center;
+}
+.autocheck-detail a{
+    cursor: pointer;
+}

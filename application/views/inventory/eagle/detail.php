@@ -45,6 +45,7 @@
 	$vehicle_class = $inventory->vehicleclass;
 	$acode = $inventory->ads_acode;
 	$primary_price = 0;
+	$autocheck = isset( $inventory->auto_check_url ) ? TRUE : FALSE;
 
 	$traffic_source = isset( $_COOKIE[ 'dealertrend-traffic-source' ] ) ? $_COOKIE[ 'dealertrend-traffic-source' ] : false;
 	$traffic_source = $this->sanitize_inputs( $traffic_source );
@@ -343,6 +344,10 @@
 											}
 
 											echo $vehicle_info;
+
+											if( $autocheck ){
+												echo display_autocheck_image( $vin, $sale_class, $type );
+											}
 
 										?>
 									</div>
