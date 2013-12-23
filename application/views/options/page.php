@@ -112,6 +112,7 @@ class Options_Page {
 			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ] = $_POST[ 'inventory_tags_counter' ];
 			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ] = ( !empty($_POST[ 'inventory_tag' ]) ) ? $_POST[ 'inventory_tag' ]: array();
 			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
+			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ] = $_POST[ 'show_standard_eq' ];
 
 
 		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {

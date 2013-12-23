@@ -10,6 +10,7 @@
 	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
 	$phone_new = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ];
 	$phone_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ];
+	$show_standard_eq = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ];
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 

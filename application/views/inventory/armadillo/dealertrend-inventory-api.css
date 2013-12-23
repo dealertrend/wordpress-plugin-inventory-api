@@ -380,6 +380,35 @@
 #armadillo-detail #armadillo-inventory-tabs .ui-widget-header { background:#858585 !important; }
 .armadillo-disclaimer { clear:both; font-size:10px; margin-bottom:10px; }
 
+#standard-equipment{
+    display: block;
+    width: 95%;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    border: 1px solid #858585;
+    padding: 1%;
+    max-height: 250px;
+}
+#standard-equipment > h3{
+    background-color: #858585;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 24px;
+}
+#eq-wrapper{
+    display: block;
+    width: 98%;
+    overflow-y: auto;
+    clear: both;
+    float: none;
+    padding: 1%;
+    max-height: 250px;
+}
+#eq-wrapper li{
+    margin: 0 0 0 12%;
+}
+
 /********
 Autocheck
 ********/

@@ -112,33 +112,11 @@ if ( jQuery('#dolphin-detail').length ) {
 
 	// Dolphin Tab Control
 	jQuery('.dolphin-detail-tab').click(function() {
-		tab_count = jQuery('.dolphin-detail-tab').length;
 		tab_name = jQuery(this).attr('name');
-
-		if ( jQuery(this).attr('class').match(/active/i) != null ) {
-		    // Do Nothing;
-		} else {
-		    if ( tab_count < 2 ) {
-		        // Do Nothing;
-		    } else {
-		        switch( tab_name ) {
-
-		            case 'equip':
-		                jQuery('#dolphin-detail-description').slideUp();
-		                jQuery('.dolphin-detail-tab').attr('class', 'dolphin-detail-tab');
-		                jQuery(this).attr('class', 'dolphin-detail-tab active-tab');
-		                jQuery('#dolphin-detail-features').slideDown();
-		                break;
-
-		            case 'desc':
-		                jQuery('#dolphin-detail-features').slideUp();
-		                jQuery('.dolphin-detail-tab').attr('class', 'dolphin-detail-tab');
-		                jQuery(this).attr('class', 'dolphin-detail-tab active-tab');
-		                jQuery('#dolphin-detail-description').slideDown();
-		                break;
-		        }
-		    }
-		}
+		jQuery('.dolphin-detail-tab.active-tab').removeClass('active-tab');
+		jQuery(this).addClass('active-tab');
+		jQuery('.detail-tab-info.active').removeClass('active');
+		jQuery('#dolphin-detail-'+tab_name).addClass('active');
 	});
 
 }
@@ -146,6 +124,9 @@ if ( jQuery('#dolphin-detail').length ) {
 // Dolphin General
 jQuery(document).ready(function() {
 
+	if( jQuery('.dolphin-detail-tab').length ){
+		jQuery('.dolphin-detail-tab:first').click();
+	}
 	// AIS iFrame
 	var frame = jQuery('<div class="aisframe"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 

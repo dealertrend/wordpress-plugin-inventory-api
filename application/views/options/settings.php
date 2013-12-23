@@ -8,7 +8,7 @@
 	<div class="form-save-wrapper">
 		<div class="form-save-button" name="settings-form">Save Settings</div>
 	</div>
-    <form id="settings-form" name="dealertrend_inventory_api_plugin_settings" method="post" action="#feeds">
+    <form id="settings-form" name="dealertrend_inventory_api_plugin_settings" method="post" action="#settings">
       <?php wp_nonce_field( 'dealertrend_inventory_api' ); ?>
       <table width="450">
         <tr>
@@ -61,18 +61,13 @@
           </td>
         </tr>
       </table>
-      <table>
-        <tr>
-          <td>
-            <input type="hidden" name="action" value="update" />
-            <p class="submit">
-              <input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" />
-            </p>
-          </td>
-          <td>
-            <button id="uninstall" name="uninstall" value="true">Perform Clean Uninstall</button>
-          </td>
-        </tr>
-      </table>
+		<table>
+			<tr>
+    	    	<td>
+					<input type="hidden" name="action" value="update" />
+   			        <p class="submit"><input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ) ?>" /></p>
+				</td>
+			</tr>
+		</table>
     </form>
   </div>

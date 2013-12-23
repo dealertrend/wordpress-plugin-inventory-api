@@ -30,6 +30,20 @@
 			</tr>
 		</table>
 		<h3 class="title">Sitemap Links</h3>
-			<a target="_blank" href="<?php bloginfo( 'url' ); echo '/new-vehicle-sitemap.xml'; ?>">Inventory New</a>
-			<a target="_blank" href="<?php bloginfo( 'url' ); echo '/used-vehicle-sitemap.xml'; ?>">Inventory Used</a>
+		<table>
+			<tr>
+				<td><a target="_blank" href="<?php bloginfo( 'url' ); echo '/new-vehicle-sitemap.xml'; ?>">Inventory New</a></td>
+			</tr>
+			<tr>
+				<td><a target="_blank" href="<?php bloginfo( 'url' ); echo '/used-vehicle-sitemap.xml'; ?>">Inventory Used</a></td>
+			</tr>
+		</table>
+
+		<table style="margin: 20px 0 0 -10px;">
+		    <tr>
+				<td>
+					<button id="uninstall" name="uninstall" value="true">Perform Clean Uninstall</button>
+				</td>
+			</tr>
+		</table>
 	</div>

@@ -719,10 +719,37 @@
     border-top: 2px solid #000;
     border-left: 2px solid #000;
 }
+.detail-tab-info{
+	display: none;
+}
+.detail-tab-info.active{
+	display: block;
+}
 #dolphin-detail-features{
     width: 100%;
+    overflow: hidden;
+}
+#dolphin-detail-standard{
+    width: 98%;
+    overflow: hidden;
+	background-color: #D6D6D6;
+	margin: 0 auto;
+}
+#dolphin-detail-standard h4{
+    color: #0453BC;
+    font-weight: bold;
+    font-size: 110%;
+    margin: 0 0 0 2%;
+}
+#dolphin-detail-standard ul{
+    width: 96%;
     display: block;
     overflow: hidden;
+    margin: 0 auto 1%;
+    background-color: #AAAAAA;
+    border-radius: 0 0 6px 6px;
+    padding: 1%;
+    list-style: disc;
 }
 #dolphin-detail-features > ul{
     width: 96%;
@@ -734,14 +761,13 @@
     padding: 1%;
     list-style: disc;
 }
-#dolphin-detail-features > ul li{
+#dolphin-detail-features > ul li, #dolphin-detail-standard ul li{
     width: 30%;
     margin: 0 0 0 3%;
     float: left;
 }
 #dolphin-detail-description{
     width: 96%;
-    display: block;
     overflow: hidden;
     margin: 0 auto;
     padding: 1%;

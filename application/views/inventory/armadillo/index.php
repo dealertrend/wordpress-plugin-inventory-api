@@ -11,6 +11,7 @@
 	$phone_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ];
 	$name_new = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ];
 	$name_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ];
+	$show_standard_eq = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ];
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 

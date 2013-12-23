@@ -666,51 +666,36 @@ function video_popup(url , title) {
 				</div>
 			</div> <!-- Column Right End -->
 			<div id="dolphin-detail-specs"> <!-- Detail Specs -->
-				<?php if( count( $dealer_options ) > 0 && strlen( $description ) > 0 ) { ?>
 				<div id="dolphin-detail-tabs">
 					<ul>
-						<li class="dolphin-detail-tab active-tab" name="equip">Equipment / Features</li>
-						<li class="dolphin-detail-tab" name="desc">Dealer Comments</li>
+						<?php
+							echo ( isset($dealer_options) ) ? '<li class="dolphin-detail-tab active-tab" name="features">Equipment / Features</li>' : '';
+							echo ( isset($standard_equipment) && $show_standard_eq ) ? '<li class="dolphin-detail-tab" name="standard">Standard Equipment</li>' : '';
+							echo ( $description ) ? '<li class="dolphin-detail-tab" name="description">Dealer Comments</li>' : '';
+						?>
 					</ul>
-					<div id="dolphin-detail-features" style="display: block;">
+					<div id="dolphin-detail-features" class="detail-tab-info">
 						<ul>
 						<?php
-							foreach( $dealer_options as $option ) {
-								echo '<li>' . $option . '</li>';
+							if( isset($dealer_options) ){
+								foreach( $dealer_options as $option ) {
+									echo '<li>' . $option . '</li>';
+								}
 							}
 						?>
 						</ul>
 					</div>
-					<div id="dolphin-detail-description" style="display: none;">
+					<div id="dolphin-detail-description" class="detail-tab-info">
 						<p><?php echo $description; ?></p>
 					</div>
+					<?php
+						if( isset($standard_equipment) && $show_standard_eq ){
+							echo '<div id="dolphin-detail-standard" class="detail-tab-info">';
+							echo display_equipment( $standard_equipment );
+							echo '</div>';
+						}
+					?>
 				</div>
-				<?php } elseif ( count( $dealer_options ) > 0 ) { ?>
-				<div id="dolphin-detail-tabs">
-					<ul>
-						<li class="dolphin-detail-tab active-tab" name="active">Equipment / Features</li>
-					</ul>
-					<div id="dolphin-detail-features" style="display: block;">
-						<ul>
-						<?php
-							foreach( $dealer_options as $option ) {
-								echo '<li>' . $option . '</li>';
-							}
-						?>
-						</ul>
-					</div>
-				</div>
-				<?php } elseif ( strlen( $description ) > 0 ) { ?>
-				<div id="dolphin-detail-tabs">
-					<ul>
-						<li class="dolphin-detail-tab active-tab" name="active">Dealer Comments</li>
-					</ul>
-					<div id="dolphin-detail-description" style="display: block;">
-						<p><?php echo $description; ?></p>
-					</div>
-				</div>
-				<?php } ?>
-
 			</div>  <!-- Detail Specs End -->
 
 			<?php //Dolphin Similar Vehicles

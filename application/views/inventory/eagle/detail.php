@@ -427,6 +427,22 @@
 							</div>
 						</div>
 
+						<?php
+							if( isset($standard_equipment) && $show_standard_eq ){
+						?>
+							<div class="eagle-vehicle-info-divider" id="eagle-content-equipment-wrapper">
+								<h4 class="eagle-divider-headline">
+									<span class="eagle-divider-text">Vehicle Standard Equipment:</span>
+								</h4>
+								<div class="eagle-divider-content">
+									<?php
+										echo display_equipment( $standard_equipment );
+									?>
+								</div>
+							</div>
+						<?php
+							}
+						?>
 					</div>
 				</div>
 

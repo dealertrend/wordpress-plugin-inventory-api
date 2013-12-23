@@ -912,7 +912,7 @@
 	display: block;
 	overflow: hidden;
 }
-#eagle-content-features > ul{
+#eagle-content-features > ul {
 	width: 96%;
 	display: block;
 	overflow: hidden;
@@ -920,7 +920,16 @@
 	padding: 1%;
 	list-style: disc;
 }
-#eagle-content-features > ul li{
+.equipment_list {
+	width: 96%;
+	display: block;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: 1% 1% 2%;
+	list-style: disc;
+	border-bottom: 2px dashed #FFF;
+}
+#eagle-content-features > ul li, .equipment_list li{
 	width: 30%;
 	margin: 0 0 0 3%;
 	float: left;

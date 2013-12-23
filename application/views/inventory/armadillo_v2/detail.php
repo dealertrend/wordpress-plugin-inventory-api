@@ -287,7 +287,17 @@ function video_popup(url , title) {
 					</div>
 					<?php } ?>
 				</div>
-			<?php } ?>
+			<?php } 
+
+				if( isset($standard_equipment) && $show_standard_eq ){
+					echo '<div id="standard-equipment">';
+					echo '<h3>Standard Equipment</h3>';
+					echo '<div id="eq-wrapper">';
+					echo display_equipment( $standard_equipment );
+					echo '</div></div>';
+				}
+
+			?>
 			<div id="armadillo-tabs">
 				<div id="armadillo-description">
 				</div>

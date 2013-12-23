@@ -92,6 +92,13 @@
 		</tr>
 
 		<tr valign="top">
+			<td width="125"><label for="show_standard_eq"><?php _e('Show Standard Equipment:') ?></label></td>
+			<td>
+				<input type="checkbox" id="show_standard_eq" name="show_standard_eq" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ] != '' ) { echo 'checked'; } ?> />
+				<br />
+			</td>
+		</tr>
+		<tr valign="top">
 			<td width="125"><label for="inv_responsive"><?php _e('Remove Responsive:') ?></label></td>
 			<td>
 				<input type="checkbox" id="inv_responsive" name="inv_responsive" <?php if ( $this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] != '' ) { echo 'checked'; } ?> />

@@ -29,7 +29,8 @@ class Plugin {
 			'theme' => array(
 				'name' => 'armadillo',
 				'per_page' => 10,
-				'custom_settings' => array()
+				'custom_settings' => array(),
+				'show_standard_eq' => 0
 			),
 			'saleclass' => 'all',
 			'data' => array(
