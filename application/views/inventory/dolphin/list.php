@@ -293,14 +293,13 @@
 						$odometer = $inventory_item->odometer;
 						$icons = $inventory_item->icons;
 						$tags = $inventory_item->tags;
-						$certified_inv = $inventory_item->certified;
 						$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 						$body_style = $inventory_item->body_style;
 						$drive_train = $inventory_item->drive_train;
 						$doors = $inventory_item->doors;
 						$headline = $inventory_item->headline;
 						$saleclass = $inventory_item->saleclass;
-						$certified = $inventory_item->certified;
+						$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 
 						if( !empty( $wp_rewrite->rules ) ) {
@@ -328,7 +327,7 @@
 					</div>
 					 <!-- dolphin icons -->
 					<?php
-						apply_special_tags( $tags, $on_sale, $certified_inv);
+						apply_special_tags( $tags, $on_sale, $certified);
 						if( !empty( $tags ) ){
 							echo '<div class="dolphin-icons">';
 								$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);

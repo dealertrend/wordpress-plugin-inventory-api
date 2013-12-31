@@ -286,6 +286,7 @@
 							$headline = $inventory_item->headline;
 							$saleclass_item = $inventory_item->saleclass;
 							$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
+							$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -343,7 +344,7 @@
 										<span class="armadillo-vin">VIN: <?php echo $vin; ?></span>
 									</div>
 									<?php
-										apply_special_tags( $tags, $on_sale, $certified_inv);
+										apply_special_tags( $tags, $on_sale, $certified);
 										if( !empty( $tags ) ){
 											echo '<div class="armadillo-icons">';
 												$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);

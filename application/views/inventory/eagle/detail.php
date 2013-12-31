@@ -41,7 +41,7 @@
 	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
-	$certified = $inventory->certified;
+	$certified = (!empty($inventory->certified) ) ? $inventory->certified : 'false';
 	$vehicle_class = $inventory->vehicleclass;
 	$acode = $inventory->ads_acode;
 	$primary_price = 0;

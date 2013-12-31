@@ -28,7 +28,7 @@
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
 	$tags = $inventory->tags;
-	$certified_inv = $inventory->certified;
+	$certified = (!empty($inventory->certified) ) ? $inventory->certified : 'false';
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
@@ -254,7 +254,7 @@ function video_popup(url , title) {
 				
 			?>
 			<?php
-				apply_special_tags( $tags, $on_sale, $certified_inv);
+				apply_special_tags( $tags, $on_sale, $certified);
 				if( !empty( $tags ) ){
 					echo '<div class="armadillo-icons">';
 						$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);

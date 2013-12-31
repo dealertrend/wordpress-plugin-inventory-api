@@ -28,7 +28,6 @@
 	$doors = $inventory->doors;
 	$icons = $inventory->icons;
 	$tags = $inventory->tags;
-	$certified_inv = $inventory->certified;
 	$fuel_economy = $inventory->fuel_economy;
 	$headline = $inventory->headline;
 	$body_style = $inventory->body_style;
@@ -40,7 +39,7 @@
 	$dealer_name = isset( $contact_information->dealer_name ) ? $contact_information->dealer_name : NULL;
 	$phone = isset( $contact_information->phone ) ? $contact_information->phone : NULL;
 	$internet_manager = isset( $contact_information->internet_manager ) ? $contact_information->internet_manager : NULL;
-	$certified = $inventory->certified;
+	$certified = (!empty($inventory->certified) ) ? $inventory->certified : 'false';
 	$vehicle_class = $inventory->vehicleclass;
 	$acode = $inventory->ads_acode;
 	$autocheck = isset( $inventory->auto_check_url ) ? TRUE : FALSE;
@@ -190,7 +189,7 @@ function video_popup(url , title) {
 					?>
 				</div>
 				<?php
-					apply_special_tags( $tags, $on_sale, $certified_inv);
+					apply_special_tags( $tags, $on_sale, $certified);
 					if( !empty( $tags ) ){
 						echo '<div class="dolphin-icons">';
 							$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);

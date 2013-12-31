@@ -89,7 +89,7 @@
 					$odometer = $inventory_item->odometer;
 					$icons = $inventory_item->icons;
 					$tags = $inventory_item->tags;
-					$certified_inv = $inventory_item->certified;
+					$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 					$headline = $inventory_item->headline;
 					$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
 					$doors = $inventory_item->doors . 'D';
@@ -127,7 +127,7 @@
 						</div>
 						<div class="right-column">
 							<?php
-								apply_special_tags( $tags, $on_sale, $certified_inv);
+								apply_special_tags( $tags, $on_sale, $certified);
 								if( !empty( $tags ) ){
 									echo '<span class="icons">';
 										$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
