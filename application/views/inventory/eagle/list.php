@@ -438,9 +438,9 @@
 										<div class="eagle-listing-bottom"> <!-- Eagle Listing Bottom -->
 											<?php
 												if( !empty( $custom_settings[ 'display_tags' ] ) ){
+													apply_special_tags( $tags, $on_sale, $certified);
 													if( !empty( $tags ) ){
 														echo '<div class="eagle-listing-tags">';
-															apply_special_tags( $tags, $on_sale, $certified);
 															$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
 															echo $tag_icons;
 														echo '</div>';

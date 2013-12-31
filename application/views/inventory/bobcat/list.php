@@ -127,9 +127,9 @@
 						</div>
 						<div class="right-column">
 							<?php
+								apply_special_tags( $tags, $on_sale, $certified_inv);
 								if( !empty( $tags ) ){
 									echo '<span class="icons">';
-										apply_special_tags( $tags, $on_sale, $certified_inv);
 										$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
 										echo $tag_icons;
 									echo '</span>';
