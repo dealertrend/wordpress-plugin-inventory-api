@@ -6,9 +6,10 @@
 	$v_trims = array();
 	$v_codes = array();
 	build_variation_array_details( $trims, $v_trims, $v_codes );
+	$clean_trim = str_ireplace('base','' , $trim );//Remove Base from trim
 
 	echo '<div id="showcase-trim-details">';
-	echo '<h2><a class="red-link" href="/showcase/">Showcase</a> &rsaquo; <a id="trim-detail-make" class="red-link" href="/showcase/'. $make .'/">' . $make . '</a> &rsaquo; <a id="trim-detail-model" class="red-link" href="/showcase/'. $make .'/' . $model .'/">' . $model . '</a> &rsaquo; <span id="trim-detail-year">' . $trim_year . '</span> <span id="trim-detail-trim">' . $trim . '</span></h2>';
+	echo '<h2><a class="red-link" href="/showcase/">Showcase</a> &rsaquo; <a id="trim-detail-make" class="red-link" href="/showcase/'. $make .'/">' . $make . '</a> &rsaquo; <a id="trim-detail-model" class="red-link" href="/showcase/'. $make .'/' . $model .'/">' . $model . '</a> &rsaquo; <span id="trim-detail-year">' . $trim_year . '</span> <span id="trim-detail-trim">' . $clean_trim . '</span></h2>';
 	echo '<hr />';
 	//Trim - Left
 	echo '<div id="showcase-trims-left">';
@@ -102,7 +103,7 @@
 						echo '</div>';
 						//Info Wrap
 						echo '<div class="trim-detail-info-wrap">';
-							echo '<span class="trim-name-text">Trim: '. $trim . '</span>';
+							echo !empty( $clean_trim ) ? '<span class="trim-name-text">Trim: '. $clean_trim . '</span>' : '<span class="trim-name-text"></span>' ;
 							//echo '<span class="trim-year">' . $trim_year . '</span>';
 							echo ( !empty($value['drive_train']) ) ? '<span class="trim-drive-train">' . $value['drive_train'] . '</span>' : '';
 							echo ( !empty($code['body']) ) ? '<span class="trim-body-style">' . $code['body'] . '</span>' : '';

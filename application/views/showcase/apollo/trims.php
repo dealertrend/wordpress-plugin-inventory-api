@@ -24,7 +24,7 @@
 			echo '</div>';
 			echo '<div class="content-wrapper">';
 			echo '<div class="line-one"><span class="trim-year">' . $trim_year . '</span> <span class="trim-model">' . $model . '</span></div>';
-			echo '<div class="line-two"><span class="trim-name">' . $trim['name'] . '</span></div>';
+			echo '<div class="line-two"><span class="trim-name">' . str_ireplace('base', '', $trim['name'] ) . '</span></div>';
 			echo '<div class="line-three trim-msrp"><span class="msrp-text">Starting At</span><br><span class="msrp-symbol">$</span><span class="msrp-value">' . number_format( $trim['msrp'] , 0 , '.' , ',' ) . '</span></div>';
 			echo '<div class="line-four trim-variations">';
 			foreach( $variations_array[ $trim['name'] ] as $var ){
