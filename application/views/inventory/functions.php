@@ -115,4 +115,40 @@
 		$header['content'] = $remoteSite;
 		return $header;
 	}
+
+	function sort_equipment( $a , $b ) {
+		return ( $a->group > $b->group ) ? +1 : -1;
+	}
+
+	function display_equipment( $equipment ){
+
+		$equipment_groups = array();
+		$equipment_data = array();
+		$eq = '';
+
+		usort( $equipment , 'sort_equipment' );
+
+		foreach( $equipment as $item ) {
+			$equipment_data[ $item->group ][] = $item;
+			if( ! in_array( $item->group , $equipment_groups ) ) {
+				$equipment_groups[] = $item->group;
+			}
+		}
+
+
+		foreach( $equipment_groups as $group ) {
+			$eq .= '<div class="equipment_group">';
+			$eq .= '<h4>' . $group . '</h4>';
+			$eq .= '<ul class="equipment_list">';
+			foreach( $equipment_data[ $group ] as $data ) {
+				$eq .= '<li>' . $data->name;
+				$eq .= ! empty( $data->data ) ? ': ' . $data->data : NULL;
+				$eq .= '</li>';
+			}
+			$eq .= '</ul>';
+			$eq .= '</div>';
+		}
+
+		return $eq;
+	}
 ?>
