@@ -109,7 +109,7 @@
 							echo ( !empty($code['body']) ) ? '<span class="trim-body-style">' . $code['body'] . '</span>' : '';
 							echo ( !empty($value['cab_type']) && $code['body'] != $value['cab_type'] ) ? '<span class="trim-cab-type">' . $value['cab_type'] . '</span>' : '';
 							echo '<div class="trim-price-wrap">';
-							echo '<span class="trim-price-text">Starting At:</span><span class="trim-price-symbol">$</span><span class="trim-price-value">' . number_format( $code['msrp'] , 0 , '.' , ',' ) . '</span>';
+							echo !empty( $code['msrp'] ) ? '<span class="trim-price-text">Starting At:</span><span class="trim-price-symbol">$</span><span class="trim-price-value">' . number_format( $code['msrp'] , 0 , '.' , ',' ) . '</span>' : '';
 							echo '</div>';
 							echo '<div class="trim-fuel-economy-wrap">';
 								if( !empty( $fuel_economy ) ){
