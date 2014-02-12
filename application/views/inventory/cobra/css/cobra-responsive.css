@@ -1,0 +1,221 @@
+@media all and (max-width: 960px){
+	div#cobra-quick-selects{
+		float: none;
+		clear: both;
+		width: 100%;
+		text-align: center;
+		margin: 0 0 1%;
+	}
+	div.quick-link-wrap{
+		float: none;
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+	}
+	div#cobra-quick-search{
+		float: none;
+		clear: both;
+		text-align: center;
+	}
+	div#cobra-advance-show{
+		width: 25%;
+	}
+	div#cobra-total-found{
+		margin-top: -2.5%;
+	}
+	div.cobra-vehicle-extras{
+		display: none;
+	}
+	div.cobra-vehicle-identifier{
+		display: none;
+	}
+	div#cobra-search-advance{
+		text-align: center;
+	}
+	div.cobra-advance-peram{
+		min-width: 202px;
+		margin: 0%;
+		float: none;
+		clear: both;
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+	}
+
+	div#content-inner-right{
+		width: 58%;
+	}
+	div#content-inner-left{
+		width: 39%;
+	}
+	div#vehicle-images{
+		position: relative;
+		height: 0px;
+		width: 98%;
+		padding-bottom: 66%;
+		padding-top: 0px;
+		margin: 0 auto 0;
+	}
+
+}
+
+@media all and (max-width: 720px){
+	div#cobra-inventory-wrapper{
+		width: 95%;
+	}
+	div#cobra-total-found{
+		margin-top: -3%;
+	}
+	div.cobra-vehicle-left{
+		width: 35%;
+	}
+	div.cobra-vehicle-right{
+		width: 65%;
+	}
+	div.cobra-price-wrap{
+		float: none;
+		clear: both;
+		width: 100%;
+	}
+	div.cobra-more-info{
+		float: none;
+		clear: both;
+		width: 100%;
+	}
+	div.cobra-more-info-button{
+		margin: 2% auto;
+	}
+	div.cobra-msrp{
+		display: none;
+	}
+	div.cobra-ais-link{
+		display: none;
+	}
+	div.cobra-listing-tags{
+		display: none;
+	}
+
+	div#top-inner-left{
+		width: 60%;
+	}
+	div#top-inner-right{
+		width: 34%;
+	}
+	div#content-inner-right{
+		width: 100%;
+		float: none;
+	}
+	div#content-inner-left{
+		width: 100%;
+		float: none;
+	}
+	#friendly-print{
+		display: none;
+	}
+	div#similar-items{
+		text-align: center;
+	}
+	div.similar-item{
+		width: 50%;
+		margin: 5% auto 0;
+	}
+}
+
+@media all and (max-width: 480px){
+	div.breadcrumbs{
+		display: none;
+	}
+	input#cobra-search-box{
+		width: 190px;
+		padding: 0;
+		margin: 0 0 5% 5%;
+	}
+	div#cobra-advance-show {
+		width: 80%;
+	}
+	div#cobra-total-found{
+		margin: 2% auto 0;
+	}
+	div#cobra-pager{
+		float: none;
+		margin: 2% auto;
+		text-align: center;
+		width: 50%;
+	}
+	div#cobra-sorting{
+		display: none;
+	}
+	div.cobra-vehicle-left{
+		float: none;
+		width: 65%;
+		margin: 0 auto;
+	}
+	div.cobra-vehicle-right{
+		float: none;
+		width: 90%;
+		margin: 2% auto;
+	}
+	div.cobra-vehicle-top{
+		display: none;
+	}
+	div.cobra-vehicle-inner-left{
+		float: none;
+		width: 95%;
+		margin: 0 auto;
+		text-align: center;
+	}
+	div.cobra-vehicle-inner-right{
+		float: none;
+		width: 95%;
+		margin: 0 auto;
+	}
+	div.cobra-vehicle-dealer-info{
+		text-align: center;
+	}
+
+	div#top-inner-left{
+		float: none;
+		width: 100%;
+		font-size: 75%;
+	}
+	div#top-inner-right{
+		float: none;
+		width: 100%;
+	}
+	hr.cobra-hr-half{
+		width: 90%;
+		margin: 1% auto;
+	}
+	div#top-dealer-info{
+		text-align: center;
+	}
+	div#vehicle-images{
+		width: 97%;
+	}
+	div#vehicle-thumbnails{
+		width: 97%;
+	}
+	div.info-divider{
+		width: 88%;
+	}
+	div#vehicle-details-tabs-content{
+		width: 93%;
+	}
+	div#vehicle-detail-options ul li{
+		float: none;
+		width: 85%;
+		margin: 2% auto;
+		font-size: 85%;
+	}
+	#friendly-print{
+		display: none;
+	}
+	div#similar-vehicles-wrapper{
+		width:93%
+	}
+	div.similar-item{
+		width: 90%;
+		margin: 5% auto 0;
+	}
+}
+

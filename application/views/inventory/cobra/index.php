@@ -2,164 +2,99 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-global $wp_rewrite;
+	$parameters = $this->parameters;
+	$inventory_options = get_inventory_options( $this->options[ 'vehicle_management_system' ] );
+	$theme_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'Cobra');
+	$loan_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'loan');
+	$rules = get_option( 'rewrite_rules' );
 
-	$new_makes_filter = $this->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ];
-	$remove_responsive = $this->options[ 'vehicle_management_system' ][ 'inv_responsive' ];
+	$company_information = json_decode( $company_information[ 'body' ] );
+	$city = $company_information->seo->city;
+	$state = $company_information->seo->state;
+	$company_name = strtoupper( $company_information->name );
+	$country_code =	$company_information->country_code;
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-
-	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
-		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
-	} else {
-		$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1	) ) );
-	}
-
+	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
 	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
-$site_url = site_url();
-$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-$type = isset( $inventory->vin ) ? 'detail' : 'list';
+	$site_url = site_url();
+	$type = isset( $inventory->vin ) ? 'detail' : 'list';
+	$param_saleclass = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
+	$default_tag_names = get_default_tag_names();
+	$custom_tag_icons = $this->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
 
-wp_enqueue_script( 'jquery' );
-wp_enqueue_script( 'jquery-ui-core' );
-wp_enqueue_script( 'jquery-ui-tabs' );
-wp_enqueue_script( 'jquery-ui-button' );
-wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-tabs' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
 
-if ( empty( $remove_responsive ) ) {
-wp_enqueue_style( 'cobra-mobile' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/mobile.css' , array( 'dealertrend-inventory-api' ), $this->plugin_information[ 'Version' ], 'only screen and (max-device-width: 480px)' );
-}
-
-switch( $type ) {
-	case 'detail':
-		wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
-		wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
-		wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
-		wp_enqueue_style( 'jquery-jscrollpane' , $this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/jquery.jscrollpane.css' , false );
-		wp_enqueue_script(
-			'dealertrend-inventory-api-loan-calculator',
-			$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
-			'jquery',
+	if ( ! $inventory_options['disable_responsive'] ) {
+		wp_enqueue_style( 
+			'cobra-responsive' ,
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/css/cobra-responsive.css' ,
+			false,
 			$this->plugin_information[ 'Version' ]
 		);
-		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-slideshow',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/slideshow.js',
-			array( 'jquery-cycle' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
-		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-jscrollpane-box',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/jquery.jscrollpane.min.js',
-			array( 'jquery' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
-		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-jquery-mousewheel',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/jquery.mousewheel.js',
-			array( 'jquery' , 'dealertrend-inventory-theme-cobra-jscrollpane-box' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
-		wp_enqueue_script(
-			'dealertrend-inventory-theme-cobra-detail-buttons',
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/detail-buttons.js',
-			array( 'jquery-ui-dialog' , 'jquery-ui-tabs' , 'dealertrend-inventory-theme-cobra-jscrollpane-box' , 'dealertrend-inventory-theme-cobra-jquery-mousewheel' ),
-			$this->plugin_information[ 'Version' ],
-			true
-		);
-	break;
-}
-
-get_header();
-flush();
-
-switch( $status ) {
-	case 200:
-	case 404:
-	break;
-	case 503:
-		echo $generic_error_message;
-		echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
-	default:
-		get_footer();
-		return false;
-	break;
-}
-
-$company_information = json_decode( $company_information[ 'body' ] );
-
-$city = $company_information->seo->city;
-$state = $company_information->seo->state;
-$company_name = strtoupper( $company_information->name );
-
-$parameters = $this->parameters;
-$query = '?' . http_build_query( $_GET );
-
-$breadcrumbs = '<a href="' . $site_url . '/" title="' . $company_name . ': Home Page">' . ucwords( strtolower( urldecode( $company_name ) ) ) . '</a>';
-$put_in_trail = array(
-	'saleclass',
-	'make',
-	'model',
-	'trim',
-	'vin'
-);
-
-$sale_class = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
-
-unset( $parameters[ 'taxonomy' ] );
-if( !isset( $parameters[ 'saleclass' ] ) ){
-	if( isset( $inventory->saleclass ) ) {
-		$substitute = $inventory->saleclass;
-		array_shift( $parameters );
-		$substitute_array = array( 'saleclass' => $substitute );
-		$parameters = $substitute_array + $parameters;
-	}
-}
-
-	// Moves saleclass to top of array. Needed for Breadcrumbs
-	if( isset( $parameters[ 'saleclass' ] ) ){
-		$array_jump = array( 'saleclass' => $parameters[ 'saleclass' ] );
-		unset( $parameters[ 'saleclass' ] );
-		$parameters = $array_jump + $parameters;
 	}
 
-$inventory_base = ! empty( $wp_rewrite->rules ) ? $site_url . '/inventory/' : $site_url . '?taxonomy=inventory';
-$crumb_trail = $inventory_base;
+	wp_enqueue_script(
+		'cobra-theme-js',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/cobra.js',
+		array( 'jquery' ),
+		$this->plugin_information[ 'Version' ],
+		true
+	);
 
-foreach( $parameters as $key => $value ) {
-	if( in_array( $key , $put_in_trail ) ) {
-		if( ! empty( $wp_rewrite->rules ) ) {
-			$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
-			$breadcrumbs .= ' <span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
-		} else {
-			$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
-			$breadcrumbs .= ' <span>&gt;</span> <a href=' . $crumb_trail . '>' . ucfirst( urldecode( $value ) ) . '</a>';
-		}
+	switch( $type ) {
+		case 'detail':
+			wp_enqueue_script( 'jquery-cycle' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-cycle/2.72/js/jquery.cycle.all.js' , array( 'jquery' ) , '2.72' , true );
+			wp_enqueue_script( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/js/jquery.lightbox.js' , array( 'jquery' ) , '0.5' , true );
+			wp_enqueue_style( 'jquery-lightbox' , $this->plugin_information[ 'PluginURL' ] . '/application/assets/jquery-lightbox/1.0/css/jquery.lightbox.css' , false , '0.5' );
+			wp_enqueue_script(
+				'dealertrend-inventory-api-loan-calculator',
+				$this->plugin_information[ 'PluginURL' ] . '/application/assets/inventory/js/loan-calculator.js',
+				'jquery',
+				$this->plugin_information[ 'Version' ]
+			);
+		break;
 	}
-}
 
-$breadcrumbs = '<div class="cobra-breadcrumbs">' . $breadcrumbs . '</div>';
+	get_header();
+	flush();
 
-echo "\n" . '<!--' . "\n";
-echo '##################################################' . "\n";
-echo print_r( $this , true ) . "\n";
-echo print_r( $company_information , true ) . "\n";
-echo print_r( $vehicle_management_system , true ) . "\n";
-if( isset( $dynamic_site_headers ) ) {
-	echo print_r( $dynamic_site_headers , true ) . "\n";
-}
-echo '##################################################' . "\n";
-echo '-->' . "\n";
+	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
 
-echo '<div id="dealertrend-inventory-api">';
-include( dirname( __FILE__ ) . '/' . $type . '.php' );
-echo '</div>';
+	switch( $status ) {
+		case 200:
+		case 404:
+			break;
+		case 503:
+			echo $generic_error_message;
+			echo '<p>We were unable to establish a connection to the API. Refreshing the page may resolve this.</p>';
+		default:
+			get_footer();
+			return false;
+			break;
+	}
 
-flush();
-get_footer();
+	echo "\n" . '<!--' . "\n";
+	echo '##################################################' . "\n";
+	echo print_r( $this , true ) . "\n";
+	echo print_r( $company_information , true ) . "\n";
+	echo print_r( $vehicle_management_system , true ) . "\n";
+	if( isset( $dynamic_site_headers ) ) {
+		echo print_r( $dynamic_site_headers , true ) . "\n";
+	}
+	echo '##################################################' . "\n";
+	echo '-->' . "\n";
+
+	echo '<div id="dealertrend-inventory-api">';
+		include( dirname( __FILE__ ) . '/' . $type . '.php' );
+	echo '</div>';
+
+	flush();
+	get_footer();
 
 ?>

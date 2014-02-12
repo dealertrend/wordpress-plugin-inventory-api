@@ -103,7 +103,7 @@ class vehicle_management_system {
 			unset( $parameters['search_sim'] );
 		}
 
-		if( !empty( $parameters['make_filters'] ) ) {
+		if( strcasecmp($parameters['saleclass'], 'new') == 0 && !empty($parameters['make_filters']) ) {
 			$makes_string = '';
 			foreach ( $parameters['make_filters'] as $new_make ) {
 				if (  empty( $makes_string ) ) {
@@ -112,8 +112,8 @@ class vehicle_management_system {
 					$makes_string .=  '&makes[]=' . $new_make;
 				}
 			}
-			unset( $parameters[make_filters] );
 		}
+		unset( $parameters['make_filters'] );
 
 		$parameter_string = count( $parameters > 0 ) ? $this->process_parameters( $parameters ) : NULL;
 		$parameters[ 'photo_view' ] = isset( $parameters[ 'photo_view' ] ) ? $parameters[ 'photo_view' ] : 1;

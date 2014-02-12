@@ -9,6 +9,9 @@ small.status { font-weight:bold; }
 #icon-dealertrend { background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px; width:46px; }
 h2 { line-height:32px; }
 
+table > tbody > tr:nth-child(odd){
+    background-color: #F1F1F1;
+}
 #option-tabs, #option-tabs .settings-wrapper{
 	display: block;
 	overflow: hidden;
@@ -26,22 +29,21 @@ h2 { line-height:32px; }
 }
 .form-save-button{
     display: block;
-    max-width: 225px;
+    max-width: 450px;
     width: 100%;
     margin: 0;
     background-color: #21759B;
     text-align: center;
     color: #E9E9E9;
     font-weight: bold;
-    line-height: 21px;
+    line-height: 34px;
     padding: 0;
     border-radius: 8px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     box-shadow: 4px 4px 4px #000;
     -webkit-box-shadow: 4px 4px 4px #000;
-    position: fixed;
-    margin: 0 0 0 5%;
+    margin: 0 0 0 0;
     cursor: pointer;
 }
 .form-save-button:hover{
@@ -73,10 +75,9 @@ p.submit{
 .hidden-table-buttons-wrapper{
     display: block;
     position: relative;
-    max-width: 450px;
     width: 100%;
     height: 28px;
-	margin: -5% 0 8% 0;
+	margin: 0 0 2%;
 }
 .table-add-button{
     display: block;
@@ -94,8 +95,7 @@ p.submit{
     -moz-border-radius: 8px;
     box-shadow: 4px 4px 4px #000;
     -webkit-box-shadow: 4px 4px 4px #000;
-    position: fixed;
-    margin: 0 0 0 8%;
+    margin: 0 auto;
     cursor: pointer;
 	background-color: #008000;
 }
@@ -155,7 +155,7 @@ p.submit{
 .message-text, .message-form{
     width: 31%;
 }
-.inventory-tags-wrapper, .custom-video-wrapper, .custom-message-wrapper{
+.inventory-tags-wrapper, .custom-video-wrapper, .custom-message-wrapper, .inventory-form-wrapper{
     display: block;
     overflow: hidden;
     clear: both;
@@ -166,7 +166,7 @@ p.submit{
     width: 99.5%;
 }
 
-.inventory-tags-wrapper > div, .custom-video-wrapper > div, .custom-message-wrapper > div{
+.inventory-tags-wrapper > div, .custom-video-wrapper > div, .custom-message-wrapper > div, .inventory-form-wrapper > div{
     display: block;
     overflow: hidden;
     float: left;
@@ -177,7 +177,7 @@ p.submit{
 div.custom-message-wrapper, div.custom-message-wrapper > div{
     height: 100px;
 }
-.inventory-tags-wrapper > div:last-child, .custom-video-wrapper > div:last-child, .custom-message-wrapper > div:last-child{
+.inventory-tags-wrapper > div:last-child, .custom-video-wrapper > div:last-child, .custom-message-wrapper > div:last-child, .inventory-form-wrapper > div:last-child{
     border:none;
 }
 .tag-name input, .tag-order input, .video-make input, .video-model input, .video-url input, .message-count input, .message-form input, .message-operator select{
@@ -219,7 +219,7 @@ div.custom-message-wrapper, div.custom-message-wrapper > div{
     height: 90px;
     resize: none;
 }
-.tag-remove span, .video-remove span, .message-remove span{
+.tag-remove span, .video-remove span, .message-remove span, .form-remove span{
     display: block;
     background-color: #FF0000;
     color: #FFF;
@@ -308,4 +308,97 @@ input.inventory-tag-number{
 	box-shadow: 4px 4px 4px #000;
 	-webkit-box-shadow: 4px 4px 4px #000;
 	cursor: pointer;
+}
+#inventory-tab-buttons{
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    width: 100%;
+    max-width: 450px;
+    margin: 2% 0 0;
+    border-bottom: 2px solid #000;
+}
+.tab-button{
+    display: block;
+    float: left;
+    margin: 0 2%;
+    padding: 1% 5%;
+    background-color: #F7F7F7;
+    font-weight: bold;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    cursor: pointer;
+    color: #000;
+}
+.tab-button.active{
+    color: #F7F7F7;
+    background-color: #000;
+    border-color: #ABABAB;
+}
+.tab-content{
+	display: none;
+	width: 98%;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+.tab-content.active{
+	display: block;
+}
+.theme-settings-wrapper, .loan-settings-wrapper{
+	width: 40%;
+	display: block;
+	overflow: hidden;
+	float: left;
+	max-width: 450px;
+}
+.loan-settings-wrapper input{
+    max-width: 100px
+}
+.settings-group{
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    width: 98%;
+    padding: 1%;
+    border-radius: 8px;
+}
+.settings-group:nth-child(odd){
+    background-color: #F1F1F1;
+}
+.settings-group > div{
+    display: block;
+    float: left;
+    width: 50%
+}
+#gravity-settings-wrapper{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 100%;
+	max-width: 450px;
+}
+#gravity-settings-wrapper > div{
+	width: 48%;
+	display: inline-block;
+    *display: inline;/* For IE7*/
+    *zoom: 1;/* For IE7*/
+}
+.form-id, .form-button, .form-saleclass, .form-remove{
+    max-width: 65px;
+    width: 13%;
+}
+.form-title{
+    width: 46%;
+}
+.inventory-form-number, .inventory-form-checkbox, .inventory-form-text{
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+.inventory-form-value{
+    text-align: center;
 }

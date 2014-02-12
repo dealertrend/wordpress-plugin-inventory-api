@@ -2,371 +2,343 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-global $wp_rewrite;
+	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
+	$page_total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
 
-wp_enqueue_script(
-	'dealertrend-inventory-theme-cobra-select-box',
-	$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/cobra/js/jquery.selectBox.js',
-	array( 'jquery' ),
-	$this->plugin_information[ 'Version' ],
-	true
-);
+	$args = array(
+		'base' => add_query_arg( 'page' , '%#%' ),
+		'current' => $on_page,
+		'total' => $page_total,
+		'next_text' => __( 'Next &raquo;' ),
+		'prev_text' => __( '< Previous' ),
+		'show_all' => false,
+		'type' => 'plain'
+	);
 
-echo '
-<script type="text/javascript">
-(function ($) {
-    $(document).ready(function() {
-        $("#cobra #quick-links select").selectBox();
-    });
-}(jQuery));
-</script>
-';
+	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
+	$vehicle_total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
+	$vehicle_total_found = ( isset($vehicle_total_found[ 'body' ]) ) ? json_decode( $vehicle_total_found[ 'body' ] ) : NULL;
+	$vehicle_total_found = is_array( $vehicle_total_found ) && count( $vehicle_total_found ) > 0 ? $vehicle_total_found[ 0 ]->pagination->total : 0;
 
-$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
-$total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
+	$do_not_carry = remove_query_arg( 'page' , $query );
+	$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
 
-$args = array(
-	'base' => add_query_arg( 'page' , '%#%' ),
-	'current' => $on_page,
-	'total' => $total,
-	'next_text' => __( 'Next &raquo;' ),
-	'prev_text' => __( '< Previous' ),
-	'show_all' => false,
-	'type' => 'plain'
-);
+	$filters = array(
+		'vehicleclass' => isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL,
+		'price_to' => isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL,
+		'price_from' => isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL,
+		'certified' => isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL
+	);
 
-$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
-
-$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
-	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter
-		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
+	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
+	if ( strcasecmp( $param_saleclass, 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
+		$makes = $new_makes_filter;
 	} else {
-		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
+		$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $param_saleclass ) , $filters ) );
+		$makes = json_decode( $makes[ 'body' ] );
 	}
-$total_found = json_decode( $total_found[ 'body' ] );
-$total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
+	$make_count = count ( $makes );
 
-$do_not_carry = remove_query_arg( 'page' , $query );
-$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
+	if( isset( $parameters[ 'make' ] ) && $parameters[ 'make' ] != 'all' ) { //Get Models
+		$vehicle_management_system->tracer = 'Obtaining a list of models.';
+		$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
+		$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $param_saleclass , 'make' => $parameters[ 'make' ] ) , $filters ) );
+		$models = json_decode( $models[ 'body' ] );
+		$model_count = count( $models );
+		if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
+			$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		}
+		$model = isset( $parameters[ 'model' ] ) ? $parameters[ 'model' ] : 'all';
+		$parameters[ 'model' ] = $model;
+		$model_text = 'All Models';
+	} else {
+		$model_text = 'Select a Make';
+	}
 
-$new = ! empty( $wp_rewrite->rules ) ? '/inventory/New/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
-$used = ! empty( $wp_rewrite->rules ) ? '/inventory/Used/' : add_query_arg( array( 'saleclass' => 'used' ) );
+	if( isset( $parameters[ 'model' ] ) && $parameters[ 'model' ] != 'all' ) { //Get Trims
+		$vehicle_management_system->tracer = 'Obtaining a list of trims.';
+		$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
+		$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $param_saleclass , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+		$trims = json_decode( $trims[ 'body' ] );
+		$trim_count = count( $trims );
+		if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
+			$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		}
+		$trim = isset( $parameters[ 'trim' ] ) ? $parameters[ 'trim' ]  : 'all';
+		$parameters[ 'trim' ] = $trim;
+		$trim_text = 'All Trims';
+	} else {
+		$trim_text = 'Select a Model';
+	}
 
-$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
-$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
-$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
-$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
-$filters = array(
-	'vehicleclass' => $vehicleclass,
-	'price_to' => $price_to,
-	'price_from' => $price_from,
-	'certified' => $certified
-);
-$vehicle_management_system->tracer = 'Obtaining a list of makes for the quick-links.';
+	$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
+	switch( $sort ) {
+		case 'year_asc': $sort_year_class = 'asc'; break;
+		case 'year_desc': $sort_year_class = 'desc'; break;
+		case 'price_asc': $sort_price_class = 'asc'; break;
+		case 'price_desc': $sort_price_class = 'desc'; break;
+		case 'mileage_asc': $sort_mileage_class = 'asc'; break;
+		case 'mileage_desc': $sort_mileage_class = 'desc'; break;
+		default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
+	}
+	$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
+	$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
+	$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 
-if ( strcasecmp( $sale_class, 'new') == 0 && !empty( $new_makes_filter ) ) {
-	$makes = $new_makes_filter;
-} else {
-	$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
-	$makes = json_decode( $makes[ 'body' ] );
-}
-$make_count = count ( $makes );
+	$shown_makes = array();
 
-$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
-switch( $sort ) {
-	case 'year_asc': $sort_year_class = 'asc'; break;
-	case 'year_desc': $sort_year_class = 'desc'; break;
-	case 'price_asc': $sort_price_class = 'asc'; break;
-	case 'price_desc': $sort_price_class = 'desc'; break;
-	case 'mileage_asc': $sort_mileage_class = 'asc'; break;
-	case 'mileage_desc': $sort_mileage_class = 'desc'; break;
-	default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
-}
-$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
-$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
-$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
+	?>
+	<div id="cobra-wrapper">
+		<div id="cobra-listing">
+			<div class="breadcrumbs"><?php echo display_breadcrumb( $this->parameters, $company_information, $inventory_options[company_override] ); ?></div>
+			<div id="cobra-quick-links">
+				<div id="cobra-quick-selects">
+					<div class="quick-link-wrap">
+						<label class="cobra-label">Makes:</label>
+						<select onchange="cobra_filter_select('make');" class="cobra-select cobra-select-makes">
+							<option value="">All Makes</option>
+							<?php
+								$shown_makes = array();
+								foreach( $makes as $make ) {
+									$make_safe = str_replace( '/' , '%252' , $make );
+									$make_safe = ucwords( strtolower( $make_safe ) );
+									if( ! in_array( $make_safe , $shown_makes ) ) {
+										$shown_makes[] = $make_safe;
 
-$shown_makes = array();
-
-$make = isset( $parameters[ 'make' ] ) ? $parameters[ 'make' ] : 'all';
-$parameters[ 'make' ] = $make;
-
-echo '
-<div id="cobra">
-	<br id="cobra-top" class="clear" />
-	<div id="cobra-listing">
-		<div id="cobra-quick-links">';
-			echo '
-			<span>Make: </span>
-			<select onchange="window.location = this.value;" class="styled">
-				<option value="' . $site_url . '/inventory/' . $sale_class . '/">All Makes</option>';
-				foreach( $makes as $make ) {
-					$make_safe = str_replace( '/' , '%252' , $make );
-					$make_safe = ucwords( strtolower( $make_safe ) );
-					if( ! in_array( $make_safe , $shown_makes ) ) {
-						$shown_makes[] = $make_safe;
-						if( !empty( $wp_rewrite->rules ) ) {
-							$url = $site_url . '/inventory/' . $sale_class . '/' . $make_safe . '/';
-							$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
-							echo '<option value="' . $url . '"';
-							if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
-								echo ' selected="selected" ';
-							}
-						} else {
-							echo '<option value="' . @add_query_arg( array( 'make' => $make_safe ) , $do_not_carry ) . '"';
-							if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
-								echo ' selected="selected" ';
-							}
-						}
-						echo '>' . $make . '</option>';
-					}
-				}
-			echo '
-			</select>
-			';
-
-			if( isset( $parameters[ 'make' ] ) && $parameters[ 'make' ] != 'all' ) {
-				$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-				$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
-				$models = json_decode( $models[ 'body' ] );
-				$model_count = count( $models );
-			}
-
-			$model = isset( $parameters[ 'model' ] ) ? $parameters[ 'model' ] : 'all';
-			$parameters[ 'model' ] = $model;
-			echo '
-			<span>Models: </span>
-			<select onchange="window.location = this.value;" class="styled"';
-			if( ! isset( $model_count ) || $model_count == 0 ) {
-				echo ' disabled="disabled" ';
-			}
-			echo '>
-				<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $make . ' "/>View All Models</option>';
-				if( $model_count > 0 ) {
-					if( $model_count == 1 ) {
-						$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
-					}
-					foreach( $models as $model ) {
-						$model_safe = str_replace( '/' , '%252' , $model );
-						$model_safe = ucwords( strtolower( $model_safe ) );
-						if( !empty( $wp_rewrite->rules ) ) {
-							$url = $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $model_safe . '/';
-							$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
-							echo '<option value="' . $url . '"';
-							if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
-								echo ' selected="selected" ';
-							}
-							echo '>' . $model . '</option>';
-						} else {
-							echo '<option value="' . @add_query_arg( array( 'model' => $model_safe ) , $do_not_carry ) . '"';
-							if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
-								echo ' selected="selected" ';
-							}
-						}
-						echo '>' . ucwords( strtolower( $model ) ) . '</option>';
-					}
-				}
-			echo '
-			</select>';
-
-			if( isset( $parameters[ 'model' ] ) && $parameters[ 'model' ] != 'all' ) {
-				$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
-				$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
-				$trims = json_decode( $trims[ 'body' ] );
-				$trim_count = count( $trims );
-			}
-
-			if( isset( $trim_count ) && $trim_count != 0 ) {
-				$trim = isset( $parameters[ 'trim' ] ) ? $parameters[ 'trim' ]  : 'all';
-				$parameters[ 'trim' ] = $trim;
-				echo '
-				<span>Trims: </span>
-				<select onchange="window.location = this.value;" class="styled"';
-				if( ! isset( $trim_count ) || $trim_count == 0 ) {
-					echo ' disabled="disabled" ';
-				}
-				echo '>
-					<option value="' . $site_url . '/inventory/' . $sale_class . '/' . $parameters[ 'make' ] . '/' . $parameters[ 'model' ] . '/">View All Trims</option>';
-					if( $trim_count == 1 ) {
-						$parameters[ 'trim' ] = $trims[ 0 ];
-					}
-						foreach( $trims as $trim ) {
-							$trim_safe = str_replace( '/' , '%252' , $trim );
-							$trim_safe = ucwords( strtolower( $trim_safe ) );
-							if( !empty( $wp_rewrite->rules ) ) {
-								$url = $site_url . '/inventory/' . $sale_class . '/' . $make . '/' . $model . '/' . $trim_safe . '/';
-								$url .= isset( $this->parameters[ 'vehicleclass' ] ) ? '?' . http_build_query( array( 'vehicleclass' => $this->parameters[ 'vehicleclass' ] ) ) : NULL;
-								echo '<option value="' . $url . '"';
-								if( rawurlencode( strtolower( $trim_safe ) ) == rawurlencode( strtolower( $parameters[ 'trim' ] ) ) ) {
-									echo ' selected="selected" ';
+										$value = '<option value="' . $make_safe . '"';
+										if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
+											$value .= ' selected="selected" ';
+										}
+										$value .= '>' . $make . '</option>';
+										echo $value;
+									}
 								}
-								echo '>' . $trim . '</option>';
+							?>
+						</select>
+					</div>
+					<div class="quick-link-wrap">
+						<label class="cobra-label">Models:</label>
+						<select onchange="cobra_filter_select('model');" class="cobra-select cobra-select-models"<?php if( ! isset( $model_count ) || $model_count == 0 ) { echo 'readonly'; } ?>>
+							<option value=""><?php echo $model_text; ?></option>
+							<?php
+								if( $model_count > 0 ) {
+									if( $model_count == 1 ) {
+										$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
+									}
+									foreach( $models as $model ) {
+										$model_safe = str_replace( '/' , '%252' , $model );
+										$value = '<option value="' . $model_safe . '"';
+										if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
+											$value .= ' selected="selected" ';
+										}
+										$value .= '>' . $model . '</option>';
+										echo $value;
+									}
+								}
+							?>
+						</select>
+					</div>
+					<div class="quick-link-wrap">
+						<label class="cobra-label">Trims:</label>
+						<select onchange="cobra_filter_select('trim');" class="cobra-select cobra-select-trims"<?php if( ! isset( $trim_count ) || $trim_count == 0 ) { echo 'readonly'; } ?>>
+							<option value=""><?php echo $trim_text; ?></option>
+							<?php
+								if( isset( $trim_count ) && $trim_count != 0 ) {
+									if( $trim_count == 1 ) {
+										$parameters[ 'trim' ] = $trims[ 0 ];
+									}
+									foreach( $trims as $trim ) {
+										$trim_safe = str_replace( '/' , '%252' , $trim );
+							
+										$value = '<option value="' . $trim_safe . '"';
+										if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
+											$value .= ' selected="selected" ';
+										}
+										$value .= '>' . $trim . '</option>';
+										echo $value;
+									}
+								}
+							?>
+						</select>
+					</div>
+				</div>
+				<div id="cobra-quick-search">
+					<input id="cobra-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL; ?>" />
+					<div id="cobra-search-submit">GO</div>
+				</div>
+			</div>
+			<div id="cobra-search-wrapper" > <!-- Search Wrapper -->
+				<form action="#" method="POST" id="cobra-search"> <!-- Vehicle Search -->
+					<input type="hidden" id="hidden-rewrite" value="<?php if ( isset($rules['^(inventory)']) ) { echo 'true'; } ?>" name="h_taxonomy" />
+					<input type="hidden" id="hidden-saleclass" value="<?php echo ucwords( strtolower( $param_saleclass ) ) ?>" name="h_saleclass" />
+					<div id="cobra-search-advance" style="display: none;">
+						<div class="cobra-advance-peram">
+							<label class="cobra-label" for="price-range">Price Range -</label><span>(From: 1000 To: 10000)</span><br>
+							<label class="cobra-label" for="price_from">From:</label>
+							<input id="cobra-price-from" name="price_from" value="<?php echo isset( $parameters[ 'price_from' ] ) ? $parameters[ 'price_from' ] : NULL; ?>" />
+							<label class="cobra-label" for="price_to">To:</label>
+							<input id="cobra-price-to" name="price_to" value="<?php echo isset( $parameters[ 'price_to' ] ) ? $parameters[ 'price_to' ] : NULL; ?>" />
+						</div>
+						<div class="cobra-advance-peram">
+							<label class="cobra-label" for="year-range">Year -</label><span>(From: 2010 To: 2013)</span><br>
+							<label class="cobra-label" for="year_from">From:</label>
+							<input id="cobra-year-from" name="year_from" value="<?php echo isset( $parameters[ 'year_from' ] ) ? $parameters[ 'year_from' ] : NULL; ?>" />
+							<label class="cobra-label" for="year_to">To:</label>
+							<input id="cobra-year-to" name="year_to" value="<?php echo isset( $parameters[ 'year_to' ] ) ? $parameters[ 'year_to' ] : NULL; ?>" />
+						</div>
+						<div class="cobra-advance-peram">
+							<label class="cobra-label" for="mileage-range">Odometer -</label><span>(From: 20000 To: 50000)</span><br>
+							<label class="cobra-label" for="mileage_from">From:</label>
+							<input id="cobra-mileage-from" name="mileage_from" value="<?php echo isset( $parameters[ 'mileage_from' ] ) ? $parameters[ 'mileage_from' ] : NULL; ?>" />
+							<label class="cobra-label" for="mileage_to">To:</label>
+							<input id="cobra-mileage-to" name="mileage_to" value="<?php echo isset( $parameters[ 'mileage_to' ] ) ? $parameters[ 'mileage_to' ] : NULL; ?>" />
+						</div>
+						<hr class="cobra-hr">
+						<div class="cobra-advance-peram">
+							<label class="cobra-label">Body Style: </label>
+							<select id="cobra-vehicleclass" class="cobra-select">
+								<option value="">All</option>
+								<option value="car" <?php echo $vehicleclass == 'car' ? 'selected' : NULL; ?>>Car</option>
+								<option value="truck" <?php echo $vehicleclass == 'truck' ? 'selected' : NULL; ?>>Truck</option>
+								<option value="sport_utility" <?php echo $vehicleclass == 'sport_utility' ? 'selected' : NULL; ?>>SUV</option>
+								<option value="van,minivan" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
+							</select>
+						</div>
+						<div class="cobra-advance-peram">
+							<label class="cobra-label">Sale Class: </label>
+							<select id="cobra-saleclass" class="cobra-select">
+								<?php
+									switch( $inventory_options['saleclass_filter'] ) {
+										case 'all':
+											echo '<option value="New" ' . (strtolower( $param_saleclass ) == 'new' ? 'selected' : NULL) . ' >New Vehicles</option>';
+											echo '<option value="Used" ' . (strtolower( $param_saleclass ) == 'used' && empty( $filters['certified'] ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+											echo '<option value="Certified" ' . (strtolower( $param_saleclass ) == 'used' && !empty( $filters['certified'] ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+											break;
+										case 'new':
+											echo '<option value="New" selected >New Vehicles</option>';
+											break;
+										case 'used':
+											echo '<option value="Used" ' . (strtolower( $param_saleclass ) == 'used' && empty( $filters['certified'] ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+											echo '<option value="Certified" ' . (strtolower( $param_saleclass ) == 'used' && !empty( $filters['certified'] ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+											break;
+										case 'certified':
+											echo '<option value="Certified" selected >Certified Pre-Owned</option>';
+											break;
+									}
+								?>
+							</select>
+						</div>
+						<div class="cobra-advance-peram">
+							<div class="reset-search"><a href="<?php echo !empty($param_saleclass) ? '/inventory/' .$param_saleclass. '/' : '/inventory/'; ?>">Reset Search</a></div>
+						</div>
+					</div>
+					<input id="search-form-submit" style="display: none;" type="submit" value="go" />
+				</form>
+				<div id="cobra-advance-show" name="hidden">
+					Advanced Search
+				</div>
+			</div>
+			<div id="cobra-total-found">Found <?php echo $vehicle_total_found; ?> Exact Matches</div>
+
+			<div id="cobra-pager"><?php echo paginate_links( $args ); ?></div>
+
+			<div id="cobra-sorting">Sort options:
+				<a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a> /
+				<a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a> /
+				<a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a>
+			</div>
+
+			<div id="cobra-inventory-wrapper">
+
+				<?php
+					if( empty( $inventory ) ) {
+						echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
+					} else {
+						foreach( $inventory as $inventory_item ) {
+							$vehicle = itemize_vehicle($inventory_item);
+
+							if( isset($rules['^(inventory)']) ) {
+								$inventory_url = '/inventory/' . $vehicle['year'] . '/' . $vehicle['make']['clean'] . '/' . $vehicle['model']['clean'] . '/' . $state . '/' . $city . '/'. $vehicle['vin'] . '/';
 							} else {
-								echo '<option value="' . @add_query_arg( array( 'trim' => $trim_safe ) , $do_not_carry ) . '"';
-								if( rawurlencode( strtolower( $trim_safe ) ) == rawurlencode( strtolower( $parameters[ 'trim' ] ) ) ) {
-									echo ' selected="selected" ';
-								}
+								$inventory_url = '?taxonomy=inventory&amp;year=' . $vehicle['year'] . '&amp;make=' . $vehicle['make']['clean'] . '&amp;model=' . $vehicle['model']['clean'] . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vehicle['vin'];
 							}
-							echo '>' . ucwords( strtolower( $trim ) ) . '</option>';
-						}
-				echo '
-				</select>';
-			}
 
-			echo '
-			<form action="" method="GET" id="cobra-search">
-				<input id="cobra-search-box" name="search" value="';
-				echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL;
-				echo '" />
-				<input id="cobra-search-submit" value="Go" type="submit" />
-			</form>';
-echo '
-		</div>
-	</div>
-	<div id="cobra-total-found">Found ' . $total_found . ' Exact Matches:&nbsp;</div>' . $breadcrumbs . '
-	<div class="pager">
-		' . paginate_links( $args ) . '
-	</div>
+							$generic_vehicle_title = $vehicle['year'] . ' ' . $vehicle['make']['clean'] . ' ' . $vehicle['model']['clean'];
 
-	<div id="cobra-sorting-columns">
-		Sort options:
-		<a class="' . $sort_year_class . '" href="' . @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ) . '">Year</a> /
-		<a class="' . $sort_price_class . '" href="' . @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ) . '">Price</a> /
-		<a class="' . $sort_mileage_class . '" href="' . @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ) . '">Mileage</a>
-	</div>
-
-	<div id="cobra-content">
-		<div id="cobra-items">';
-			if( empty( $inventory ) ) {
-				echo '<div class="not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2></div>';
-			} else {
-					foreach( $inventory as $inventory_item ) {
-						$sale_class = $inventory_item->saleclass;
-						$prices = $inventory_item->prices;
-						$use_was_now = $prices->{ 'use_was_now?' };
-						$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
-						$on_sale = $prices->{ 'on_sale?' };
-						$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
-						$retail_price = $prices->retail_price;
-						$default_price_text = $prices->default_price_text;
-						$asking_price = $prices->asking_price;
-						$year = $inventory_item->year;
-						$make = urldecode( $inventory_item->make );
-						$model = urldecode( $inventory_item->model_name );
-						$vin = $inventory_item->vin;
-						$trim = urldecode( $inventory_item->trim );
-						$engine = $inventory_item->engine;
-						$transmission = $inventory_item->transmission;
-						$exterior_color = $inventory_item->exterior_color;
-						$interior_color = $inventory_item->interior_color;
-						$stock_number = $inventory_item->stock_number;
-						$odometer = $inventory_item->odometer;
-						$icons = $inventory_item->icons;
-						$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
-						$body_style = $inventory_item->body_style;
-						$drive_train = $inventory_item->drive_train;
-						$doors = $inventory_item->doors;
-						$headline = $inventory_item->headline;
-						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
-						
-						if( ! empty( $wp_rewrite->rules ) ) {
-							$inventory_url = $site_url . '/inventory/' . $year . '/' . $make . '/' . $model . '/' . $state . '/' . $city . '/'. $vin . '/';
-						} else {
-							$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make . '&amp;model=' . $model . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
-						}
-						$contact_information = $inventory_item->contact_info;
-						$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
-
-					echo '
-					<div class="item" id="' . $vin . '">
-						<div class="photo">
-							<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '">
-								<img src="' . $thumbnail . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
-							</a>
-							<a class="info" href="' . $inventory_url . '" title="More Information: ' . $generic_vehicle_title . '">Click here to view details</a>
-						</div>
-						<div class="left">
-							<div class="main">
-								<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '" class="details">
-									<div style="overflow:hidden; width:260px; height:24px; line-height:24px; margin-top:-5px;">
-										<span class="year">' . $year . '</span>
-										<span class="make">' . $make . '</span>
-										<span class="model">' . $model . '</span>
+							echo'
+							<div class="cobra-vehicle saleclass-'.strtolower($vehicle['saleclass']).'" id="' . $vehicle['vin'] . '">
+								<div class="cobra-vehicle-left">
+									<div class="photo">
+										<a href="'.$inventory_url.'" title="' . $generic_vehicle_title . '">
+											<img src="' . $vehicle['thumbnail'] . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
+										</a>
 									</div>
-									<span class="trim">' . $trim . '&nbsp;</span>
-								</a>
-							</div>
-							<div class="stock-n-vin">
-								Stock #: ' . $stock_number . ' - VIN: ' . $vin . '
-							</div>
-						</div>
-						<div class="right">
-							<div class="price">
-								<span class="msrp">';
-									if( strtolower( $sale_class ) == 'new' && ! $on_sale ) { echo 'MSRP'; }
-								echo '
-									&nbsp;
-								</span>';
-								if( $on_sale && $sale_price > 0 ) {
-									$now_text = 'Price: ';
-									if( $use_was_now ) {
-										$price_class = ( $use_price_strike_through ) ? 'strike-through asking-price' : 'asking-price';
-										echo '<div class="' . $price_class . ' was"><span>Was: ' . '$</span><span>' . number_format( $asking_price , 0 , '.' , ',' ) . '</span></div>';
-										$now_text = '';
-									}
-									echo '<div class="sale-price"><span>' . $now_text . '$</span><span>' . number_format( $sale_price , 0 , '.' , ',' ) . '</span></div>';
-								} else {
-									if( $asking_price > 0 ) {
-										echo '<div class="asking-price"><span>$</span>' . number_format( $asking_price , 0 , '.' , ',' ) . '</div>';
-									} else {
-										echo '<div class="default-text">' . $default_price_text . '</div>';
+								</div>
+								<div class="cobra-vehicle-right">
+									<div class="cobra-vehicle-top">
+										'.( $vehicle['headline'] ? '<div class="cobra-list-headline">'.$vehicle['headline'].'</div>' : '' ).'
+									</div>
+									<div class="cobra-vehicle-inner-wrap">
+										<div class="cobra-vehicle-inner-left">
+											<div class="cobra-vehicle-title">
+												<a href="' . $inventory_url . '" title="' . $generic_vehicle_title . '" class="title-details">
+													<div>
+														<span class="title-year">' . $vehicle['year'] . '</span>
+														<span class="title-make">' . $vehicle['make']['name'] . '</span>
+														<span class="title-model">' . $vehicle['model']['name'] . '</span>
+													</div>
+													<span class="title-trim">' . $vehicle['trim']['name'] . '&nbsp;</span>
+												</a>
+											</div>
+											<div class="cobra-vehicle-identifier">
+												Stock #: <span class="vehicle-stock">' . $vehicle['stock_number'] . '</span> - VIN: <span class="vehicle-vin">' . $vehicle['vin'] . '</span>
+											</div>
+											<div class="cobra-vehicle-extras">
+												' . ( !empty($vehicle['exterior_color']) ? '<span class="exterior-color"> Exterior: '.$vehicle['exterior_color'].'</span>' : '')
+												. ( !empty($vehicle['interior_color']) ? '<span class="interior-color"> Interior: '.$vehicle['interior_color'].'</span>' : '') . '
+											</div>
+										</div>
+										<div class="cobra-vehicle-inner-right">
+							';
+										$price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'cobra' );
+							echo'
+											<div class="cobra-price-wrap">
+												' . ( !empty($price['msrp_text']) && strtolower($vehicle['saleclass']) == 'new' ? $price['msrp_text'] : '') . '
+												'.$price['primary_text'].$price['ais_text'].$price['compare_text'].$price['expire_text'].$price['hidden_prices'].'
+												'. ( !empty($price['ais_link']) ? $price['ais_link'] : '') .'
+											</div>
+											<div class="cobra-more-info"><div class="cobra-more-info-button"><a href="'.$inventory_url.'">More Info</a></div></div>
+
+										</div>
+									</div>
+									<div class="cobra-vehicle-bottom">
+										<div class="cobra-vehicle-dealer-info">
+											<span class="vehicle-dealer-name-">'.$vehicle['contact_info']['dealer'].'</span> - <span class="vehicle-dealer-phone">'.$vehicle['contact_info']['phone'].'</span>
+										</div>
+							';
+								if( $theme_settings['display_tags'] ){
+									apply_special_tags( $vehicle['tags'], $vehicle['prices']['on_sale'], $vehicle['certified'], $vehicle['video']);
+									if( !empty( $vehicle['tags'] ) ){
+										echo '<div class="cobra-listing-tags">';
+											$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags']);
+											echo $tag_icons;
+										echo '</div>';
 									}
 								}
-								echo '
-							</div>
-							<a class="info-button" href="' . $inventory_url . '"></a>
-						</div>
-						<div class="info">';
-						if( ! empty( $exterior_color ) ) {
-							echo '<span class="exterior-color">Ext. Color: ' . $exterior_color . '</span>';
-						}
-						if( ! empty( $interior_color ) ) {
-							echo '<span class="interior-color">Int. Color: ' . $interior_color . '</span>';
-						}
-						if( ! empty( $engine ) ) {
-							echo '<span class="engine">Engine: ' . $engine . '</span>';
-						}
-						$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
-						if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
-							echo '
-								<div class="cobra-ais-incentive">
-										<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID=' . $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">
-											VIEW AVAILABLE INCENTIVES AND REBATES
-										</a>
+
+								if( $vehicle['autocheck'] ){
+									echo display_autocheck_image( $vehicle['vin'], $vehicle['saleclass'], $type );
+								}
+							echo'
+									</div>
 								</div>
+							</div>
 							';
 						}
-						echo '
-						</div>';
-						if( $autocheck ){
-							echo display_autocheck_image( $vin, $sale_class, $type );
-						}
-					echo '	
-					</div>
-					<br class="clear" />';
-				}
-			}
-			echo '
-			<div class="pager">
-				' . paginate_links( $args ) . '
+					}
+				?>
 			</div>
-			<br class="clear" />
+			<div id="cobra-pager"><?php echo paginate_links( $args ); ?></div>
 		</div>
-		<div id="cobra-disclaimer">
-			<p>' . $inventory[ 0 ]->disclaimer . '</p>
-		</div>
-		<br class="clear" />
 	</div>
 
-</div>';
-?>

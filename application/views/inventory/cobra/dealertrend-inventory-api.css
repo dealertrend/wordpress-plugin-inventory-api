@@ -1,940 +1,1129 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-#cobra, #cobra a, #cobra abbr, #cobra acronym, #cobra address,
-#cobra applet, #cobra article, #cobra aside, #cobra audio, #cobra b,
-#cobra big, #cobra blockquote, #cobra canvas, #cobra caption, #cobra center,
-#cobra cite, #cobra code, #cobra dd, #cobra details, #cobra del,
-#cobra dfn, #cobra div, #cobra dl, #cobra dt, #cobra em,
-#cobra embed, #cobra fieldset, #cobra figure, #cobra figcaption, #cobra footer,
-#cobra form, #cobra h1, #cobra h2, #cobra h3, #cobra h4,
-#cobra h5, #cobra h6, #cobra header, #cobra hgroup, #cobra i,
-#cobra iframe, #cobra img, #cobra ins, #cobra kbd, #cobra label,
-#cobra legend, #cobra li, #cobra mark, #cobra menu, #cobra nav,
-#cobra object, #cobra ol, #cobra output, #cobra p, #cobra pre,
-#cobra q, #cobra ruby, #cobra s, #cobra samp, #cobra section,
-#cobra small, #cobra span, #cobra strike, #cobra strong, #cobra sub,
-#cobra summary, #cobra sup, #cobra table, #cobra tbody, #cobra td,
-#cobra tfoot, #cobra th, #cobra thead, #cobra time, #cobra tr,
-#cobra tt, #cobra u, #cobra ul, #cobra var, #cobra video {
-	border: 0;
-	font: inherit;
-	font-size: 100%;
-	margin: 0;
-	padding: 0;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-#cobra article, #cobra aside, #cobra details, #cobra figcaption, #cobra figure,
-#cobra footer, #cobra header, #cobra hgroup, #cobra menu, #cobra nav, #cobra section {
-	display: block;
-}
-#cobra {
+
+#cobra-wrapper{
 	font-family: 'arial';
 	font-size: 12px;
-	letter-spacing .9px;
+	letter-spacing: .9px;
 	line-height: 16px;
-	margin: 10px auto 10px;
+	margin: 1% auto;
 	position: relative;
-	width: 885px;
-	line-height: 1;
-	padding: 10px;
+	max-width: 920px;
+	padding: 1%;
 	background-color: #adadad;
-}
-#cobra ol, #cobra ul {
-	list-style: none;
-}
-#cobra blockquote, #cobra q {
-	quotes: none;
-}
-#cobra blockquote:after, #cobra blockquote:before,
-#cobra q:after, #cobra q:before {
-	content: '';
-	content: none;
-}
-#cobra table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-#cobra .clear {
-	clear: both;
+	width: 98%;
 	display: block;
-	height: 0;
-	line-height: 0;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+#cobra-listing{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
 	width: 100%;
 }
-#cobra #cobra-listing {
-	background-color: #FFF;
+.breadcrumbs{
+	display: block;
+	float: none;
 	clear: both;
-	padding-top: 14px;
+	width: 94%;
+	background-color:#FFF;
+	padding: 0 1%;
+	line-height: 150%;
+	font-weight: bold;
+	color: #4B4F53;
+	margin: 0 auto;
 }
-#cobra #cobra-quick-links {
-	background-image: url('images/bg-inventory-top.png');
+.breadcrumbs a{
+	color: #D72A19;
+}
+
+#cobra-quick-links {
+	background-color: #494D51;
 	color: #FFF;
 	font-family: 'arial';
 	font-size: 12px;
-	float: left;
-	height: 32px;
 	letter-spacing: .9px;
 	line-height: 16px;
-	margin: 0 0 10px 0;
-	padding: 16px 0 0 10px;
-	width: 100%;
+	margin: 0;
+	padding: 1%;
+	width: 98%;
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
 }
-#cobra #cobra-quick-links select {
+.quick-link-wrap{
+	display: block;
+	float: left;
+	overflow: hidden;
+}
+#cobra-quick-selects{
+	display: block;
+	float: left;
+	overflow: hidden;
+}
+#cobra-quick-search{
+	display: block;
+	float: right;
+	overflow: hidden;
+}
+#cobra-quick-links select {
 	margin-right: 10px;
 }
-#cobra #cobra-search {
-	display: inline;
-	float: right;
-}
-#cobra #cobra-search-box {
-	background: transparent url('images/search-bg.png') no-repeat;
+
+#cobra-search-box {
 	border: none;
 	height: 21px;
 	padding: 0px 0 2px 25px;
 	width: 234px;
 }
-.cobra-carfax {
-	background:url('images/button-carfax-192x46.jpg') no-repeat center #fff;
-	width:230px;
-	height:50px;
-	margin:10px auto;
-	display:block;
-	text-indent:-9999px;
-}
-#cobra #cobra-search-submit {
-	background-color: transparent;
-	background-image: url('images/btn-inventory-go.png');
-	background-position: bottom right;
+#cobra-search-submit {
+	background-color: #D72A19;
 	border: none;
-	bottom: -1px;
 	color: #FFF;
 	cursor: pointer;
 	height: 21px;
 	line-height: 10px;
 	margin-right: 5px;
 	position: relative;
-	right: 5px;
 	width: 28px;
+	display: inline;
+	padding: 4px 2px;
+	right: 5px;
+	top: 1.5px;
+	font-weight: bold;
 }
-#cobra #cobra-total-found {
-	color: #333;
-	float: left;
-	font-size: 13px;
-	margin: 0 0 15px 0;
-}
-#cobra #cobra-sorting-columns {
-	color: #333;
-	float: right;
-	font-size: 13px;
-	position: relative;
-	z-index: 3;
-}
-#cobra #cobra-sorting-columns a {
-	color: #333;
-	font-size: 13px;
-	text-decoration: none;
-}
-#cobra #cobra-sorting-columns a:hover {
-	color: #CC0000;
-}
-#cobra #cobra-sorting-columns > div > a {
-	background: transparent url('images/button-arrow-whole-7x10.jpg') no-repeat center left;
-	color: #000;
-	padding-left: 15px;
-	text-decoration: none;
-}
-#cobra #cobra-sorting-columns > div > a.asc {
-	background: transparent url('images/button-down-arrow-7x4.jpg') no-repeat center left;
-	color: #000;
-	padding-left: 15px;
-	text-decoration: none;
-}
-#cobra #cobra-sorting-columns > div > a.desc {
-	background: transparent url('images/button-up-arrow-7x4.jpg') no-repeat center left;
-	color: #000;
-	padding-left: 15px;
-	text-decoration: none;
-}
-#cobra #cobra-sorting-columns > div > a:hover {
-	color: #9F0300;
-}
-#cobra #cobra-sorting-columns > div {
-	border-right: 1px solid #a8a8a8;
-	float: left;
-	line-height: 50px;
-	text-align: center;
-	width: 185px;
-}
-#cobra #cobra-sorting-columns > div.last {
-	border-right: 0;
-}
-#cobra .pager {
-	clear: both;
-	float: left;
-	margin-bottom: 5px;
-	position: relative;
-	text-align: left;
-	z-index: 3;
-}
-#cobra .pager a {
-	color: #333;
-	font-size: 12px;
-	text-decoration: none;
-}
-#cobra .pager a:hover {
-	color: #CC0000;
-}
-#cobra .pager .next {
-	margin-left: 5px;
-}
-#cobra .pager .prev {
-	margin-right: 5px;
-}
-#cobra #cobra-content {
-	width: auto;
-}
-#cobra #cobra-items {
-	margin-bottom: 10px;
-	position: relative;
-	z-index: 2;
-}
-#cobra .not-found h2 {
-	border-bottom: 1px solid #A8A8A8;
-	font-size: 16px;
-	padding: 20px;
-	text-align: center;
-}
-#cobra .item .photo {
-	bottom: 24px;
-	float: left;
-	height: 158px;
-	position: relative;
-	width: 244px;
-}
-#cobra .item .photo img {
-	background: transparent url('images/no-image-376x260.jpg') no-repeat center;
-	border: 1px solid #E6E6E6;
+#cobra-search-wrapper{
 	display: block;
-	padding: 0 21px;
-	text-indent: -9999px;
-	width: 200px;
-}
-#cobra .item .photo .info {
-	background: rgba(0,0,0,.61);
-	display: none;
-	font-size: 14px;
-	height: 79px;
-	padding: 73px 0 0 0;
-	position: absolute;
-	text-align: center;
-	top: 0;
-	width: 244px;
-}
-#cobra .item .photo:hover .info {
-	display: block;
-}
-#cobra .item .photo .info:hover {
-	color: #FFF;
-}
-#cobra .item {
-	clear: both;
-	height: 128px;
-	margin: 0 auto 20px;
 	overflow: hidden;
-	padding: 24px 0 0 0;
-	position: relative;
-}
-#cobra .item .left {
-	background-image: url('images/bg-listing.png');
-	float: left;
-	height: 65px;
-	padding: 15px 0 0 15px;
-	position: relative;
-	width: 294px;
-	z-index: 2;
-}
-#cobra .item .right {
-	background: url('images/bg-listing.png') -309px 0;
-	float: left;
-	height: 65px;
-	padding: 15px 0 0 15px;
-	position: relative;
-	width: 301px;
-}
-#cobra .item .info {
-	color: #000;
-	float: left;
-	font-size: 10px;
-	line-height: 10px;
-	padding: 10px 0 0 15px;
-}
-#cobra .item .cerfitied-pre-owned img {
-	height: 45px;
-	margin: 2px 0 0 20px;
-}
-#cobra .item .info-button {
-	display: block;
-	background: url('images/btn-listings-moreinfo.png');
-	float: right;
-	width: 115px;
-	height: 32px;
-	margin: 10px 15px 0 0;
-}
-#cobra .item:hover .autocheck a {
-	display: block;
-}
-#cobra .item .offer {
-	position: relative;
-}
-#cobra .item .offer a {
-	display: none;
-	background: url('images/btn-inventory-make-offer.png');
-	height: 52px;
-	position: absolute;
-	right: 10px;
-	top: 66px;
-	width: 110px;
-}
-#cobra .item:hover .offer a {
-	display: block;
-}
-#cobra .item a {
-	text-decoration: none;
-}
-#cobra .item .main {
-	font-size: 19px;
-	font-weight: bold;
-	position: relative;
-}
-#cobra .item .main a span {
-	color: #FFF;
-	text-shadow: 1px 1px 1px #000;
-}
-#cobra .item .main a span.trim {
-	display:block;
-	font-size: 14px;
-	font-weight: normal;
-	margin-bottom:6px;
-}
-#cobra .item .stock-n-vin {
-	clear:both;
-	color: #FFF;
-	font-size: 10px;
-}
-#cobra .item .headline {
-	color: #9f0300;
-	font-weight: bold;
-	line-height: 14px;
-	font-size: 12px;
-	padding: 5px 0;
-	word-wrap: break-word;
-	margin-left: 5px;
-}
-#cobra .item .exterior-color,
-#cobra .item .interior-color,
-#cobra .item .transmission,
-#cobra .item .stock-number,
-#cobra .item .odometer,
-#cobra .item .vin {
-	display:block;
-}
-#cobra .item .left .details {
-	float: left;
-	padding-right: 10px;
-}
-#cobra .item .right .details {
-	float: left;
-	padding-left: 10px;
-	width: 250px;
-}
-#cobra .item .icons {
-	height: 40px;
-	left: 22px;
-	overflow: hidden;
-	position: absolute;
-	top: 84px;
-	width: 150px;
-	z-index: 1;
-}
-#cobra .item .price {
-	float: left;
-	width: 160px;
-	font-size:38px;
-	line-height:36px;
-	font-weight:bold;
-}
-#cobra .item .price .was {
-	font-size:16px;
-	line-height:16px;
-	margin-top:-15px;
-	padding-bottom:5px;
-}
-#cobra .item .price span.msrp {
-	display: block;
-	font-size:10px;
-	font-weight:lighter;
-	line-height:10px;
-	position:relative;
-	top:-5px;
-}
-#cobra .item .price {
-	font-weight: bold;
-}
-#cobra .item .price .asking-price,
-#cobra .item .price .sale-price {
+	float: none;
 	clear: both;
-	color: #000;
 }
-#cobra .item .price > div {
-	width: 200px;
-	float:left;
-}
-#cobra .item .price .asking-price.strike-through {
-	color: #808080;
-	font-weight: normal;
-}
-#cobra .item .price a {
-	-moz-border-radius: 15px;
-	background: #9F0300;
-	border-radius: 15px;
-	color: #FFF;
+#cobra-advance-show{
 	display: block;
-	float: right;
-	text-align: center;
-	width: 155px;
-}
-#cobra .item .price a:hover {
-	background: #666;
-}
-#cobra .item .contact-information {
-	float: left;
-	margin-left: 5px;
-}
-#cobra #cobra-disclaimer {
-	clear: both;
-	font-size: .5em;
-}
-/* Unable to properly namespace due to how the selectBox plugin was written. */
-#cobra .selectBox-dropdown {
-	background: url('images/bg-inventory-drop.png');
-	border: 1px solid #B3B3B3;
-	border-right: 0;
-	bottom: 1px;
-	color: #000;
+	float: none;
+	background-color: #D72A19;
+	color: #FFF;
+	width: 14%;
+	font-size: 90%;
+	padding: 0 1%;
+	border-left: 1px solid #FFF;
+	border-right: 1px solid #FFF;
+	border-bottom: 2px solid #FFF;
+	margin: 0 auto;
 	cursor: pointer;
-	display: inline-block;
-	height: 16px;
-	line-height: 1.5;
-	margin: 0 10px 0 0;
-	outline: none;
-	padding-right: 40px;
-	position: relative;
-	text-decoration: none;
-	vertical-align: middle;
-	width: 100px;
+	text-align: center;
+	line-height: 140%;
+	font-weight: bold;
 }
-#cobra .selectBox-dropdown .selectBox-label {
-	display: inline-block;
-	font-size: 11px;
-	line-height:7px;
+#cobra-advance-show:hover{
+	color: #D72A19;
+	background-color: #FFF;
+}
+#cobra-search-advance{
+	clear: both;
+	float: none;
 	overflow: hidden;
-	padding: .2em .3em;
-	white-space: nowrap;
+	width: 98%;
+	margin: 0 auto;
+	padding: 1%;
+	background-color: #4B4F53;
+	font-size: 0.9em;
+	line-height: 1.2em;
+}
+.cobra-label{
+	color: #FFF;
+}
+.cobra-advance-peram {
+	width: 22%;
+	float: left;
+	padding: 0 2% 1%;
+	min-width: 206px;
+	margin: 0 3% 0;
+}
+.cobra-advance-peram span{
+	color: #FFF;
+	margin-left: 2%;
+	font-style: italic;
+	font-size: .8em;
+}
+.cobra-advance-peram select{
+	max-width: 160px;
+	margin: 1% 0 0 4%;
 	width: 100%;
 }
-.selectBox-dropdown .selectBox-arrow {
-	background: url('images/btn-inventory-drop.png');
-	border-left: solid 1px #BBB;
-	height: 18px;
-	position: absolute;
-	right: 0;
-	top: -1px;
-	width: 22px;
+.cobra-advance-peram input{
+	max-width: 55px;
+	width: 100%;
 }
-.selectBox-dropdown-menu {
-	-moz-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
-	-webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
-	background: #FFF;
-	border: solid 1px #BBB;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
-	max-height: 200px;
-	position: absolute;
-	overflow: auto;
-	z-index: 9999;
-}
-.selectBox-inline {
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	background: #FFF;
-	border: solid 1px #BBB;
-	border-radius: 4px;
-	display: inline-block;
-	outline: none;
-	overflow: auto;
-	width: 250px;
-}
-.selectBox-inline:focus {
-	border-color:#666;
-}
-.selectBox-options,
-.selectBox-options li,
-.selectBox-options li a {
-	cursor: default;
+.reset-search{
 	display: block;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	text-align: center;
+	background-color: #D72A19;
+	padding: 1% 0;
+	margin: 8% 6% 0 0;
+	border: 1px solid #D3D3D3;
 }
-ul.selectBox-options a {
-	color: #000;
-}
-ul.selectBox-options a:hover {
-	color: #FF0000;
+.cobra-advance-peram .reset-search > a{
+	color: #D3D3D3;
+	display: block;
 	text-decoration: none;
 }
-.selectBox-options li a {
-	background: 6px center no-repeat;
-	font-size: 11px;
-	line-height: 1.5;
-	overflow: hidden;
-	padding: 0 .5em;
-	white-space: nowrap;
+.reset-search:hover{
+	background-color: #D3D3D3;
 }
-
-.selectBox-options li.selectBox-hover a {
-	background-color: #EEE;
+.cobra-advance-peram .reset-search > a:hover{
+	color: #D72A19;
 }
-.selectBox-options li.selectBox-disabled a {
-	color: #888;
-	background-color: transparent;
-}
-.selectBox-options li.selectBox-selected a {
-	background-color: #C8DEF4;
-}
-.selectBox-options .selectBox-optgroup {
-	color: #666;
-	background: #EEE;
-	font-weight: bold;
-	line-height: 1.5;
-	padding: 0 .3em;
-	white-space: nowrap;
-}
-.selectBox.selectBox-disabled {
-	color: #888 !important;
-}
-
-.selectBox-dropdown.selectBox-disabled .selectBox-arrow {
-	border-color: #666;
-	filter: alpha(opacity=50);
-	opacity: .5;
-}
-.selectBox-inline.selectBox-disabled {
-	color: #888 !important;
-}
-.selectBox-inline.selectBox-disabled .selectBox-options a {
-	background-color: transparent !important;
-}
-#cobra .sticker {
-	margin:0 0 10px 0;
-}
-#fancybox-content {
-	background:#000;
-	border-color:#000;
-}
-#calculate-form {
-	display:none;
-}
-.ui-dialog .ui-state-error {
-	padding: .3em;
-}
-.validate-tips {
-	border: 1px solid transparent;
-	padding: 0.3em 0;
-}
-#cobra #cobra-detail-page {
-	background: url('images/detail-bg.png') no-repeat #FFF;
+.cobra-hr{
+	display: block;
+	float: none;
 	clear: both;
-	font-family: 'arial';
-	font-size: 12px;
-	letter-spacing: .9px;
+	width: 85%;
+	background-color: #D72A19;
+	border: none;
+	height: 2px;
+	margin: 0 auto 1%;
 }
-#cobra .top {
-	background:url(images/bg-detail-top.png) repeat-x #000;
-	height: auto;
-	padding:12px 0 0 27px;
-	position:relative;
+.cobra-hr-half{
+	display: block;
+	float: none;
+	clear: both;
+	width: 50%;
+	background-color: #D72A19;
+	border: none;
+	height: 2px;
+	margin: 1% 0;
 }
-#cobra .top .wrapper {
-	width:305px;
+#search-error{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 80%;
+	margin: 0 auto;
+	background-color: #C60101;
+	color: #D3D3D3;
+	text-align: center;
+	border-radius: 6px;
 }
-#cobra .top .year {
-	font-size:22px;
-	color:#fff;
-	margin:0;
+#cobra-total-found{
+	display: block;
+	float: none;
+	clear: both;
+	background-color: #494D51;
+	max-width: 195px;
+	width: 100%;
+	font-size: 100%;
+	text-align: center;
+	color: #FFF;
+	font-weight: bold;
+	line-height: 160%;
+	margin: -2% 0 2%;
 }
-#cobra .top .vehicle {
-	font-size:29px;
-	font-weight:bold;
-	color:#fff;
-	border-bottom:1px solid #fff;
-	padding:0 0 10px;
-	margin:0 0 10px;
-	width:305px;
-	line-height:32px;
+#cobra-pager{
+	display: block;
+	float: left;
+	overflow: hidden;
+	background-color: #D72A19;
+	padding: 0 5%;
+	border: 1px solid #FFF;
+	font-size: 110%;
+	line-height: 140%;
+	color: #AFB7BF;
+	font-weight: bold;
+	margin: 0 0 2%;
 }
-#cobra #cobra-listing .top .price {
-	color:#fff;
-	padding:1px;
+#cobra-pager a, #cobra-sorting a{
+	color: #FFF;
 }
-#cobra #cobra-listing .top .price span {
-	font-size:10px;
-	margin:0 0 0 13px;
+#cobra-sorting{
+	display: block;
+	float: right;
+	overflow: hidden;
+	background-color: #D72A19;
+	padding: 0 5%;
+	border: 1px solid #FFF;
+	font-size: 110%;
+	line-height: 140%;
+	color: #AFB7BF;
+	font-weight: bold;
+	margin: 0 0 2%;
 }
-#cobra #cobra-listing .top .price span {
-	position:relative;
-	margin:0;
-	bottom:13px;
-	font-size:20px;
+#cobra-inventory-wrapper{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 96%;
+	border: 2px solid #D72A19;
+	margin: 0 0 1%;
+	padding: 1.8%
 }
-#cobra .certified-pre-owned {
-	float:right;
-	position:relative;
-	bottom:17px;
+.cobra-vehicle{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	margin: 0 0 2% 0;
+	padding: 0 0 1% 0;
+	border-bottom: 1px solid #D72A19;
 }
-#cobra #cobra-detail-page .header {
-	color:#333;
-	font-size:20px;
-	height:30px;
-	line-height:30px;
-	font-weight:bold;
-	text-align:left;
+.cobra-vehicle:hover{
+	opacity: 0.8;
 }
-#cobra #cobra-detail-page .left {
-	width:328px;
-	float:left;
-	padding:0 0 0 27px;
+.cobra-vehicle-left{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 30%;
 }
-#cobra #cobra-detail-page .right {
-	float:right;
-	width:530px;
-	position:relative;
-}
-#cobra #cobra-detail-page .icons {
-	float:left;
-	width:300px;
-	text-align:left;
-	padding:10px;
-}
-#cobra #cobra-detail-page .slideshow .images {
-	height:372px;
-	width:497px;
-	border: 4px solid #E1E4E4;
-	-moz-box-shadow: 0 0 10px #333;
-}
-#cobra #cobra-detail-page .slideshow .images > img {
-	width:497px !important;
-	height:372px !important;
-	clear:both;
-}
-#cobra #cobra-detail-page .slideshow img {
-	background:transparent url('images/no-image-376x260.jpg') no-repeat center;
-}
-#cobra #cobra-detail-page .slideshow .navigation {
-	display:block;
-	margin:5px auto 5px;
-	width:495px;
-	height:auto !important;
-	clear:both;
-	text-align:left;
-}
-#cobra #cobra-detail-page .slideshow .navigation a{
-	display: inline-block;
-}
-#cobra #cobra-detail-page .slideshow .navigation a img {
-	border:3px solid white;
-	background:white url('images/thumb-error-26x16.png') no-repeat 25px center;
-	height:auto;
-	width:60px;
-}
-#cobra #cobra-detail-page .slideshow .navigation a img:hover {
-	border:3px solid #9f0300;
-}
-#cobra #cobra-detail-page .slideshow .navigation a.activeSlide img {
-	border-color:#55CCe6;
-}
-#cobra #cobra-detail-page .slideshow .navigation a.activeSlide img:hover {
-	border-color:#9f0300;
-}
-#cobra #cobra-detail-page .request-form {
-	clear:both;
-}
-#cobra #cobra-detail-page .request-form .submit {
-	background: url('images/submit-btn.png') no-repeat top center;
-	width:98px;
-	height:22px;
-	margin:auto;
-	display:block;
-	text-indent:-9999px;
-	border:0;
-}
-#cobra #cobra-detail-page .price {
-	color:#fff;
-	font-size:32px;
-	font-weight:bold;
-	margin:9px 0 0;
-	line-height:34px;
-	text-align:left;
-}
-#cobra #cobra-detail-page .price .strike-through {
-	color:gray;
-}
-#cobra #cobra-detail-page .vehicle-information {
-	font-size:12px;
-	font-weight:bold;
-	margin:0 0 40px;
-}
-#cobra #cobra-detail-page .contact-information {
-	font-size:31px;
-	text-align:right;
-	color:#333;
-	font-weight:bold;
-	padding:20px 0;
-}
-#cobra #cobra-detail-page .vehicle-information div {
-	clear:both;
-}
-#cobra #cobra-detail-page .vehicle-information div span {
-	width:100px;
-	display:block;
-	float:left;
-	margin:0 10px 0 0;
-}
-#cobra #cobra-detail-page .vehicle-information .header {
-	margin-bottom:10px;
-}
-#cobra #cobra-detail-page .make-offer a {
-	background:url("images/btn-detail-make-offer.png");
-	display:block;
-	height:35px;
-	text-decoration:none;
-	width:122px;
-	margin:0 0 20px;
-}
-#cobra #cobra-detail-page .request-form form {
-	padding:5px;
-	line-height:20px;
-}
-#cobra #cobra-detail-page .request-form form input,
-#cobra #cobra-detail-page .request-form form textarea {
-	width:130px;
-	padding:5px;
-	margin:0 0 5px 0;
-	background:#eeeeee;
-	border-top:1px solid #cacaca;
-	border-left:1px solid #cacaca;
-	border-bottom:1px solid #f6f6f6;
-	border-right:1px solid #f6f6f6;
-	font-size:11px;
-	font-family:Arial;
-	color:#666666;
-}
-#cobra #cobra-detail-page .request-form form textarea {
-	width:276px;
-}
-#cobra #cobra-detail-page .helpful-links a {
-	display:block;
-	width:250px;
-	height:31px;
-	text-indent:-9999px;
-	margin:10px auto;
-	background-position:top center;
-}
-#cobra #cobra-detail-page .helpful-links a:hover {
-	background-position:bottom center !important;
-}
-#cobra #calculate-form #loan-calculator {
-	font-size:12px !important;
-}
-#cobra #cobra-detail-page .contact-information p {
-	padding:10px;
-	margin:0;
-}
-#cobra #cobra-detail-page .fuel-economy {
-	background: url('images/milage-icon.png') no-repeat center 20px;
-	width:65%;
-	height:125px;
-	padding-bottom:5px;
-	margin:0 0 10px 3%;
-	display: inline-block;
-}
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city,
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway {
-	color:black;
-	width:50px;
-	font-weight:bold;
-	padding:15px;
-	text-align:center;
-}
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city p,
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway p {
-	font-size:16px;
-	margin:5px 0 0 0;
-	font-weight:normal;
-}
-
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city strong,
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway strong {
-	font-size:20px;
-}
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-city {
-	float:left;
-	margin:3px 0 0 10px;
-}
-#cobra #cobra-detail-page .fuel-economy #cobra-fuel-highway {
-	float:right;
-	margin:3px 10px 0 0;
-}
-#cobra #cobra-detail-page .fuel-economy p {
-	margin-bottom:10px;
-}
-#cobra #cobra-detail-page .fuel-economy p small {
-	display:block;
-	clear:both;
-	font-size:10px;
-	text-align:center;
-	padding-top:5px;
-}
-#cobra #cobra-detail-page .detail-buttons a {
-	display:block;
-	width:230px;
-	height:24px;
-	font-size:17px;
-	font-weight:bold;
-	background:#ccc;
-	color:#000;
-	text-decoration:none;
-	margin:0 0 4px;
-	padding:9px 0 0;
+.cobra-vehicle-left .photo{
+	display: block;
+	float: none;
+	clear: both;
+	background-color: #FFF;
 	text-align: center;
 }
-#cobra #cobra-detail-page .detail-buttons a:hover {
-	background:#e81e1e;
-	color:#fff;
+.cobra-vehicle-left .photo a{
+	display: block;
+	line-height: 0;
+}
+.cobra-vehicle-left .photo img{
+	border: none;
+	height: auto;
+	max-width: 100%;
+}
+.cobra-vehicle-right{
+	display: block;
+	float: right;
+	overflow: hidden;
+	width: 70%;
+	margin: 0;
+}
+.cobra-vehicle-inner-wrap{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	background-color: #414649;
+	width: 100%;
+	border-bottom: 2px solid #D72A19;
+}
+.cobra-vehicle-top{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	min-height: 18px;
+	max-height: 18px;
+	width: 100%;
+}
+.cobra-list-headline{
+	display: block;
+	overflow: hidden;
+	width: 96%;
+	padding: 0 2%;
+	background-color: #D72A19;
+	color: #FFF;
+	font-size: 90%;
+	line-height: 170%;
+	text-align: center;
+}
+.cobra-vehicle-inner-left{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 46%;
+	padding: 1% 2% 0;
+}
+.cobra-vehicle-title .title-details{
+	text-decoration: none;
+	color: #FFF;
+	text-shadow: 1px 1px 1px #000;
+	display: block;
+	overflow: hidden;
+}
+.title-details > div{
+	font-size: 142%;
+	line-height: 140%;
+	font-weight: bold;
+}
+.cobra-vehicle-identifier{
+	color: #FFF;
+	font-size: 84%;
+}
+.cobra-vehicle-extras{
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	max-height: 16px;
+	color: #FFFFFF;
+	font-size: 84%;
+	margin: 1% 2% 0 0;
+}
+.cobra-vehicle-extras > span{
+	border-top: 1px solid #D72A19;
+	margin: 0 10% 0 0;
+}
+.cobra-vehicle-inner-right{
+	display: block;
+	float: right;
+	overflow: hidden;
+	background-color: #F7F7F7;
+	width: 48%;
+	padding: 1% 1% 0;
+}
+.cobra-price-wrap{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 60%;
+}
+.cobra-msrp{
+	display: block;
+	float: none;
+	clear: both;
+	font-size: 82%;
+	font-style: italic;
+	font-weight: bold;
+	min-height: 17px;
+	max-height: 17px;
+}
+.cobra-main-price{
+	display: block;
+	font-size: 100%;
+	line-height: 90%;
+	color: red;
+	margin: 0 0 0 8%;
+}
+.cobra-main-price > span{
+	display: block;
+	margin: 0 0 0 16%;
+	color: #000;
+	font-weight: bold;
+	font-size: 220%;
+	line-height: 100%;
+}
+.cobra-ais-incentive-l-text{
+	display: block;
+	text-align: right;
+	font-size: 80%;
+	line-height: 100%;
+	margin: 0 10% 0 0;
+}
+.cobra-asking-price{
+	display: block;
+	text-align: right;
+	font-size: 84%;
+	line-height: 120%;
+	margin: 0 10% 0 0;
+}
+.cobra-ais-link{
+	display: block;
+	text-align: right;
+	font-size: 80%;
+	line-height: 120%;
+	margin: 0 10% 0 0;
+}
+.saleclass-used .cobra-no-price.cobra-main-price{
+	margin: 16% 0 0;
+}
+.cobra-no-price.cobra-main-price{
+	font-size: 180%;
+	font-weight: bold;
+	text-align: center;
+	color: #000;
+}
+.saleclass-used .cobra-asking-price.cobra-main-price{
+	text-align: left;
+	margin: 10% 0 0 8%;
+}
+.cobra-asking-price.cobra-main-price{
+	text-align: left;
+	margin: 0 0 0 8%;
+}
+.cobra-more-info{
+	display: block;
+	overflow: hidden;
+	float: right;
+	width: 40%;
+}
+.cobra-more-info-button{
+	display: block;
+	background-color: #D72A19;
+	border: 1px solid #000;
+	text-align: center;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 120%;
+	line-height: 140%;
+	width: 90%;
+	margin: 25% auto 22%;
+	cursor: pointer;
+}
+.cobra-more-info-button a{
+	color: #FFF;
+	text-decoration: none;
+}
+.cobra-more-info-button:hover{
+	background-color: #FFF;
+}
+.cobra-more-info-button:hover a{
+	color: #D72A19;
+}
+.cobra-vehicle-bottom{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 98%;
+	padding: 1%;
+}
+.cobra-vehicle-dealer-info{
+	text-align: right;
+	font-size: 96%;
+	line-height: 70%;
+	font-weight: bold;
+	color: #000;
+	text-shadow: 1px 1px #FFF;
+}
+.cobra-listing-tags{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 75%;
+}
+.autocheck-list{
+	display: block;
+	float: right;
+	overflow: hidden;
+	margin: 1% 0 0;
 }
 
-#cobra #cobra-detail-page #cobra-inventory-tabs {
-	clear:both;
-	width:95%;
-	height:275px;
-	overflow:hidden;
-	border:none;
+/*
+	Detail
+*/
+#cobra-top{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 98%;
+	background-color: #35373A;
+	padding: 1%
 }
-#cobra #cobra-detail-page * .ui-corner-all {
-	-moz-border-radius: 0px !important;
-	-webkit-border-radius: 0px !important;
-	border-radius: 0px !important;
-	border-color:#a8a8a8;
+#cobra-detail-headline{
+	display: block;
+	float: none;
+	clear: both;
+	color: #FFF;
+	font-size: 100%;
+	text-align: center;
+	background-color: #D72A19;
+	margin: 0 0 1%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header {
-	background:none !important;
-	border-left:none;
-	border-right:none;
-	border-top:1px solid #666;
-	border-bottom:1px solid #666;
-	text-transform:uppercase;
-	padding:4px 0px;
+#top-inner-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 100%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li {
-	top:0;
-	padding:0 20px;
-	margin:0;
-	border-left:1px solid #666;
+#top-inner-left{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 70%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li:first-child {
+#top-vehicle-info{
+	display: block;
+	float: none;
+	clear: both;
+	width: 100%;
+	color: #FFF;
+	text-shadow: 1px 1px #000;
+}
+#top-year{
+	display: block;
+	font-size: 160%;
+	line-height: 100%;
+}
+#top-make, #top-model, #top-trim{
+	display: inline;
+	font-size: 200%;
+	line-height: 110%;
+	font-weight: bold;
+}
+#top-dealer-info{
+	display: block;
+	float: none;
+	clear: both;
+	color: #FFF;
+	text-shadow: 1px 1px #000;
+	padding: 0 0 0 2%;
+}
+#top-inner-right{
+	display: block;
+	float: right;
+	overflow: hidden;
+	width: 22%;
+}
+#cobra-price-wrap .cobra-msrp{
+	color: #FFF;
+}
+#cobra-price-wrap .cobra-main-price{
+	font-size: 110%;
+	text-shadow: 1px 1px #000;
+	font-weight: bold
+}
+#cobra-price-wrap .cobra-main-price span{
+	color: #FFF;
+	text-shadow: 1px 1px #000;
+	line-height: 120%;
+}
+#cobra-price-wrap .cobra-ais-incentive-l-text{
+	color: #FFF;
+}
+#cobra-price-wrap .cobra-asking-price{
+	color: #FFF;
+}
+#cobra-price-wrap .cobra-asking-price.cobra-main-price{
+	color: #D72A19;
+}
+#cobra-price-wrap .cobra-no-price.cobra-main-price{
+	font-size: 180%;
+	font-weight: bold;
+	text-align: center;
+	color: #FFF;
+}
+
+#cobra-content-wrapper{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 96%;
+	padding: 2%;
+}
+#content-inner-right{
+	display: block;
+	float: right;
+	overflow: hidden;
+	width: 60%;
+	position: relative;
+}
+#vehicle-images{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	border: 4px solid #D72A19;
+	position: relative;
+	height: 0px;
+	width: 98%;
+	padding-bottom: 65%;
+	padding-top: 0px;
+	margin: 0 auto 0;
+}
+#vehicle-images > a > img{
+	width: 100%;
+}
+#vehicle-thumbnails{
+	display: block;
+	float: none;
+	clear: both;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	height: 78px;
+	white-space: nowrap;
+	width: 98%;
+	margin: 2% 0;
+	background-color: #35373A;
+	border: 4px solid #D72A19;
+	padding: 1% 0 0
+}
+#vehicle-thumbnails a{
+	margin: 0 0 0 1%;
+	padding: .5%;
+	cursor: pointer;
+	display: inline-block;
+	*display: inline;/* For IE7*/
+	*zoom: 1;/* For IE7*/
+	vertical-align: top;
+	line-height: 0;
+}
+#vehicle-thumbnails a.activeSlide{
+	background-color: #D72A19;
+}
+#photo-tabs-buttons{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 98%;
+}
+.tabs-button{
+	display: block;
+	float: right;
+	background-color: #35373A;
+	color: #FFF;
+	font-size: 120%;
+	font-weight: bold;
+	line-height: 100%;
+	padding: 1%;
+	margin: 0 0 0 1%;
+	border-top: 4px solid #D72A19;
+	border-left: 4px solid #D72A19;
+	border-right: 4px solid #D72A19;
+	cursor: pointer;
+}
+.tabs-button.active{
+	background-color: #D72A19;
+}
+.tabs-content{
+	display: none;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.tabs-content-img-video{
+	border: 4px solid #D72A19;
+	width: 98%;
+	background-color: #35373A;
+}
+.tabs-content.active{
+	display: block;
+}
+#inventory-video-wrapper{
+	position: relative;
+	height: 0px;
+	width: 90%;
+	padding-bottom: 68.25%;
+	padding-top: 25px;
+	margin: 0 auto;
+}
+#inventory-video-iframe{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 88%;
+}
+
+#content-inner-left{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 35%;
+	margin: 3.4% 0 0 0;
+}
+#cobra-vehicle-info{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
+	background-color: #35373A;
+	border: 4px solid #D72A19;
+	width: 97%;
+}
+#info-headline{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	color: #FFF;
+	text-align: center;
+	font-size: 140%;
+	line-height: 160%;
+	width: 90%;
+	margin: 0 auto;
+	border-bottom: 2px solid #D72A19
+}
+.info-divider{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	color: #FFF;
+	width: 80%;
+	margin: 2% auto;
+	border-bottom: 1px solid #D72A19;
+	font-size: 90%;
+}
+.info-divider:last-child{
 	border: none;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default {
-	background:none;
+.info-divider > span{
+	float: right;
+	width: 60%;
+	text-align: left;
+	font-size: 100%;
+	line-height: 150%;
+	overflow: hidden;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a {
-	font-size:14px;
-	color:#b3b3b3;
-	padding:0;
+#cobra-detail-tags{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
+	margin: 5% 0;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-tabs-selected a,
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-widget-header li.ui-state-default a:hover {
-	color:#ff0000;
+#cobra-detail-tags img{
+	margin: 0 1%;
+}
+#fuel-economy-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #35373A;
+	border: 4px solid #D72A19;
+	width: 97%;
+	margin: 5% 0;
+}
+#fuel-economy-wrapper > div{
+	display: block;
+	float: left;
+	overflow: hidden;
+	width: 33.3%;
+	text-align: center;
+}
+#fuel-economy-wrapper > div > span{
+	color: #FFF;
+	font-weight: bold;
+	display: block;
+	font-size: 120%;
+}
+#fuel-image img{
+	margin: 10% 0 0;
+	width: 40%;
+}
+#city-text, #highway-text{
+	margin: 15% 0 0;
+}
+#fuel-economy-wrapper > p{
+	display: block;
+	clear: both;
+	color: #FFF;
+	width: 90%;
+	margin: 0 auto 2%;
+	font-size: 80%;
+	text-align: center;
+	line-height: 90%;
 }
 
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel {
-	height:244px;
-	width: 100% !important;
+#content-inner-bottom{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel ul {
-	padding:0;
-	margin:0;
-	font-size:12px;
+#vehicle-details-tabs-buttons, #vehicle-details-tabs-content{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs #cobra-dealer ul li{
-	width: 48%;
+#vehicle-details-tabs-buttons .tabs-button{
+	float: left;
+}
+#vehicle-details-tabs-content{
+	width: 95%;
+	border: 4px solid #D72A19;
+	padding: 2%;
+	background-color: #35373A;
+	color: #FFF;
+}
+#vehicle-detail-options ul{
+	list-style: disc;
+}
+#vehicle-detail-options ul li{
+	width: 46%;
+	float: left;
+	margin: 0 2%;
+}
+#vehicle-detail-equipment{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+.equipment_group{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	margin: 0 0 1%;
+	padding: 0 0 1%;
+	border-bottom: 2px solid #D72A19;
+}
+.equipment_group:last-child{
+	border-bottom: none;
+}
+.equipment_group h4{
+	font-size: 140%;
+	line-height: 100%;
+	color: #D72A19;
+	padding: 0 1%;
+	margin: 1% 0;
+}
+.equipment_list li{
+	display: block;
+	width: 46%;
+	float: left;
+	margin: 0 0 0 3%;
+}
+#form-button-wrapper{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	margin: 2% 0;
+	text-align: center;
+}
+.form-button{
 	display: inline-block;
-	padding: .8% 0;
-	margin-right: 2%;
+	*display: inline;
+	*zoom: 1;
+	padding: 1%;
+	color: #fff;
+	font-weight: bold;
+	font-size: 130%;
+	background-color: #35373A;
+	border: 2px solid #D72A19;
+	cursor: pointer;
+	margin: 0 2% 0 0;
+}
+#form-data{
+	display: none;
+}
+.form-wrap{
+	z-index: 200;
+}
+.form-wrapper{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
+	background-color: #35373A;
+	border: 4px solid #D72A19;
+	width: 93%;
+	color: #FFF;
+	padding: 0 2%;
+	margin: 4% 0;
+}
+#loan-wrapper{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
+	background-color: #35373A;
+	border: 4px solid #D72A19;
+	width: 93%;
+	color: #FFF;
+	padding: 0 2%;
+	margin: 4% 0;
+}
+#loan-calculator-button{
+	display: block;
+	float: none;
+	clear: both;
+	text-align: center;
+	padding: 2%;
+	background-color: #35373A;
+	color: #FFF;
+	font-size: 140%;
+	font-weight: bold;
+	line-height: 150%;
+	border: 4px solid #D72A19;
+	margin: 2% 0;
+	cursor: pointer;
+}
+#loan-calculator-data{
+	display: none;
+}
+#loan-calculator{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #ADADAD;
+	max-width: 480px;
+	width: 92%;
+	padding: 4%;
+}
+.dialog-loan-wrapper, .dialog-ais-wrapper{
+	z-index: 200;
+}
+.loan-value{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	margin: 2% 0;
+}
+.loan-value label{
+	color: #000;
+	font-size: 120%;
+	line-height: 180%
+}
+.loan-value input{
+	float: right;
+	width: 30%;
+}
+.loan-payment{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	margin: 2% 0;
+}
+.loan-payment label{
+	display: block;
+	float: left;
+	width: 48%;
+	text-align: center;
+	font-size: 110%;
+	font-weight: bold;
+}
+.loan-payment div{
+	display: block;
+	float: right;
+	width: 48%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+	line-height: 120%;
+}
+.loan-total{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+}
+.loan-total label{
+	display: block;
+	float: left;
+	width: 48%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+}
+.loan-total div{
+	display: block;
+	float: right;
+	width: 48%;
+	text-align: center;
+	font-size: 140%;
+	font-weight: bold;
+	line-height: 180%;
+}
+#loan-calculator-submit{
+	display: block;
+	margin: 4% 0;
+	text-align: center;
+}
+.autocheck-detail{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	margin: 4% 0;
+	text-align: center;
+}
+.carfax-wrapper{
+	display: block;
+	float: none;
+	clear: both;
+	text-align: center;
+}
+#friendly-print{
+	float: right;
+	cursor: pointer;
+}
+/***
+Similar Vehicles
+***/
+#similar-vehicles-wrapper{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 95%;
+	background-color: #35373A;
+	margin: 2% 0;
+	padding: 2%;
+	border: 4px solid #D72A19;
+	color: #FFF;
+}
+
+#similar-title{
+	display: block;
+	font-size: 160%;
+	line-height: 100%;
+	text-align: center;
+	width: 100%;
+	border-bottom: 2px solid #D72A19;
+	margin: 0 0 2%;
+}
+#similar-items{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+.similar-item{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	text-align: center;
+	width: 28%;
 	vertical-align: top;
+	margin: 0 2.6%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspPane {
-	width: 95% !important;
-	padding: 1% 2.5% !important;
+.similar-item a{
+	text-decoration: none;
+	color: #D72A19;
+	font-size: 120%;
+	font-weight: bold;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspVerticalBar {
-	background:none;
+.similar-make{
+	margin: 0 1%;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspTrack {
-	width:5px;
-	background:#dfdddd;
-	left:7px;
+.similar-photo img{
+	width: 65%;
+	max-height: 102px;
 }
-#cobra #cobra-detail-page #cobra-inventory-tabs .ui-tabs-panel .jspDrag {
-	background:url(images/scroller-handle.png);
-	width:13px !important;
-	left:-4px;
-}
-
-#cobra .item .price div.default-text { font-size:24px; margin-top:-4px; }
-
-#cobra #cobra-detail-page #cobra-mobile-nav {
-	display:none;
+.similar-details span{
+	display: block;
 }
 
-#cobra #cobra-detail-page .cobra-ais-incentive {
-	margin-top:25px;
+/***
+Dialog adjustments
+***/
+div.ui-widget-overlay{
+	height: 0;
+	padding-top: 100%;
 }
-#cobra .item .cobra-ais-incentive {
-	position:absolute; top:125px; right:25px;
+.ui-dialog .ui-dialog-titlebar-close span{
+	left: 0;
+	top: 0;
 }
-#cobra #cobra-detail-page .saleclass {
-	display:none;
+div.form-wrap .gform_body .ginput_container input{
+	max-width: 98%;
+}
+div.form-wrap .gform_body .ginput_container textarea{
+	max-width: 97%;
+	max-height: 100px;
 }
 
-
-/********
-autocheck
-********/
-#cobra .autocheck-list{
-    display: block;
-    float: right;
-    overflow: hidden;
-    margin: 1% 3.5% 0 0;
-    width: 110px;
-	cursor: pointer;
-}
-#cobra .autocheck-detail{
-    display: block;
-    clear: both;
-    float: none;
-    margin: 2% 0 0 0;
-	cursor: pointer;
-}

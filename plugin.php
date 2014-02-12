@@ -479,6 +479,8 @@ class Plugin {
 					}
 					if( $this->autocheck_flag ){
 						include_once( dirname( __FILE__ ) . '/application/views/inventory/autocheck.php' );
+					} else if( $this->print_page){
+						include_once( dirname( __FILE__ ) . '/application/views/inventory/print.php' );
 					} else {
 						if( $handle = opendir( $theme_path ) ) {
 							while( false != ( $file = readdir( $handle ) ) ) {
@@ -634,6 +636,7 @@ class Plugin {
 		$server_parameters = isset( $_GET ) ? array_map( array( &$this , 'sanitize_inputs' ) , $_GET ) : NULL;
 		$parameters = array();
 		$this->autocheck_flag = false;
+		$this->print_page = false;
 
 		switch( $this->taxonomy ) {
 			case 'inventory';
@@ -674,6 +677,10 @@ class Plugin {
 							default: return; break;
 						}
 						$parameters[ $index ] = $value;
+					}
+
+					if( isset( $server_parameters['print_page'] ) ){
+						$this->print_page = true;
 					}
 				}
 			break;
