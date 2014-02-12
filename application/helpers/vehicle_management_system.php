@@ -15,7 +15,13 @@ class vehicle_management_system {
 	private $parameters = array();
 
 	function __construct( $host , $company_id ) {
-		$this->host = $host;
+
+		if( substr($host, 0, 7) == 'http://' ){
+			$this->host = $host;
+		} else {
+			$this->host = 'http://' . $host;
+		}
+
 		$this->company_id = $company_id;
 	}
 

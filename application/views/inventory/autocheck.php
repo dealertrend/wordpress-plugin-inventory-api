@@ -3,7 +3,14 @@
 	$autocheck_error = '';
 
 	if( isset( $this->options[ 'vehicle_management_system' ][ 'host' ] ) && isset( $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) ){
-		$autocheck_url = $this->options[ 'vehicle_management_system' ][ 'host' ] . '/companies/'.$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ].'/autochecks/';
+
+		if ( substr($this->options[ 'vehicle_management_system' ][ 'host' ], 0, 7) == 'http://' ){
+			$host = $this->options[ 'vehicle_management_system' ][ 'host' ];
+		} else {
+			$host = 'http://'.$this->options[ 'vehicle_management_system' ][ 'host' ];
+		}
+
+		$autocheck_url = $host . '/companies/'.$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ].'/autochecks/';
 
 		if( isset( $this->autocheck_vin ) ){
 			$autocheck_url .= $this->autocheck_vin . '/';

@@ -75,7 +75,11 @@ class dynamic_site_headers {
 	 * @return void
 	 */
 		function __construct( $host , $company_id , $parameters, $discourage ) {
-			$this->host = $host;
+			if( substr($host, 0, 7) == 'http://' ){
+				$this->host = $host;
+			} else {
+				$this->host = 'http://' . $host;
+			}
 			$this->company_id = $company_id;
 			$this->parameters = $parameters;
             $this->discourage_seo = $discourage;

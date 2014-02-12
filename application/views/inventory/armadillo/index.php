@@ -13,6 +13,12 @@
 	$name_used = $this->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ];
 	$show_standard_eq = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ];
 
+	if ( substr($this->options[ 'vehicle_management_system' ][ 'host' ], 0, 7) == 'http://' ){
+		$temp_host = $this->options[ 'vehicle_management_system' ][ 'host' ];
+	} else {
+		$temp_host = 'http://'.$this->options[ 'vehicle_management_system' ][ 'host' ];
+	}
+
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
 
 	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) { // New Make Filter

@@ -14,7 +14,12 @@ class vehicle_reference_system {
 	private $country_code = false;
 
 	public function __construct( $host , $country_code ) {
-		$this->host = $host;
+
+		if( substr($host, 0, 7) == 'http://' ){
+			$this->host = $host;
+		} else {
+			$this->host = 'http://' . $host;
+		}
 		$this->country_code = $country_code;
 	}
 
