@@ -57,7 +57,7 @@
 	usort($dealer_options, 'sort_l' );
 
 	$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
-	$form_submit_url = $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
+	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 
 ?>
 
@@ -193,7 +193,7 @@
 					</div>
 					<?php
 						if( !empty( $custom_settings[ 'display_tags' ] ) ){
-							apply_special_tags( $tags, $on_sale, $certified);
+							apply_special_tags( $tags, $on_sale, $certified, $video_url);
 							if( !empty( $tags ) ){
 								echo '<div class="eagle-detail-tags">';
 									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
@@ -428,7 +428,7 @@
 						</div>
 
 						<?php
-							if( isset($standard_equipment) && $show_standard_eq ){
+							if( isset($standard_equipment) && !is_Empty_check($standard_equipment) && $show_standard_eq ){
 						?>
 							<div class="eagle-vehicle-info-divider" id="eagle-content-equipment-wrapper">
 								<h4 class="eagle-divider-headline">

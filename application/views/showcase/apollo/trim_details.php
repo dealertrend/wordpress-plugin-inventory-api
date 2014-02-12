@@ -214,8 +214,6 @@
 		$i = 0;
 		$custom_form_message = '';
 		foreach( $v_trims[ $trim ] as $key => $value ){
-			$count_message = 'Currently found ' . $inventory_count . ' In-stock'; //Default
-			$form_message = 'Inquire More Info'; //Default
 			$i++;
 			$i_s = 0;
 			foreach( $v_codes[ $i ] as $code){
@@ -226,6 +224,8 @@
 				$variable = array( 'code' => $code['model_code'] );
 
 				$inventory_count = get_similar_vehicles_count( $vehicle_management_system, $variable );
+				$count_message = 'Currently found ' . $inventory_count . ' In-stock'; //Default
+				$form_message = 'Inquire More Info'; //Default
 				get_custom_message( $count_message, $form_message, $custom_message, $inventory_count, $make, $model );
 				echo '<div class="showcase-count-message ' . $sub_class . ' ' . $class . '">';
 				echo $count_message;

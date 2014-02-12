@@ -130,7 +130,7 @@
 				<div id="dolphin-models"> <!-- Models -->
 					<label class="dolphin-label">Models:</label>
 					<select onchange="dolphin_filter_select('model');" class="dolphin-select"<?php if( ! isset( $model_count ) || $model_count == 0 ) { echo 'readonly'; } ?>>
-						<option value=""/><?php echo $model_text; ?></option>
+						<option value=""><?php echo $model_text; ?></option>
 						<?php
 							if( $model_count > 0 ) {
 								if( $model_count == 1 ) {
@@ -301,6 +301,7 @@
 						$saleclass = $inventory_item->saleclass;
 						$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
+						$video_url = isset( $inventory_item->video_url ) ? $inventory_item->video_url : false;
 
 						if( !empty( $wp_rewrite->rules ) ) {
 							$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
@@ -327,7 +328,7 @@
 					</div>
 					 <!-- dolphin icons -->
 					<?php
-						apply_special_tags( $tags, $on_sale, $certified);
+						apply_special_tags( $tags, $on_sale, $certified, $video_url);
 						if( !empty( $tags ) ){
 							echo '<div class="dolphin-icons">';
 								$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);

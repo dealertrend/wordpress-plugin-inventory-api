@@ -16,20 +16,23 @@
 
 			add_all = false;
 
-			jQuery.each( data[key], function(index, value) {
+			if( data[key] ){
+				jQuery.each( data[key], function(index, value) {
+					if( data[key].length == 1 ){
+						dd_value.append('<option value="'+value+'" selected>'+value+'</option>');
+					} else if( !add_all ) {
+						add_all = true;
+						dd_value.append('<option value="all" selected>All</option>');
+					}
 
-				if( data[key].length == 1 ){
-					dd_value.append('<option value="'+value+'" selected>'+value+'</option>');
-				} else if( !add_all ) {
-					add_all = true;
-					dd_value.append('<option value="all" selected>All</option>');
-				}
+					if( add_all ){
+						dd_value.append('<option value="'+value+'">'+value+'</option>');
+					}
 
-				if( add_all ){
-					dd_value.append('<option value="'+value+'">'+value+'</option>');
-				}
-
-			});					
+				});
+			} else {
+				dd_value.append('<option value="all" selected>Not Available</option>');
+			}
 		});
 	}
 

@@ -69,7 +69,7 @@ function video_popup(url , title) {
 <div id="armadillo-schedule-form"	title="Schedule a Test Drive">
 	<h3>Schedule a Test Drive</h3>
 	<p class="armadillo-validate-tips">Name, email and phone number fields are required.</p>
-	<form name="formvehicletestdrive" id="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
+	<form name="formvehicletestdrive" id="formvehicletestdrive" action="<?php echo $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
 		<fieldset>
 			<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 			<input type="hidden" name="required_fields" value="name,email,privacy"/>
@@ -289,7 +289,7 @@ function video_popup(url , title) {
 				</div>
 			<?php } 
 
-				if( isset($standard_equipment) && $show_standard_eq ){
+				if( isset($standard_equipment) && !is_Empty_check($standard_equipment) && $show_standard_eq ){
 					echo '<div id="standard-equipment">';
 					echo '<h3>Standard Equipment</h3>';
 					echo '<div id="eq-wrapper">';
@@ -312,7 +312,7 @@ function video_popup(url , title) {
 					<div class="armadillo-header">
 						Make an Offer / Get Info
 					</div>
-					<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
+					<form action="<?php echo $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower( $sale_class ); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
 						<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 						<input name="required_fields" type="hidden" value="name,email,privacy" />
 						<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />

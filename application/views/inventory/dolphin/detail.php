@@ -67,7 +67,7 @@
 	}
 	usort($dealer_options, 'sort_l' );
 
-	$form_submit_url = $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
+	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 
 ?>
 
@@ -189,7 +189,7 @@ function video_popup(url , title) {
 					?>
 				</div>
 				<?php
-					apply_special_tags( $tags, $on_sale, $certified);
+					apply_special_tags( $tags, $on_sale, $certified, $video_url);
 					if( !empty( $tags ) ){
 						echo '<div class="dolphin-icons">';
 							$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
@@ -669,7 +669,7 @@ function video_popup(url , title) {
 					<ul>
 						<?php
 							echo ( isset($dealer_options) ) ? '<li class="dolphin-detail-tab active-tab" name="features">Equipment / Features</li>' : '';
-							echo ( isset($standard_equipment) && $show_standard_eq ) ? '<li class="dolphin-detail-tab" name="standard">Standard Equipment</li>' : '';
+							echo ( isset($standard_equipment) && !is_Empty_check($standard_equipment) && $show_standard_eq ) ? '<li class="dolphin-detail-tab" name="standard">Standard Equipment</li>' : '';
 							echo ( $description ) ? '<li class="dolphin-detail-tab" name="description">Dealer Comments</li>' : '';
 						?>
 					</ul>
@@ -688,7 +688,7 @@ function video_popup(url , title) {
 						<p><?php echo $description; ?></p>
 					</div>
 					<?php
-						if( isset($standard_equipment) && $show_standard_eq ){
+						if( isset($standard_equipment) && !is_Empty_check($standard_equipment) && $show_standard_eq ){
 							echo '<div id="dolphin-detail-standard" class="detail-tab-info">';
 							echo display_equipment( $standard_equipment );
 							echo '</div>';

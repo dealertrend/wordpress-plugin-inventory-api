@@ -281,7 +281,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		$instance[ 'saleclass' ] = isset( $new_instance[ 'saleclass' ] ) ?$new_instance[ 'saleclass' ] : 'all';
 		$instance[ 'tag' ] = isset( $new_instance[ 'tag' ] ) ? $new_instance[ 'tag' ] : NULL;
 		$instance[ 'carousel' ] = isset( $new_instance[ 'carousel' ] ) ? $new_instance[ 'carousel' ] : false;
-		
+
 		return $instance;
 	}
 

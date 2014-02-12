@@ -185,7 +185,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 			echo '<div>';
 			if( isset( $models ) && is_array( $models ) ) {
 				foreach( $models as $model ) {
-						if( empty($sc_link) ){ 
+						if( empty($sc_link) ){
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = site_url() . '/inventory/New/' . $make . '/' . $model['name'] . '/';
 							} else {
@@ -204,7 +204,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 						echo '</span>';
 						echo '</a>';
 						echo '</div>';
-					
+
 				}
 			} else {
 				echo '<div class="vrs-widget-item">';
@@ -350,7 +350,7 @@ class vehicle_reference_system_widget extends WP_Widget {
 					echo '</select>';
 				}
 			}
-			
+
 		}
 
 		echo '<hr>';
@@ -437,7 +437,9 @@ class vehicle_reference_system_widget extends WP_Widget {
 		foreach( $years as $year ){
 			$temp = $vrs_object->get_makes()->please( array( 'year' => $year ) );
 			$temp = isset( $temp[ 'body' ] ) ? json_decode( $temp[ 'body' ] ) : array();
-			$value = array_merge( $value, $temp );
+			if( ! $this->is_Empty($temp) ) {
+				$value = array_merge( $value, $temp );
+			}
 		}
 
 		return $value;
@@ -511,6 +513,25 @@ class vehicle_reference_system_widget extends WP_Widget {
 		}
 
 		return array_unique($cleaned_data);
+	}
+
+	function is_Empty($obj){
+		if( empty($obj) ){
+			return true;
+		} else if( is_numeric( $obj ) ){
+			return false;
+		}else if( is_string($obj) ){
+			return !strlen(trim($obj));
+		}else if( is_object($obj) ){
+			return $this->is_Empty((array)$obj);
+		}
+		// It's an array!
+		foreach($obj as $element)
+			if ( $this->is_Empty($element)) continue; // so far so good.
+			else return false;
+
+		// all good.
+		return true;
 	}
 
 }

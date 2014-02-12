@@ -71,8 +71,8 @@ class vms_search_box_widget extends WP_Widget {
 					p_data = {};
 
 					p_data['id'] = jQuery(this).attr('name');
-					parent = jQuery(this).parent().parent().attr('class');
-					jQuery('.' + parent + ' select').each( function(){
+					parent_class = jQuery(this).parent().parent().attr('class');
+					jQuery('.' + parent_class + ' select').each( function(){
 						p_data[ jQuery(this).attr('name') ] = jQuery(this).val();
 					})
 

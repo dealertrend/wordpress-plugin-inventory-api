@@ -277,11 +277,12 @@
 									$doors = $inventory_item->doors;
 									$headline = $inventory_item->headline;
 									$saleclass = $inventory_item->saleclass;
-									$certified = $inventory_item->certified;
+									$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 									$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
+									$video_url = isset( $inventory_item->video_url ) ? $inventory_item->video_url : false;
 
 									$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
-									$form_submit_url = $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
+									$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 									if( !empty( $wp_rewrite->rules ) ) {
 										$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 									} else {
@@ -438,7 +439,7 @@
 										<div class="eagle-listing-bottom"> <!-- Eagle Listing Bottom -->
 											<?php
 												if( !empty( $custom_settings[ 'display_tags' ] ) ){
-													apply_special_tags( $tags, $on_sale, $certified);
+													apply_special_tags( $tags, $on_sale, $certified, $video_url);
 													if( !empty( $tags ) ){
 														echo '<div class="eagle-listing-tags">';
 															$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
