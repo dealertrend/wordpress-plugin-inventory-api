@@ -22,10 +22,6 @@ class Plugin {
 				'id' => 0
 			),
 			'host' => '',
-			'mobile_theme' => array(
-				'name' => 'websitez',
-				'per_page' => '10'
-			),
 			'theme' => array(
 				'name' => 'armadillo',
 				'per_page' => 10,
