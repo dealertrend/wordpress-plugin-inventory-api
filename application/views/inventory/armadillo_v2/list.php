@@ -264,12 +264,12 @@
 							$asking_price = $prices->asking_price;
 							$year = $inventory_item->year;
 							$make = urldecode( $inventory_item->make );
-							$make_safe = str_replace( '/' , '%252' ,  $make );
+							$make_safe = str_replace( '/' , '%2F' ,  $make );
 							$model = urldecode( $inventory_item->model_name );
-							$model_safe = str_replace( '/' , '%252' ,  $model );
+							$model_safe = str_replace( '/' , '%2F' ,  $model );
 							$vin = $inventory_item->vin;
 							$trim = urldecode( $inventory_item->trim );
-							$trim_safe = str_replace( '/' , '%252' ,  $trim );
+							$trim_safe = str_replace( '/' , '%2F' ,  $trim );
 							$engine = $inventory_item->engine;
 							$transmission = $inventory_item->transmission;
 							$exterior_color = $inventory_item->exterior_color;

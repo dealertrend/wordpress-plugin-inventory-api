@@ -136,7 +136,7 @@
 	div#cobra-total-found{
 		margin: 2% auto 0;
 	}
-	div#cobra-pager{
+	div.cobra-pager{
 		float: none;
 		margin: 2% auto;
 		text-align: center;

@@ -100,7 +100,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							<?php
 								$shown_makes = array();
 								foreach( $makes as $make ) {
-									$make_safe = str_replace( '/' , '%252' , $make );
+									$make_safe = str_replace( '/' , '%2F' , $make );
 									$make_safe = ucwords( strtolower( $make_safe ) );
 									if( ! in_array( $make_safe , $shown_makes ) ) {
 										$shown_makes[] = $make_safe;
@@ -126,7 +126,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 										$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
 									}
 									foreach( $models as $model ) {
-										$model_safe = str_replace( '/' , '%252' , $model );
+										$model_safe = str_replace( '/' , '%2F' , $model );
 										$value = '<option value="' . $model_safe . '"';
 										if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
 											$value .= ' selected="selected" ';
@@ -148,7 +148,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 										$parameters[ 'trim' ] = $trims[ 0 ];
 									}
 									foreach( $trims as $trim ) {
-										$trim_safe = str_replace( '/' , '%252' , $trim );
+										$trim_safe = str_replace( '/' , '%2F' , $trim );
 							
 										$value = '<option value="' . $trim_safe . '"';
 										if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
@@ -240,7 +240,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 			</div>
 			<div id="cobra-total-found">Found <?php echo $vehicle_total_found; ?> Exact Matches</div>
 
-			<div id="cobra-pager"><?php echo paginate_links( $args ); ?></div>
+			<div class="cobra-pager"><?php echo paginate_links( $args ); ?></div>
 
 			<div id="cobra-sorting">Sort options:
 				<a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a> /
@@ -338,7 +338,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 					}
 				?>
 			</div>
-			<div id="cobra-pager"><?php echo paginate_links( $args ); ?></div>
+			<div class="cobra-pager"><?php echo paginate_links( $args ); ?></div>
 		</div>
 	</div>
 

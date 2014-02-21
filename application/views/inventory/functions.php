@@ -82,11 +82,11 @@
 
 		$data['year'] = $vehicle->year;
 		$data['make']['name'] = urldecode( $vehicle->make );
-		$data['make']['clean'] = str_replace( '/' , '%252' ,  $data['make']['name'] );
+		$data['make']['clean'] = str_replace( '/' , '%2F' ,  $data['make']['name'] );
 		$data['model']['name'] = urldecode( $vehicle->model_name );
-		$data['model']['clean'] = str_replace( '/' , '%252' ,  $data['model']['name'] );
+		$data['model']['clean'] = str_replace( '/' , '%2F' ,  $data['model']['name'] );
 		$data['trim']['name'] = urldecode( $vehicle->trim );
-		$data['trim']['clean'] = str_replace( '/' , '%252' ,  $data['trim']['name'] );
+		$data['trim']['clean'] = str_replace( '/' , '%2F' ,  $data['trim']['name'] );
 		$data['stock_number'] = $vehicle->stock_number;
 		$data['vin'] = $vehicle->vin;
 		$data['engine'] = $vehicle->engine;

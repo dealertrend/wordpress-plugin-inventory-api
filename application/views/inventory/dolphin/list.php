@@ -111,7 +111,7 @@
 						<?php
 							$shown_makes = array();
 							foreach( $makes as $make ) {
-								$make_safe = str_replace( '/' , '%252' , $make );
+								$make_safe = str_replace( '/' , '%2F' , $make );
 								$make_safe = ucwords( strtolower( $make_safe ) );
 								if( ! in_array( $make_safe , $shown_makes ) ) {
 									$shown_makes[] = $make_safe;
@@ -137,7 +137,7 @@
 									$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
 								}
 								foreach( $models as $model ) {
-									$model_safe = str_replace( '/' , '%252' , $model );
+									$model_safe = str_replace( '/' , '%2F' , $model );
 									$value = '<option value="' . $model_safe . '"';
 									if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
 										$value .= ' selected="selected" ';
@@ -159,7 +159,7 @@
 									$parameters[ 'trim' ] = $trims[ 0 ];
 								}
 								foreach( $trims as $trim ) {
-									$trim_safe = str_replace( '/' , '%252' , $trim );
+									$trim_safe = str_replace( '/' , '%2F' , $trim );
 									
 									$value = '<option value="' . $trim_safe . '"';
 									if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
@@ -279,12 +279,12 @@
 						$asking_price = $prices->asking_price;
 						$year = $inventory_item->year;
 						$make = urldecode( $inventory_item->make );
-						$make_safe = str_replace( '/' , '%252' ,  $make );
+						$make_safe = str_replace( '/' , '%2F' ,  $make );
 						$model = urldecode( $inventory_item->model_name );
-						$model_safe = str_replace( '/' , '%252' ,  $model );
+						$model_safe = str_replace( '/' , '%2F' ,  $model );
 						$vin = $inventory_item->vin;
 						$trim = urldecode( $inventory_item->trim );
-						$trim_safe = str_replace( '/' , '%252' ,  $trim );
+						$trim_safe = str_replace( '/' , '%2F' ,  $trim );
 						$engine = $inventory_item->engine;
 						$transmission = $inventory_item->transmission;
 						$exterior_color = $inventory_item->exterior_color;

@@ -222,7 +222,7 @@
 	line-height: 160%;
 	margin: -2% 0 2%;
 }
-#cobra-pager{
+.cobra-pager{
 	display: block;
 	float: left;
 	overflow: hidden;
@@ -235,7 +235,7 @@
 	font-weight: bold;
 	margin: 0 0 2%;
 }
-#cobra-pager a, #cobra-sorting a{
+.cobra-pager a, #cobra-sorting a{
 	color: #FFF;
 }
 #cobra-sorting{

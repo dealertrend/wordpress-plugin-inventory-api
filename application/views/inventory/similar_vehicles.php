@@ -20,11 +20,11 @@
 			$sim_stock_number = $inventory_sim->stock_number;
 			$sim_year = $inventory_sim->year;
 			$sim_make = urldecode( $inventory_sim->make );
-			$sim_make_safe = str_replace( '/' , '%252' ,  $sim_make );
+			$sim_make_safe = str_replace( '/' , '%2F' ,  $sim_make );
 			$sim_model = urldecode( $inventory_sim->model_name );
-			$sim_model_safe = str_replace( '/' , '%252' ,  $sim_model );
+			$sim_model_safe = str_replace( '/' , '%2F' ,  $sim_model );
 			$sim_trim = urldecode( $inventory_sim->trim );
-			$sim_trim_safe = str_replace( '/' , '%252' ,  $sim_trim );
+			$sim_trim_safe = str_replace( '/' , '%2F' ,  $sim_trim );
 			$sim_thumbnail = urldecode( $inventory_sim->photos[ 0 ]->small );
 			$sim_saleclass = $inventory_sim->saleclass;
 
