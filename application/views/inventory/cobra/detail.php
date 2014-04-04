@@ -1,6 +1,11 @@
 <?php
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle = itemize_vehicle($inventory);
+	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'cobra' );
+	$vehicle['primary_price'] = $price['primary_price'];
+
+	apply_gravity_form_hooks( $vehicle );
 
 ?>
 
@@ -22,12 +27,12 @@
 						</div>
 						<hr class="cobra-hr-half">
 						<div id="top-dealer-info">
-							<span id="dealer-name-"><?php echo $vehicle['contact_info']['dealer']; ?></span> -
+							<span id="dealer-name"><?php echo $vehicle['contact_info']['dealer']; ?></span> -
 							<span id="dealer-phone"><?php echo $vehicle['contact_info']['phone']; ?></span>
+							<span style="display: none;" id="dealer-id"><?php echo $vehicle['contact_info']['dealer_id']; ?></span>
 						</div>
 					</div>
 					<div id="top-inner-right">
-						<?php $price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'cobra' ); ?>
 						<div id="cobra-price-wrap">
 							<?php echo
 								( !empty($price['msrp_text']) && strtolower($vehicle['saleclass']) == 'new' ? $price['msrp_text'] : '') . '
@@ -106,7 +111,7 @@
 						echo get_vehicle_detail_display( $vehicle['dealer_options'], $vehicle['description'], $inventory_options['standard_equipment'], $vehicle['standard_equipment'], $theme_settings['default_info'] );
 
 						if( $theme_settings['display_similar'] ) {
-							get_similar_vehicles( $vehicle_management_system, $vehicle['vin'], $vehicle['saleclass'], $vehicle['vehicle_class'], $price['primary_price'], $vehicle['make']['name'], $inventory_options['make_filter'], array( 'city' => $city, 'state' => $state) );
+							echo get_similar_vehicles( $vehicle_management_system, $vehicle['vin'], $vehicle['saleclass'], $vehicle['vehicle_class'], $price['primary_price'], $vehicle['make']['name'], $inventory_options['make_filter'], array( 'city' => $city, 'state' => $state) );
 						}
 					?>
 				</div>

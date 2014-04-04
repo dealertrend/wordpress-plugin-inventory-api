@@ -23,14 +23,10 @@
 		jQuery(document).ready(function() {
 			jQuery('#vehicle-images')
 			.cycle({
-				slideExpr: 'img',
+				slides: '> a',
 				fx: 'fade',
 				pager: '#vehicle-thumbnails',
-				next: '#cobra-next',
-				prev: '#cobra-prev',
-				pagerAnchorBuilder: function(idx, slide) {
-				    return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
-				}
+				pagerTemplate: '<a href="#"><img src="{{href}}" width="70" height="50" /></a>'
 			});
 			jQuery('#vehicle-images > a')
 			.lightbox({
@@ -79,6 +75,46 @@
 				height: 500
 			})
 		});
+
+		// Video Dialog
+		var video_title = jQuery('#top-year').text() + ' ' + jQuery('#top-make').text() + ' ' + jQuery('#top-model').text();
+		jQuery('#video-overlay-wrapper-dm').click(function(e) {
+			jQuery('#dm-video-wrapper').dialog({
+				autoOpen: true,
+				dialogClass: "dialog-video-wrapper",
+				modal: true,
+				resizable: false,
+				width: 640,
+				height: 480,
+				title: video_title
+			})
+		});
+
+		jQuery('#video-overlay-wrapper').click(function(e) {
+			var video_width;
+			if( !video_width ){
+				video_width = get_video_width();
+				video_width = video_width + 35;//Added for dialog padding
+			}
+			jQuery('#wp-video-shortcode-wrapper').dialog({
+				autoOpen: true,
+				dialogClass: "dialog-video-wrapper",
+				modal: true,
+				resizable: false,
+				width: video_width,
+				title: video_title,
+				beforeClose: function( event, ui ){
+					jQuery('.mejs-pause > button').click();
+				}
+			})
+
+			jQuery('.mejs-play > button').click();
+		});
+
+		function get_video_width(){
+			results = jQuery('#wp-video-shortcode-wrapper > div').width();
+			return results;
+		}
 
 	}
 

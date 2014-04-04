@@ -70,6 +70,7 @@
 }
 #cobra-quick-links select {
 	margin-right: 10px;
+	max-width: 146px;
 }
 
 #cobra-search-box {
@@ -621,10 +622,7 @@
 	overflow: hidden;
 	border: 4px solid #D72A19;
 	position: relative;
-	height: 0px;
 	width: 98%;
-	padding-bottom: 65%;
-	padding-top: 0px;
 	margin: 0 auto 0;
 }
 #vehicle-images > a > img{
@@ -654,7 +652,7 @@
 	vertical-align: top;
 	line-height: 0;
 }
-#vehicle-thumbnails a.activeSlide{
+#vehicle-thumbnails a.cycle-pager-active{
 	background-color: #D72A19;
 }
 #photo-tabs-buttons{
@@ -711,6 +709,40 @@
 	left: 0;
 	width: 100%;
 	height: 88%;
+}
+#video-overlay-wrapper{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+}
+#video-overlay-wrapper-dm{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+}
+#video-overlay-play-button{
+    position: absolute;
+    z-index: 2;
+    top: 10%;
+    left: 28%;
+    display: block;
+}
+#video-overlay-wrapper:hover #video-overlay-play-button{
+    background-color: #000;
+    opacity: .4;
+    border-radius: 4px;
+}
+#wp-video-shortcode-wrapper, #dm-video-wrapper{
+    display: none;
+}
+.dialog-video-wrapper{
+    z-index: 900;
 }
 
 #content-inner-left{
@@ -918,6 +950,12 @@
 	color: #FFF;
 	padding: 0 2%;
 	margin: 4% 0;
+}
+#loan-calculator-error{
+    display: block;
+    text-align: center;
+    margin: 0 0 2%;
+    font-size: 110%;
 }
 #loan-wrapper{
 	display: block;

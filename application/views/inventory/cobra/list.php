@@ -32,7 +32,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
 	if ( strcasecmp( $param_saleclass, 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
-		$makes = $new_makes_filter;
+		$makes = $inventory_options['make_filter'];
 	} else {
 		$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $param_saleclass ) , $filters ) );
 		$makes = json_decode( $makes[ 'body' ] );
