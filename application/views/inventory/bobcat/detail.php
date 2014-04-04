@@ -1,500 +1,135 @@
 <?php
-	# Easy to use variables.
-	$headline = $inventory->headline;
-	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
-	$price = number_format( $inventory->prices->asking_price , 2 , '.' , ',' );
-	$vin = $inventory->vin;
 
-	$odometer = empty( $inventory->odometer ) ? 0 : $inventory->odometer;
-	$stock = $inventory->stock_number;
-	$exterior_color = empty( $inventory->exterior_color ) ? 'N/A' : $inventory->exterior_color;
-	$engine = $inventory->engine;
-	$transmission = $inventory->transmission;
-	$drivetrain = $inventory->drive_train;
-	$dealer_options = $inventory->dealer_options;
-	$standard_equipment = $inventory->standard_equipment;
-	$year = $inventory->year;
-	$make = urldecode( $inventory->make );
-	$model = urldecode( $inventory->model_name );
-	$trim = urldecode( $inventory->trim );
-	$year_make_model = $year . ' ' . $make . ' ' . $model;
-	$description = $inventory->description;
-	$doors = $inventory->doors;
-	echo $breadcrumbs;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+
+	$vehicle = itemize_vehicle($inventory);
+	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'bobcat' );
+	$vehicle['primary_price'] = $price['primary_price'];
+
+	apply_gravity_form_hooks( $vehicle );
+
 ?>
-<div class="dealertrend inventory detail">
-	<?php echo !empty( $headline ) ? '<div class="headline"><h2>' . $headline . '</h2></div>' : NULL; ?>
-	<div class="left-column">
-		<div class="slideshow">
-			<div class="images">
-			<?php
-				foreach( $inventory->photos as $photo ) {
-					echo '<img src="' . str_replace( '&' , '&amp;' , $photo->large ) . '" width="400" />';
-				}
-			?>
+
+	<div id="bobcat-wrapper">
+		<div id="bobcat-detail" class="saleclass-<?php echo strtolower($vehicle['saleclass']); ?>">
+			<div id="bobcat-title">
+				<span id="title-year"><?php echo $vehicle['year']; ?></span>
+				<span id="title-make"><?php echo $vehicle['make']['name']; ?></span>
+				<span id="title-model"><?php echo $vehicle['model']['name']; ?></span>
+				<span id="title-trim"><?php echo $vehicle['trim']['name']; ?></span>
 			</div>
-			<div class="navigation"></div>
-		</div>
-	</div>
-	<?php flush(); ?>
-	<div class="right-column">
-		<div class="details">
-			<div class="header">
-				<strong>Vehicle Information</strong>
+			<div class="breadcrumbs">
+				<?php echo display_breadcrumb( $this->parameters, $company_information, $inventory_options[company_override], $vehicle['saleclass'] ); ?>
+				<a id="friendly-print" onclick="window.open('?print_page','popup','width=550,height=800,scrollbars=yes,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=0,top=0'); return false">Print Page</a>
 			</div>
-			<div class="row"><strong>Price:</strong> $<?php echo $price; ?></div>
-			<div class="row"><strong>Stock:</strong> <?php echo $stock; ?></div>
-			<div class="row"><strong>VIN:</strong> <?php echo $vin; ?></div>
-			<div class="row"><strong>Odometer:</strong> <?php echo $odometer; ?></div>
-			<div class="row"><strong>Exterior Color:</strong> <?php echo $exterior_color; ?></div>
-			<div class="row"><strong>Engine:</strong> <?php echo $engine; ?></div>
-			<div class="row"><strong>Transmission:</strong> <?php echo $transmission; ?></div>
-			<div class="row"><strong>Drivetrain:</strong> <?php echo $drivetrain; ?></div>
-		</div>
-		<?php flush(); ?>
-		<div class="form">
-			<div class="header">
-				<strong>Vehicle Inquiry</strong>
+			<div id="vehicle-dealer-info">
+				<span class="vehicle-dealer-name"><?php echo $vehicle['contact_info']['dealer']; ?></span> - 
+				<span class="vehicle-dealer-phone"><?php echo $vehicle['contact_info']['phone']; ?></span>
+				<span class="vehicle-dealer-location"><?php echo $vehicle['contact_info']['location']; ?></span>
+				<span style="display: none;" class="vehicle-dealer-id"><?php echo $vehicle['contact_info']['dealer_id']; ?></span>
 			</div>
-			<form action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_inquiry" method="post" name="vehicle-inquiry">
-				<input name="required_fields" type="hidden" value="name,email,privacy" />
-				<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
-				<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />
-				<input name="vehicle" type="hidden" value="<?php echo $year_make_model; ?>" />
-				<input name="year" type="hidden" value="<?php echo $year; ?>" />
-				<input name="make" type="hidden" value="<?php echo $make; ?>" />
-				<input name="model_name" type="hidden" value="<?php echo $model; ?>" />
-				<input name="trim" type="hidden" value="<?php echo $trim; ?>" />
-				<input name="stock" type="hidden" value="<?php echo $stock; ?>" />
-				<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
-				<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
-				<input name="price" type="hidden" value="$<?php echo $price; ?>" />
-				<input name="name" type="hidden" value="" />
-				<table>
-					<tr>
-						<td class="required" colspan="1">
-							<label for="vehicle-inquiry-f-name">Your First Name</label>
-							<input maxlength="70" id="vehicle-inquiry-f-name" name="f_name" style="width:90%" tabindex="1" type="text" />
-						</td>
-						<td class="required" colspan="1">
-							<label for="vehicle-inquiry-email">Email Address</label>
-							<input maxlength="255" id="vehicle-inquiry-email" name="email" style="width:97%" tabindex="6" type="text" />
-						</td>
-					</tr>
-					<tr>
-						<td class="required" colspan="1">
-							<label for="vehicle-inquiry-l-name">Your Last Name</label>
-							<input maxlength="70" id="vehicle-inquiry-l-name" name="l_name" style="width:90%" tabindex="2" type="text" />
-						</td>
-						<td colspan="1">
-							<label for="vehicle-inquiry-timetocall">Best Time To Call</label>
-							<input maxlength="256" name="timetocall" id="vehicle-inquiry-timetocall" style="width:97%" tabindex="5" type="text" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="1">
-							<label for="vehicle-inquiry-phone">Phone Number</label>
-							<input maxlength="256" name="phone" id="vehicle-inquiry-phone" style="width:90%" tabindex="3" type="text" />
-						</td>
-						<td class="required" rowspan="1">
-							<label for="vehicle-inquiry-comments">Comments</label>
-							<textarea name="comments" id="vehicle-inquiry-comments" rows="7" style="width:97%" tabindex="7"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="1">&nbsp;</td>
-						<td colspan="1">
-							<input onclick="document.forms['vehicle-inquiry']['name'].value = document.forms['vehicle-inquiry']['f_name'].value + ' ' + document.forms['vehicle-inquiry']['l_name'].value; document.forms['vehicle-inquiry']['privacy'].checked = true; document.forms['vehicle-inquiry'].submit();" type="button" value="Send Inquiry" class="submit" />
-							<small style="float:right;">
-								<label for="vehicle-inquiry-privacy"><a href="<?php echo $site_url; ?>/privacy" target="_blank">Privacy Policy</a></label>
-							</small>
-							<div style="display:none">
-								<input class="privacy" name="privacy" id="vehicle-inquiry-privacy" type="checkbox" value="Yes" />
-								<input name="agree_sb" type="checkbox" value="Yes" /> I am a Spam Bot?
-							</div>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-	</div>
-	<?php flush(); ?>
-	<div id="inventory-tabs" style="clear:both;">
-		<ul>
-			<li><a href="#dealer-notes">Description</a></li>
-			<li><a href="#dealer-options">Dealer Options</a></li>
-			<li><a href="#standard-equipment">Standard Equipment</a></li>
-			<li><a href="#test-drive">Test Drive</a></li>
-			<li><a href="#trade-in">Trade In</a></li>
-			<li><a href="#tell-a-friend">Share</a></li>
-			<li><a href="#loan-calculator">Loan Calculator</a></li>
-		</ul>
-		<div id="dealer-notes">
-			<h3>Dealer Notes</h3>
-			<?php echo ( isset( $description ) && !empty( $description ) ) ? $description : 'Notes are currently unavailable for this vehicle.'; ?>
-		</div>
-		<div id="dealer-options">
-			<h3>Dealer Options</h3>
-			<?php if( !empty( $dealer_options ) ): ?>
-				<ul>
+			<div id="bobcat-content-wrapper">
+				<div id="content-inner-left">
 					<?php
-						$counter = 0;
-						$split = count( $dealer_options ) / 2;
-						foreach( $dealer_options as $option ) {
-							echo ( $counter > $split ) ? '</ul><ul>' : NULL;
-							$counter = ( $counter <= $split ) ? $counter + 1 : 0;
-							echo '<li>' . $option . '</li>';
-						}
+						echo get_photo_detail_display( $vehicle['photos'], $vehicle['video'], $theme_settings['default_image'] );
 					?>
-				</ul>
-			<?php else: ?>
-				<p>This information is currently not available.</p>
-			<?php endif ?>
-			<br class="clear" />
-		</div>
-		<div id="standard-equipment">
-			<h3>Standard Equipment</h3>
-			<?php if( !empty( $standard_equipment ) ): ?>
-			<ul>
-				<?php
-					$previous = null;
-					$counter = 0;
-					$split = count( $standard_equipment ) / 2;
-					foreach( $standard_equipment as $item ) {
-						$counter++;
-						if( $previous != $item->group ) {
-							if( $counter > $split ) {
-								echo '</ul><ul>';
-								$counter = 0;
+				</div>
+
+				<div id="content-inner-right">
+					<div id="bobcat-price-wrap">
+						<div id="price-main">
+							<?php echo $price['primary_text']; ?>
+						</div>
+						<div id="price-extra">
+						<?php echo
+							( !empty($price['msrp_text']) && strtolower($vehicle['saleclass']) == 'new' ? $price['msrp_text'] : '') . '
+							'.$price['ais_text'].$price['compare_text'].$price['expire_text'].$price['hidden_prices'].'
+							'. ( !empty($price['ais_link']) ? $price['ais_link'] : '')
+						?>
+						</div>
+					</div>
+					<?php echo $vehicle['headline'] ? '<div id="bobcat-detail-headline">'.$vehicle['headline'].'</div>' : ''; ?>
+					<div id="bobcat-vehicle-info">
+						<?php
+							echo'
+								<div class="info-divider">Stock Number: <span id="info-stock-number" class="info-value">'.$vehicle['stock_number'].'</span></div>
+								<div class="info-divider">VIN: <span id="info-vin" class="info-value">'.$vehicle['vin'].'</span></div>
+								<div class="info-divider">Condition: <span id="info-saleclass" class="info-value">'.$vehicle['saleclass'].'</span></div>
+								'.
+								( $vehicle['certified'] != 'false' ? '<div class="info-divider">Certified: <span id="info-certified" class="info-value">Yes</span></div>' : '' ).
+								( !empty($vehicle['odometer']) ? '<div class="info-divider">Mileage: <span id="info-mileage" class="info-value">'.$vehicle['odometer'].'</span></div>' : '' ).
+								( !empty($vehicle['exterior_color']) ? '<div class="info-divider">Exterior: <span id="info-exterior" class="info-value">'.$vehicle['exterior_color'].'</span></div>' : '' ).
+								( !empty($vehicle['interior_color']) ? '<div class="info-divider">Interior: <span id="info-interior" class="info-value">'.$vehicle['interior_color'].'</span></div>' : '' ).
+								( !empty($vehicle['engine']) ? '<div class="info-divider">Engine: <span id="info-engine" class="info-value">'.$vehicle['engine'].'</span></div>' : '' ).
+								( !empty($vehicle['transmission']) ? '<div class="info-divider">Transmission: <span id="info-transmission" class="info-value">'.$vehicle['transmission'].'</span></div>' : '' ).
+								( !empty($vehicle['drivetrain']) ? '<div class="info-divider">Drivetrain: <span id="info-drivetrain" class="info-value">'.$vehicle['drivetrain'].'</span></div>' : '' ).
+								( !empty($vehicle['doors']) ? '<div class="info-divider">Doors: <span id="info-doors" class="info-value">'.$vehicle['doors'].'</span></div>' : '' ).
+								( !empty($vehicle['body_style']) ? '<div class="info-divider">Body: <span id="info-body" class="info-value">'.$vehicle['body_style'].'</span></div>' : '' )
+
+							;
+						?>
+					</div>
+					<?php
+						echo get_fuel_economy_display( $vehicle['fuel_economy'], $country_code, 1, $vehicle_reference_system, $vehicle['acode'] );
+
+						if( $theme_settings['display_tags'] ){
+							apply_special_tags( $vehicle['tags'], $vehicle['prices']['on_sale'], $vehicle['certified'], $vehicle['video']);
+							if( !empty( $vehicle['tags'] ) ){
+								echo '<div id="bobcat-detail-tags">';
+									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags']);
+									echo $tag_icons;
+								echo '</div>';
 							}
-							echo '<li class="no-list"><strong>' . $item->group . '</strong></li>';
 						}
-						$previous = $previous != $item->group ? $item->group : $previous;
-						echo ( $previous != $item->group ) ? '<li><strong>' . $previous . '</strong></li>' : NULL;
-						echo '<li>' . $item->name . '</li>';
-					}
-				?>
-			</ul>
-			<?php else: ?>
-				<p>This information is currently not available.</p>
-			<?php endif; ?>
-			<br class="clear" />
-		</div>
-		<div id="test-drive">
-			<h3>Test Drive</h3>
-			<div class="form">
-				<form name="formvehicletestdrive" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_test_drive" method="post">
-					<input type="hidden" name="required_fields" value="name,email,privacy"/>
-					<input type="hidden" name="saleclass" value="<?php echo strtolower( $sale_class ); ?>"/>
-					<input type="hidden" name="return_url" value="" id="return_url_test_drive"/>
-					<input type="hidden" name="vehicle" value="<?php echo $year . ' ' . $make . ' ' . $model; ?>"/>
-					<input type="hidden" name="year" value="<?php echo $year; ?>"/>
-					<input type="hidden" name="make" value="<?php echo $make; ?>"/>
-					<input type="hidden" name="model_name" value="<?php echo $model; ?>"/>
-					<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
-					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
-					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-					<input type="hidden" name="price" value="$<?php echo $price; ?>"/>
-					<table style="width:100%">
-						<tr>
-							<td class="required" style="width:50%;" colspan="1">
-								<label for="formvehicletestdrive-name">Your First &amp; Last Name</label>
-								<input type="text" maxlength="70" name="name" id="formvehicletestdrive-name" style="width:95%"/>
-							</td>
-							<td class="required" style="width:50%;" colspan="1">
-								<label for="formvehicletestdrive-email">Email Address</label>
-								<input type="text" maxlength="255" name="email" id="formvehicletestdrive-email" style="width:98%"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<label for="formvehicletestdrive-phone">Phone Number</label>
-								<input type="text" maxlength="256" name="phone" id="formvehicletestdrive-phone" style="width:95%"/>
-							</td>
-							<td colspan="1">
-								<label for="formvehicletestdrive-timetocall">Best Time To Call</label>
-								<input type="text" maxlength="256" name="timetocall" id="formvehicletestdrive-timetocall" style="width:98%"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<label for="formvehicletestdrive-subject">Subject</label>
-								<input type="text" maxlength="256" style="width:99%" name="subject" id="formvehicletestdrive-subject" value="Vehicle Test Drive - <?php echo $year_make_model; ?>"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" class="required">
-								<label for="formvehicletestdrive-comments">Comments</label>
-								<textarea style="width:99%" rows="10" name="comments" id="formvehicletestdrive-comments"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td class="required" colspan="2">
-								<input type="checkbox" class="privacy" id="formvehicletestdrive-privacy" name="privacy" value="Yes" /> <label for="formvehicletestdrive-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
-								<div style="display:none">
-									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
-								</div>
-							</td>
-						</tr>
-					</table>
-					<div class="buttons" style="float:right">
-						<button type="submit">Send Inquiry</button>
-					</div>
-				</form>
+
+						if( $vehicle['autocheck'] ){
+							echo display_autocheck_image( $vehicle['vin'], $vehicle['saleclass'], $type );
+						}
+
+						if( $vehicle['carfax'] ) {
+		 					echo '<div class="carfax-wrapper"><a href="' . $vehicle['carfax'] . '" class="cobra-carfax" target="_blank"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg" /></a></div>';
+			 			}
+
+					?>
+				</div>
+				<div id="content-inner-bottom">
+					<?php
+
+						if( $theme_settings['display_similar'] ) {
+							$similar_output =  get_similar_vehicles( $vehicle_management_system, $vehicle['vin'], $vehicle['saleclass'], $vehicle['vehicle_class'], $price['primary_price'], $vehicle['make']['name'], $inventory_options['make_filter'], array( 'city' => $city, 'state' => $state) );
+						}
+
+						$tab_buttons = array(
+							0 => array('options', 'Vehicle Options'),
+							1 => array('description', 'Description'),
+							2 => array('equipment', 'Standard Equipment'),
+							3 => array('loan', 'Loan Calculator'),
+							4 => array('similar', 'Similar'),
+							5 => array('form', '')
+						);
+
+						$tab_data = array(
+							'options' => array( (count($vehicle['dealer_options']) > 0 ? 1 : 0), $vehicle['dealer_options'] ),
+							'description' => array( (strlen($vehicle['description']) > 0 ? 1 : 0), $vehicle['description'] ),
+							'equipment' => array( ($inventory_options['standard_equipment'] && !is_Empty_check($vehicle['standard_equipment']) ? 1 : 0 ), $vehicle['standard_equipment'] ),
+							'loan' => array( $loan_settings['display_calc'], $loan_settings ),
+							'similar' => array($theme_settings['display_similar'], $similar_output),
+							'form' => array( (function_exists(gravity_form) && isset($theme_settings['gravity_form']['data'])?1:0), $theme_settings['gravity_form']['data'] ),
+							'values' => array('saleclass' => $vehicle['saleclass'], 'price' => $price['primary_price'] )
+						);
+
+						build_tab_display( $tab_buttons, $tab_data, $theme_settings['default_info'] );
+
+					?>
+				</div>
 			</div>
-		</div>
-		<div id="trade-in">
-			<h3>Trade In</h3>
-			<div class="form">
-				<form name="formvehicletradein" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/<?php echo strtolower($sale_class); ?>_vehicle_trade_in" method="post">
-					<input type="hidden" name="required_fields" value="name,email,privacy"/>
-					<input type="hidden" name="saleclass" value="<?php strtolower( $sale_class ); ?>"/>
-					<input type="hidden" name="return_url" value="" id="return_url_trade_in"/>
-					<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
-					<input type="hidden" name="year" value="<?php echo $year; ?>"/>
-					<input type="hidden" name="make" value="<?php echo $make; ?>"/>
-					<input type="hidden" name="model_name" value="<?php echo $model; ?>"/>
-					<input type="hidden" name="trim" value="<?php echo $trim; ?>"/>
-					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
-					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-					<input type="hidden" name="inventory" value="<?php echo $inventory->id; ?>"/>
-					<input type="hidden" name="price" value="$<?php echo $price; ?>"/>
-					<table style="width:100%">
-						<tr>
-							<td class="required" colspan="1" style="width:50%;">
-								<label for="formvehicletradein-name">Your First &amp; Last Name</label>
-								<input type="text" maxlength="70" name="name" id="formvehicletradein-name" style="width:95%"/>
-							</td>
-							<td class="required" colspan="1" style="width:50%;">
-								<label for="formvehicletradein-email">Email Address</label>
-								<input type="text" maxlength="255" name="email" id="formvehicletradein-email" style="width:98%"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<label for="formvehicletradein-phone">Phone Number</label>
-								<input type="text" maxlength="256" name="phone" id="formvehicletradein-phone" style="width:95%"/>
-							</td>
-							<td colspan="1">
-								<label for="formvehicletradein-timetocall">Best Time To Call</label>
-								<input type="text" maxlength="256" name="timetocall" id="formvehicletradein-timetocall" style="width:98%"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1" class="required">
-								<label for="formvehicletradein-vin">VIN</label>
-								<input type="text" size="20" maxlength="256" id="formvehicletradein-vin" name="vin" onKeyUp="update_vehicle(this.value);" onChange="update_vehicle(this.value)" style="width:95%;" />
-							</td>
-							<td class="required" colspan="1">
-								<label for="formvehicletradein-vehicle-desc">Vehicle Year / Make / Model</label>
-								<input type="text" maxlength=256 name="vehicle_desc" id="formvehicletradein-vehicle-desc" style="width:98%" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<label for="formvehicletradein-engine">Engine</label>
-								<select name="engine" id="formvehicletradein-engine">
-									<option value="4 Cyl">4 Cyl</option>
-									<option value="6 Cyl">6 Cyl</option>
-									<option value="V6">V6</option>
-									<option value="V8">V8</option>
-									<option value="Other">Other</option>
-								</select>
-								<label for="formvehicletradein-transmission">Transmission</label>
-								<select name="transmission" id="formvehicletradein-transmission">
-									<option value="Manual">Manual</option>
-									<option value="Automatic">Automatic</option>
-								</select>
-							</td>
-							<td colspan="1">
-								<label for="formvehicletradein-mileage">Odometer</label>
-								<input type="text" maxlength=256 name="mileage" id="formvehicletradein-mileage" style="width:98%" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<label for="formvehicletradein-tradein">Description and Comments</label>
-								<textarea name="tradein" rows="5" id="formvehicletradein-tradein" style='width:99%'></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<label>Are you still making payments on this trade-in?</label>
-								<input type="radio" name="payoff" value="Yes"> Yes
-								<input type="radio" name="payoff" value="No"> No
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<label for="formvehicletradein-payoff-holder">Who is your loan financed by?</label>
-								<input type="text" maxlength=256 name="payoff_holder" id="formvehicletradein-payoff-holder" style="width:95%" />
-							</td>
-							<td colspan="1">
-								<label for="formvehicletradein-payoff-amt">If financing, provide loan-payoff amount</label>
-								<input type="text" maxlength=256 name="payoff_amt" id="formvehicletradein-payoff-amt" style="width:98%" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<label for="formvehicletradein-subject">Subject</label>
-								<input type="text" id="formvehicletradein-subject" maxlength="256" style="width:99%" name="subject" value="Vehicle Trade In - <?php echo $year_make_model; ?>"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" class="required">
-								<label for="formvehicletradein-comments">Comments</label>
-								<textarea style="width:99%" rows="10" name="comments" id="formvehicletradein-comments"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td class="required" colspan="2">
-								<input type="checkbox" class="privacy" name="privacy" id="formvehicletradein-privacy" value="Yes" /><label for="formvehicletradein-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
-								<div style="display:none">
-									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
-								</div>
-							</td>
-						</tr>
-					</table>
-					<div class="buttons" style="float:right">
-						<button type="submit">Send Inquiry</button>
-					</div>
-				</form>
-			</div>
-			<script id="loader" type="text/javascript"></script>
-			<script type="text/javascript">
-				function update_vehicle(vin) {
-					if (vin == null || vin.length < 11) return false;
-					dealertrend('#loader').attr('src', '<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/widget/check_vin.js?vin=' + vin);
-				}
-			</script>
-		</div>
-		<div id="tell-a-friend">
-			<h3>Tell a Friend</h3>
-			<div class="form">
-				<form name="formtellafriend" action="<?php echo $this->options[ 'vehicle_management_system' ][ 'host' ] . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]; ?>/forms/create/vehicle_tell_a_friend" method="post">
-					<input type="hidden" name="required_fields" value="from_name,from_email,friend_name,friend_email,privacy"/>
-					<input type="hidden" name="return_url" value="" id="return_url_tellafriend"/>
-					<input type="hidden" name="vehicle" value="<?php echo $year_make_model; ?>"/>
-					<input type="hidden" name="stock" value="<?php echo $stock; ?>"/>
-					<input type="hidden" name="vin" value="<?php echo $vin; ?>"/>
-					<table style="width:100%">
-						<tr>
-							<td class="required" style="width:50%;" colspan="1">
-								<label for="formtellafriend-from-name">Your First &amp; Last Name</label>
-								<input type="text" style="width:90%" maxlength="70" name="from_name" id="formtellafriend-from-name"/>
-							</td>
-							<td class="required" colspan="1">
-								<label for="formtellafriend-from-email">Email Address</label>
-								<input type="text" style="width:97%" id="formtellafriend-from-email" maxlength="255" name="from_email"/>
-							</td>
-						</tr>
-						<tr>
-							<td class="required" style="width:50%;" colspan="1">
-								<label for="formtellafriend-friend-name">Your Friend's Name</label>
-								<input type="text" style="width:90%" maxlength="70" name="friend_name" id="formtellafriend-friend-name" />
-							</td>
-							<td class="required" colspan="1">
-								<label for="formtellafriend-friend-email">Friend's Email Address</label>
-								<input type="text" style="width:90%" maxlength="255" name="friend_email" id="formtellafriend-friend-email" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<label for="formtellafriend-subject">Subject</label>
-								<input type="text" style="width:97%" maxlength="256" name="subject" id="formtellafriend-subject" value="<?php echo $company_information->name; ?> - Tell-A-Friend - <?php echo $year_make_model; ?>"/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" class="required">
-								<label for="formtellafriend-comments">Comments</label>
-								<textarea style="width:97%" rows="10" name="comments" id="formtellafriend-comments"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div>
-									<input id="formtellafriend-notify" type="checkbox" name="notify" value="yes" /><label for="formtellafriend-notify">Request Notification of Receipt when email is opened?</label>
-								</div>
-								<div class="required">
-									<input type="checkbox" name="privacy" id="formtellafriend-privacy" value="Yes" /><label for="formtellafriend-privacy">Agree to <a target="_blank" href="<?php echo $site_url; ?>/privacy">Privacy Policy</a></label>
-								</div>
-								<div style="display:none">
-									<input type="checkbox" name="agree_sb" value="Yes" /> I am a Spam Bot?
-								</div>
-							</td>
-						</tr>
-					</table>
-					<div class="buttons" style="float:right">
-						<button type="submit">Send to a Friend</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div id="loan-calculator">
 			<?php
-				$html_free_price = str_replace( '<span class=\'asking\'>' , null , $price );
-				$html_free_price = str_replace( '</span>' , null , $html_free_price );
+				if ( is_active_sidebar( 'vehicle-detail-page' ) ) :
+					echo '<div id="detail-widget-area">';
+						dynamic_sidebar( 'vehicle-detail-page' );
+					echo '</div>';
+				endif;
 			?>
-			<h3>Loan Calculator</h3>
-			<div class="form">
-				<form name="loan-calculator" action="#" method="post">
-					<table style="width:100%">
-						<tr>
-							<td colspan="1">
-								<label for="loan-calculator-price">Vehicle Price</label>
-								<input type="text" style="width:90%" name="price" id="loan-calculator-price" value="$<?php echo $html_free_price; ?>" />
-							</td>
-							<td colspan="1">
-								<label for="loan-calculator-interest-rate">Interest Rate</label>
-								<input type="text" style="width:90%" name="interest-rate" id="loan-calculator-interest-rate" value="7.35%" />
-							</td>
-							<td colspan="1">
-								<label for="loan-calculator-term">Term (months)</label>
-								<input type="text" style="width:90%" name="term" id="loan-calculator-term" value="48" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<label for="loan-calculator-trade-in-value">Trade in Value</label>
-								<input type="text" style="width:90%" name="trade-in-value" id="loan-calculator-trade-in-value" value="$3,000" />
-							</td>
-							<td colspan="1">
-								<label for="loan-calculator-down-payment">Down Payment</label>
-								<input type="text" style="width:90%" name="down-payment" id="loan-calculator-down-payment" value="$5,000" />
-							</td>
-							<td colspan="1">
-								<label for="loan-calculator-sales-tax">Sales Tax</label>
-								<input type="text" style="width:90%" name="sales-tax" id="loan-calculator-sales-tax" value="7.375%" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="1">
-								<div>Bi-Monthly Cost</div>
-								<div id="loan-calculator-bi-monthly-cost"></div>
-							</td>
-							<td colspan="1">
-								<div>Monthly Cost</div>
-								<div id="loan-calculator-monthly-cost"></div>
-							</td>
-							<td colspan="1">
-								<div>Total Cost <small>(including taxes)</small></div>
-								<div id="loan-calculator-total-cost"></div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3"><button>Calculate</button></td>
-						</tr>
-					</table>
-				</form>
-			</div>
 		</div>
 	</div>
-</div>
-<?php
-	if ( is_active_sidebar( 'vehicle-detail-page' ) ) :
-		echo '<div id="sidebar-widget-area" class="sidebar">';
-		dynamic_sidebar( 'vehicle-detail-page' );
-		echo '</div>';
-	endif;
-?>
+

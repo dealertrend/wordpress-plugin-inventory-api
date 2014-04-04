@@ -1,21 +1,123 @@
-@media all and (max-width: 720px){
-	div.call-to-action{
-		display: none;
+@media all and (max-width: 960px){
+
+}
+
+@media all and (max-width: 780px){
+	input#bobcat-search-box{
+		max-width: 68%;
 	}
-	.dealertrend.inventory.detail div.left-column, .dealertrend.inventory.detail div.right-column{
+	div.vehicle-dealer-info{
+		font-size: 90%;
+	}
+	div#price-main{
 		float: none;
-		clear: both;
 		width: 100%;
 	}
-	.dealertrend.inventory.detail div.slideshow div.images{
-		margin: 0 auto;
-	}
-	.dealertrend.inventory.detail div.slideshow div.navigation{
-		margin: 5px auto;
-		max-width: 368px;
+	div#price-extra{
+		float: none;
 		width: 100%;
-	}
-	div.right-column .details, div.right-column .form{
-		margin: 0 auto;
 	}
 }
+
+@media all and (max-width: 480px){
+	div#bobcat-search-text{
+		float: none;
+		width: 100%;
+	}
+	input#bobcat-search-box{
+		width: 58%;
+	}
+	div#bobcat-advance-show{
+		float: none;
+		width: 100%;
+		margin: 1% 0 0;
+	}
+	div.search-wrapper{
+		float: none;
+		width: 94%;
+		margin: 2% auto 4%;
+		font-size: 90%;
+	}
+	div.bobcat-advance-peram{
+		margin: 0 auto;
+		text-align: center;
+		width: 96%;
+	}
+	div.reset-search{
+		margin: 2% auto 4%;
+		width: 90%;
+	}
+	div#bobcat-total-found{
+		width: 100%;
+		text-align: center;
+		padding: 0;
+	}
+	div.bobcat-pager{
+		width: 100%;
+		text-align: center;
+		padding: 0;
+	}
+	div.middle-left, div.middle-center, div.middle-right{
+		float: none;
+		width: 100%;
+	}
+	div.bobcat-price-wrap{
+		height: auto;
+	}
+	.bobcat-price-wrap > div{
+		display: none;
+	}
+	.bobcat-price-wrap > div.bobcat-main-price{
+		display: block;
+	}
+	.middle-left .bobcat-more-info{
+		display: none;
+	}
+	div.vehicle-information{
+		display: none;
+	}
+	div.bobcat-vehicle-bottom > div{
+		float: none;
+		width: 100%;
+	}
+
+	div#bobcat-detail .breadcrumbs{
+		text-align: center
+	}
+	a#friendly-print{
+		display: none;
+	}
+	div#content-inner-left{
+		float: none;
+		width: 100%;
+	}
+	div#content-inner-right{
+		float: none;
+		width: 100%;
+	}
+	div.info-divider{
+		font-size: 100%;
+	}
+	div#vehicle-detail-options ul li{
+		float: none;
+		width: 90%;
+		margin: 2% 0 0 6%;
+		font-size: 90%;
+	}
+	div#vehicle-detail-description{
+		width: 96%;
+		padding: 2%;
+		font-size: 90%;
+	}
+	div#similar-vehicles-wrapper{
+		width:93%;
+		margin: 1% auto;
+	}
+	div.similar-item{
+		width: 90%;
+		margin: 5% auto 0;
+		display: block;
+		border-bottom: 2px solid #000;
+	}
+}
+
