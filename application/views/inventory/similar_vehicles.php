@@ -1,4 +1,6 @@
 <?php
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+
 	if ( !empty( $inventory_sims ) ) {
 		$rules = get_option( 'rewrite_rules' );
 
@@ -104,6 +106,6 @@
 			}
 		endforeach;
 		$sim_value .= '</div></div>';
-		echo $sim_value;
+		//echo $sim_value;
 	}
 ?>

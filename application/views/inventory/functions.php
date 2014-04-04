@@ -1,5 +1,7 @@
 <?php
 
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+
 	function get_inventory_options( $data ){
 		$options = array();
 
@@ -186,16 +188,34 @@
 
 		if( $video ){
 			$buttons = '<div class="tabs-button tabs-button-img-photo '.$class[1].'" name="img-photo">Photos</div><div class="tabs-button tabs-button-img-video '.$class[0].'" name="img-video">Video</div>';
-			$content_video = '<div class="tabs-content tabs-content-img-video '.$class[0].'"><div id="inventory-video-wrapper">';
+			$content_video = '<div class="tabs-content tabs-content-img-video '.$class[0].'">';
 				$type = wp_check_filetype( $video, wp_get_mime_types() );
 				if( empty( $type['ext'] ) ){
-					//currently only works for youtube videos
-					preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $video, $matches);
-					$content_video .= '<iframe id="inventory-video-iframe" src="http://www.youtube.com/embed/'.$matches[0].'?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>';
+					if (strpos($video,'dmotorworks') !== false) {
+						$content_video .= '<div id="video-overlay-wrapper-dm">';
+						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
+						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
+						$content_video .= '</div>';
+						$content_video .= '<div id="dm-video-wrapper">';
+						$content_video .= '<iframe id="inventory-video-iframe" src="'.$video.'" frameborder="0" allowfullscreen></iframe>';
+						$content_video .= '</div>';
+					} else {
+						$content_video .= '<div id="inventory-video-wrapper">';
+						//currently only works for youtube videos
+						preg_match('/(?<=v(\=|\/))([-a-zA-Z0-9_]+)|(?<=youtu\.be\/)([-a-zA-Z0-9_]+)/', $video, $matches);
+						$content_video .= '<iframe id="inventory-video-iframe" src="http://www.youtube.com/embed/'.$matches[0].'?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>';
+						$content_video .= '</div>';
+					}
 				} else {
+					$content_video .= '<div id="video-overlay-wrapper">';
+					$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
+					$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
+					$content_video .= '</div>';
+					$content_video .= '<div id="wp-video-shortcode-wrapper">';
 					$content_video .= wp_video_shortcode( array( 'src' => $video ) );
+					$content_video .= '</div>';
 				}
-			$content_video .= '</div></div>';
+			$content_video .= '</div>';
 		} else {
 			$buttons = '<div class="tabs-button tabs-button-img-photo active" name="img-photo">Photos</div>';
 			$class[1] = 'active';
@@ -327,13 +347,13 @@
 
 	}
 
-	function get_loan_calculator( $loan_data, $price ){
+	function get_loan_calculator( $loan_data, $price, $button = True ){
 		$display = '';
 
 		if( is_numeric($price) && $price != 0 ){
 			$display = '<div id="loan-calculator-wrapper">';
 
-			$display .= '<div id="loan-calculator-button">Loan Calculator</div>';
+			$display .= ($button) ? '<div id="loan-calculator-button">Loan Calculator</div>': '';
 
 			$display .= '<div id="loan-calculator-data">';
 			$display .= '<div id="loan-calculator">';
@@ -356,9 +376,96 @@
 			$display .= '</div></div>';
 
 			$display .= '</div>';
+		} else {
+			$display = '<div id="loan-calculator-error">No price is currently available to calculate. Please contact dealer for price information.</div>';
 		}
 
 		return $display;
+	}
+
+	function build_tab_display( $buttons, $data, $active = 0){
+
+		$active_tab = '';
+		if( $data[ $buttons[ $active ][0] ][0]){
+			$active_tab = $buttons[ $active ][0];			
+		} else {
+			foreach( $buttons as $key => $button){
+				if( empty($active_tab) ){
+					$active_tab = ( $data[ $button[0] ][0] ) ? $button[0] : '';
+				}
+			}
+		}
+
+		switch( strtolower($data['values']['saleclass']) ){
+			case 'new': $sc = 1; break;
+			case 'used': $sc = 2; break;
+			default: $sc = 0;
+		}
+
+		echo '<div id="vehicle-details-wrapper" >';
+
+		echo '<div id="vehicle-details-tabs-buttons">';
+		foreach( $buttons as $key => $button){
+			if( $data[ $button[0] ][0] ){
+				$class = ( $active_tab == $button[0] ) ? 'active' : '' ;
+				switch ( $button[0] ){ //Button Output
+					case 'form':
+						foreach( $data[ $button[0] ][1] as $key => $form ){
+							if( !empty($form['button']) && ($form['saleclass'] == 0 || $form['saleclass'] == $sc) ){
+								$form_ids[] = $form['id'];
+								echo '<div class="tabs-button tabs-button-details-form-'.$form['id'].' '.$class.' " name="details-form-'.$form['id'].'">'.$form['title'].'</div>';
+							}
+						}
+						break;
+					default:
+						echo '<div class="tabs-button tabs-button-details-'.$button[0].' '.$class.' " name="details-'.$button[0].'">'.$button[1].'</div>';
+				}
+			}
+		}
+		echo '</div>';
+
+		echo '<div id="vehicle-details-tabs-content">';
+		foreach( $buttons as $key => $button){
+			if( $data[ $button[0] ][0] && $button[0] != 'form' ){
+				$class = ( $active_tab == $button[0] ) ? 'active' : '' ;
+
+				echo '<div class="tabs-content tabs-content-details-'.$button[0].' '.$class.' "><div id="vehicle-detail-'.$button[0].'">';
+
+				switch ( $button[0] ){ //Content Output
+					case 'options':
+						echo '<ul>';
+							foreach( $data[ $button[0] ][1] as $option ){
+								echo '<li>' . $option . '</li>';
+							}
+						echo '</ul>';
+						break;
+					case 'equipment':
+						echo display_equipment($data[ $button[0] ][1]);
+						break;
+					case 'loan':
+						echo get_loan_calculator($data[ $button[0] ][1], $data['values']['price'], False);
+						break;
+
+					default:
+						echo $data[ $button[0] ][1];
+				}
+				echo '</div></div>';
+
+			}
+		}
+		//Form Loop
+		if( !empty($form_ids) ){
+			foreach( $form_ids as $id ){
+				echo '<div class="tabs-content tabs-content-details-form-'.$id.'"><div id="vehicle-detail-form-'.$id.'">';
+				echo '<div id="form-id-'.$id.'" class="form-wrapper">';
+				echo gravity_form($id, true, false, false, '', true);
+				echo '</div></div>';
+			}
+		}
+		echo '</div>';
+
+		echo '</div>';
+
 	}
 
 	function get_vehicle_detail_display( $options, $description, $show_equipment = FALSE, $equipment = array(), $active = 0 ){
@@ -596,6 +703,8 @@
 			$inventory_sims_info = $vms->get_inventory()->please( $sim_array );
 			$inventory_sims = isset( $inventory_sims_info[ 'body' ] ) ? json_decode( $inventory_sims_info[ 'body' ] ) : false;
 
+			$sim_value = '';
+
 			if ( !empty( $inventory_sims ) && count($inventory_sims) > 1 ) {
 				include( dirname( __FILE__ ) . '/similar_vehicles.php' );
 			} else if ( isset( $sim_array['price_from'] ) ) {
@@ -609,7 +718,82 @@
 					include( dirname( __FILE__ ) . '/similar_vehicles.php' );
 				}
 			}
+
+			return $sim_value;
 		}
+	}
+
+	function get_inventory_link( $rule, $params, $type = 0, $querys = array() ){
+
+		if( $rule ){
+			if( $type ){
+				$link = '/inventory/'.$params['year'].'/'.urlencode($params['make']).'/'.urlencode($params['model']).'/'.urlencode($params['state']).'/'.urlencode($params['city']).'/'.$params['vin'].'/';
+			} else {
+				$link = '/inventory/'.$params['saleclass'].'/';
+				$link .= isset($params['make']) ? urlencode($params['make']) . '/' : '';
+				$link .= isset($params['model']) ? urlencode($params['model']) . '/' : '';
+				$link .= isset($params['trim']) ? '?trim=' . urlencode($params['trim']) : '';
+			}
+		} else {
+			if( $type ){
+				$link = '?taxonomy=inventory&year='.$params['year'].'&make='.urlencode($params['make']).'&model='.urlencode($params['model']).'&city='.urlencode($params['city']).'&state='.urlencode($params['state']).'&vin='.$params['vin'];
+			} else {
+				$link = '?taxonomy=inventory&saleclass='.$params['saleclass'];
+				$link .= isset($params['make']) ? '&make='.urlencode($params['make']) : '';
+				$link .= isset($params['model']) ? '&model='.urlencode($params['model']) : '';
+				$link .= isset($params['trim']) ? '&trim='.urlencode($params['trim']) : '';
+			}
+		}
+		$query_found = ( parse_url($link, PHP_URL_QUERY) ) ? true : false;
+		$query = '';
+
+		if( !empty($querys) ){
+			foreach( $querys as $key => $value ){
+				if( !empty($value) && $query_found ){
+					$query .= '&'.$key.'='.$value;
+				} elseif ( !empty($value) ){
+					$query_found = true;
+					$query .= '?'.$key.'='.$value;
+				}
+			}
+		}
+
+		$link = $link . $query; 
+		return $link;
+	}
+
+	function build_slider_script( $params ){
+
+		$pre = ($params['type'] == 'price') ? '$' : '';
+		$set_values = (isset($params['search'][0]) && isset($params['search'][1])) ? array($params['search'][0], $params['search'][1]) : array($params['default'][0], $params['default'][1]);
+
+		$script = '<script type="text/javascript" >jQuery(document).ready(function(){';
+		$script .= 'jQuery("#'.$params['type'].'-range").slider({max: '.$params['default'][1].',min: '.$params['default'][0].',range: true,step: '.$params['step'].',values: [ '.$set_values[0].', '.$set_values[1].' ], slide: function( event, ui ) { jQuery( "#'.$params['type'].'-range-values" ).val( "'.$pre.'" + ui.values[ 0 ] + " - '.$pre.'" + ui.values[ 1 ] ); jQuery( "#'.$params['type'].'-range-flag" ).val( "true" ); } }); jQuery( "#'.$params['type'].'-range-values" ).val( "'.$pre.'" + jQuery( "#'.$params['type'].'-range" ).slider( "values", 0 ) + " - '.$pre.'" + jQuery( "#'.$params['type'].'-range" ).slider( "values", 1 ) );';
+		$script .= '});</script>';
+
+		return $script;
+	}
+
+	function apply_gravity_form_hooks( $data ){
+
+		$hooks = get_gravity_hooks( $data );
+
+		foreach( $hooks as $key => $result ){
+			add_filter("gform_field_value_".$key, 
+				function($value) use ($result) {
+					$value=$result;
+					return $value;
+				}
+			);
+		}
+
+	}
+
+	function get_gravity_hooks( $data ){
+
+		$hooks = array('dt_stock_number' => $data['stock_number'], 'dt_vin' => $data['vin'], 'dt_year' => $data['year'], 'dt_make' => $data['make']['name'], 'dt_model' => $data['model']['name'], 'dt_trim' => $data['trim']['name'], 'dt_saleclass' => $data['saleclass'], 'dt_exterior' => $data['exterior_color'], 'dt_interior' => $data['interior_color'], 'dt_mileage' => $data['odometer'], 'dt_price' => $data['primary_price'], 'dt_dealer' => $data['contact_info']['dealer'], 'dt_dealer_id' => $data['contact_info']['dealer_id'], 'dt_location' => $data['contact_info']['location'], 'dt_phone' => $data['contact_info']['phone'] );
+
+		return $hooks;
 	}
 
 	function is_Empty_check($obj){

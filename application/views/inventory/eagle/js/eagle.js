@@ -1,3 +1,4 @@
+jQuery(document).ready(function(){
 // Eagle Listing JS
 if ( jQuery('#eagle-listing').length ) {
 
@@ -227,6 +228,7 @@ if ( jQuery('#eagle-detail').length ) {
 	});
 
 }
+});
 
 // Eagle General
 jQuery(document).ready(function() {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	$prices = $inventory->prices;
 	$use_was_now = $prices->{ 'use_was_now?' };
@@ -280,60 +282,60 @@
 											$vehicle_info = '';
 
 											if ( !empty( $sale_class ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-saleclass">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Condition:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $sale_class . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-saleclass-value">' . $sale_class . '</div>';
 												$vehicle_info .= '</div>';
 
 											}
 
 											if ( $certified == 'true') {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-certified">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Certified:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">Yes</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-certified-value">Yes</div>';
 												$vehicle_info .= '</div>';
 
 											}
 
 											if ( !empty( $odometer ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-odometer">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Mileage:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $odometer . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-odometer-value">' . $odometer . '</div>';
 												$vehicle_info .= '</div>';
 											}
 
 											if ( !empty( $engine ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-engine">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Engine:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $engine . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-engine-value">' . $engine . '</div>';
 												$vehicle_info .= '</div>';
 											}
 
 											if ( !empty( $transmission ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-transmission">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Transmission:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $transmission . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-transmission-value">' . $transmission . '</div>';
 												$vehicle_info .= '</div>';
 											}
 
 											if ( !empty( $drive_train ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-drivetrain">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Drivetrain:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $drive_train . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-drivetrain-value">' . $drive_train . '</div>';
 												$vehicle_info .= '</div>';
 											}
 
 											if ( !empty( $exterior_color ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-exterior">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Exterior Color:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $exterior_color . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-exterior-value">' . $exterior_color . '</div>';
 												$vehicle_info .= '</div>';
 											}
 
 											if ( !empty( $interior_color ) ) {
-												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap">';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-wrap vehicle-interior">';
 												$vehicle_info .= '<div class="eagle-vehicle-overview-left">Interior color:</div>';
-												$vehicle_info .= '<div class="eagle-vehicle-overview-right">' . $interior_color . '</div>';
+												$vehicle_info .= '<div class="eagle-vehicle-overview-right vehicle-interior-value">' . $interior_color . '</div>';
 												$vehicle_info .= '</div>';
 											}
 

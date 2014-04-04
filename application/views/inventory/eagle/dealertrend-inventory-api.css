@@ -1306,3 +1306,22 @@ autocheck
     margin: 0 0 0 6%;
 	cursor: pointer;
 }
+
+/***
+Dialog adjustments
+***/
+div.ui-widget-overlay{
+	height: 0;
+	padding-top: 100%;
+}
+.ui-dialog .ui-dialog-titlebar-close span{
+	left: 0;
+	top: 0;
+}
+div.form-wrap .gform_body .ginput_container input{
+	max-width: 98%;
+}
+div.form-wrap .gform_body .ginput_container textarea{
+	max-width: 97%;
+	max-height: 100px;
+}

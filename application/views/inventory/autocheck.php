@@ -1,4 +1,5 @@
 <?php
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$autocheck_error = '';
 

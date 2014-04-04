@@ -1,4 +1,5 @@
 <?php
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory print page';
 	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 ) ) );
