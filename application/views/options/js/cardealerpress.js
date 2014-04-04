@@ -1,5 +1,17 @@
 jQuery(document).ready(function(){
 
+	// Get Help
+	jQuery('.get-help').click(function(e){
+		help_id = jQuery(e.target).attr('id');
+		jQuery('.'+help_id).dialog({
+			autoOpen: true,
+			modal: true,
+			resizable: false,
+			width: 380,
+			height: 460,
+		})
+	});
+
 	// If they want to abandon the uninstall, let's make that easy.
 	jQuery('#uninstall').click(function(){
 		jQuery('#uninstall-dialog').dialog();

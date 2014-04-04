@@ -9,6 +9,9 @@ small.status { font-weight:bold; }
 #icon-dealertrend { background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px; width:46px; }
 h2 { line-height:32px; }
 
+h3.title{
+	display: inline-block;
+}
 table > tbody > tr:nth-child(odd){
     background-color: #F1F1F1;
 }
@@ -401,4 +404,32 @@ input.inventory-tag-number{
 }
 .inventory-form-value{
     text-align: center;
+}
+#Bobcat-list-gform-id{
+    width: 30px;
+}
+span.get-help{
+    background-color: green;
+    padding: 0 3%;
+    color: #FFF;
+    border-radius: 10px;
+    text-align: center;
+    opacity: .6;
+    font-size: 90%;
+    line-height: 100%;
+    cursor: pointer;
+}
+#hidden-help-wrapper{
+	display: none;
+}
+/***
+Dialog adjustments
+***/
+div.ui-widget-overlay{
+	height: 0;
+	padding-top: 100%;
+}
+.ui-dialog .ui-dialog-titlebar-close span{
+	left: 0;
+	top: 0;
 }

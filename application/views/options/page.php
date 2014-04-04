@@ -56,75 +56,58 @@ class Options_Page {
 	function process_options( &$data ) {
 
 		$data = array_map( array( &$this->instance , 'sanitize_inputs' ) , $data );
-		$makes = isset( $data[ 'vehicle_reference_system' ][ 'makes' ] ) ? $data[ 'vehicle_reference_system' ][ 'makes' ] : array();
-		$models = isset( $data[ 'vehicle_reference_system' ][ 'models' ] ) ? $data[ 'vehicle_reference_system' ][ 'models' ] : array();
 
-		$vms_makes = isset( $data[ 'vehicle_management_system' ][ 'makes_new' ] ) ? $data[ 'vehicle_management_system' ][ 'makes_new' ] : array();
+		switch( $data['page'] ){
 
-		if( count( $makes ) > 0 ) {
-			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] = $makes;
-			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = $models;
-			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'year_filter' ] = $_POST[ 'vrs_year_filter' ];
-			$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models_manual' ] = $_POST[ 'vrs_models_manual' ];
+			case 'inventory':
+				$vms_makes = isset( $data[ 'vehicle_management_system' ][ 'makes_new' ] ) ? $data[ 'vehicle_management_system' ][ 'makes_new' ] : array();				
+				$this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] = $vms_makes;
+
+				$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] = $_POST[ 'saleclass' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] = $_POST[ 'inv_responsive' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ] = $_POST[ 'phone_new' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ] = $_POST[ 'inventory_tags_counter' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ] = ( !empty($_POST[ 'inventory_tag' ]) ) ? $_POST[ 'inventory_tag' ]: array();
+				$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
+				$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ] = $_POST[ 'show_standard_eq' ];
+				break;
+
+			case 'showcase':
+				$makes = isset( $data[ 'vehicle_reference_system' ][ 'makes' ] ) ? $data[ 'vehicle_reference_system' ][ 'makes' ] : array();
+				if( !empty($makes) ){
+					$models = isset( $data[ 'vehicle_reference_system' ][ 'models' ] ) ? $data[ 'vehicle_reference_system' ][ 'models' ] : array();
+				} else {
+					$models = array();
+				}
+				$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'makes' ] = $makes;
+				$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models' ] = $models;
+				$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'year_filter' ] = $_POST[ 'vrs_year_filter' ];
+				$this->instance->options[ 'vehicle_reference_system' ][ 'data' ][ 'models_manual' ] = $_POST[ 'vrs_models_manual' ];
+				$showcase_theme = isset( $_POST[ 'showcase_theme' ] ) ? $_POST[ 'showcase_theme' ] : 'default';
+				$this->instance->options[ 'vehicle_reference_system' ][ 'theme' ] = $showcase_theme;
+				$this->instance->options[ 'alt_settings' ][ 'gravity_forms' ]['showcase'] = $_POST[ 'gravityform-showcase-id' ];
+				$this->instance->options[ 'vehicle_reference_system' ][ 'theme_settings' ] = $_POST[ 'vrs_theme_settings' ];
+				break;
+
+			case 'settings':
+				$host = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
+				$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = $host;
+				$company_id = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] : 0;
+				if( $company_id != 0 ) {
+					$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
+				}
+				$host = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
+				$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = $host;
+				$this->instance->options[ 'alt_settings' ][ 'discourage_seo_visibility' ] = $_POST[ 'discourage_seo_visibility' ];
+				break;
+
 		}
 
-		if( count( $vms_makes ) > 0 ) {
-			$this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] = $vms_makes;
-		}
-
-		if( isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ) {
-
-			$makes = isset( $_POST[ 'vehicle_reference_system' ][ 'makes' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'makes' ] : array();
-			$models = isset( $_POST[ 'vehicle_reference_system' ][ 'models' ] ) ? $_POST[ 'vehicle_reference_system' ][ 'models' ] : array();
-
-
-		} 
-
-		if( isset( $_POST[ 'vehicle_management_system' ]['host'] ) || isset( $_POST[ 'vehicle_reference_system' ]['host'] ) ) {
-
-			$host = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
-			$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = $host;
-			$company_id = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] : 0;
-
-			if( $company_id != 0 ) {
-				$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
-			}
-
-			$host = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
-			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = $host;
-			$this->instance->options[ 'alt_settings' ][ 'discourage_seo_visibility' ] = $_POST[ 'discourage_seo_visibility' ];
-
-		} 
-
-		if( isset( $_POST[ 'theme' ] ) ) {
-
-			$vms_makes = isset( $_POST[ 'vehicle_management_system' ][ 'makes_new' ] ) ? $_POST[ 'vehicle_management_system' ][ 'makes_new' ] : array();
-			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = $_POST[ 'theme' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'per_page' ] = $_POST[ 'per_page' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'saleclass' ] = $_POST[ 'saleclass' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'inv_responsive' ] = $_POST[ 'inv_responsive' ];
-			$inventory_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'inventory' ] : 'smoothness';
-			$this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] = $inventory_theme;
-			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_new' ] = $_POST[ 'phone_new' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'phone_used' ] = $_POST[ 'phone_used' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_new' ] = $_POST[ 'name_new' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'custom_contact' ][ 'name_used' ] = $_POST[ 'name_used' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'counter' ] = $_POST[ 'inventory_tags_counter' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ] = ( !empty($_POST[ 'inventory_tag' ]) ) ? $_POST[ 'inventory_tag' ]: array();
-			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ] = $_POST[ 'custom_settings' ];
-			$this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'show_standard_eq' ] = $_POST[ 'show_standard_eq' ];
-
-
-		} elseif( isset( $_POST[ 'showcase_theme' ] ) ) {
-
-			$showcase_theme = isset( $_POST[ 'showcase_theme' ] ) ? $_POST[ 'showcase_theme' ] : 'default';
-			$this->instance->options[ 'vehicle_reference_system' ][ 'theme' ] = $showcase_theme;
-			$this->instance->options[ 'alt_settings' ][ 'gravity_forms' ]['showcase'] = $_POST[ 'gravityform-showcase-id' ];
-			$showcase_ui_theme = isset( $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] ) ? $_POST[ 'jquery' ][ 'ui' ][ 'theme' ][ 'showcase' ] : 'smoothness';
-			$this->instance->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ] = $showcase_ui_theme;
-
-			$this->instance->options[ 'vehicle_reference_system' ][ 'theme_settings' ] = $_POST[ 'vrs_theme_settings' ];
-		}
 	}
 
 	function save_options( $data ) {

@@ -11,6 +11,7 @@
     <form id="settings-form" name="dealertrend_inventory_api_plugin_settings" method="post" action="#settings">
       <?php wp_nonce_field( 'dealertrend_inventory_api' ); ?>
       <table width="450">
+		<input type="hidden" value="settings" name="page" />
         <tr>
           <td colspan="2">
             <h3 class="title">API Settings</h3>

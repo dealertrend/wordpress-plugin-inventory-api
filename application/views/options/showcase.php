@@ -4,6 +4,7 @@
 	</div>
 	<form method="post" action="#showcase" id="showcase-form">
 		<table width="450" class="table-left">
+		<input type="hidden" value="showcase" name="page" />
 		<?php
 			$response_code = false;
 			if( ! empty( $this->instance->options[ 'vehicle_reference_system' ][ 'host' ] ) ) {
@@ -115,27 +116,6 @@
 				<td width="125"><label for="gravityform-showcase-id">Gravity Form ID:</a></td>
 				<td>
 					<input style="width: 110px;" type="text" name="gravityform-showcase-id" id="gravityform-showcase-id" value="<?php echo $this->instance->options[ 'alt_settings' ][ 'gravity_forms' ]['showcase'] ?>" />
-				</td>
-			</tr>
-			<tr>
-				<td width="125"><label for="jquery-ui-theme-showcase">jQuery UI Theme:</a></td>
-				<td>
-				<select id="jquery-ui-theme-showcase" name="jquery[ui][theme][showcase]">
-				<?php
-					$theme_path = str_replace( 'views/options' , 'assets/jquery-ui/1.8.11/themes' , dirname( __FILE__ ) );
-					if( $handle = opendir( $theme_path ) ) {
-					$ignore = array( '.' , '..' );
-					while( false !== ( $file = readdir( $handle ) ) ) {
-						$selected = $this->instance->options[ 'jquery' ][ 'ui' ][ 'showcase-theme' ] == $file ? 'selected' : NULL;
-						if( ! in_array( $file , $ignore ) ) {
-						$file_title = str_replace( '-' , ' ' , $file );
-						echo '<option value="' . $file . '" ' . $selected . '>' . ucwords( $file_title ) . '</option>';
-						}
-					}
-					closedir( $handle );
-					}
-				?>
-				</select>
 				</td>
 			</tr>
 

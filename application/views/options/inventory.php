@@ -13,6 +13,7 @@
 		$theme_name = ucwords( $this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] );
 	?>
 		<div class="tab-content tab-content-inventory active">
+			<input type="hidden" value="inventory" name="page" />
 			<table width="450" class="table-left">
 			<tr>
 				<td colspan="2"><h3 class="title">Inventory Settings</h3></td>
@@ -35,29 +36,7 @@
 				</select>
 				</td>
 			</tr>
-<!--
-			<tr>
-				<td width="125"><label for="jquery-ui-theme-inventory">jQuery UI Theme:</a></td>
-				<td>
-				<select id="jquery-ui-theme-inventory" name="jquery[ui][theme][inventory]">
-				<?php
-					$theme_path = str_replace( 'views/options' , 'assets/jquery-ui/1.8.11/themes' , dirname( __FILE__ ) );
-					if( $handle = opendir( $theme_path ) ) {
-					$ignore = array( '.' , '..' );
-					while( false !== ( $file = readdir( $handle ) ) ) {
-						$selected = $this->instance->options[ 'jquery' ][ 'ui' ][ 'inventory-theme' ] == $file ? 'selected' : NULL;
-						if( ! in_array( $file , $ignore ) ) {
-						$file_title = str_replace( '-' , ' ' , $file );
-						echo '<option value="' . $file . '" ' . $selected . '>' . ucwords( $file_title ) . '</option>';
-						}
-					}
-					closedir( $handle );
-					}
-				?>
-				</select>
-				</td>
-			</tr>
--->
+
 			<tr>
 				<td width="125">Vehicles Per Page:</td>
 				<td>
@@ -200,6 +179,9 @@
 		<div class="tab-content tab-content-theme">
 			<?php
 				switch($theme_name){
+					case 'Bobcat':
+						include( dirname( __FILE__ ) . '/themes/bobcat.php' );
+						break;
 					case 'Cobra':
 						include( dirname( __FILE__ ) . '/themes/cobra.php' );
 						break;
