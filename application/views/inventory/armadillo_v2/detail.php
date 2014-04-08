@@ -1,4 +1,5 @@
 <?php
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$sale_class = str_replace( ' ' , '%20' , $inventory->saleclass );
 	$prices = $inventory->prices;
