@@ -1,6 +1,6 @@
 <?php
 
-namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+
 
 	function get_inventory_options( $data ){
 		$options = array();
@@ -116,6 +116,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		$data['description'] = $vehicle->description;
 		$data['fuel_economy'] = $vehicle->fuel_economy;
 		$data['acode'] = isset($vehicle->ads_acode) && !empty($vehicle->ads_acode) ? $vehicle->ads_acode : NULL;
+		$data['sold'] = isset($vehicle->sold_on) ? TRUE : FALSE;
 
 		$contact = $vehicle->contact_info;
 		$data['contact_info']['dealer_id'] = $contact->company_id;
@@ -647,6 +648,11 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	function sort_equipment( $a , $b ) {
 		return ( $a->group > $b->group ) ? +1 : -1;
+	}
+
+	// Sort Options by length
+	function sort_length($a,$b){
+		return strlen($a)-strlen($b);
 	}
 
 	function display_equipment( $equipment ){

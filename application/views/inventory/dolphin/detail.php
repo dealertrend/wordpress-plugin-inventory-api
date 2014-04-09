@@ -63,11 +63,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 	}
 
-	// Sort Options by length
-	function sort_l($a,$b){
-	    return strlen($a)-strlen($b);
-	}
-	usort($dealer_options, 'sort_l' );
+	usort($dealer_options, 'sort_length' );
 
 	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 

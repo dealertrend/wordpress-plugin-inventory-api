@@ -52,11 +52,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$traffic_source = isset( $_COOKIE[ 'dealertrend-traffic-source' ] ) ? $_COOKIE[ 'dealertrend-traffic-source' ] : false;
 	$traffic_source = $this->sanitize_inputs( $traffic_source );
 
-	// Sort Options by length
-	function sort_l($a,$b){
-		return strlen($a)-strlen($b);
-	}
-	usort($dealer_options, 'sort_l' );
+	usort($dealer_options, 'sort_length' );
 
 	$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
 	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
