@@ -281,6 +281,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 									$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
 									$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 									$video_url = isset( $inventory_item->video_url ) ? $inventory_item->video_url : false;
+									$sold = isset($inventory_item->sold_on) ? TRUE : FALSE;
 
 									$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
 									$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
@@ -321,7 +322,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 												</div>
 												<div class="eagle-photo">
 													<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
-														<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
+														<?php echo $sold ? '<img class="marked-sold-overlay" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/sold_overlay.png" />' : '' ?>
+														<img class="list-image" src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 													</a>
 												</div>
 												<div class="eagle-listing-info">

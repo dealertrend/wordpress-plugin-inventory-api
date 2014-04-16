@@ -320,9 +320,19 @@
 	float: left;
 	max-width: 150px;
 	width: 32%;
+	position: relative;
 }
-.eagle-photo img{
+.list-image{
 	width: 100%;
+	position: relative;
+	z-index: 1;
+}
+.marked-sold-overlay{
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	width: 40%;
 }
 .eagle-listing-info{
 	display: block;

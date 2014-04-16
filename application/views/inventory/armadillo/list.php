@@ -288,6 +288,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							$saleclass_item = $inventory_item->saleclass;
 							$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
 							$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
+							$sold = isset($inventory_item->sold_on) ? TRUE : FALSE;
+
 							if( !empty( $wp_rewrite->rules ) ) {
 								$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
 							} else {
@@ -299,7 +301,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 								<div class="armadillo-column-left">
 									<div class="armadillo-photo">
 										<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
-											<img src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
+											<?php echo $sold ? '<img class="marked-sold-overlay" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/sold_overlay.png" />' : '' ?>
+											<img class="list-image" src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 										</a>
 									</div>
 								</div>

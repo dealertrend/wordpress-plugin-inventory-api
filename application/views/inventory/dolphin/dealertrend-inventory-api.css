@@ -1087,9 +1087,21 @@
     float: left;
     width: 20%;
 }
-.dolphin-photo img{
+.dolphin-photo{
+	position: relative;
+}
+.list-image{
     border-radius: 4px;
     width: 100%;
+	position: relative;
+	z-index: 1;
+}
+.marked-sold-overlay{
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	width: 40%;
 }
 .dolphin-icons{
     display: block;

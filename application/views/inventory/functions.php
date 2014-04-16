@@ -1,7 +1,5 @@
 <?php
 
-
-
 	function get_inventory_options( $data ){
 		$options = array();
 

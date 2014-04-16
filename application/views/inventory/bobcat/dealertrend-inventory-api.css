@@ -145,6 +145,16 @@
 	text-align: center;
 	padding-top: .4%;
 }
+.middle-center .photo{
+	display: block;
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+.photo .list-image{
+	position: relative;
+	z-index: 1;
+}
 .middle-right{
 	display: block;
 	float: left;
@@ -946,6 +956,16 @@ List GForm
     clear: both;
 }
 
+/***
+Sold
+***/
+.marked-sold-overlay{
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	left: 5%;
+	width: 32%;
+}
 /***
 Dialog adjustments
 ***/

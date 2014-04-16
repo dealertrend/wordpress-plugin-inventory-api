@@ -165,7 +165,14 @@
 .armadillo-item:hover .armadillo-column-left { border-left:10px solid #9f0300; padding-left:0; }
 .armadillo-item a { text-decoration:none; }
 .armadillo-item .armadillo-photo { display:block; float:left; display:block; position:relative; margin-right:10px; }
-.armadillo-item .armadillo-photo img { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; }
+.armadillo-item .list-image { height:150px; width:200px; display:block; text-indent:-9999px; background:transparent url('images/no-image-376x260.jpg') no-repeat center; position: relative; z-index: 1; }
+.marked-sold-overlay{
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	width: 40%;
+}
 .armadillo-item .armadillo-main-line { padding:10px 5px 0 5px; line-height:24px; font-size:20px; font-weight:bold; text-transform:capitalize; word-wrap: break-word; }
 .armadillo-item .armadillo-headline { color:#9f0300; font-weight:bold; line-height:14px; font-size:12px; padding:5px 0; word-wrap: break-word; margin-left:5px; }
 .armadillo-item .armadillo-year,

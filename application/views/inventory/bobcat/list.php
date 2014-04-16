@@ -290,7 +290,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 									<div class="middle-center">
 										<div class="photo">
 											<a href="'.$link.'" title="' . $generic_vehicle_title . '">
-												<img src="' . $vehicle['thumbnail'] . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
+												'.($vehicle['sold'] ? '<img class="marked-sold-overlay" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/sold_overlay.png" />' : '').'
+												<img class="list-image" src="' . $vehicle['thumbnail'] . '" alt="' . $generic_vehicle_title . '" title="' . $generic_vehicle_title . '" />
 											</a>
 										</div>
 									</div>
