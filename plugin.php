@@ -74,6 +74,7 @@ class Plugin {
 	public $parameters = array();
 	public $taxonomy = null;
 	public $is_mobile = false;
+	public $plugin_slug = '';
 
 	public function execute() {
 		$this->load_plugin_information();
@@ -88,14 +89,6 @@ class Plugin {
 		$this->add_menu_link();
 		$this->add_shortcode();
 		$this->register_ajax();
-	}
-
-	private function get_master_file() {
-		return dirname( __FILE__ ) . '/loader.php';
-	}
-
-	private function get_plugin_basename() {
-		return plugin_basename( $this->get_master_file() );
 	}
 
 	function load_plugin_information() {
@@ -118,6 +111,14 @@ class Plugin {
 		$data[ 'PluginBaseName' ] = $this->get_plugin_basename();
 
 		$this->plugin_information = $data;
+	}
+
+	private function get_master_file() {
+		return dirname( __FILE__ ) . '/dealertrend_inventory.php';
+	}
+
+	private function get_plugin_basename() {
+		return plugin_basename( $this->get_master_file() );
 	}
 
 	function queue_registrations() {
@@ -203,13 +204,11 @@ class Plugin {
 		}
 
 	function check_for_updates() {
-		add_action( 'admin_init' , array( &$this , 'instantiate_updater' ) );
+		add_action('init', array( $this, 'init_updater' ) );
 	}
 
-	function instantiate_updater() {
-		$update_handler = new Updater( $this->plugin_information );
-		$version_comparison = $update_handler->check_for_updates();
-		$update_handler->display_update_notice( $version_comparison );
+	function init_updater() {
+		new wp_auto_update ($this->plugin_information['Version'], $this->plugin_slug);
 	}
 
 	function load_options() {

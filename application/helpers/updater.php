@@ -1,100 +1,128 @@
 <?php
-
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-class Updater {
+class wp_auto_update
+{
+	/**
+	 * The plugin current version
+	 * @var string
+	 */
+	public $current_version;
 
-	public $current_plugin_information = array();
-	public $new_plugin_information = array();
-	public $new_version = NULL;
+	/**
+	 * The plugin current version
+	 * @var string
+	 */
+	public $remote_version;
+ 
+	/**
+	 * The plugin remote update path
+	 * @var string
+	 */
+	public $update_path;
+ 
+	/**
+	 * Plugin Slug (plugin_directory/plugin_file.php)
+	 * @var string
+	 */
+	public $plugin_slug;
+ 
+	/**
+	 * Plugin name (plugin_file)
+	 * @var string
+	 */
+	public $slug;
 
-	function __construct( $current_plugin_information ) {
-		$this->load_plugin_information( $current_plugin_information );
-		$this->queue_plugin_updater();
+	/**
+	 * Package URL
+	 * @var string
+	 */
+	public $package;
+ 
+	/**
+	 * Initialize a new instance of the WordPress Auto-Update class
+	 * @param string $current_version
+	 * @param string $update_path
+	 * @param string $plugin_slug
+	 */
+	public function __construct($current_version, $plugin_slug ){
+		// Set the class public variables
+		$this->current_version = $current_version;
+		$this->update_path = 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/update.json';
+		$this->plugin_slug = $plugin_slug;
+		list ($t1, $t2) = explode('/', $plugin_slug);
+		$this->slug = str_replace('.php', '', $t2);
+
+		if (is_admin()) {
+			// define the alternative API for updating checking
+			add_filter('pre_set_site_transient_update_plugins', array(&$this, 'check_update'));
+			add_action('install_plugins_pre_plugin-information', array($this, 'display_changelog'));
+		}
+
 	}
+ 
+	/**
+	 * Add our self-hosted autoupdate plugin to the filter transient
+	 *
+	 * @param $transient
+	 * @return object $ transient
+	 */
+	public function check_update($transient){
+		if (empty($transient->checked)) {
+			return $transient;
+		}
 
-	function load_plugin_information( $current_plugin_information ) {
-		$this->current_plugin_information = $current_plugin_information;
-	}
+		// Get the remote data
+		$this->getRemote_data();
 
-	function queue_plugin_updater() {
-		add_action( 'site_transient_update_plugins', array( &$this, 'filter_plugin_count' ) );
-	}
-
-	function display_update_notice( $version_check = array() ) {
-		if( $version_check[ 'current' ] < $version_check[ 'latest' ] ) {
-			$update_data = (object) array(
-				'new_version' => $version_check[ 'latest' ],
-				'url' => $this->current_plugin_information[ 'PluginURI' ],
-				'package' => 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/current/dealertrend-inventory-api.zip',
-				'upgrade_notice' => ''
-			);
-			$this->new_plugin_information = $update_data;
-			if( isset( $this->current_plugin_information[ 'PluginBaseName' ] ) ) {
-				delete_site_transient( 'update_plugins' );
+		// If a newer version is available, add the update
+		if( $this->remote_version ){
+			if (version_compare($this->current_version, $this->remote_version, '<')) {
+				$obj = new \stdClass();
+				$obj->slug = $this->slug;
+				$obj->new_version = $this->remote_version;
+				$obj->url = $this->update_path;
+				$obj->package = $this->package;
+				$transient->response[$this->plugin_slug] = $obj;
 			}
-			$plugin_check_list->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $update_data;
-			set_site_transient( 'update_plugins' , $plugin_check_list );
-			add_action( 'admin_init', array( &$this, 'filter_plugin_rows' ), 15 );
+		}
+		return $transient;
+	}
+ 
+	/**
+	 * Return the remote version
+	 * @return string $remote_version
+	 */
+	public function getRemote_data(){
+		//$request = wp_remote_post($this->update_path, array('body' => array('action' => 'version')));
+		$request = new http_request( $this->update_path, 'dealetrend_plugin_updater' );
+		$request = $request->cached() ? $request->cached() : $request->get_file();
+		if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
+			$results = json_decode( $request['body'] );
+			$this->remote_version = $results->version;
+			$this->package = $results->info->download_link;
 		}
 	}
 
-	function filter_plugin_rows() {
-		remove_all_actions( 'after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ] );
-		add_action('after_plugin_row_' . $this->current_plugin_information[ 'PluginBaseName' ], array( &$this, 'plugin_row'), 9, 2 );
-	}
+	/**
+	 * Displays changlog on wp auto update page
+	 */
+    public function display_changelog(){
+        if ($_REQUEST['plugin'] != $this->slug)
+            return;
 
-	function plugin_row() {
-		$filename = $this->current_plugin_information[ 'PluginBaseName' ];
+		$request = new http_request( 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/changelog.html', 'dealetrend_plugin_changelog' );
+		$request = $request->cached() ? $request->cached() : $request->get_file();
 
-		$autoupdate_url = wp_nonce_url( self_admin_url('update.php?action=upgrade-plugin&plugin=') . $filename, 'upgrade-plugin_' . $filename);
+		if (is_wp_error($request) || 200 != wp_remote_retrieve_response_code($request) ) {
+            $page_text = sprintf(__("Connection lost.%sPlease try again or %scontact support%s.", 'dealertrend'), "<br/>", "<a href='http://www.dealertrend.com'>", "</a>");
+        }else{
+            $page_text = $request['body'];
+        }
+        echo stripslashes($page_text);
 
-		$url = 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/changelog.html?TB_iframe=true&width=640&height=438';
-
-		echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update colspanchange"><div class="update-message">';
-		echo 'There is a new version of ' . $this->current_plugin_information[ 'Name' ] . ' from ' . $this->current_plugin_information[ 'Author' ] . ' available. <a href="' . $url . '" class="thickbox" title="Latest Changes">View version ' . $this->new_version . ' details</a> or <a href="' . $autoupdate_url . '">update automatically</a>.';
-		echo '</div></td></tr>';
-	}
-
-	function check_for_updates() {
-		$plugin_check_list = function_exists( 'get_site_transient' ) ? get_site_transient( 'update_plugins' ) : get_transient( 'update_plugins' );
-
-		$url = 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/current_version.json';
-		$request_handler = new http_request( $url , 'dealetrend_plugin_updater' );
-
-		$data = $request_handler->cached() ? $request_handler->cached() : $request_handler->get_file();
-		$body = isset( $data[ 'body' ] ) ? $data[ 'body' ] : false;
-		if( $body ) {
-			$json = json_decode( $body );
-			$version = $json->version;
-			if( !empty( $version ) ) {
-				$latest_version = $version;
-			} else {
-				$latest_version = '0';
-			}
-			$this->new_version = $latest_version;
-			$current_version = $this->current_plugin_information[ 'Version' ];
-
-			return array( 'current' => $current_version , 'latest' => $latest_version );
-		} else {
-
-			return false;
-		}
-	}
-
-	function filter_plugin_count( $current_values ) {
-		if( $this->new_version > $this->current_plugin_information[ 'Version' ] ) {
-			$new_values = $current_values;
-			if( !isset( $new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] ) ){
-				$new_values->response[ $this->current_plugin_information[ 'PluginBaseName' ] ] = $this->new_plugin_information;
-			}
-
-			return $new_values;
-		} else {
-
-			return $current_values;
-		}
-	}
+        exit;
+    }
 
 }
 
