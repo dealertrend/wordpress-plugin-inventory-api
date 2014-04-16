@@ -23,7 +23,6 @@
 			price = jQuery('#'+vin).find('.bobcat-main-price').text();
 			stock = jQuery('#'+vin).find('.vehicle-stock').text();
 			d_id = jQuery('#'+vin).find('.vehicle-dealer-id').text();
-alert(d_id);
 
 			jQuery('.vehicle-info-form-data input[type="text"], .vehicle-info-form-data textarea').attr('readonly','readonly');
 			jQuery('.vehicle-info-form-data-dealer input[type="text"], .vehicle-info-form-data-dealer input').attr('readonly','readonly').attr('style','display: none;');
