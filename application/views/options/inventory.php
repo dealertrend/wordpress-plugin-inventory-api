@@ -65,9 +65,15 @@
 			<?php
 				$vms_makes = isset( $this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] ) ? $this->instance->options[ 'vehicle_management_system' ][ 'data' ][ 'makes_new' ] : array();
 
-				$make_data = $this->get_make_data();
-				$make_values = $this->remove_data_dups( $make_data, 'name');
-				natcasesort($make_values);
+				if( $this->vehicle_reference_system ){
+					$make_data = $this->get_make_data();
+					$make_values = $this->remove_data_dups( $make_data, 'name');
+					natcasesort($make_values);
+				} else {
+					$makes_values = array();
+				}
+				
+
 			?>
 			<tr>
 				<td width="125"><label for="vms-makes">New Make Filter: </label></td>

@@ -71,12 +71,6 @@ class vehicle_management_system_widget extends WP_Widget {
 			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 		);
 
-		$check_host = $vehicle_management_system->check_host()->please();
-		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
-			echo '<p>Unable to connect to API.</p>';
-			return false;
-		}
-
 		$check_company_id = $vehicle_management_system->check_company_id()->please();
 		if( $check_company_id[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to validate company information.</p>';

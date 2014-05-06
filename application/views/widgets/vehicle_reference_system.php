@@ -151,12 +151,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$country_code
 		);
 
-		$check_host = $vehicle_reference_system->check_host()->please();
-		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
-			echo '<p>Unable to connect to API.</p>';
-			return false;
-		}
-
 		$check_feed = $vehicle_reference_system->check_feed()->please();
 		if( $check_feed[ 'response' ][ 'code' ] != 200 ) {
 			echo '<p>Unable to retrieve feed.</p>';
@@ -393,12 +387,6 @@ class vehicle_reference_system_widget extends WP_Widget {
 			$this->options[ 'vehicle_management_system' ][ 'host' ],
 			$this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
 		);
-
-		$check_host = $get_company_information->check_host()->please();
-		if( $check_host[ 'response' ][ 'code' ] != 200 ) {
-			echo '<p>Unable to connect to API.</p>';
-			return false;
-		}
 
 		$check_company_id = $get_company_information->check_company_id()->please();
 		if( $check_company_id[ 'response' ][ 'code' ] != 200 ) {

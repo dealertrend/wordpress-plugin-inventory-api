@@ -7,11 +7,12 @@ class Options_Page {
 	public $instance = false;
 	public $vehicle_management_system = false;
 	public $vehicle_reference_system = false;
+	public $host_error = array();
 
 	function __construct() {
 		$this->initialize_dependancies();
 		$this->check_posted_data( $_POST );
-		$this->check_feeds();
+		$this->set_variables();
 		$this->show_page();
 	}
 
@@ -95,14 +96,28 @@ class Options_Page {
 				break;
 
 			case 'settings':
-				$host = isset( $_POST[ 'vehicle_management_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' ) : NULL;
-				$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = $host;
-				$company_id = isset( $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ) ? $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] : 0;
-				if( $company_id != 0 ) {
-					$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
+				if( $_POST[ 'vehicle_management_system' ][ 'host' ] ){
+					$vms_check = $this->check_feeds( $_POST[ 'vehicle_management_system' ][ 'host' ] ,'', $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]);
+					if( $vms_check ){
+						$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' );
+						$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
+					} else {
+						$this->host_error['vms'] = 'The VMS URL entered was not valid. Please enter a valid URL.';
+						$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = '';
+						$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ]['id'] = 0;
+					}
 				}
-				$host = isset( $_POST[ 'vehicle_reference_system' ][ 'host' ] ) ? rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' ) : NULL;
-				$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = $host;
+				
+				if( $_POST[ 'vehicle_reference_system' ][ 'host' ] ){
+					$vrs_check = $this->check_feeds('', $_POST[ 'vehicle_reference_system' ][ 'host' ] ,'');
+					if( $vrs_check ){
+						$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_reference_system' ][ 'host' ] , '/' );
+					} else {
+						$this->host_error['vrs'] = 'The VRS URL entered was not valid. Please enter a valid URL.';
+						$this->instance->options[ 'vehicle_reference_system' ][ 'host' ] = '';
+					}
+				}
+				
 				$this->instance->options[ 'alt_settings' ][ 'discourage_seo_visibility' ] = $_POST[ 'discourage_seo_visibility' ];
 				break;
 
@@ -139,40 +154,70 @@ class Options_Page {
 		}
 		exit;
 	}
-
-	function check_feeds() {
-
-		$this->vehicle_management_system = new vehicle_management_system(
-			$this->instance->options[ 'vehicle_management_system' ][ 'host' ],
-			$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
-		);
-
-		$this->vehicle_management_system->status[ 'host' ][ 'results' ] = $this->vehicle_management_system->check_host()->please();
-
-		$code = isset( $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] : false;
-		if( $code == '200' ) {
-			$this->vehicle_management_system->status[ 'company_feed' ][ 'results' ] = $this->vehicle_management_system->check_company_id()->please();
-			$code = isset( $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] : false;
-			if( $code == '200' ) {
+	
+	function set_variables(){
+		$response = array();
+		// Check VMS and Set VMS
+		if( $this->instance->options[ 'vehicle_management_system' ][ 'host' ] ){
+			$this->vehicle_management_system = new vehicle_management_system(
+				$this->instance->options[ 'vehicle_management_system' ][ 'host' ],
+				$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]
+			);
+			
+			$response['vms']['results'] = $this->vehicle_management_system->check_company_id()->please();
+			$vms_check = isset( $response['vms']['results']['response']['code'] ) ? isset( $response['vms']['results']['response']['code'] ) : FALSE;
+			if( $vms_check == '200' ){
+				$this->vehicle_management_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] = '200';
+				$this->vehicle_management_system->status[ 'company_feed' ][ 'results' ][ 'response' ][ 'code' ] = '200';
 				$this->vehicle_management_system->status[ 'inventory_feed' ][ 'results' ] = $this->vehicle_management_system->check_inventory()->please();
 				$company_information = $this->vehicle_management_system->get_company_information()->please();
 				$company_information = json_decode( $company_information[ 'body' ] );
 			}
+			
 		}
-
+		
+		// Set Country Code
 		$country_code = isset( $company_information->country_code ) ? $company_information->country_code : 'US';
-
-		$this->vehicle_reference_system = new vehicle_reference_system (
-			$this->instance->options[ 'vehicle_reference_system' ][ 'host' ],
-			$country_code
-		);
-
-		$this->vehicle_reference_system->status[ 'host' ][ 'results' ] = $this->vehicle_reference_system->check_host()->please();
-
-		$code = isset( $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] ) ? $this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] : false;
-		if( $code == '200' ) {
-			$this->vehicle_reference_system->status[ 'feed' ][ 'results' ] = $this->vehicle_reference_system->check_feed()->please();
+		
+		// Check VRS and Set VRS
+		if( $this->instance->options[ 'vehicle_reference_system' ][ 'host' ] ){
+			$this->vehicle_reference_system = new vehicle_reference_system (
+				$this->instance->options[ 'vehicle_reference_system' ][ 'host' ],
+				$country_code
+			);
+			
+			$response['vrs']['results'] = $this->vehicle_reference_system->check_feed()->please();
+			$vrs_check = isset( $response['vrs']['results']['response']['code'] ) ? isset( $response['vrs']['results']['response']['code'] ) : FALSE;
+			if( $vrs_check == '200' ){
+				$this->vehicle_reference_system->status[ 'host' ][ 'results' ][ 'response' ][ 'code' ] = '200';
+				$this->vehicle_reference_system->status[ 'feed' ][ 'results' ][ 'response' ][ 'code' ] = '200';
+			}
 		}
+	}
+
+	function check_feeds( $vms, $vrs, $id ) {
+		//Check VMS on save
+		if( $vms ){
+			$vms_class = new vehicle_management_system( $vms, $id );
+			$response['results'] = $vms_class->check_company_id()->please();
+			$check = isset( $response['results']['response']['code'] ) ? $response['results']['response']['code'] : FALSE;
+			if( $check == '200' ){
+				return TRUE;
+			}
+		}
+		
+		// Check VRS on save
+		if( $vrs ){
+			$vrs_class = new vehicle_reference_system ( $vrs, 'US' ); //Country Code is US only to check
+			$response['results'] = $vrs_class->check_feed()->please();
+			$check = isset( $response['results']['response']['code'] ) ? $response['results']['response']['code'] : FALSE;
+			if( $check == '200' ){
+				return TRUE;
+			}
+		}
+
+		return FALSE;
+
 	}
 
 	function get_make_data() {
@@ -197,7 +242,7 @@ class Options_Page {
 		return $make_data;
 	}
 
-	function get_model_data( $make_data) {
+	function get_model_data( $make_data ) {
 		//Sets the variables for Vehicle Year
 		$current_year = date( 'Y' );
 		$last_year = $current_year - 1;
@@ -258,6 +303,11 @@ class Options_Page {
 				'<span class="ui-state-error ui-corner-all"><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span></span>
 				You have not selected any models to show on your Showcase page. Please update your Showcase settings.';
 				echo '</p></div>';
+			}
+		}
+		if( !empty($this->host_error) ){
+			foreach( $this->host_error as $error ){
+				echo '<div class="error">'.$error.'</div>';
 			}
 		}
 		echo '<div id="option-tabs" style="clear:both; margin-right:20px;">';
