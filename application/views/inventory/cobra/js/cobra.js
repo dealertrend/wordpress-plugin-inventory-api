@@ -156,12 +156,12 @@
 
 		switch( type ) {
 			case 'make':
-				jQuery('#cobra-models select').val('');
-				jQuery('#cobra-trims select').val('');
+				jQuery('.cobra-select-models').val('');
+				jQuery('.cobra-select-trims').val('');
 				break;
 
 			case 'model':
-				jQuery('#cobra-trims select').val('');
+				jQuery('.cobra-select-trims').val('');
 				break;
 		}
 
