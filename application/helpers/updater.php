@@ -74,7 +74,7 @@ class wp_auto_update
 
 		// Get the remote data
 		$this->getRemote_data();
-
+		//error_log('RV: ' . $this->remote_version);
 		// If a newer version is available, add the update
 		if( $this->remote_version ){
 			if (version_compare($this->current_version, $this->remote_version, '<')) {

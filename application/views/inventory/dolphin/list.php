@@ -480,4 +480,11 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		</div>
 		<a href="#dolphin-wrapper" title="Return to Top" class="dolphin-return-to-top">Return to Top</a>
 	</div>
+	<?php
+		if ( is_active_sidebar( 'vehicle-listing-page' ) ) :
+			echo '<div id="detail-widget-area">';
+				dynamic_sidebar( 'vehicle-listing-page' );
+			echo '</div>';
+		endif;
+	?>
 </div>

@@ -337,10 +337,19 @@ class Plugin {
 			register_sidebar(array(
 				'name' => 'Inventory Vehicle Detail Page',
 				'id' => 'vehicle-detail-page',
-				'description' => 'Widgets in this area will show up on the Vehicle Detail Page within Inventory.',
+				'description' => 'Widgets in this area will show up on the Vehicle Detail Page.',
 				'before_title' => '<h1>',
 				'after_title' => '</h1>',
 				'before_widget' => '<div class="inventory widget">',
+				'after_widget' => '</div>'
+			));
+			register_sidebar(array(
+				'name' => 'Inventory Vehicle List Page',
+				'id' => 'vehicle-listing-page',
+				'description' => 'Widgets in this area will show up on the Vehicle List Page.',
+				'before_title' => '<h1>',
+				'after_title' => '</h1>',
+				'before_widget' => '<div class="inventory-list widget">',
 				'after_widget' => '</div>'
 			));
 			$labels = array(

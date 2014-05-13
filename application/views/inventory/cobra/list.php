@@ -340,6 +340,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				?>
 			</div>
 			<div class="cobra-pager"><?php echo paginate_links( $args ); ?></div>
+			<?php
+			if ( is_active_sidebar( 'vehicle-listing-page' ) ) :
+				echo '<div id="list-widget-area">';
+					dynamic_sidebar( 'vehicle-listing-page' );
+				echo '</div>';
+			endif;
+			?>
 		</div>
 	</div>
 

@@ -456,5 +456,12 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	</div>
 	<a href="#armadillo-top" title="Return to Top" class="armadillo-return-to-top">Return to Top</a>
 	<br class="armadillo-clear" />
+	<?php
+		if ( is_active_sidebar( 'vehicle-listing-page' ) ) :
+			echo '<div id="detail-widget-area">';
+				dynamic_sidebar( 'vehicle-listing-page' );
+			echo '</div>';
+		endif;
+	?>
 </div>
 <br class="armadillo-clear" />
