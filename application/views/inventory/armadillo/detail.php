@@ -301,12 +301,12 @@ function video_popup(url , title) {
 						echo '<div class="armadillo-msrp"><span>MSRP:</span> $' . number_format( $retail_price , 2 , '.' , ',' ) . '</div>';
 					}
 				?>
-				<div><span>Color:</span> <?php echo $exterior_color; ?></div>
-				<div><span>Engine:</span> <?php echo $engine; ?></div>
-				<div><span>Transmission:</span> <?php echo $transmission; ?></div>
-				<div><span>Odometer:</span> <?php echo $odometer; ?></div>
-				<div><span>Stock Number:</span> <?php echo $stock_number; ?></div>
-				<div><span>VIN:</span> <?php echo $vin; ?></div>
+				<div id="info-ext-color" alt="<?php echo $exterior_color;?>"><span>Color:</span> <?php echo $exterior_color; ?></div>
+				<div id="info-engine" alt="<?php echo $engine;?>"><span>Engine:</span> <?php echo $engine; ?></div>
+				<div id="info-transmission" alt="<?php echo $transmission;?>"><span>Transmission:</span> <?php echo $transmission; ?></div>
+				<div id="info-odometer" alt="<?php echo $odometer;?>"><span>Odometer:</span> <?php echo $odometer; ?></div>
+				<div id="info-stock-number" alt="<?php echo $stock_number;?>"><span>Stock Number:</span> <?php echo $stock_number; ?></div>
+				<div id="info-vin" alt="<?php echo $vin;?>"><span>VIN:</span> <?php echo $vin; ?></div>
 				<div class="armadillo-price">
 				<?php
 					if( $on_sale && $sale_price > 0 ) {
