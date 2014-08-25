@@ -70,7 +70,7 @@ class ajax_widgets {
 
 	function ajax_widgets_get_makes( $sc = 'New' ){
 
-		if( empty($this->filtered_makes) ) {
+		if( empty($this->filtered_makes) || strtolower($sc) == 'used' ) {
 
 			$this->vms->tracer = 'Getting Makes for Widget Call';
 

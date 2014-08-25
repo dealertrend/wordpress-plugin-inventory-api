@@ -1,16 +1,16 @@
-	function vms_clear_dd( value, text ){
-		if( jQuery('.vms-sb-'+value).length ){
-			jQuery('.vms-sb-'+value).children().remove();
-			jQuery('.vms-sb-'+value).append('<option value="all" selected>Select a '+text+'</option>');
+	function vms_clear_dd( widget, value, text ){
+		if( widget.find('.vms-sb-'+value).length ){
+			widget.find('.vms-sb-'+value).children().remove();
+			widget.find('.vms-sb-'+value).append('<option value="all" selected>Select a '+text+'</option>');
 		}
 	}
 
-	function vms_dd_populate( data ){
+	function vms_dd_populate( widget, data ){
 		dd_check = '';
 		jQuery.each( data, function(key) {
 			if( dd_check != key ){
 				dd_check = key;
-				dd_value = jQuery('.vms-sb-'+key);
+				dd_value = widget.find('.vms-sb-'+key);
 				dd_value.children().remove();
 			}
 
@@ -88,6 +88,52 @@
 
 			window.location = url + param;
 		});
+		
+		jQuery('.vms-search-box select').change( function(e) {
+			p_data = {};
+
+			p_data['id'] = jQuery(e.target).attr('name');
+			parent_class = jQuery(e.target).parent().parent().attr('class');
+			var parent_wrap = jQuery(e.target).parent().parent().parent();
+			parent_wrap.find('.' + parent_class + ' select').each( function(){
+				p_data[ jQuery(this).attr('name') ] = jQuery(this).val();
+			})
+
+			jQuery.ajax({
+				url: ajax_path,
+				data: {'action' : 'ajax_widget_request', 'fn': 'getSearchBox', 'data': p_data},
+				dataType: 'json',
+				beforeSend: function(){
+					parent_wrap.attr('disabled', true);
+					parent_wrap.find('.vms-sb-search-button').text('Loading...');
+				},
+				complete: function(){
+					parent_wrap.attr('disabled', false);
+					parent_wrap.find('.vms-sb-search-button').text('SEARCH');
+				},
+				success: function(data) {
+					if( p_data['id'] == 'makes' || p_data['id'] == 'sc'  ){
+						vms_clear_dd(parent_wrap, 'models', 'Make');
+						vms_clear_dd(parent_wrap, 'trims', 'Model');
+					} else if( p_data['id'] == 'models' ){
+						vms_clear_dd(parent_wrap, 'trims', 'Model');
+					}
+					if( p_data['sc'] == 'Used'){
+						parent_wrap.find('.vms-sb-certified').addClass('active');
+					} else {
+						parent_wrap.find('.vms-sb-certified').removeClass('active');
+					}
+					if( p_data['id'] != 'trims' ){
+						vms_dd_populate( parent_wrap, data );
+					}
+
+				},
+				error: function(xhr, status, error) {
+					alert('Ajax call failed.');
+   				}
+			});
+		});
+		
 	});
 
 

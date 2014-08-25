@@ -11,7 +11,7 @@ class vms_search_box_widget extends WP_Widget {
 
 		wp_register_script(
 			'vms-search-box-js' ,
-			plugins_url( 'js/vms_search_box_widget.js' , __FILE__ ),
+			plugins_url( 'js/vms-search-box-widget.js' , __FILE__ ),
 			array( 'jquery' ),
 			1.0,
 			true
@@ -19,10 +19,13 @@ class vms_search_box_widget extends WP_Widget {
 
 		wp_register_style(
 			'vms-search-box-css',
-			plugins_url( 'css/vms_search_box_widget.css' , __FILE__ ),
+			plugins_url( 'css/vms-search-box-widget.css' , __FILE__ ),
 			false,
 			1.0
 		);
+		
+		$script = admin_url('admin-ajax.php');
+		wp_localize_script( 'vms-search-box-js', 'ajax_path', $script );
 
 		if( is_admin() && $pagenow == 'widgets.php' ) {
 			add_action( 'admin_enqueue_scripts', array( &$this , 'vms_enqueue_color_picker' ) );
@@ -62,58 +65,6 @@ class vms_search_box_widget extends WP_Widget {
 		$input_style .= (isset($colors['input']['bg']) ) ? ' background-color: ' . $colors['input']['bg'] . ';': '';
 		$save_style .= (isset($colors['save']['text']) ) ? ' color: ' . $colors['save']['text'] . ';': '';
 		$save_style .= (isset($colors['save']['bg']) ) ? ' background-color: ' . $colors['save']['bg'] . ';' : '';
-		?>
-		<script>
-			ajax_path = '<?php echo $ajax_path ?>';
-
-			jQuery(document).ready(function() {
-				jQuery('.vms-search-box select').change( function() {
-					p_data = {};
-
-					p_data['id'] = jQuery(this).attr('name');
-					parent_class = jQuery(this).parent().parent().attr('class');
-					jQuery('.' + parent_class + ' select').each( function(){
-						p_data[ jQuery(this).attr('name') ] = jQuery(this).val();
-					})
-
-					jQuery.ajax({
-						url: ajax_path,
-						data: {'action' : 'ajax_widget_request', 'fn': 'getSearchBox', 'data': p_data},
-						dataType: 'json',
-						beforeSend: function(){
-							jQuery('.vms-search-box').attr('disabled', true)
-							jQuery('.vms-sb-search-button').text('Loading...');
-						},
-						complete: function(){
-							jQuery('.vms-search-box').attr('disabled', false)
-							jQuery('.vms-sb-search-button').text('SEARCH');
-						},
-						success: function(data) {
-							if( p_data['id'] == 'makes' || p_data['id'] == 'sc'  ){
-								vms_clear_dd('models', 'Make');
-								vms_clear_dd('trims', 'Model');
-							} else if( p_data['id'] == 'models' ){
-								vms_clear_dd('trims', 'Model');
-							}
-							if( p_data['sc'] == 'Used'){
-								jQuery('.vms-sb-certified').addClass('active');
-							} else {
-								jQuery('.vms-sb-certified').removeClass('active');
-							}
-							if( p_data['id'] != 'trims' ){
-								vms_dd_populate( data );
-							}
-
-						},
-						error: function(xhr, status, error) {
-							alert('Ajax call failed.');
-		   				}
-					});
-
-				});
-			});
-		</script>
-		<?php
 
 		$salesclass = ( $display == 'both' ? $default : $display );
 
