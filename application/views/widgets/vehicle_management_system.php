@@ -208,6 +208,7 @@ class vehicle_management_system_widget extends WP_Widget {
 			';
 		}
 
+		/*
 		echo "\n" . '<!--' . "\n";
 		echo '##################################################' . "\n";
 		echo print_r( $this , true ) . "\n";
@@ -217,7 +218,7 @@ class vehicle_management_system_widget extends WP_Widget {
 		echo print_r( $vehicle_management_system , true ) . "\n";
 		echo '##################################################' . "\n";
 		echo '-->' . "\n";
-
+		*/
 		echo '
 			<div class="vms-widget-content ' . $carousel . '">
 				<ul>
@@ -230,7 +231,8 @@ class vehicle_management_system_widget extends WP_Widget {
 				</div>
 			</div>
 		';
-		echo '<div class="vms-after-widget">' . $after_widget . '</div>';
+		//echo '<div class="vms-after-widget">' . $after_widget . '</div>';
+		echo $after_widget;
 		echo '</div>';
 	}
 
