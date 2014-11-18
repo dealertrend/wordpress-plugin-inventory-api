@@ -136,25 +136,25 @@
 .cobra-label{
 	color: #FFF;
 }
-.cobra-advance-peram {
+.cobra-advance-param {
 	width: 22%;
 	float: left;
 	padding: 0 2% 1%;
 	min-width: 206px;
 	margin: 0 3% 0;
 }
-.cobra-advance-peram span{
+.cobra-advance-param span{
 	color: #FFF;
 	margin-left: 2%;
 	font-style: italic;
 	font-size: .8em;
 }
-.cobra-advance-peram select{
+.cobra-advance-param select{
 	max-width: 160px;
 	margin: 1% 0 0 4%;
 	width: 100%;
 }
-.cobra-advance-peram input{
+.cobra-advance-param input{
 	max-width: 55px;
 	width: 100%;
 }
@@ -166,7 +166,7 @@
 	margin: 8% 6% 0 0;
 	border: 1px solid #D3D3D3;
 }
-.cobra-advance-peram .reset-search > a{
+.cobra-advance-param .reset-search > a{
 	color: #D3D3D3;
 	display: block;
 	text-decoration: none;
@@ -174,7 +174,7 @@
 .reset-search:hover{
 	background-color: #D3D3D3;
 }
-.cobra-advance-peram .reset-search > a:hover{
+.cobra-advance-param .reset-search > a:hover{
 	color: #D72A19;
 }
 .cobra-hr{
@@ -493,13 +493,20 @@
 	width: 98%;
 	padding: 1%;
 }
-.cobra-vehicle-dealer-info{
+.dealer-contact-wrapper{
 	text-align: right;
 	font-size: 96%;
 	line-height: 70%;
 	font-weight: bold;
 	color: #000;
 	text-shadow: 1px 1px #FFF;
+}
+.dealer-contact-wrapper a{
+    text-decoration: none;
+    color: #000;
+}
+.dealer-contact-wrapper span{
+    display: inline;
 }
 .cobra-listing-tags{
 	display: block;
@@ -662,6 +669,7 @@
 	*zoom: 1;/* For IE7*/
 	vertical-align: top;
 	line-height: 0;
+	transition: inherit;
 }
 #vehicle-thumbnails a.cycle-pager-active{
 	background-color: #D72A19;
@@ -736,6 +744,9 @@
     float: none;
     position: relative;
     cursor: pointer;
+}
+#video-overlay-image{
+	width: 100%;
 }
 #video-overlay-play-button{
     position: absolute;
@@ -1099,6 +1110,10 @@
 #friendly-print{
 	float: right;
 	cursor: pointer;
+}
+#geo_text{
+    display: inline;
+	font-weight: bold;
 }
 /***
 Similar Vehicles

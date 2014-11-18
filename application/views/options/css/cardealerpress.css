@@ -6,14 +6,29 @@
 .long_input { width:200px; }
 small.status { font-weight:bold; }
 
-#icon-dealertrend { background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px; width:46px; }
-h2 { line-height:32px; }
+#icon-dealertrend{
+	background: transparent url('http://dealertrend-logos.s3.dealertrend.com/logo-dealertrend-icon.png') no-repeat 0 5px;
+	width:46px;
+}
+h2{
+	line-height:32px;
+}
 
 h3.title{
 	display: inline-block;
+	text-align: center;
+	width: 100%;
+	background-color: #F1F1F1;
+	padding: 2% 0;
+}
+h4.title-divider{
+	border-bottom: 2px solid #000;
 }
 table > tbody > tr:nth-child(odd){
     background-color: #F1F1F1;
+}
+table > tbody > tr:first-child{
+	background-color: #FFF;
 }
 #option-tabs, #option-tabs .settings-wrapper{
 	display: block;
@@ -25,10 +40,13 @@ table > tbody > tr:nth-child(odd){
 
 .form-save-wrapper{
     display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
     position: relative;
     max-width: 450px;
     width: 100%;
-    height: 28px;
+    height: 38px;
 }
 .form-save-button{
     display: block;
@@ -55,6 +73,186 @@ table > tbody > tr:nth-child(odd){
     box-shadow: 2px 2px 2px #000;
     -webkit-box-shadow: 2px 2px 2px #000;
 }
+.custom-table-tr:nth-child(odd){
+	background-color: #F1F1F1;
+}
+
+/******
+	Inventory - S
+******/
+#inventory-tab-buttons{
+    display: block;
+    float: left;
+    overflow: hidden;
+    width: 100%;
+    max-width: 170px;
+    margin: 2% 2% 0 0;
+	border-right: 1px solid #000;
+}
+#inventory-tab-buttons .tab-button{
+    display: block;
+    float: left;
+	width: 80%;
+    margin: 2% auto;
+    padding: 1% 4%;
+    background-color: #F7F7F7;
+    font-weight: bold;
+    border: 2px solid #000;
+    cursor: pointer;
+    color: #000;
+	font-size: 80%;
+	text-align: center;
+	border-radius: 8px;
+}
+#inventory-tab-buttons .tab-button:hover{
+	border-color: #21759B;
+}
+#inventory-tab-buttons .tab-button.active{
+    color: #F7F7F7;
+    background-color: #000;
+    border-color: #ABABAB;
+}
+#inventory-content-wrapper{
+	display: block;
+	overflow: hidden;
+	float: left;
+	width: 100%;
+	max-width: 500px;
+	margin: 2% 0 0;
+}
+#inventory-content-wrapper .tab-content{
+	display: none;
+	width: 98%;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+#inventory-content-wrapper .tab-content.active{
+	display: block;
+}
+
+	/***
+		Tags, GF
+	***/
+.settings-table-wrapper{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	max-width: 500px;
+}
+.settings-table-top-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #F1F1F1;
+}
+.settings-table-top-wrapper .title{
+	display: block;
+	width: 40%;
+	float: left;
+	line-height: 100%;
+	text-align: center;
+	padding: 0;
+}
+.settings-table-add-wrapper{
+	display: block;
+	float: left;
+	width: 60%;
+	margin: 3% 0 0;
+}
+.table-headers{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+#inventory-tags-tr, #inventory-form-tr{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	font-size: 90%;
+}
+.tag-name, .tag-link{
+    width: 15%;
+}
+.tag-order, .tag-remove{
+    width: 12%;
+}
+.tag-upload{
+    width: 32%;
+}
+.tag-icon{
+    width: 11%;
+}
+.form-id, .form-button, .form-saleclass, .form-remove{
+    width: 15%;
+}
+.form-title{
+    width: 38%;
+}
+.input-short-value{
+    width: 30px;
+}
+
+	/***
+		Body Styles
+	***/
+.bodystyles-settings-wrapper{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	max-width: 500px;
+}
+.bodystyles-top-wrapper{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #F1F1F1;
+}
+.bodystyles-top-wrapper .title{
+	display: block;
+	width: 40%;
+	float: left;
+	line-height: 100%;
+	text-align: center;
+	padding: 0;
+}
+.bodystyles-add-wrapper{
+	display: block;
+	float: left;
+	width: 60%;
+	margin: 3% 0 0;
+}
+.bodystyles-table-headers{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+}
+.inventory-bodystyles-tr{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	font-size: 90%;
+}
+.bodystyles-name{
+	width: 71%;
+}
+.bodystyles-order, .bodystyles-remove{
+	width: 14%;
+}
+/******
+	Inventory - E
+******/
+
 p.submit{
 	display: none;
 }
@@ -75,7 +273,7 @@ p.submit{
 .hidden-table.active{
 	display: block;
 }
-.hidden-table-buttons-wrapper{
+.table-buttons-wrapper{
     display: block;
     position: relative;
     width: 100%;
@@ -110,7 +308,7 @@ p.submit{
     -webkit-box-shadow: 2px 2px 2px #000;
 }
 
-.hidden-table-headers{
+.table-headers{
 	display: block;
 	overflow: hidden;
 	float: none;
@@ -119,27 +317,17 @@ p.submit{
 	margin: 0 0 0 0;
 	border: 1px solid #000;
 }
-.hidden-table-headers > div{
+.table-headers > div{
     display: block;
     text-align: center;
     float: left;
     border-right: 1px solid #000;
+	font-size: 90%;
 }
-.hidden-table-headers > div:last-child{
+.table-headers > div:last-child{
     border: none;
 }
-.tag-name{
-    width: 20%;
-}
-.tag-order, .tag-remove{
-    width: 12%;
-}
-.tag-upload{
-    width: 40%;
-}
-.tag-icon{
-    width: 15%;
-}
+
 .video-make{
 	width: 28%;
 }
@@ -158,7 +346,7 @@ p.submit{
 .message-text, .message-form{
     width: 31%;
 }
-.inventory-tags-wrapper, .custom-video-wrapper, .custom-message-wrapper, .inventory-form-wrapper{
+.inventory-tags-wrapper, .custom-video-wrapper, .custom-message-wrapper, .inventory-form-wrapper, .inventory-bodystyles-wrapper{
     display: block;
     overflow: hidden;
     clear: both;
@@ -169,7 +357,7 @@ p.submit{
     width: 99.5%;
 }
 
-.inventory-tags-wrapper > div, .custom-video-wrapper > div, .custom-message-wrapper > div, .inventory-form-wrapper > div{
+.inventory-tags-wrapper > div, .custom-video-wrapper > div, .custom-message-wrapper > div, .inventory-form-wrapper > div, .inventory-bodystyles-wrapper > div{
     display: block;
     overflow: hidden;
     float: left;
@@ -180,10 +368,10 @@ p.submit{
 div.custom-message-wrapper, div.custom-message-wrapper > div{
     height: 100px;
 }
-.inventory-tags-wrapper > div:last-child, .custom-video-wrapper > div:last-child, .custom-message-wrapper > div:last-child, .inventory-form-wrapper > div:last-child{
+.inventory-tags-wrapper > div:last-child, .custom-video-wrapper > div:last-child, .custom-message-wrapper > div:last-child, .inventory-form-wrapper > div:last-child, .inventory-bodystyles-wrapper > div:last-child{
     border:none;
 }
-.tag-name input, .tag-order input, .video-make input, .video-model input, .video-url input, .message-count input, .message-form input, .message-operator select{
+.tag-name input, .tag-link input, .tag-order input, .video-make input, .video-model input, .video-url input, .message-count input, .message-form input, .message-operator select, .bodystyles-name input, .bodystyles-order input{
     display: block;
     width: 90%;
     margin: 0 auto;
@@ -222,7 +410,7 @@ div.custom-message-wrapper, div.custom-message-wrapper > div{
     height: 90px;
     resize: none;
 }
-.tag-remove span, .video-remove span, .message-remove span, .form-remove span{
+.tag-remove span, .video-remove span, .message-remove span, .form-remove span, .bodystyles-remove span{
     display: block;
     background-color: #FF0000;
     color: #FFF;
@@ -312,52 +500,15 @@ input.inventory-tag-number{
 	-webkit-box-shadow: 4px 4px 4px #000;
 	cursor: pointer;
 }
-#inventory-tab-buttons{
-    display: block;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    width: 100%;
-    max-width: 450px;
-    margin: 2% 0 0;
-    border-bottom: 2px solid #000;
-}
-.tab-button{
-    display: block;
-    float: left;
-    margin: 0 2%;
-    padding: 1% 5%;
-    background-color: #F7F7F7;
-    font-weight: bold;
-    border-top: 2px solid #000;
-    border-left: 2px solid #000;
-    border-right: 2px solid #000;
-    cursor: pointer;
-    color: #000;
-}
-.tab-button.active{
-    color: #F7F7F7;
-    background-color: #000;
-    border-color: #ABABAB;
-}
-.tab-content{
-	display: none;
-	width: 98%;
-	float: none;
-	clear: both;
-	overflow: hidden;
-}
-.tab-content.active{
-	display: block;
-}
-.theme-settings-wrapper, .loan-settings-wrapper{
-	width: 40%;
+
+.theme-settings-wrapper, .loan-settings-wrapper, .price-settings-wrapper{
+	width: 100%;
 	display: block;
 	overflow: hidden;
-	float: left;
-	max-width: 450px;
+	max-width: 500px;
+	margin: 0 0 2%;
 }
-.loan-settings-wrapper input{
+.loan-settings-wrapper input, .price-settings-wrapper input{
     max-width: 100px
 }
 .settings-group{
@@ -389,13 +540,6 @@ input.inventory-tag-number{
 	display: inline-block;
     *display: inline;/* For IE7*/
     *zoom: 1;/* For IE7*/
-}
-.form-id, .form-button, .form-saleclass, .form-remove{
-    max-width: 65px;
-    width: 13%;
-}
-.form-title{
-    width: 46%;
 }
 .inventory-form-number, .inventory-form-checkbox, .inventory-form-text{
 	display: block;

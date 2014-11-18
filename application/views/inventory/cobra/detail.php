@@ -2,7 +2,7 @@
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle = itemize_vehicle($inventory);
-	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'cobra' );
+	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['saleclass'], $vehicle['vin'], 'cobra', $price_text );
 	$vehicle['primary_price'] = $price['primary_price'];
 
 	apply_gravity_form_hooks( $vehicle );
@@ -12,7 +12,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	<div id="cobra-wrapper">
 		<div id="cobra-detail" class="saleclass-<?php echo strtolower($vehicle['saleclass']); ?>">
 			<div class="breadcrumbs">
-				<?php echo display_breadcrumb( $this->parameters, $company_information, $inventory_options[company_override], $vehicle['saleclass'] ); ?>
+				<?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $vehicle['saleclass'] ); ?>
 				<a id="friendly-print" onclick="window.open('?print_page','popup','width=550,height=800,scrollbars=yes,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=0,top=0'); return false">Print Page</a>
 			</div>
 			<div id="cobra-top">
@@ -27,8 +27,8 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 						</div>
 						<hr class="cobra-hr-half">
 						<div id="top-dealer-info">
-							<span id="dealer-name"><?php echo $vehicle['contact_info']['dealer']; ?></span> -
-							<span id="dealer-phone"><?php echo $vehicle['contact_info']['phone']; ?></span>
+							<span id="dealer-name"><?php echo get_dealer_contact_name( $vehicle['contact_info'], $inventory_options, $vehicle['saleclass'] ); ?></span> -
+							<span id="dealer-phone"><?php echo get_dealer_contact_number( $vehicle['contact_info'], $inventory_options, $vehicle['saleclass'] ); ?></span>
 							<span style="display: none;" id="dealer-id"><?php echo $vehicle['contact_info']['dealer_id']; ?></span>
 						</div>
 					</div>
@@ -89,7 +89,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							echo get_loan_calculator( $loan_settings, $price['primary_price'] );
 						}
 
-						if( function_exists(gravity_form) && isset($theme_settings['gravity_form']['data']) ){
+						if( function_exists('gravity_form') && isset($theme_settings['gravity_form']['data']) ){
 							get_form_display( $theme_settings['gravity_form']['data'], $vehicle['saleclass'] );
 						}
 
@@ -104,7 +104,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				</div>
 				<div id="content-inner-bottom">
 					<?php
-						if( function_exists(gravity_form) && isset($theme_settings['gravity_form']['data']) ){
+						if( function_exists('gravity_form') && isset($theme_settings['gravity_form']['data']) ){
 							get_form_button_display( $theme_settings['gravity_form']['data'], $vehicle['saleclass'] );
 						}
 

@@ -3,8 +3,15 @@
 
 		// Cobra Search
 		jQuery('#cobra-search-submit').click( function() {
-			cobra_search_form( 'false' );
+			//cobra_search_form( 'false' );
 		});
+		
+		jQuery('input.list-search-value').keypress(function(e) {
+	    	if(e.which == 13) {
+				get_list_input_values(e);
+	    	}
+		});
+		
 		// Cobra Advanced Search Show
 		jQuery('#cobra-advance-show').click(function() {
 			name = jQuery(this).attr('name');
@@ -119,6 +126,8 @@
 	}
 
 	jQuery(document).ready(function(){
+		jQuery('#dealertrend-inventory-api').parent().addClass('inventory-parentClass');
+		
 		// AIS iFrame
 		var frame = jQuery('<div class="aisframe"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 
@@ -151,7 +160,64 @@
 		}
 		return true;
 	}
+	
+	function get_list_input_values(e){
+		e.preventDefault();
+		query = document.location.search;
+		jQuery('.list-search-value').each(function(){
+			key = jQuery(this).attr('name');
+			value = jQuery(this).val();
+			if( value && !jQuery(this).hasClass('invalid') ){
+				//console.log('Name: '+key+' | Value: '+value );
+				query = '?'+add_query_field(query, key, value);
+				//console.log(query);
+			} else {
+				query = '?'+remove_query_field(query, key);
+			}
+		
+		})
+		if( query.length == 1 ){
+			document.location.search = '';
+		} else{
+			document.location.search = query;		
+		}
 
+	}
+
+	function add_query_field(query, key, value){
+		//e.preventDefault();
+		key = encodeURI(key); value = encodeURI(value);
+		var kvp = query.substr(1).split('&');
+	    var i=kvp.length; var x; while(i--) 
+	    {
+			x = kvp[i].split('=');
+	        if (x[0]==key)
+	        {
+				x[1] = value;
+		        kvp[i] = x.join('=');
+		        break;
+		    }
+		}
+		if(i<0) {kvp[kvp.length] = [key,value].join('=');}
+	    return kvp.join('&');
+	}
+
+	function remove_query_field(query, key){
+		key = encodeURI(key);
+		var kvp = query.substr(1).split('&');
+	    var i=kvp.length; var x; while(i--) 
+	    {
+			x = kvp[i].split('=');
+	        if (x[0]==key)
+	        {
+				kvp.splice(i,1)
+		        break;
+		    }
+		}
+	    return kvp.join('&');
+	}
+
+	/*
 	function cobra_filter_select( type ) {
 
 		switch( type ) {
@@ -298,3 +364,4 @@
 		return url_return;
 
 	}
+*/

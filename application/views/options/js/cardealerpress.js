@@ -1,4 +1,8 @@
 jQuery(document).ready(function(){
+	
+	if( jQuery('#cdp_menu_001') ){
+		jQuery('#cdp_menu_001').parent().attr('target','_blank'); 
+	}
 
 	// Get Help
 	jQuery('.get-help').click(function(e){
@@ -121,12 +125,12 @@ jQuery(document).ready(function(){
 		jQuery('#inventory-tags-counter').val( parseInt(current_v) + 1 );
 		id_value = 'inventory-tag-'+current_v;
 
-		main_wrapper = '<div class="inventory-tags-wrapper '+id_value+'">';
+		main_wrapper = '<div class="custom-table-tr inventory-tags-wrapper '+id_value+'">';
 		div_close = '</div>';
 		remove_element = '<div id="'+id_value+'" class="tag-remove inventory-tag-remove '+id_value+'"><span>[x]</span></div>';
 
 		input_name = '<div class="tag-name inventory-tag-value '+id_value+'"><input type="text" name="inventory_tag['+current_v+'][name]" id="inventory-tag-'+current_v+'-name" class="inventory-tag-text '+id_value+'" value="" /></div>';
-
+		input_link = '<div class="tag-link inventory-tag-value '+id_value+'"><input type="text" name="inventory_tag['+current_v+'][link]" id="inventory-tag-'+current_v+'-link" class="inventory-tag-text '+id_value+'" value="" /></div>';
 		input_order = '<div class="tag-order inventory-tag-value '+id_value+'"><input type="number" name="inventory_tag['+current_v+'][order]" id="inventory-tag-'+current_v+'-order" class="inventory-tag-number '+id_value+'" value="" /></div>';
 
 		input_upload = '<div class="tag-upload inventory-tag-value '+id_value+'"><a id="'+id_value+'" href="#" for="inventory_tag['+current_v+'][url]" class="custom_media_upload inventory-tag-label '+id_value+'">Upload</a><input id="inventory-tag-'+current_v+'-url" class="custom_media_url inventory-tag-text '+id_value+'" type="text" name="inventory_tag['+current_v+'][url]" value=""></div>';
@@ -137,6 +141,7 @@ jQuery(document).ready(function(){
 		content += input_order;
 		content += input_upload;
 		content += img_icon;
+		content += input_link;
 		content += remove_element;
 		content += div_close;
 

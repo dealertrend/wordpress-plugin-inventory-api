@@ -1,9 +1,24 @@
 //	Dolphin Listing JS
 if ( jQuery('#dolphin-listing').length ) {
 
-	// Dolphin Search
-	jQuery('#dolphin-search-submit').click( function() {
-		dolphin_search_form( 'false' );
+	// Dolphin Mobile Search
+	jQuery('#mobile-show-search').click( function() {
+		if( jQuery(this).hasClass('active') ){
+			jQuery(this).removeClass('active');
+			jQuery(this).text('Show Search Options');
+			jQuery('#dolphin-search-wrapper').removeClass('mobile-view');			
+		} else {
+			jQuery(this).addClass('active');
+			jQuery(this).text('Hide Search Options');
+			jQuery('#dolphin-search-wrapper').addClass('mobile-view');
+		}
+	});
+	
+	jQuery('input.list-search-value').keypress(function(e) {
+    	if(e.which == 13) {
+        	//alert('You pressed enter!');
+			get_list_input_values(e);
+    	}
 	});
 
 	// Dolphin Advanced Search Show
@@ -29,94 +44,73 @@ if ( jQuery('#dolphin-listing').length ) {
 
 // Dolphin Detail JS
 if ( jQuery('#dolphin-detail').length ) {
+	
+	// Loan Calc
+	jQuery('#loan-calculator-button').click(function() {
+		if( jQuery(this).siblings('#loan-calculator-data').hasClass('active') ){
+			jQuery('#loan-calculator-data').removeClass('active');
+		} else {
+			jQuery('#loan-calculator-data').addClass('active');
+		}
+	});
 
 	// Dolphin Show Images
-	jQuery('#dolphin-nav-button').click(function() {
-
-		img_count = jQuery('#dolphin-nav-images > a').length;
-	    name = jQuery(this).attr('name');
-	    if ( name == 'hidden' ) {
-	        jQuery('#dolphin-nav-images').css({'height':'auto'})
-	        jQuery(this).attr('name', 'active').text('Hide Images');
-		    if( img_count > 15 ) { move_specs( 0 ); }
-	    } else {
-	        jQuery('#dolphin-nav-images').css({'height':'74px'})
-	        jQuery(this).attr('name', 'hidden').text('Show All');
-		    if( img_count > 15 ) { move_specs( 1 ); }
-	    }
+	jQuery('#dolphin-nav-button.active').click(function() {
+		if( jQuery(this).hasClass('visible') ){
+			jQuery('#vehicle-thumbnails').removeClass('show-all');
+			jQuery(this).removeClass('visible');
+			jQuery(this).text('Show All Images');
+		} else {
+			jQuery('#vehicle-thumbnails').addClass('show-all');
+			jQuery(this).addClass('visible');
+			jQuery(this).text('Hide Images');
+		}
+	});
+	
+	// Tab Control
+	jQuery('.tabs-button').click(function() {
+		tab_name = jQuery(this).attr('name');
+		jQuery(this).siblings('.active').removeClass('active');
+		jQuery(this).parent().parent().find('.tabs-content.active').removeClass('active');
+		jQuery(this).addClass('active');
+		jQuery('.tabs-content-'+tab_name).addClass('active');
 	});
 
 	jQuery(document).ready(function() { // Document Ready
 		// Dolphin Slideshow/Image Cycle
-    	jQuery('#dolphin-slideshow #dolphin-images')
-    	.cycle({
-        	slideExpr: 'img',
-        	fx: 'fade',
-        	pager: '#dolphin-slideshow #dolphin-nav-images',
-	        pagerAnchorBuilder: function(idx, slide) {
-    	        return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
-       		},
-			fit: 1
-    	});
-		jQuery('#dolphin-images a')
-		.lightbox({
-		    imageClickClose: false,
-		    loopImages: true,
-		    fitToScreen: true,
-		    scaleImages: true,
-		    xScale: 1.0,
-		    yScale: 1.0,
-		    displayDownloadLink: true
-		});
+			jQuery('#vehicle-images')
+			.cycle({
+				slides: '> a',
+				fx: 'fade',
+				pager: '#vehicle-thumbnails',
+				pagerTemplate: '<a href="#"><img src="{{href}}" width="70" height="50" /></a>'
+			});
 
-		// Dolphin Fill in Test Drive Fields
-		d = new Date();
-		strDate = (d.getMonth()+1) + '/' + d.getDate() + '/' +  d.getFullYear();
-		cHours = d.getHours();
-		if ( cHours > 11 ) {
-			cHours = cHours - 12;
-			tID = 'PM';
-		} else {
-			tID = 'AM';
-		}
-
-		if ( cHours == 0 ){
-			cHours = 12;
-		}
-		strTime = cHours + ':' + d.getMinutes() + ' ' + tID;
-
-		jQuery('#vehicle-testdrive-date').val( strDate );
-		jQuery('#vehicle-testdrive-time').val( strTime );
+			jQuery('#vehicle-images > a')
+			.lightbox({
+				imageClickClose: false,
+				loopImages: true,
+				fitToScreen: true,
+				scaleImages: true,
+				xScale: 1.0,
+				yScale: 1.0,
+				displayDownloadLink: true
+			});
 
 
 	}); // Document Ready *end
 
-	// Dolphin Form Control
-	jQuery('.dolphin-form-headers').click(function() {
-		form_display = jQuery(this).siblings('.dolphin-form').attr('name');
-
-		if( jQuery(this).attr('name') != 'form-friend' ) {
-			jQuery('.dolphin-form-headers').each(function() {
-				jQuery(this).siblings('.dolphin-form').attr('name', 'hidden');
-				jQuery(this).attr('class','dolphin-form-headers');
-				jQuery(this).siblings('.dolphin-form').slideUp();
-			});
-
-			if ( form_display.match( /hidden/i ) != null ) {
-				jQuery(this).siblings('.dolphin-form').attr('name', 'active');
-				jQuery(this).attr('class', 'dolphin-form-headers active-form');
-				jQuery(this).siblings('.dolphin-form').slideDown();
-			}
-		}
-	});
-
-	// Dolphin Tab Control
-	jQuery('.dolphin-detail-tab').click(function() {
-		tab_name = jQuery(this).attr('name');
-		jQuery('.dolphin-detail-tab.active-tab').removeClass('active-tab');
-		jQuery(this).addClass('active-tab');
-		jQuery('.detail-tab-info.active').removeClass('active');
-		jQuery('#dolphin-detail-'+tab_name).addClass('active');
+	// Form Buttons
+	jQuery('.form-button').click(function(e) {
+		form_name = jQuery(e.target).attr('name');
+		jQuery('#'+form_name).dialog({
+			autoOpen: true,
+			dialogClass: "form-wrap",
+			modal: true,
+			resizable: false,
+			width: 320,
+			height: 450
+		})
 	});
 
 }
@@ -124,9 +118,8 @@ if ( jQuery('#dolphin-detail').length ) {
 // Dolphin General
 jQuery(document).ready(function() {
 
-	if( jQuery('.dolphin-detail-tab').length ){
-		jQuery('.dolphin-detail-tab:first').click();
-	}
+	jQuery('#dealertrend-inventory-api').parent().addClass('inventory-parentClass');
+
 	// AIS iFrame
 	var frame = jQuery('<div class="aisframe"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 
@@ -158,6 +151,64 @@ function loadIframe( url ) {
 		}
 		return true;
 }
+
+function get_list_input_values(e){
+	e.preventDefault();
+	query = document.location.search;
+	jQuery('.list-search-value').each(function(){
+		key = jQuery(this).attr('name');
+		value = jQuery(this).val();
+		if( value && !jQuery(this).hasClass('invalid') ){
+			//console.log('Name: '+key+' | Value: '+value );
+			query = '?'+add_query_field(query, key, value);
+			//console.log(query);
+		} else {
+			query = '?'+remove_query_field(query, key);
+		}
+		
+	})
+	if( query.length == 1 ){
+		document.location.search = '';
+	} else{
+		document.location.search = query;		
+	}
+
+}
+
+function add_query_field(query, key, value){
+	//e.preventDefault();
+	key = encodeURI(key); value = encodeURI(value);
+	var kvp = query.substr(1).split('&');
+    var i=kvp.length; var x; while(i--) 
+    {
+		x = kvp[i].split('=');
+        if (x[0]==key)
+        {
+			x[1] = value;
+	        kvp[i] = x.join('=');
+	        break;
+	    }
+	}
+	if(i<0) {kvp[kvp.length] = [key,value].join('=');}
+    return kvp.join('&');
+}
+
+function remove_query_field(query, key){
+	key = encodeURI(key);
+	var kvp = query.substr(1).split('&');
+    var i=kvp.length; var x; while(i--) 
+    {
+		x = kvp[i].split('=');
+        if (x[0]==key)
+        {
+			kvp.splice(i,1)
+	        break;
+	    }
+	}
+    return kvp.join('&');
+}
+
+
 
 function dolphin_filter_select( type ) {
 

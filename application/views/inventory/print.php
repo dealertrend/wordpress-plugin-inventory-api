@@ -4,6 +4,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$vehicle_management_system->tracer = 'Obtaining requested inventory print page';
 	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 ) ) );
 	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
+	$price_text = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'price');
 
 	$company_information = json_decode( $company_information[ 'body' ] );
 
@@ -86,7 +87,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				</div>
 
 				<div class="print-price">
-					<?php $price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'price' );
+					<?php $price = get_price_display($vehicle['prices'], $company_information, $vehicle['saleclass'], $vehicle['vin'], 'print', $price_text );
 						echo
 							( !empty($price['msrp_text']) && strtolower($vehicle['saleclass']) == 'new' ? $price['msrp_text'] : '') . '
 							'.$price['primary_text'].$price['ais_text'].$price['compare_text'].$price['expire_text']

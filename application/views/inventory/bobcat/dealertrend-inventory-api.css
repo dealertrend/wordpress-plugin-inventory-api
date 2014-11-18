@@ -259,19 +259,27 @@
 	float: left;
 	overflow: hidden;
 }
-.vehicle-dealer-info{
+.dealer-contact-wrapper{
 	color: #000;
 	font-weight: bold;
 	font-size: 100%;
 	line-height: 100%;
-	padding: 1.5% 0 0;
+	padding: 1% 0;
+	text-align: center;
+}
+.dealer-contact-wrapper a{
+    text-decoration: none;
+    color: #000;
+}
+.dealer-contact-wrapper span{
+    display: inline;
 }
 
 #bobcat-search-text{
 	display: block;
 	float: left;
 	overflow: hidden;
-        width: 50%;
+    width: 50%;
 }
 
 #bobcat-search-box {
@@ -328,25 +336,30 @@
 .bobcat-label{
 	color: #3F3F3F;
 }
-.bobcat-advance-peram {
+.bobcat-advance-param{
 	width: 21%;
 	float: left;
-	padding: 0 2% 1%;
+	padding: 0 1% 1%;
 	min-width: 206px;
 	margin: 0 4% 0;
 }
-.bobcat-advance-peram span{
+.bobcat-advance-param:last-child{
+	float: none;
+	clear: both;
+	margin: 0 auto;
+}
+.bobcat-advance-param span{
 	color: #FFF;
 	margin-left: 2%;
 	font-style: italic;
 	font-size: .8em;
 }
-.bobcat-advance-peram select{
+.bobcat-advance-param select{
 	max-width: 160px;
 	margin: 1% 0 0 4%;
 	width: 100%;
 }
-.bobcat-advance-peram input{
+.bobcat-advance-param input{
 	max-width: 55px;
 	width: 100%;
 }
@@ -358,7 +371,7 @@
 	margin: 8% 6% 0 0;
 	border: 1px solid #D3D3D3;
 }
-.bobcat-advance-peram .reset-search > a{
+.bobcat-advance-param .reset-search > a{
 	color: #EAEAEA;
 	display: block;
 	text-decoration: none;
@@ -407,7 +420,10 @@ div.ui-slider-horizontal .ui-slider-handle{
     background: none;
     background-color: #3F3F3F;
 }
-
+#geo_text{
+    display: inline;
+	font-weight: bold;
+}
 
 /*****
  Detail
@@ -496,6 +512,9 @@ div.ui-slider-horizontal .ui-slider-handle{
     position: relative;
     cursor: pointer;
 }
+#video-overlay-image{
+	width: 100%;
+}
 #video-overlay-play-button{
     position: absolute;
     z-index: 2;
@@ -549,6 +568,7 @@ div.ui-slider-horizontal .ui-slider-handle{
 	*zoom: 1;/* For IE7*/
 	vertical-align: top;
 	line-height: 0;
+	transition: inherit;
 }
 #vehicle-thumbnails a.cycle-pager-active{
 	background-color: #EAEAEA;

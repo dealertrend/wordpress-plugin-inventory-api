@@ -96,14 +96,12 @@ class Options_Page {
 				break;
 
 			case 'settings':
-				if( $_POST[ 'vehicle_management_system' ][ 'host' ] ){
-					$vms_check = $this->check_feeds( $_POST[ 'vehicle_management_system' ][ 'host' ] ,'', $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]);
+				if( $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] ){
+					$vms_check = $this->check_feeds( $this->instance->options[ 'vehicle_management_system' ][ 'host' ] ,'', $_POST[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ]);
 					if( $vms_check ){
-						$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = rtrim( $_POST[ 'vehicle_management_system' ][ 'host' ] , '/' );
 						$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ] = $_POST[ 'vehicle_management_system' ][ 'company_information' ];
 					} else {
 						$this->host_error['vms'] = 'The VMS URL entered was not valid. Please enter a valid URL.';
-						$this->instance->options[ 'vehicle_management_system' ][ 'host' ] = '';
 						$this->instance->options[ 'vehicle_management_system' ][ 'company_information' ]['id'] = 0;
 					}
 				}

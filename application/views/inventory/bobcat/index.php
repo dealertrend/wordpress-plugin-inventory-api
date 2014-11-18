@@ -6,7 +6,14 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$inventory_options = get_inventory_options( $this->options[ 'vehicle_management_system' ] );
 	$theme_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'Bobcat');
 	$loan_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'loan');
+	$price_text = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'price');
 	$rules = get_option( 'rewrite_rules' );
+	$url_rule = ( isset($rules['^(inventory)']) ) ? TRUE : FALSE;
+	
+	if( $theme_settings['display_geo'] ){
+		$dealer_geo = $vehicle_management_system->get_automall_geo_data();
+		decode_geo_query( $dealer_geo, $parameters, $geo_params );
+	}
 
 	$company_information = json_decode( $company_information[ 'body' ] );
 	$city = $company_information->seo->city;
@@ -15,12 +22,12 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$country_code =	$company_information->country_code;
 
 	$vehicle_management_system->tracer = 'Obtaining requested inventory.';
-	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
+	$inventory_information = $vehicle_management_system->get_inventory()->please( array_merge( $parameters , array( 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
 	$inventory = isset( $inventory_information[ 'body' ] ) ? json_decode( $inventory_information[ 'body' ] ) : false;
 
 	$site_url = site_url();
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
-	$param_saleclass = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
+	$param_saleclass = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'new';
 	$default_tag_names = get_default_tag_names();
 	$custom_tag_icons = $this->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
 
@@ -85,16 +92,16 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 			break;
 	}
 
-	echo "\n" . '<!--' . "\n";
-	echo '##################################################' . "\n";
-	echo print_r( $this , true ) . "\n";
-	echo print_r( $company_information , true ) . "\n";
-	echo print_r( $vehicle_management_system , true ) . "\n";
+	//echo "\n" . '<!--' . "\n";
+	//echo '##################################################' . "\n";
+	//echo print_r( $this , true ) . "\n";
+	//echo print_r( $company_information , true ) . "\n";
+	//echo print_r( $vehicle_management_system , true ) . "\n";
 	if( isset( $dynamic_site_headers ) ) {
-		echo print_r( $dynamic_site_headers , true ) . "\n";
+		//echo print_r( $dynamic_site_headers , true ) . "\n";
 	}
-	echo '##################################################' . "\n";
-	echo '-->' . "\n";
+	//echo '##################################################' . "\n";
+	//echo '-->' . "\n";
 
 	echo '<div id="dealertrend-inventory-api">';
 		include( dirname( __FILE__ ) . '/' . $type . '.php' );

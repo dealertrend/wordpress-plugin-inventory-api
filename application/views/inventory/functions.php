@@ -25,44 +25,6 @@
 		}
 	}
 
-	function display_breadcrumb( $parameters, $company, $override, $sc = '' ){
-
-		$company_name = ( !empty( $override['name'] ) ) ? $override['name'] : $company->name;
-
-		$breadcrumb = '<a href="' . site_url() . '/" title="' . $company_name . ': Home Page">' . ucwords( strtolower( urldecode( $company_name ) ) ) . '</a>';
-
-		$put_in_trail = array('saleclass','make','model','trim','vin');
-
-		unset($parameters['taxonomy']);
-
-		// Moves saleclass to top of array. Needed for Breadcrumbs
-		if( isset( $parameters[ 'saleclass' ] ) ){
-			$array_jump = array( 'saleclass' => $parameters[ 'saleclass' ] );
-			unset( $parameters[ 'saleclass' ] );
-			$parameters = $array_jump + $parameters;
-		} else if( !empty($sc) ){
-			$array_jump = array( 'saleclass' => $sc );
-			$parameters = $array_jump + $parameters;
-		}
-
-		$rules = get_option( 'rewrite_rules' );
-		$crumb_trail = isset($rules['^(inventory)']) ? '/inventory/' : '?taxonomy=inventory';
-
-		foreach( $parameters as $key => $value ) {
-			if( in_array( $key , $put_in_trail ) ) {
-				if( isset($rules['^(inventory)']) ) {
-					$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
-					$breadcrumb .= ' <span>&gt;</span> <a href=' .( $key != 'vin' ? $crumb_trail : ''). '>' . ucfirst( urldecode( $value ) ) . '</a>';
-				} else {
-					$crumb_trail .= '&amp;' . rawurlencode( urldecode( $key ) ) . '=' . $value;
-					$breadcrumb .= ' <span>&gt;</span> <a href=' .( $key != 'vin' ? $crumb_trail : ''). '>' . ucfirst( urldecode( $value ) ) . '</a>';
-				}
-			}
-		}
-
-		return $breadcrumb;
-	}
-
 	function itemize_vehicle( $vehicle ){
 
 		$data = array();
@@ -80,6 +42,7 @@
 		preg_match( '/\$\d*(\s)?/' , $data['prices']['ais']['text'] , $incentive );
 		$data['prices']['ais']['value'] = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
 
+		$data['id'] = $vehicle->id;
 		$data['year'] = $vehicle->year;
 		$data['make']['name'] = urldecode( $vehicle->make );
 		$data['make']['clean'] = str_replace( '/' , '%2F' ,  $data['make']['name'] );
@@ -126,29 +89,98 @@
 
 		return $data;
 	}
+	
+	function display_breadcrumb( $parameters, $company, $override, $sc = '' ){
 
-	function get_price_display( $price, $company, $vin, $theme = 'custom' ){
+		$company_name = ( !empty( $override['contact_name'][strtolower($sc)] ) ) ? $override['contact_name'][strtolower($sc)] : $company->name;
 
+		$breadcrumb = '<a href="' . site_url() . '/" title="' . $company_name . ': Home Page">' . ucwords( strtolower( urldecode( $company_name ) ) ) . '</a>';
+		$put_in_trail = array('saleclass','make','model','trim','vin');
+
+		unset($parameters['taxonomy']);
+
+		// Moves saleclass to top of array. Needed for Breadcrumbs
+		if( isset( $parameters[ 'saleclass' ] ) ){
+			$array_jump = array( 'saleclass' => $parameters[ 'saleclass' ] );
+			unset( $parameters[ 'saleclass' ] );
+			$parameters = $array_jump + $parameters;
+		} else if( !empty($sc) ){
+			$array_jump = array( 'saleclass' => $sc );
+			$parameters = $array_jump + $parameters;
+		}
+
+		$rules = get_option( 'rewrite_rules' );
+		$crumb_trail = isset($rules['^(inventory)']) ? '/inventory/' : '?taxonomy=inventory';
+
+		foreach( $parameters as $key => $value ) {
+			if( in_array( $key , $put_in_trail ) ) {
+				if( isset($rules['^(inventory)']) ) {
+					if( $key == 'trim' and $value != 'all' ){
+						$crumb_trail = add_query_arg( array($key => $value), $crumb_trail );
+						$breadcrumb .= ' <span>&gt;</span> <a href=' .( $key != 'vin' ? $crumb_trail : ''). '>' . ucfirst( urldecode( $value ) ) . '</a>';	
+					} else if ( $key != 'trim' && $value != 'all'){
+						$crumb_trail .= rawurlencode( urldecode( $value ) ) . '/';
+						$breadcrumb .= ' <span>&gt;</span> <a href=' .( $key != 'vin' ? $crumb_trail : ''). '>' . ucfirst( urldecode( $value ) ) . '</a>';	
+					}
+				} else {
+					$crumb_trail = add_query_arg( array($key => $value), $crumb_trail );
+					$breadcrumb .= ' <span>&gt;</span> <a href=' .( $key != 'vin' ? $crumb_trail : ''). '>' . ucfirst( urldecode( $value ) ) . '</a>';
+				}
+			}
+		}
+		return $breadcrumb;
+	}
+
+	function get_dealer_contact_info( $contact, $override, $sc ){
+		$phone_num = get_dealer_contact_number( $contact, $override, $sc );
+		$company = get_dealer_contact_name( $contact, $override, $sc );
+		
+		$results = '<div class="dealer-contact-wrapper"><span class="dealer-name">'.$company.'</span>' .( !empty($phone_num) ? ' - <span class="dealer-number"><a tel="'.$phone_num.'" >'.$phone_num.'</a></span>' : '' ).'<span class="dealer-id" style="display: none;">'.$contact['dealer_id'].'</span></div>';
+		return $results;
+	}
+	
+	function get_dealer_contact_name( $contact, $override, $sc ){
+		$results = ( !empty( $override['contact_name'][strtolower($sc)] ) ) ? $override['contact_name'][strtolower($sc)] : $contact['dealer'];
+		return $results;
+	}
+	
+	function get_dealer_contact_number( $contact, $override, $sc ){
+		$results = ( !empty( $override['phone'][strtolower($sc)] ) ) ? $override['phone'][strtolower($sc)] : $contact['phone'];
+		return $results;
+	}
+
+	function get_price_display( $price, $company, $saleclass, $vin, $theme = 'custom', $custom_price = array(), $cro = array() ){
+		
+		
+		$text_standard = ( !empty($custom_price[strtolower($saleclass)]['standard_price']) ) ? $custom_price[strtolower($saleclass)]['standard_price'].' ' : 'Price: ';
+		$text_compare = ( !empty($custom_price[strtolower($saleclass)]['compare_price']) ) ? $custom_price[strtolower($saleclass)]['compare_price'].' ' : 'Compare At: ' ;
+		$text_sale = ( !empty($custom_price[strtolower($saleclass)]['sale_price']) ) ? $custom_price[strtolower($saleclass)]['sale_price'].' ' : 'Sale Price: ';
+		$text_default = ( !empty($custom_price[strtolower($saleclass)]['default_price']) ) ? $custom_price[strtolower($saleclass)]['default_price'].' ' : $price['default_text'];
+		$strike = ($price['strike_through']) ? $theme.'-strike-through' : '';
+		
 		$data = array();
 		$data['primary_price'] = 0;
 
+		if( $cro['link'] ){
+			$data['rebate_link'] = '<div class="'.$theme.'-rebate-link view-available-rebates"><a href="'.$cro['link'].'" target="_blank" title="VIEW AVAILABLE INCENTIVES" onclick="return loadIframe( this.href );">VIEW INCENTIVES</a></div>';	
+		}
 		$data['ais_link'] = '';
 		$data['ais_text'] = ( !empty($price['ais']['text']) ) ? '<div class="'.$theme.'-ais-incentive-l-text">' . $price['ais']['text'] . '</div>' : '';
 		$data['expire_text'] = ( !empty($price['sale_expire']) ) ? '<div class="'.$theme.'-sale-expires">Sale Expires: ' . $price['sale_expire'] . '</div>' : '';
 		$data['msrp_text'] = ( !empty($price['retail_price']) ) ? '<div class="'.$theme.'-msrp">MSRP: $'.number_format($price['retail_price'] , 0 , '.' , ',' ).'</div>' : '<div class="'.$theme.'-msrp"></div>';
 
-		if( $price['on_sale'] && $price['sale_price'] > 0 ) {
-			$now_text = 'Price: ';
+		if( $price['on_sale'] && $price['sale_price'] > 0 && $price['sale_price'] <= $price['asking_price'] ) {
+			$now_text = $text_standard;
 			if( $price['was_now'] ) {
 				$price_class = ( $price['strike_through'] ) ? $theme.'-strike-through '.$theme.'-asking-price' : $theme.'-asking-price';
-				if( $price['ais']['value'] > 0 ) {
-					$data['compare_text'] = '<div class="'.$price_class.' '.$theme.'-ais"><span>Compare At:</span> $'.number_format($price['sale_price'] , 0 , '.' , ',' ).'</div>';
+				if( $price['ais']['value'] > 0 && empty($data['rebate_link']) ) {
+					$data['compare_text'] = '<div class="'.$price_class.' '.$theme.'-ais"><span>'.$text_compare.'</span> $'.number_format($price['sale_price'] , 0 , '.' , ',' ).'</div>';
 				} else {
-					$data['compare_text'] = '<div class="'.$price_class.'"><span>Compare At:</span> $'.number_format($price['asking_price'] , 0 , '.' , ',' ).'</div>';
+					$data['compare_text'] = '<div class="'.$price_class.'"><span>'.$text_compare.'</span> $'.number_format($price['asking_price'] , 0 , '.' , ',' ).'</div>';
 				}
-				$now_text = 'Sale Price: ';
+				$now_text = $text_sale;
 			}
-			if( $price['ais']['value'] > 0 ) {
+			if( $price['ais']['value'] > 0 && empty($data['rebate_link']) ) {
 				$data['primary_text'] = '<div class="'.$theme.'-sale-price '.$theme.'-ais '.$theme.'-main-price">'.$now_text.'<span>$'.number_format($price['sale_price'] - $price['ais']['value'] , 0 , '.' , ',' ) .'</span></div>';
 				$data['primary_price'] = $price['sale_price'] - $price['ais']['value'];
 			} else {
@@ -157,25 +189,26 @@
 			}
 		} else {
 			if( $price['asking_price'] > 0 ) {
-				if( $price['ais']['value'] > 0 ) {
-					$data['primary_text'] = '<div class="'.$theme.'-your-price '.$theme.'-ais '.$theme.'-main-price">Sale Price: <span>$' . number_format( $price['asking_price'] - $price['ais']['value'] , 0 , '.' , ',' ) . '</span></div>';
-					$data['compare_text'] = '<div class="'.$theme.'-asking-price '.$theme.'-ais"><span>Compare At:</span> $'.number_format( $price['asking_price'] , 0 , '.' , ',' ) .'</div>';
+				if( $price['ais']['value'] > 0 && empty($data['rebate_link']) ) {
+					$data['primary_text'] = '<div class="'.$theme.'-your-price '.$theme.'-ais '.$theme.'-main-price">'.$text_sale.'<span>$' . number_format( $price['asking_price'] - $price['ais']['value'] , 0 , '.' , ',' ) . '</span></div>';
+					$data['compare_text'] = '<div class="'.$strike.' '.$theme.'-asking-price '.$theme.'-ais"><span>'.$text_compare.'</span> $'.number_format( $price['asking_price'] , 0 , '.' , ',' ) .'</div>';
 					$data['primary_price'] = $price['asking_price'] - $price['ais']['value'];
 				} else {
-					$data['primary_text'] = '<div class="'.$theme.'-asking-price '.$theme.'-main-price">Price: <span> $'.number_format( $price['asking_price'] , 0 , '.' , ',' ) .'</span></div>';
+					$data['primary_text'] = '<div class="'.$theme.'-asking-price '.$theme.'-main-price">'.$text_standard.'<span> $'.number_format( $price['asking_price'] , 0 , '.' , ',' ) .'</span></div>';
 					$data['primary_price'] = $price['asking_price'];
 				}
 			} else {
-				$data['primary_text'] = '<div class="'.$theme.'-no-price '.$theme.'-main-price">'.$price['default_text'].'</div>';
+				$data['primary_text'] = '<div class="'.$theme.'-no-price '.$theme.'-main-price">'.$text_default.'</div>';
 			}
 		}
 
-		if( !empty($price['ais']['text']) && isset( $company->api_keys ) && !empty($vin) ) {
+		if( !empty($price['ais']['text']) && isset( $company->api_keys ) && !empty($vin) && empty($data['rebate_link']) ) {
 			$data['ais_link'] = '<div class="'.$theme.'-ais-link view-available-rebates"><a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company->api_keys->ais . '&zID=' . $company->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES" onclick="return loadIframe( this.href );">VIEW INCENTIVES</a></div>';
+			$data['ais_link_js'] = '<div class="'.$theme.'-ais-link view-available-rebates ais-link-js"><span href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company->api_keys->ais . '&zID=' . $company->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES" onclick="return loadIframe( this.href );">VIEW INCENTIVES</span></div>';
 		}
 
 		//Clean Price Values
-		$data['hidden_prices'] = '<div class="hidden-vehicle-prices" style="display: none;"><div class="hidden-msrp" alt="msrp">'.$price['retail_price'].'</div>'. (( $price['ais']['value'] > 0 ) ? '<div class="hidden-rebate" alt="rebate">'.$price['ais']['value'].'</div>' : '') . '<div class="hidden-sale" alt="sale">'.$price['sale_price'].'</div><div class="hidden-asking" alt="asking">'.$price['asking_price'].'</div><div class="hidden-main" alt="main">'.$data['primary_price'].'</div>'. (( $price['sale_price'] > 0 && ($price['asking_price'] - $price['sale_price']) != 0 ) ? '<div class="hidden-discount" alt="discount">'. ($price['asking_price'] - $price['sale_price']) .'</div>' : '') . '</div>';
+		$data['hidden_prices'] = '<div class="hidden-vehicle-prices" style="display: none;"><div class="hidden-msrp" alt="msrp">'.$price['retail_price'].'</div>'. (( $price['ais']['value'] > 0 && empty($data['rebate_link']) ) ? '<div class="hidden-rebate" alt="rebate">'.$price['ais']['value'].'</div>' : '') . '<div class="hidden-sale" alt="sale">'.$price['sale_price'].'</div><div class="hidden-asking" alt="asking">'.$price['asking_price'].'</div><div class="hidden-main" alt="main">'.$data['primary_price'].'</div>'. (( $price['sale_price'] > 0 && ($price['asking_price'] - $price['sale_price']) != 0 ) ? '<div class="hidden-discount" alt="discount">'. ($price['asking_price'] - $price['sale_price']) .'</div>' : '') . '</div>';
 
 		return $data;
 	}
@@ -190,13 +223,20 @@
 			$content_video = '<div class="tabs-content tabs-content-img-video '.$class[0].'">';
 				$type = wp_check_filetype( $video, wp_get_mime_types() );
 				if( empty( $type['ext'] ) ){
-					if (strpos($video,'dmotorworks') !== false) {
+					if (strpos($video,'dmotorworks') !== false || strpos($video,'vehicledata') !== false ) {
 						$content_video .= '<div id="video-overlay-wrapper-dm">';
 						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
 						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
 						$content_video .= '</div>';
 						$content_video .= '<div id="dm-video-wrapper">';
 						$content_video .= '<iframe id="inventory-video-iframe" src="'.$video.'" frameborder="0" allowfullscreen></iframe>';
+						$content_video .= '</div>';
+					} else if (strpos($video,'idostream') !== false){
+						$content_video .= '<div id="video-overlay-wrapper-dm" onclick=\'window.open("'.$video.'","popup","width=640,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=50,top=125"); return false\'>';
+						//$content_video .= '<a href="'.$video.'">';
+						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
+						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
+						//$content_video .= '</a>';
 						$content_video .= '</div>';
 					} else {
 						$content_video .= '<div id="inventory-video-wrapper">';
@@ -277,14 +317,14 @@
 		$fuel_text = '';
 
 		if( !empty($city) && !empty($highway) ) {
-			$fuel_text = '<div id="fuel-economy-wrapper"><div id="fuel-city"><span id="city-text">City</span><span id="city-value">' . $city . '</span></div><div id="fuel-image">'.$img_link.'</div><div id="fuel-highway"><span id="highway-text">Highway</span><span id="highway-value">' . $highway . '</span></div><p id="fuel-disclaimer">Actual mileage will vary with options, driving conditions, driving habits and vehicle&#39;s condition.</p></div>';
+			$fuel_text = '<div id="fuel-economy-wrapper"><div id="fuel-city"><span id="city-text">City</span><span id="city-value">' . $city . '</span></div><div id="fuel-image">'.$img_link.'</div><div id="fuel-highway"><span id="highway-text">Hwy</span><span id="highway-value">' . $highway . '</span></div><p id="fuel-disclaimer">Actual mileage will vary with options, driving conditions, driving habits and vehicle&#39;s condition.</p></div>';
 		}
 
 		return $fuel_text;
 
 	}
 
-	function get_form_button_display( $forms, $saleclass = "All" ){
+	function get_form_button_display( $forms, $saleclass = "All", $override = false ){
 		$ids = array();
 		switch( strtolower($saleclass) ){
 			case 'new':
@@ -299,7 +339,7 @@
 		echo '<div id="form-button-wrapper">';
 
 		foreach( $forms as $key => $form ){
-			if( !empty($form['button']) && ($form['saleclass'] == 0 || $form['saleclass'] == $sc) ){
+			if( (!empty($form['button']) || $override) && ($form['saleclass'] == 0 || $form['saleclass'] == $sc) ){
 				$ids[] = $form['id'];
 				echo '<div id="form-button-'.$form['id'].'" class="form-button form-'.$form['id'].'" name="form-id-'.$form['id'].'">';
 				echo $form['title'];
@@ -319,6 +359,37 @@
 
 		echo '</div>';
 
+	}
+	
+	function get_gform_button_display( $forms, $saleclass = "All", $override = false ){
+		$ids = array();
+		switch( strtolower($saleclass) ){
+			case 'new':
+				$sc = 1;
+				break;
+			case 'used':
+				$sc = 2;
+				break;
+			default:
+				$sc = 0;
+		}
+		$results = '<div id="form-button-wrapper">';
+		foreach( $forms as $key => $form ){
+			if( (!empty($form['button']) || $override) && ($form['saleclass'] == 0 || $form['saleclass'] == $sc) ){
+				$ids[] = $form['id'];
+				$results .= '<div id="form-button-'.$form['id'].'" class="form-button form-'.$form['id'].'" name="form-id-'.$form['id'].'">'.$form['title'].'</div>';
+			}
+		}
+		if( !empty($ids) ){
+			$results .= '<div id="form-data">';
+			foreach( $ids as $id ){
+				$results .= '<div id="form-id-'.$id.'" class="form-wrap">'.do_shortcode('[gravityform id='.$id.' title=true description=false]').'</div>';
+			}
+			$results .= '</div>';
+		}
+
+		$results .= '</div>';
+		return $results;
 	}
 
 	function get_form_display( $forms, $saleclass = "All" ){
@@ -604,13 +675,142 @@
 		return $icons;
 
 	}
+	
+	function decode_geo_query( $geo, &$params, &$geo_params ){
+		if( !empty($geo) && (isset($params['geo_state']) || isset($params['geo_city']) || isset($params['geo_zip']) ) ){
+			if( isset($params['geo_state']) && strtolower($params['geo_state']) != 'all' ){
+				$geo_params['state'] = $params['geo_state'];
+				unset($params['geo_state']);
+			}
+			
+			if( isset($params['geo_city']) && strtolower($params['geo_city']) != 'all' ){
+				$geo_params['city'] = $params['geo_city'];
+				unset($params['geo_city']);
+			}
+			
+			if( isset($params['geo_zip']) && strtolower($params['geo_zip']) != 'all' ){
+				$geo_params['zip'] = $params['geo_zip'];
+				unset($params['geo_zip']);
+			}
+			
+			if( isset($geo_params['zip']) ){
+				$geo_params['key'] = 'zip';
+				$geo_params['city'] = recursive_array_parent_key_search($geo_params['zip'], $geo);
+				$geo_params['state'] = recursive_array_parent_key_search($geo_params['city'], $geo);
+			} else if( isset($geo_params['city']) ){
+				$geo_params['key'] = 'city';
+				$geo_params['state'] = recursive_array_parent_key_search($geo_params['city'], $geo);
+			} else if( isset($geo_params['state']) ){
+				$geo_params['key'] = 'state';
+			} else {
+				$geo_params['key'] = 'default';
+			}
+			$dealer_ids = get_geo_dealer_ids($geo, $geo_params);
+			if( !empty($dealer_ids) ){
+				$params['geo_search'] = 1;
+				$params['dealer_id'] = implode(',', $dealer_ids);
+			}
+		}
+	}
+	
+	function get_geo_dealer_ids($geo, $params){
+		$dealers = array();
+		if( isset($params['zip'] ) ){
+			foreach( $geo[$params['state']][$params['city']][$params['zip']] as $dealer){
+				$dealers[] = $dealer;
+			}
+		} else if( isset($params['city'] ) ){
+			foreach( $geo[$params['state']][$params['city']] as $zips){
+				foreach($zips as $dealer){
+					$dealers[] = $dealer;
+				}
+			}
+		} else if( isset($params['state']) && count($geo) > 1 ){
+			foreach( $geo[$params['state']] as $cities){
+				foreach($cities as $zips){
+					foreach($zips as $dealer){
+						$dealers[] = $dealer;
+					}
+				}
+			}
+		}
+
+		return $dealers;
+	}
+	
+	function recursive_array_parent_key_search($needle,$haystack, $parent_key = '') {
+	    foreach($haystack as $key=>$value) {
+			if( strval($needle)===strval($key) ){
+				return $parent_key;
+			} else if( is_array($value) ){
+				$pass = $key;
+				$found = recursive_array_parent_key_search($needle,$value,$pass);
+				if( $found !== false ){
+					return $found;
+				}
+			}
+	    }
+	    return false;
+	}
+	
+	function build_geo_dropdown($geo, $params, $show_zip = FALSE, $remove_text = ''){
+		if( !empty($geo) ){
+			if( !isset($params['error']) ){
+				$result = '<select id="inventory-geo-select" onchange="document.location = this.value;">';
+				$case_key = ( !empty($show_zip) || empty($params['key']) ) ? $params['key'] : 'state';
+				switch($case_key){
+					case 'zip':
+					case 'city':
+						$search_tag = '<div id="geo_text">'.$params['city'].', '.$params['state'].' '.$params['zip'].'</div>';
+						$back_link = remove_query_arg( array('geo_zip','geo_city', 'geo_state') );
+						$back_tag = '<a id="geo-back-link" href="'.$back_link.'">'.( !empty($remove_text) ? $remove_text : 'Return').'</a>';
+						$result .= '<option value="'.add_query_arg( array('geo_zip' => 'all') ).'">All Zip Codes</option>';
+						foreach( $geo[$params['state']][$params['city']] as $zip => $dealer){
+							$selected = ( isset($params['zip']) && $params['zip'] == $zip ) ? 'selected' : '' ;
+							$result .= '<option value="'.add_query_arg( array('geo_zip' => $zip) ).'" '.$selected.'>'.$zip.'</option>';
+						}
+						break;
+					case 'state':
+						$search_tag = '<div id="geo_text">'.($params['city']?$params['city'].', ':'').$params['state'].'</div>';
+						$back_link = remove_query_arg( array('geo_state', 'geo_city', 'geo_zip') );
+						$back_tag = '<a id="geo-back-link" href="'.$back_link.'">'.( !empty($remove_text) ? $remove_text : 'Return').'</a>';
+						$result .= '<option value="'.add_query_arg( array('geo_city' => 'all') ).'">All Cities</option>';
+						foreach( $geo[$params['state']] as $city => $zips){
+							$selected = ( isset($params['city']) && $params['city'] == $city ) ? 'selected' : '' ;
+							$result .= '<option value="'.add_query_arg( array('geo_city' => rawurlencode($city)) ).'" '.$selected.'>'.$city.'</option>';
+						}
+						break;
+					default:
+						if( count($geo) > 1 ){
+							$result .= '<option value="'.add_query_arg( array('geo_state' => 'all') ).'">All States</option>';
+							foreach( $geo as $state => $cities){
+								$result .= '<option value="'.add_query_arg( array('geo_state' => rawurlencode($state)) ).'">'.$state.'</option>';
+							}
+						} else {
+							$search_tag = ($params['state']) ? '<div id="geo_text">'.$params['state'].'</div>' : '';
+							$result .= '<option value="'.add_query_arg( array('geo_city' => 'all') ).'">All Cities</option>' ;
+							foreach( $geo as $state => $cities){
+								foreach( $cities as $city => $zips){
+									$result .= '<option value="'.add_query_arg( array('geo_city' => rawurlencode($city)) ).'">'.$city.'</option>';
+								}
+							}
+						}
+						break;
+				}
+				$result .= '</select>';
+			} else {
+				$result = '<div id="geo-error">Error</div>';
+			}
+			$results = array( 'dropdown' => $result, 'back_link' => $back_tag, 'search' => $search_tag );
+			return $results;
+		}
+	}
 
 	function sort_custom_tags( $a , $b ){
 		return ( $a->order > $b->order ) ? +1 : -1;
 	}
 
 	function display_autocheck_image( $vin, $sc = 'new', $page = 'list' ){
-
 		$autocheck = '';
 		if( strtolower($sc) == 'used' ){
 			$autocheck = '<div class="autocheck-'.$page.'" >';
@@ -618,7 +818,6 @@
 			$autocheck .= '<a onclick="window.open('.$onclick_string.'); return false"  ><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/autocheck_'.$page.'.png" /></a>';
 			$autocheck .= '</div>';
 		}
-
 		return $autocheck;
 	}
 
@@ -727,8 +926,9 @@
 		}
 	}
 
-	function get_inventory_link( $rule, $params, $type = 0, $querys = array() ){
-
+	// DEP
+	function get_inventory_link( $rule, $params, $type = 0, $querys = array() ){ 
+	//DEP
 		if( $rule ){
 			if( $type ){
 				$link = '/inventory/'.$params['year'].'/'.urlencode($params['make']).'/'.urlencode($params['model']).'/'.urlencode($params['state']).'/'.urlencode($params['city']).'/'.$params['vin'].'/';
@@ -765,6 +965,53 @@
 		$link = $link . $query; 
 		return $link;
 	}
+	
+	function generate_inventory_link($rule, $params, $include = array(), $remove = array(), $type = 0 ){
+		$exclude = array('page', 'dealer_id', 'taxonomy', 'per_page', 'make', 'model', 'saleclass', 'geo_search' );
+		if( !empty($include) ){
+			foreach($include as $key => $value){
+				$params[$key] = $value;
+			}
+		}
+		if( !empty($remove) ){
+			foreach($remove as $value){
+				unset($params[$value]);
+			}
+		}
+		if($rule){
+			if( $type ){
+				$link = '/inventory/'.$params['year'].'/'.rawurlencode($params['make']).'/'.rawurlencode($params['model']).'/'.rawurlencode($params['state']).'/'.rawurlencode($params['city']).'/'.$params['vin'].'/';
+			} else {
+				$link = '/inventory/'.$params['saleclass'].'/';
+				$link .= isset($params['make']) && strtolower($params['make']) != 'all' ? rawurlencode($params['make']) . '/' : '';
+				$link .= isset($params['model']) && strtolower($params['model']) != 'all' ? rawurlencode($params['model']) . '/' : '';
+				foreach($params as $key => $param){
+					if( !in_array($key, $exclude) && strtolower($param) != 'all'){
+						$link = add_query_arg( array($key => $param), $link );
+					}
+				}
+			}
+		} else {
+			$link = '?taxonomy=inventory';
+			foreach($params as $key => $param){
+				$link = add_query_arg( array($key => $param), $link );
+			}
+		}
+		apply_geo_query_links($link);
+		return $link;
+	}
+	
+	function apply_geo_query_links( &$link ){
+		if( isset($_GET['geo_state']) ){
+			$link = add_query_arg( array('geo_state' => rawurlencode($_GET['geo_state'])), $link);
+		}
+		if( isset($_GET['geo_city']) ){
+			$link = add_query_arg( array('geo_city' => rawurlencode($_GET['geo_city'])), $link);
+		}
+		if( isset($_GET['geo_zip']) ){
+			$link = add_query_arg( array('geo_zip' => rawurlencode($_GET['geo_zip'])), $link);
+		}
+	}
 
 	function build_slider_script( $params ){
 
@@ -798,6 +1045,33 @@
 		$hooks = array('dt_stock_number' => $data['stock_number'], 'dt_vin' => $data['vin'], 'dt_year' => $data['year'], 'dt_make' => $data['make']['name'], 'dt_model' => $data['model']['name'], 'dt_trim' => $data['trim']['name'], 'dt_saleclass' => $data['saleclass'], 'dt_exterior' => $data['exterior_color'], 'dt_interior' => $data['interior_color'], 'dt_mileage' => $data['odometer'], 'dt_price' => $data['primary_price'], 'dt_dealer' => $data['contact_info']['dealer'], 'dt_dealer_id' => $data['contact_info']['dealer_id'], 'dt_location' => $data['contact_info']['location'], 'dt_phone' => $data['contact_info']['phone'] );
 
 		return $hooks;
+	}
+	
+	function get_clean_body_styles(){
+		$results = array();
+		$request = new Wordpress\Plugins\Dealertrend\Inventory\Api\http_request( 'http://updates.s3.dealertrend.com/wp-plugin-inventory-api/body_style_list.json', 'dealetrend_valide_body_styles' );
+		$request = $request->cached() ? $request->cached() : $request->get_file();
+		if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
+			$results = json_decode( $request['body'] );
+		}
+		return $results;
+	}
+	
+	function clean_body_style_filter( $raw_data, $clean_data ){
+		$results = array();
+		$truck_keys = array( 'crew' );
+		if( !empty($clean_data) && !empty($raw_data) ){
+			foreach( $clean_data as $clean ){
+				foreach( $raw_data as $raw ){
+					if( stripos( $raw, $clean ) !== FALSE ){
+						if( !in_array($clean, $results) ){
+							$results[] = $clean;
+						}
+					}
+				}
+			}
+		}
+		return $results;
 	}
 
 	function is_Empty_check($obj){

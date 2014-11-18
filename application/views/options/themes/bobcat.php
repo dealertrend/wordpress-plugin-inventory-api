@@ -7,6 +7,22 @@
 				<input type="checkbox" id="Bobcat-display-tags" name="custom_settings[Bobcat][display_tags]" <?php echo ( !empty($value) ) ? ' checked ' : ''; ?> />
 			</div>
 		</div>
+		
+		<div class="settings-group">
+			<div class="settings-label">Display Geo Search:</div>
+			<div class="settings-input">
+				<?php $value = $this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ][ 'Bobcat' ][ 'display_geo' ]; ?>
+				<input type="checkbox" id="Armadillo-display-geo" name="custom_settings[Bobcat][display_geo]" <?php echo ( !empty($value) ) ? ' checked ' : ''; ?> />
+			</div>
+		</div>
+		
+		<div class="settings-group">
+			<div class="settings-label">Add Geo Zip to Search:</div>
+			<div class="settings-input">
+				<?php $value = $this->instance->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ][ 'Bobcat' ][ 'add_geo_zip' ]; ?>
+				<input type="checkbox" id="Bobcat-geo-zip" name="custom_settings[Bobcat][add_geo_zip]" <?php echo ( !empty($value) ) ? ' checked ' : ''; ?> />
+			</div>
+		</div>
 
 		<div class="settings-group">
 			<div class="settings-label">Display Similar Vehicles:</div>
@@ -62,12 +78,6 @@
 				<input type="text" id="Bobcat-list-gform-id" name="custom_settings[Bobcat][list_gform_id]" pattern= "[0-9]" value="<?php echo $value; ?>" />
 			</div>
 		</div>
-
-		<div id="gravity-settings-wrapper">
-			<div><h3 class="title">Gravity Forms</h3> <span id="detail-form-id-help" class="get-help">?</span></div>
-			<div class="edit-table-button" name="gravity-form-table">Edit Form</div>
-		</div>
-
 	</div>
 
 	<?php

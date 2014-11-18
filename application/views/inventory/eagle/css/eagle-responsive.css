@@ -1,10 +1,18 @@
-@media all and (max-width: 960px){
-	div.eagle-listing-button{
-		width: 30%;
-	}
-}
+/*******************************Portrait*******************************/
 
-@media all and (max-width: 720px){
+
+/*360x640 | s4*/
+@media (max-width: 360px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
+	}
+	div.eagle-breadcrumbs{
+		display: none;
+	}
 	div.eagle-search, div.eagle-pager{
 		float: none;
 		clear: both;
@@ -45,7 +53,8 @@
 	}
 	div#eagle-content-left.mobileview{
 		position: absolute;
-		top: 1.5%;
+		top: 2.5%;
+		
 	}
 	div#eagle-content-right.mobileview {
 		overflow: hidden;
@@ -86,6 +95,9 @@
 	div.eagle-stock-number{
 		display: none;
 	}
+	/*List End*/
+	
+	/*Deatail Start*/
 	div#eagle-top-price .eagle-price{
 		width: 96%;
 	}
@@ -99,7 +111,8 @@
 	}
 	div#eagle-main-headline{
 		font-size: .8em;
-		line-height: 1em;
+		line-height: 1.5em;
+		text-align: center;
 	}
 	div#eagle-sub-headline{
 		font-size: .7em;
@@ -118,5 +131,188 @@
 	}
 	a#friendly-print{
 		display: none;
+	}
+	div#eagle-stock-vin-wrapper{
+	    float: none;
+	    display: block;
+	    overflow: hidden;
+	}
+	#eagle-stock-vin-wrapper .eagle-text-bold{
+	    float: left;
+	    clear: left;
+	}
+	#eagle-stock-vin-wrapper #eagle-stock-number, #eagle-stock-vin-wrapper #eagle-vin-number {
+	    float: left;
+	    line-height: 1.9em;
+	}
+	div#eagle-fuel-headline{
+		display: none;
+	}
+	div#vehicle-images{
+		width: 72%;
+	}
+	div#vehicle-thumbnails{
+		width: 26%;
+	}
+	/*Deatail End*/
+}
+/*320x568 | i5*/
+@media (max-width: 320px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 320px !important;
+	}
+}
+
+/*******************************Landscape*******************************/
+
+
+/*640x360 | s4*/
+@media (max-width: 640px) and (orientation: landscape){
+	/*Listing Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 640px !important;
+	}
+	div.eagle-search, div.eagle-pager{
+		float: none;
+		clear: both;
+		text-align: center;
+		max-width: 100%;
+		width: 100%;
+	}
+	div#eagle-total-found{
+		width: 100%;
+		margin: 0  auto;
+		float: none;
+	}
+	div#eagle-sorting-columns{
+		display: none;
+	}
+	div.eagle-breadcrumbs{
+		display: none;
+	}
+	div#eagle-content-left{
+		width: 26%;
+		float: left;
+		clear: none;
+		z-index: 1;
+		font-size: .8em;
+	}
+	div.eagle-sidebar-content h4{
+		text-align: center;
+	}
+	div#eagle-content-right{
+		width: 72%;
+		float: right;
+		clear: none;
+		z-index: 2;
+		font-size: 1em;
+	}
+	div.eagle-vehicle{
+		padding: 0;
+		width: 98%
+	}
+	div.eagle-column-left{
+		width: 100%;
+		padding: 0;
+	}
+	div.eagle-main-line{
+		font-size: .8em
+	}
+	div.eagle-column-right{
+		display: none;
+	}
+	div.eagle-photo{
+		width: 46%;
+	}
+	div.eagle-listing-info{
+		width: 50%;
+		font-size: 0.7em;
+	}
+	div.eagle-listing-buttons{
+		display: none;
+	}
+	div.eagle-mobile-bottom{
+		display: block;
+	}
+	div.eagle-stock-number{
+		display: none;
+	}
+	/*Listing End*/
+	
+	/*Deatail Start*/
+	div#eagle-top-price .eagle-price{
+		width: 96%;
+	}
+	div#eagle-get-price{
+		display: none;
+	}
+	div#eagle-content-detail-left, div#eagle-content-detail-right{
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+	div#eagle-main-headline{
+		font-size: .8em;
+		line-height: 1.5em;
+		text-align: center;
+	}
+	div#eagle-sub-headline{
+		font-size: .7em;
+	}
+	div#eagle-headline-wrap, div#eagle-top-price{
+		float: none;
+		width: 100%;
+		padding: 0;
+	}
+	div#eagle-vehicle-detail-left,div#eagle-vehicle-detail-right{
+		width: 100%;
+		float: none;
+	}
+	div#eagle-content-description-wrapper, div#eagle-content-features-wrapper{
+		display: none;
+	}
+	a#friendly-print{
+		display: none;
+	}
+	div#eagle-stock-vin-wrapper{
+	    float: none;
+	    display: block;
+	    overflow: hidden;
+	}
+	#eagle-stock-vin-wrapper .eagle-text-bold{
+	    float: left;
+	    clear: left;
+	}
+	#eagle-stock-vin-wrapper #eagle-stock-number, #eagle-stock-vin-wrapper #eagle-vin-number {
+	    float: left;
+	    line-height: 1.9em;
+	}
+	div#eagle-fuel-headline{
+		display: none;
+	}
+	div#vehicle-images{
+		width: 68%;
+	}
+	div#vehicle-thumbnails{
+		width: 29%;
+	}
+	/*Deatail End*/
+}
+
+/*568x320 | i5*/
+@media (max-width: 568px) and (orientation: landscape){
+	/*Listing Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 568px !important;
 	}
 }

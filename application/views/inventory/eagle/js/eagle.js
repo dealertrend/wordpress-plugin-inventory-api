@@ -1,4 +1,5 @@
 jQuery(document).ready(function(){
+	jQuery('#dealertrend-inventory-api').parent().addClass('inventory-parentClass');
 // Eagle Listing JS
 if ( jQuery('#eagle-listing').length ) {
 
@@ -77,9 +78,9 @@ if ( jQuery('#eagle-listing').length ) {
 				jQuery('#eagle-mobile-search-wrap').css({
 					'position':'relative',
 					'top':'0',
-					'width': '45%',
+					'width': '60%',
 					'left': '0',
-					'margin-left': '0'
+					'margin': '0 auto 0'
 				})
 			}
 		});
@@ -135,10 +136,10 @@ if ( jQuery('#eagle-listing').length ) {
 				jQuery('html, body').animate({
 					scrollTop: jQuery('#eagle-content-center').offset().top
 				}, 600);
-
-				jQuery(this).attr('class','active');
-				jQuery(this).siblings('#eagle-content-left').attr('class','mobileview');
-				jQuery(this).siblings('#eagle-content-right').attr('class','mobileview');
+				jQuery(this).removeClass('inactive');
+				jQuery(this).addClass('active');
+				jQuery(this).siblings('#eagle-content-left').addClass('mobileview');
+				jQuery(this).siblings('#eagle-content-right').addClass('mobileview');
 				jQuery(this).siblings('#eagle-content-left').css({
 					'height': leftHeight + 'px',
 				})
@@ -152,11 +153,11 @@ if ( jQuery('#eagle-listing').length ) {
 				if(typeof Storage !=="undefined"){
 					sessionStorage.removeItem('mobileview');
 				}
-
-				jQuery(this).attr('class','inactive');
-				jQuery(this).siblings('#eagle-content-left').animate({width: 'toggle'}).attr('style','');
-				jQuery(this).siblings('#eagle-content-left').attr('class','');
-				jQuery(this).siblings('#eagle-content-right').attr('class','');
+				jQuery(this).removeClass('active');
+				jQuery(this).addClass('inactive');
+				jQuery(this).siblings('#eagle-content-left').animate({width: 'toggle'});
+				jQuery(this).siblings('#eagle-content-left').removeClass('mobileview');
+				jQuery(this).siblings('#eagle-content-right').removeClass('mobileview');
 
 				if( leftHeight == jQuery('#eagle-content-center').height() ){
 					jQuery('#eagle-content-center').height(centerHeight);
@@ -165,49 +166,78 @@ if ( jQuery('#eagle-listing').length ) {
 			}
 		});
 	});
-
 }
 
 // Eagle Detail JS
 if ( jQuery('#eagle-detail').length ) {
+	
+	jQuery('#loan-calculator-button').click(function() {
+		if( jQuery(this).siblings('#loan-calculator-data').hasClass('active') ){
+			jQuery('#loan-calculator-data').removeClass('active');
+		} else {
+			jQuery('#loan-calculator-data').addClass('active');
+		}
+	});
+	
+	// Form Buttons
+	jQuery('.form-button').click(function(e) {
+		form_name = jQuery(e.target).attr('name');
+		jQuery('#'+form_name).dialog({
+			autoOpen: true,
+			dialogClass: "form-wrap",
+			modal: true,
+			resizable: false,
+			width: 320,
+			height: 450
+		})
+	});
 
 	jQuery(document).ready(function() { // Document Ready
-		// Eagle Slideshow/Image Cycle
-		jQuery('#eagle-image-wrapper #eagle-images')
-		.cycle({
-			slideExpr: 'img',
-			fx: 'fade',
-			pager: '#eagle-image-wrapper #eagle-nav-images',
-			pagerAnchorBuilder: function(idx, slide) {
-				return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
-	   		},
-			fit: 1
-		});
-		jQuery('#eagle-images a')
-		.lightbox({
-			imageClickClose: false,
-			loopImages: true,
-			fitToScreen: true,
-			scaleImages: true,
-			xScale: 1.0,
-			yScale: 1.0,
-			displayDownloadLink: true
+		// Detail Slideshow
+		jQuery(document).ready(function() {
+			jQuery('#vehicle-images')
+			.cycle({
+				slides: '> a',
+				fx: 'fade',
+				pager: '#vehicle-thumbnails',
+				pagerTemplate: '<a href="#"><img src="{{href}}" width="70" height="50" /></a>'
+			});
+
+			jQuery('#vehicle-images > a')
+			.lightbox({
+				imageClickClose: false,
+				loopImages: true,
+				fitToScreen: true,
+				scaleImages: true,
+				xScale: 1.0,
+				yScale: 1.0,
+				displayDownloadLink: true
+			});
 		});
 
 		// Eagle adjust Nav height to match img height
 		function check_img_height() {
-			img_height = jQuery('#eagle-images img').height();
-			nav_height = jQuery('#eagle-nav-wrapper').height();
+			img_height = jQuery('#vehicle-images img').height();
+			nav_height = jQuery('#vehicle-thumbnails').height();
 
 			if (img_height != nav_height){
-				jQuery('#eagle-nav-wrapper').css({'height':img_height});
-				jQuery('#eagle-images').css({'height':img_height});
+				jQuery('#vehicle-thumbnails').css({'height':img_height});
+				jQuery('#vehicle-images').css({'height':img_height});
 			}
 
 			setTimeout(check_img_height, 500);
 		}
 		check_img_height();
 
+		// Tab Control
+		jQuery('.tabs-button').click(function() {
+			tab_name = jQuery(this).attr('name');
+			jQuery(this).siblings('.active').removeClass('active');
+			jQuery(this).parent().parent().find('.tabs-content.active').removeClass('active');
+			jQuery(this).addClass('active');
+			jQuery('.tabs-content-'+tab_name).addClass('active');
+		});
+	
 	}); // Document Ready *end
 
 	// Show hidden form on click
@@ -226,8 +256,52 @@ if ( jQuery('#eagle-detail').length ) {
 
 		return false;
 	});
+	
+	// Video Dialog
+	var video_title = jQuery('#title-year').text() + ' ' + jQuery('#title-make').text() + ' ' + jQuery('#title-model').text();
+	jQuery('#video-overlay-wrapper-dm').click(function(e) {
+		jQuery('#dm-video-wrapper').dialog({
+			autoOpen: true,
+			dialogClass: "dialog-video-wrapper",
+			modal: true,
+			resizable: false,
+			width: 640,
+			height: 480,
+			title: video_title
+		})
+	});
 
+	jQuery('#video-overlay-wrapper').click(function(e) {
+		var video_width;
+		if( !video_width ){
+			video_width = get_video_width();
+			video_width = video_width + 35;//Added for dialog padding
+		}
+		jQuery('#wp-video-shortcode-wrapper').dialog({
+			autoOpen: true,
+			dialogClass: "dialog-video-wrapper",
+			modal: true,
+			resizable: false,
+			width: video_width,
+			title: video_title,
+			beforeClose: function( event, ui ){
+				jQuery('.mejs-pause > button').click();
+			},
+			open: function( event, ui ){
+				jQuery('#wp-video-shortcode-wrapper .wp-video-shortcode').css({'height':'360px','width':'640px'});
+				jQuery('#wp-video-shortcode-wrapper .mejs-overlay-play').css({'height':'329px','width':'640px'});
+			}
+		})
+		jQuery('.mejs-play > button').click();
+	});
+
+	function get_video_width(){
+		results = jQuery('#wp-video-shortcode-wrapper > div').width();
+		//console.log(results);
+		return results;
+	}
 }
+
 });
 
 // Eagle General
@@ -461,7 +535,3 @@ function isValidEmailAddress(emailAddress) {
 	var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
 	return pattern.test(emailAddress);
 }
-
-// Change viewport for responsive mobile view
-viewport = document.querySelector("meta[name=viewport]");
-viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');

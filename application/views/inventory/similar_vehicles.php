@@ -99,7 +99,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				$sim_value .= '</div>';
 				// Similar Button
 				$sim_value .= '<div class="similar-button">';
-				$sim_value .= '<a href="' . $sim_inventory_url . '" title="More Information: "' . $sim_generic_vehicle_title . '">More Information</a>';
+				$sim_value .= '<a href="' . $sim_inventory_url . '" title="More Information: ' . $sim_generic_vehicle_title . '">More Information</a>';
 				$sim_value .= '</div>';
 				// Similar End
 				$sim_value .= '</div>';

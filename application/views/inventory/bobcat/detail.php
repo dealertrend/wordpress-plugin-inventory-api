@@ -3,7 +3,7 @@
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle = itemize_vehicle($inventory);
-	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['vin'], 'bobcat' );
+	$price = get_price_display($vehicle['prices'], $company_information, $vehicle['saleclass'], $vehicle['vin'], 'bobcat', $price_text );
 	$vehicle['primary_price'] = $price['primary_price'];
 
 	apply_gravity_form_hooks( $vehicle );
@@ -19,12 +19,12 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				<span id="title-trim"><?php echo $vehicle['trim']['name']; ?></span>
 			</div>
 			<div class="breadcrumbs">
-				<?php echo display_breadcrumb( $this->parameters, $company_information, $inventory_options[company_override], $vehicle['saleclass'] ); ?>
+				<?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $vehicle['saleclass'] ); ?>
 				<a id="friendly-print" onclick="window.open('?print_page','popup','width=550,height=800,scrollbars=yes,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=0,top=0'); return false">Print Page</a>
 			</div>
 			<div id="vehicle-dealer-info">
-				<span class="vehicle-dealer-name"><?php echo $vehicle['contact_info']['dealer']; ?></span> - 
-				<span class="vehicle-dealer-phone"><?php echo $vehicle['contact_info']['phone']; ?></span>
+				<span class="vehicle-dealer-name"><?php echo get_dealer_contact_name( $vehicle['contact_info'], $inventory_options, $vehicle['saleclass'] ); ?></span> - 
+				<span class="vehicle-dealer-phone"><?php echo get_dealer_contact_number( $vehicle['contact_info'], $inventory_options, $vehicle['saleclass'] ); ?></span>
 				<span class="vehicle-dealer-location"><?php echo $vehicle['contact_info']['location']; ?></span>
 				<span style="display: none;" class="vehicle-dealer-id"><?php echo $vehicle['contact_info']['dealer_id']; ?></span>
 			</div>
@@ -87,7 +87,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 						}
 
 						if( $vehicle['carfax'] ) {
-		 					echo '<div class="carfax-wrapper"><a href="' . $vehicle['carfax'] . '" class="cobra-carfax" target="_blank"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg" /></a></div>';
+		 					echo '<div class="carfax-wrapper"><a href="' . $vehicle['carfax'] . '" class="bobcat-carfax" target="_blank"><img src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg" /></a></div>';
 			 			}
 
 					?>

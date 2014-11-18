@@ -3,59 +3,91 @@
 if( jQuery('#armadillo-detail').length ){
 
 	jQuery(document).ready(function(){
-		// Creates Tabs
-		jQuery('#armadillo-inventory-tabs').tabs();
 
-		// Runs Slideshow
-		jQuery('.armadillo-slideshow .armadillo-images')
-		.cycle({
-		    slideExpr: 'img',
-		    fx: 'fade',
-		    pager: '.armadillo-slideshow .armadillo-navigation',
-		    pagerAnchorBuilder: function(idx, slide) {
-		        return '<a href="#"><img src="' + slide.src + '" width="70" height="50" /></a>';
-		    }
+		// Detail Slideshow
+		jQuery(document).ready(function() {
+			jQuery('#vehicle-images')
+			.cycle({
+				slides: '> a',
+				fx: 'fade',
+				pager: '#vehicle-thumbnails',
+				pagerTemplate: '<a href="#"><img src="{{href}}" width="70" height="50" /></a>'
+			});
+
+			jQuery('#vehicle-images > a')
+			.lightbox({
+				imageClickClose: false,
+				loopImages: true,
+				fitToScreen: true,
+				scaleImages: true,
+				xScale: 1.0,
+				yScale: 1.0,
+				displayDownloadLink: true
+			});
 		});
-		jQuery('.armadillo-images a')
-		.lightbox({
-		    imageClickClose: false,
-		    loopImages: true,
-		    fitToScreen: true,
-		    scaleImages: true,
-		    xScale: 1.0,
-		    yScale: 1.0,
-		    displayDownloadLink: true
+
+		// Tab Control
+		jQuery('.tabs-button').click(function() {
+			tab_name = jQuery(this).attr('name');
+			jQuery(this).siblings('.active').removeClass('active');
+			jQuery(this).parent().parent().find('.tabs-content.active').removeClass('active');
+			jQuery(this).addClass('active');
+			jQuery('.tabs-content-'+tab_name).addClass('active');
+		});
+		
+		// Form Buttons
+		jQuery('.form-button').click(function(e) {
+			form_name = jQuery(e.target).attr('name');
+			jQuery('#'+form_name).dialog({
+				autoOpen: true,
+				dialogClass: "form-wrap",
+				modal: true,
+				resizable: false,
+				width: 320,
+				height: 450
+			})
 		});
 
-		// Highlight Tips
-		tips = jQuery( ".armadillo-validate-tips" );
+		// Video Dialog
+		var video_title = jQuery('#title-year').text() + ' ' + jQuery('#title-make').text() + ' ' + jQuery('#title-model').text();
+		jQuery('#video-overlay-wrapper-dm').click(function(e) {
+			jQuery('#dm-video-wrapper').dialog({
+				autoOpen: true,
+				dialogClass: "dialog-video-wrapper",
+				modal: true,
+				resizable: false,
+				width: 640,
+				height: 480,
+				title: video_title
+			})
+		});
 
-		function updateTips( t ) {
-		    tips.text( t ).addClass( "ui-state-highlight" );
-		    setTimeout(function() {
-		        tips.removeClass( "ui-state-highlight", 1500 );
-		    }, 500 );
+		jQuery('#video-overlay-wrapper').click(function(e) {
+			var video_width;
+			if( !video_width ){
+				video_width = get_video_width();
+				video_width = video_width + 35;//Added for dialog padding
+			}
+			jQuery('#wp-video-shortcode-wrapper').dialog({
+				autoOpen: true,
+				dialogClass: "dialog-video-wrapper",
+				modal: true,
+				resizable: false,
+				width: video_width,
+				title: video_title,
+				beforeClose: function( event, ui ){
+					jQuery('.mejs-pause > button').click();
+				}
+			})
+
+			jQuery('.mejs-play > button').click();
+		});
+
+		function get_video_width(){
+			results = jQuery('#wp-video-shortcode-wrapper > div').width();
+			console.log(results);
+			return results;
 		}
-
-		function checkLength( o, n, min, max ) {
-		    if ( o.val().length > max || o.val().length < min ) {
-		        o.addClass( "ui-state-error" );
-		        updateTips( "Length of " + n + " must be between " + min + " and " + max + "." );
-		        return false;
-		    } else {
-		        return true;
-		    }
-		}
-
-	    function checkRegexp( o, regexp, n ) {
-	        if ( !( regexp.test( o.val() ) ) ) {
-	            o.addClass( "ui-state-error" );
-	            updateTips( n );
-	            return false;
-	        } else {
-	            return true;
-	        }
-	    }
 
 		// Detail Form buttons
 		jQuery('#armadillo-schedule').click(function() {
@@ -100,30 +132,21 @@ if( jQuery('#armadillo-detail').length ){
 
 		});
 
-		jQuery('#armadillo-calculate').click(function() {
-
-			if( jQuery(this).attr('class') == 'hide-form' ){
-				jQuery(this).attr('class','show-form');
-			    jQuery('#armadillo-calculate-form').slideDown();
+		jQuery('#loan-calculator-button').click(function() {
+			if( jQuery(this).siblings('#loan-calculator-data').hasClass('active') ){
+				jQuery('#loan-calculator-data').removeClass('active');
 			} else {
-				jQuery(this).attr('class','hide-form');
-			    jQuery('#armadillo-calculate-form').slideUp();
+				jQuery('#loan-calculator-data').addClass('active');
 			}
-
 		});
-
-		jQuery('#calculate-close-form').click(function() {
-			jQuery('#armadillo-calculate').attr('class','hide-form');
-			jQuery('#armadillo-calculate-form').slideUp();
-		});
-
+		
 	});
 }
 
 // Armadillo Listing
 if( jQuery('#armadillo-listing').length ) {
 	// Quick Links
-	jQuery('#armadillo-quick-links > ul > li > span').click(function() {
+	jQuery('#armadillo-list-sidebar > ul > li .list-sidebar-label').click(function() {
 		if(jQuery(this).parent().hasClass('armadillo-collapsed')) {
 			jQuery(this).parent().removeClass('armadillo-collapsed');
 			jQuery(this).parent().addClass('armadillo-expanded');
@@ -137,12 +160,35 @@ if( jQuery('#armadillo-listing').length ) {
 			jQuery(this).parent().children('ul').slideUp('slow', function() {});
 		}
 	});
+	// Mobile Click
+	jQuery('#list-sidebar-label-mobile').click(function(){
+		if( jQuery(this).hasClass('mobile-click') ){
+			if(jQuery(this).hasClass('mobile-active')){
+				jQuery(this).removeClass('mobile-active');
+				jQuery('#armadillo-list-sidebar > ul').removeClass('active');
+				jQuery(this).text('Refine Your Search');
+			} else {
+				jQuery(this).addClass('mobile-active');
+				jQuery('#armadillo-list-sidebar > ul').addClass('active');
+			}
+		} else {
+			jQuery('#armadillo-list-sidebar > ul').addClass('active');
+			jQuery(this).addClass('mobile-click');
+			jQuery(this).addClass('mobile-active');
+			jQuery('#armadillo-list-sidebar > ul > li .list-sidebar-label').each(function(){
+				jQuery(this).click();
+			});
+			jQuery(this).text('Hide Refined Search');
+		}
+	});
 }
 
 
 // Armadillo General
 
 jQuery(document).ready(function(){
+	jQuery('#dealertrend-inventory-api').parent().addClass('inventory-parentClass');
+	
 	// Helps Responsive Menu
 	if (jQuery('#dealertrend-inventory-api').length){
 		jQuery('#armadillo-quick-links').attr('name','hidden');
@@ -157,47 +203,60 @@ jQuery(document).ready(function(){
 		});
 	}
 
-	// AIS
-	jQuery( '.jquery-ui-button' ).button().each(
-		function() {
-			if( jQuery( this ).hasClass( 'disabled' ) == true ) {
-				jQuery( this ).button( "option", "icons", {primary:'ui-icon-triangle-1-e'} );
-				jQuery( this ).button({ disabled: true } ).click(
-					function() {
-						return false;
-					}
-				);
-			}
-		}
-	);
-
-	var frame = jQuery('<div class="icanhazmodal"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
+	// AIS iFrame
+	var frame = jQuery('<div class="aisframe"><iframe id="ais-iframe" width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 
 	frame.appendTo( 'body' );
 
-	jQuery( '.icanhazmodal' ).dialog({
+	jQuery( '.aisframe' ).dialog({
 		autoOpen: false,
 		modal: true,
 		resizable: false,
 		width: 820,
 		height: 485,
-		open: function( event , ui ) { jQuery( '.ui-widget-overlay').click( function() { jQuery( '.icanhazmodal' ).dialog( 'close' ); } ); },
+		open: function( event , ui ) { jQuery( '.ui-widget-overlay').click( function() { jQuery( '.aisframe' ).dialog( 'close' ); } ); },
 		title: 'Incentives and Rebates'
 	});
 
 	jQuery( '.view-available-rebates > a' ).click(
 		function() {
-			jQuery( '.icanhazmodal' ).dialog( 'open' );
+			jQuery( '.aisframe' ).dialog( 'open' );
 			return false;
 		}
 	);
+	
+	jQuery('.armadillo-vehicle .ais-link-js span').click(function(e){
+		ais_url = jQuery(e.target).attr('href');
+		loadIframe(ais_url);
+		jQuery( '.aisframe' ).dialog( 'open' );
+		return false;
+	});
+	
 });
 
 function loadIframe( url ) {
-		var iframe = jQuery( 'iframe' );
+		var iframe = jQuery('#ais-iframe');
 		if ( iframe.length ) {
 				iframe.attr( 'src' , url );
 				return false;
 		}
 		return true;
+}
+
+function list_search_field(e){
+	e.preventDefault();
+	key = encodeURI('search'); value = encodeURI(jQuery('#armadillo-search-box').val());
+	var kvp = document.location.search.substr(1).split('&');
+    var i=kvp.length; var x; while(i--) 
+    {
+		x = kvp[i].split('=');
+        if (x[0]==key)
+        {
+			x[1] = value;
+	        kvp[i] = x.join('=');
+	        break;
+	    }
+	}
+	if(i<0) {kvp[kvp.length] = [key,value].join('=');}
+    document.location.search = kvp.join('&'); 
 }

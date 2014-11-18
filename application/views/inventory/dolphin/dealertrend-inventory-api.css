@@ -1,37 +1,18 @@
-/******************
-    Shared Elements
-******************/
-#dealertrend-inventory-api{
-    margin: 0 0 2% 0;
-}
 #dolphin-wrapper{
     width: 99%;
     max-width: 960px;
     margin: .5% auto 0;
-    background-color: #000;
+    background-color: #838383;
     padding: .5%;
     display: block;
     overflow: hidden;
     clear:both;
     border-radius: 6px 6px 6px 6px;
     min-width: 260px;
-}
-#dealertrend-inventory-api #dolphin-wrapper{
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
     font-size: 13px;
 }
-#dolphin-top{
-    width: 100%;
-    border-top: 6px solid  #3B3B3B;
-    border-bottom: 6px solid  #3B3B3B;
-    border-radius: 8px 8px 8px 8px;
-    clear:both;
-    float:none;
-    display:block;
-    overflow: hidden;
-    background-color: #161616;
-}
-#dolphin-taxonomy{
+.dolphin-breadcrumb-wrapper{
     width: 96%;
     padding: 0;
     margin: 0 2% 1%;
@@ -41,32 +22,32 @@
     clear: both;
     overflow: hidden;
 }
-.dolphin-breadcrumbs{
+.breadcrumbs{
     width: 64%;
     display: block;
     float: left;
 }
-.dolphin-breadcrumbs a:first-child span{
+.breadcrumbs a:first-child span{
     display: none;
 }
-.dolphin-breadcrumbs a{
+.breadcrumbs a{
     margin-left: 1%;
-    color: #FFF;
+    color: #000;
     text-decoration: none;
     line-height: 1.8em;
 }
-.dolphin-breadcrumbs > span{
+.breadcrumbs > span{
     margin-left: 1%;
     text-decoration: none;
-    color: #3B3B3B;
+    color: #FFF;
     font-weight: bold;
     line-height: 1.8em;
 }
-.dolphin-breadcrumbs a:hover{
+.breadcrumbs a:hover{
     color: #0D72C7;
 }
 #dolphin-disclaimer{
-    width: 96%;
+    width: 98%;
     display: block;
     float: none;
     clear: both;
@@ -78,728 +59,13 @@
     text-align: center;
     margin: 1% auto;
     border-radius: 8px;
+	font-size: .8em;
 }
 #dolphin-disclaimer p{
     color: #FFF;
 }
-.dolphin-sale-expires {
-    border-bottom: 2px solid #FF0000;
-    clear: both;
-    color: #FFFFFF;
-    display: block;
-    float: right;
-    font-size: 0.8em;
-    margin: 0 2% 2% 0;
-    overflow: hidden;
-    line-height: 1.2em;
-}
 
-/******************
-    Detail Page
-******************/
-.dolphin-print{
-    width: 25%;
-    display:block;
-    float: right;
-    text-align: right;
-    padding: 0 1% 0 0;
-    line-height: 1.8em;
-}
-#dolphin-headline{
-    width: 94%;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    padding: 0 3%;
-}
-#dolphin-headline h2{
-    color: #FFF;
-    font-size: 1.7em;
-    line-height: 1.4em;
-    font-weight: bold;
-}
-#dolphin-headline-text {
-    background-color: #FF0000;
-    border-radius: 6px 6px 6px 6px;
-    clear: both;
-    color: #FFFFFF;
-    display: block;
-    float: none;
-    margin: 0.5% auto;
-    text-align: center;
-    max-width: 90%;
-    line-height: 1.4em;
-}
-#dolphin-headline .dolphin-saleclass{
-    color: #D6D6D6;
-    font-size: .7em;
-    text-transform: uppercase;
-}
-#dolphin-headline .dolphin-drive-train, #dolphin-headline .dolphin-body-style {
-    font-size: .7em;
-    color: #D6D6D6;
-}
-#dolphin-contact-information{
-    max-width: 76%;
-    float: left;
-    display:block;
-    overflow: hidden;
-    background-color: #161616;
-    color: #FFF;
-    margin: 1% 0;
-    padding: 0 3%;
-    text-align: center;
-    border-top: 6px solid  #3B3B3B;
-    border-bottom: 6px solid  #3B3B3B;
-    border-radius: 8px 8px 8px 8px;
-    line-height: 1.3em;
-}
-#dolphin-contact-information strong{
-    font-weight: bold
-}
-#dolphin-detail-share{
-    width: 12%;
-    float: right;
-    display:block;
-    overflow: hidden;
-    background-color: #161616;
-    color: #FFF;
-    margin: 1% 0;
-    padding: 0 1%;
-    border-top: 6px solid  #3B3B3B;
-    border-bottom: 6px solid  #3B3B3B;
-    border-radius: 8px 8px 8px 8px;
-    min-width: 115px;
-}
-#dolphin-share-text{
-    width: 40%;
-    display: block;
-	float: left;
-}
-#dolphin-share-buttons{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 56%;
-    display: block;
-    vertical-align: top;
-	float: left;
-}
-#dolphin-share-buttons li{
-    display: block;
-    vertical-align: top;
-    max-width: 16px;
-    width: 100%;
-    margin: 2%;
-	float: left;
-}
-#dolphin-share-buttons li a{
-    display: block;
-    max-width: 16px;
-    width: 100%;
-    height: 16px;
-    text-align: -9999px;
-    font-size: 0em;
-    line-height: 0em;
-}
-#dolphin-facebook a{
-    background-image: url('images/facebook_16x16.png');
-}
-#dolphin-google a{
-    background-image: url('images/google_16x16.png');
-}
-#dolphin-twitter a{
-    background-image: url('images/twitter_16x16.png');
-}
-#dolphin-detail {
-    width: 100%;
-    clear: both;
-    display: block;
-    float: none;
-    overflow: hidden;
-}
-#dolphin-detail-information{
-    width: 100%;
-    clear: both;
-    display: block;
-    float: none;
-    overflow: hidden;
-    border-bottom: 6px solid #3B3B3B;
-    border-radius: 8px 8px 8px 8px;
-    border-top: 6px solid #3B3B3B;
-}
-#dolphin-column-left{
-    width: 27%;
-    float: left;
-    display: block;
-    overflow: hidden;
-    margin: 2% 0 2% 2%;
-    padding: 1%;
-    background-color: #161616;
-    border-radius: 8px;
-    border-top: 6px solid #3B3B3B;
-    border-bottom: 6px solid #3B3B3B;
-}
-#dolphin-column-middle{
-    width: 27%;
-    float: left;
-    display: block;
-    overflow: hidden;
-    margin: 2% 4.4%;
-    padding: 1%;
-    background-color: #161616;
-    border-radius: 8px;
-    border-top: 6px solid #3B3B3B;
-    border-bottom: 6px solid #3B3B3B;
-}
-#dolphin-column-right{
-    width: 27%;
-    float: left;
-    display: block;
-    overflow: hidden;
-    margin: 2% 2% 2% 0;
-    padding: 1%;
-    background-color: #161616;
-    border-radius: 8px;
-    border-top: 6px solid #3B3B3B;
-    border-bottom: 6px solid #3B3B3B;
-}
-#dolphin-slideshow-text{
-    color: #FFF;
-    font-size: .7em;
-    line-height: .7em;
-    text-align: center;
-    margin: 0 0 2%;
-}
-#dolphin-images{
-    display: block;
-    overflow: hidden;
-    max-width: 258px;
-    max-height: 195px;
-    width: 100%;
-    height: 195px;
-    clear: both;
-    float: none;
-}
-#dolphin-images img{
-    border-radius: 8px;
-    width: 100%;
-}
-#dolphin-video-button{
-    width: 40%;
-    display: block;
-    overflow: hidden;
-    float: left;
-    margin: 3% 3% 0;
-    background-color: #0453BC;
-    text-align: center;
-    border-radius: 6px;
-    border-top: 2px solid #D6D6D6;
-    border-left: 2px solid #D6D6D6;
-}
-#dolphin-video-button:hover{
-    background-color: #03397F;
-    border-top: 2px solid #000;
-    border-left: 2px solid #000;
-}
-#dolphin-video-button a{
-    display: block;
-    color: #FFF;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: .8em;
-    line-height: 1.5em;
-    text-decoration: none;
-}
-#dolphin-video-button a:hover{
-    text-decoration: none;
-    color: #000;
-}
-#dolphin-nav-button{
-    width: 44%;
-    display: block;
-    overflow: hidden;
-    float: right;
-    margin: 5% 3% 0;
-    color: #FFF;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: .9em;
-    text-align: center;
-    background-color: #000;
-    border-radius: 6px 6px 0 0;
-    border-top: 2px solid #3B3B3B;
-    border-right: 2px solid #3B3B3B;
-    border-bottom: 2px solid #3B3B3B;
-    border-left: 2px solid #3B3B3B;
-    cursor: pointer;
-}
-#dolphin-nav-button:hover{
-    color: #0453BC;
-}
-#dolphin-nav-wrapper{
-    width: 100%;
-    clear: both;
-    float: none;
-    overflow: hidden;
-    border-top: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-    border-radius: 6px;
-}
-#dolphin-nav-images{
-    width: 100%;
-    clear: both;
-    float: none;
-    overflow: hidden;
-    display: block;
-    height: 74px;
-}
-#dolphin-nav-images a{
-    display: block;
-    margin: 2% 3% 2% 2.6%;
-    padding: 6px 0 1px;
-	float: left;
-}
-#dolphin-nav-images .activeSlide{
-	background-color: #0453BC;
-    border-radius: 6px;
-}
-#dolphin-nav-images a:hover{
-    background-color: #FF0000;
-    border-radius: 6px;
-}
-#dolphin-carfax{
-    width: 100%;
-    display: block;
-    margin: 3% 0 0;
-}
-#dolphin-carfax img{
-    border-radius: 4px;
-    display: block;
-    margin: 0 auto;
-}
-#dolphin-fuel-economy{
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    clear: both;
-    float: none;
-    margin: 5% auto 0;
-}
-#dolphin-fuel-headline{
-    display: block;
-    background-color: #D6D6D6;
-    color: #161616;
-    font-size: 1.2em;
-    font-weight: bold;
-    line-height: 1.2em;
-    text-align: center;
-    border-radius: 6px 6px 0 0 ;
-    border-top: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-}
-#dolphin-fuel-details{
-    width: 97%;
-    display: block;
-	clear: both;
-    float:none;
-    overflow: hidden;
-    border-left: 4px solid #3B3B3B;
-    border-right: 4px solid #3B3B3B;
-    text-align: center;
-    padding: 4% 0;
-}
-#dolphin-fuel-details > div{
-    display: block;
-	float: left;
-    vertical-align: top;
-    width: 32%;
-}
-.dolphin-fuel-text{
-    width: 50%;
-    margin: 0 auto;
-    background-color: #D6D6D6;
-    border-radius: 4px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-.dolphin-fuel-number{
-    color: #D6D6D6;
-    font-weight: bold;
-    font-size: 1.5em;
-    line-height: 1.5em;
-}
-#dolphin-fuel-disclaimer{
-    display: block;
-    background-color: #D6D6D6;
-    color: #161616;
-    text-align: center;
-    border-radius: 0 0 6px 6px;
-    border-top: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-    line-height: .9em;
-}
-#dolphin-price{
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    float: none;
-    clear: both;
-    background-color: #D6D6D6;
-    border-radius: 6px;
-    padding: 1% 0;
-}
-#dolphin-price > div{
-    display: block;
-    clear: both;
-    color: #FF0000;
-    text-align: center;
-    font-size: 1.5em;
-    line-height: 1em;
-}
-#dolphin-price a{
-    color: #0453BC;
-    display: block;
-    font-size: 0.45em;
-    line-height: 1em;
-    text-align: right;
-    width: 92%;
-}
-#dolphin-vehicle-overview{
-    width: 100%;
-    display: block;
-    clear: both;
-    float: none;
-    overflow: hidden;
-    margin: 4% 0;
-    padding: 2% 0;
-    border-top: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-    border-radius: 6px;
-}
-.dolphin-vehicle-overview-wrap{
-    width: 90%;
-    display: block;
-    overflow: hidden;
-    clear: both;
-    float: none;
-    margin: 0 auto;
-    border-bottom: 2px solid #D6D6D6;
-    line-height: 1em;
-}
-.dolphin-vehicle-overview-left{
-    width: 33%;
-    float: left;
-    margin: 0 0 0 2%;
-    padding: 0 1% 0 0;
-    text-align: right;
-    color: #D6D6D6;
-    font-size: .8em;
-    font-weight: bold;
-}
-.dolphin-vehicle-overview-right{
-    width: 56%;
-    float: left;
-    margin: 0 2% 0 0;
-    padding: 0 0 0 4%;
-    text-align: left;
-    border-left: 0px solid #D6D6D6;
-    color: #D6D6D6;
-    font-size: .8em;
-}
-.dolphin-forms:last-child .dolphin-form-headers{
-    margin: 0;
-}
-.dolphin-forms:last-child .dolphin-form{
-    margin: 0;
-}
-.dolphin-forms > a{
-    text-decoration: none;
-}
-.dolphin-form-headers{
-    width: 100%;
-    margin: 0 auto 6%;
-    display: block;
-    background-color: #D6D6D6;
-    color: #161616;
-    font-size: 1.3em;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 1.3em;
-    text-align: center;
-    border-top: 4px solid #0453BC;
-    border-bottom: 4px solid #0453BC;
-    border-radius: 6px;
-    cursor: pointer;
-}
-.dolphin-form-headers:hover{
-    color: #D6D6D6;
-    background-color: #3B3B3B;
-    border-top: 4px solid #03397F;
-    border-bottom: 4px solid #03397F;
-}
-.dolphin-form-headers.active-form{
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-    background-color: #D6D6D6;
-    color: #161616;
-    font-size: 1.3em;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 1.3em;
-    text-align: center;
-    border-top: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-    border-radius: 6px 6px 0 0;
-    cursor: pointer;
-}
-.dolphin-form{
-    width: 97%;
-    margin: 0 auto 6%;
-    border-top: 4px solid #3B3B3B;
-    border-right: 4px solid #3B3B3B;
-    border-bottom: 4px solid #3B3B3B;
-    border-left: 4px solid #3B3B3B;
-}
-.dolphin-form-table{
-    width: 96%;
-    display: block;
-    overflow: hidden;
-    float: none;
-    clear: both;
-    padding: 2%;
-}
-.dolphin-form-table label{
-    color: #D6D6D6;
-    font-size: .8em
-}
-.dolphin-form-table input{
-    background-color: #D6D6D6;
-    border-radius: 6px;
-    width: 100%;
-    padding: 0;
-    height: 1.4em;
-}
-.dolphin-form-table textarea{
-    background-color: #D6D6D6;
-    border-radius: 6px;
-    width: 100%;
-    max-height: 60px;
-    padding: 0;
-}
-.dolphin-form-one-half{
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    clear: both;
-    float: none;
-}
-.dolphin-form-one-half > div{
-    width: 45%;
-    display: block;
-	float: left;
-    margin: 0 2%;
-}
-.dolphin-form-full{
-    width: 100%;
-    display: block;
-    overflow: hidden;
-    clear: both;
-    float: none;
-}
-.dolphin-form-full > div{
-    width: 96%;
-    display: block;
-    margin: 0 2%;
-}
-.dolphin-form-table .submit{
-    width: 98%;
-    display: block;
-	clear: both;
-	float: none;
-    margin: 4% auto 2%;
-    padding: 1% 0;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #D6D6D6;
-    background-image: none;
-    background-color: #0453BC;
-    border-top: 2px solid #D6D6D6;
-    border-right: 2px solid #D6D6D6;
-    border-bottom: 2px solid #D6D6D6;
-    border-left: 2px solid #D6D6D6;
-    cursor: 2px solid #D6D6D6;
-    height: 2.5em;
-}
-.dolphin-form-table .submit:hover{
-    color: #000;
-    background-image: none;
-    background-color: #03397F;
-    border-top: 2px solid #000;
-    border-right: 2px solid #000;
-    border-bottom: 2px solid #000;
-    border-left: 2px solid #000;
-}
-.form-single-label{
-    width: 98%;
-    display: block;
-    text-align: center;
-    margin: 4% auto 0;
-    border-bottom: 2px solid #D6D6D6;
-}
-.loan-calculated-value{
-    background-color: #D6D6D6;
-    border-radius: 6px;
-    text-align:center;
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #FF0000;
-}
-.dolphin-form-table input.privacy,.dolphin-form-table input#friend-notify {
-    max-width: 20px;
-	float: left;
-}
-#dolphin-detail-specs{
-    width: 94%;
-    display: block;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    background-color: #161616;
-    border-top: 6px solid #3B3B3B;
-    border-bottom: 6px solid #3B3B3B;
-    padding: 1%;
-    margin: 0 auto 1%;
-    border-radius: 8px;
-}
-#dolphin-detail-tabs{
-    display: block;
-    overflow: hidden;
-    width: 100%;
-}
-#dolphin-detail-tabs > ul{
-    width: 96%;
-    display: block;
-    overflow: hidden;
-    margin: 0 auto;
-    list-style: none;
-    border-bottom: 2px solid #D6D6D6;
-    padding: 0 0 0 2%;
-}
-.dolphin-detail-tab{
-    width: 20%;
-    background-color: #0453BC;
-    text-align:center;
-    color: #D6D6D6;
-    font-weight: bold;
-    font-size: 1.1em;
-    line-height: 1.4em;
-    border-radius: 4px 4px 0 0;
-    border-top: 2px solid #D6D6D6;
-    border-left: 2px solid #D6D6D6;
-    float: left;
-    margin: 0 .5% 0 0;
-    cursor: pointer;
-}
-.dolphin-detail-tab.active-tab{
-    color: #03397F;
-    border-top: 2px solid #03397F;
-    border-left: 2px solid #03397F;
-    background-color: #D6D6D6
-}
-.dolphin-detail-tab:hover{
-    color: #000;
-    background-image: none;
-    background-color: #03397F;
-    border-top: 2px solid #000;
-    border-left: 2px solid #000;
-}
-.detail-tab-info{
-	display: none;
-}
-.detail-tab-info.active{
-	display: block;
-}
-#dolphin-detail-features{
-    width: 100%;
-    overflow: hidden;
-}
-#dolphin-detail-standard{
-    width: 98%;
-    overflow: hidden;
-	background-color: #D6D6D6;
-	margin: 0 auto;
-}
-#dolphin-detail-standard h4{
-    color: #0453BC;
-    font-weight: bold;
-    font-size: 110%;
-    margin: 0 0 0 2%;
-}
-#dolphin-detail-standard ul{
-    width: 96%;
-    display: block;
-    overflow: hidden;
-    margin: 0 auto 1%;
-    background-color: #AAAAAA;
-    border-radius: 0 0 6px 6px;
-    padding: 1%;
-    list-style: disc;
-}
-#dolphin-detail-features > ul{
-    width: 96%;
-    display: block;
-    overflow: hidden;
-    margin: 0 auto;
-    background-color: #D6D6D6;
-    border-radius: 0 0 6px 6px;
-    padding: 1%;
-    list-style: disc;
-}
-#dolphin-detail-features > ul li, #dolphin-detail-standard ul li{
-    width: 30%;
-    margin: 0 0 0 3%;
-    float: left;
-}
-#dolphin-detail-description{
-    width: 96%;
-    overflow: hidden;
-    margin: 0 auto;
-    padding: 1%;
-    background-color: #D6D6D6;
-    color: #000;
-}
-#dolphin-previous-page{
-    margin: 0 10% 0 0;
-    text-decoration: none;
-	float: left;
-}
-.form-error{
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    background-color: #FF0000;
-    color: #000;
-    font-size: .8em;
-    line-height: 1em;
-    border-radius: 6px;
-}
-.form-error span{
-    display: block;
-}
-#friendly-print{
-    float: right;
-    background: transparent url(images/print.png) no-repeat right;
-    display: block;
-    text-decoration: none;
-    padding-right: 20px;
-    margin-right: 5px;
-    cursor: pointer;
-}
-/******************
-    Listing Page
-******************/
+/***Listing***/
 #dolphin-listing{
     display: block;
     overflow: hidden;
@@ -810,6 +76,124 @@
     border-top: 6px solid #3B3B3B;
     border-bottom: 6px solid #3B3B3B;
     border-radius: 8px;
+}
+#dolphin-search-wrapper {
+    clear: both;
+    display: block;
+    float: none;
+    margin: 0 2% 1%;
+    overflow: hidden;
+    width: 96%;
+	font-size: 85%;
+}
+#mobile-show-search{
+	display: none;
+    background-color: #0453BC;
+    color: #D6D6D6;
+    font-style: italic;
+    border: 1px solid #D6D6D6;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 1% 0;
+    font-size: 120%;
+    width: 80%;
+    line-height: 1.4em;
+    margin: 0 auto 1%;
+	text-align: center;
+}
+#mobile-show-search.active{
+    color: #0453BC;
+    background-color: #D6D6D6;
+}
+#search-top-wrapper{
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: none;
+    width: 98%;
+    padding: 1% 1%;
+    background-color: #333333;
+    color: #FFF;
+	text-align: center;
+	border-radius: 8px 8px 0 0;
+}
+.search-option-top{
+    display: block;
+    float: left;
+    clear: none;
+    width: 22%;
+    vertical-align: top;
+    text-align: center;
+}
+.search-option-mid{
+    display: block;
+    float: left;
+    clear: none;
+    width: 22%;
+    vertical-align: top;
+    text-align: center;
+	margin: 0;
+}
+#search-mid-wrapper{
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: both;
+    width: 98%;
+    padding: 0 1% 1%;
+    background-color: #333333;
+    color: #FFF;
+	text-align: center;
+	border-top: 3px solid #0453BC;
+}
+input#dolphin-search-box{
+    height: 12px;
+    text-align: center
+}
+.dolphin-option-wrapper select{
+    max-width: 140px;
+    width: 100%;
+}
+input#dolphin-search-box{
+	max-width: 140px;
+	width: 100%;
+}
+div#geo_text{
+    display: inline;
+    color: #FFF;
+}
+a#geo-back-link{
+    color: #000;
+    cursor: pointer;
+    padding: 0 1%
+}
+#dolphin-search-submit{
+    display: block;
+	float: left;
+    background-color: #0453BC;
+    color: #D6D6D6;
+    font-style: italic;
+    border: 1px solid #D6D6D6;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    font-size: 120%;
+    width: 100%;
+	max-width: 80px;
+    line-height: 1.4em;
+    margin: 0 1%;
+	height: 34px;
+}
+#dolphin-search-submit:hover{
+    color: #0453BC;
+    background-color: #D6D6D6;
+}
+.sort-value a{
+    color: #000
 }
 .dolphin-pager{
     width: 34%;
@@ -834,238 +218,6 @@
 .dolphin-pager a:hover{
     color: #0D72C7;
 }
-#dolphin-search-wrapper {
-    clear: both;
-    display: block;
-    float: none;
-    margin: 0 2% 1%;
-    overflow: hidden;
-    width: 96%;
-}
-#dolphin-search-top{
-    display: block;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    text-align: center;
-    width: 100%;
-}
-#dolphin-search-mid{
-    display: block;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    margin: 0 auto;
-    background-color: #3B3B3B;
-    width: 40%;
-    padding: .5% 0;
-    border-radius: 6px;
-}
-#dolphin-search-box{
-    display: block;
-    float: left;
-    width: 62%;
-    background-color: #D6D6D6;
-    border-radius: 4px;
-    margin: 0 0 0 1%;
-    height: 1.8em;
-    padding: 0;
-}
-#dolphin-search-submit{
-    display: block;
-    float: right;
-    background-color: #0453BC;
-    color: #D6D6D6;
-    font-style: italic;
-    border: 1px solid #D6D6D6;
-    border-radius: 6px;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0;
-    font-size: 120%;
-    width: 33%;
-    line-height: 1.4em;
-    margin: 0 1% 0 0;
-}
-#dolphin-search-submit:hover{
-    color: #0453BC;
-    background-color: #D6D6D6;
-}
-#dolphin-search-box.invalid{
-    color: #606060;
-    font-weight: bold;
-    font-style: italic;
-}
-#dolphin-advance-show{
-    display: block;
-    float: right;
-    background-color: #0453BC;
-    color: #D6D6D6;
-    width: 14%;
-    font-size: 90%;
-    padding: 0 1%;
-    border-radius: 6px;
-    border: 1px solid #D6D6D6;
-    margin: -3% 2.8% 0 0;
-    cursor: pointer;
-    text-align: center;
-}
-#dolphin-advance-show:hover{
-    color: #0453BC;
-    background-color: #D6D6D6;
-}
-#dolphin-search-advance{
-    clear: both;
-    float: none;
-    overflow: hidden;
-    width: 95%;
-    margin: 0 auto;
-    padding: 1% 1%;
-    border-left: 4px solid #3B3B3B;
-    border-right: 4px solid #3B3B3B;
-    font-size: 0.9em;
-    line-height: 1.2em;
-}
-.dolphin-advance-peram {
-    width: 24%;
-    float: left;
-    padding: 0 1.5% .5%;
-    margin: 1% 2.2%;
-    border-left: 3px solid #0453BC;
-    border-right: 3px solid #0453BC;
-    border-radius: 6px;
-    min-width: 209px;
-}
-.dolphin-advance-peram span{
-    color: #ABABAB;
-    margin-left: 2%;
-    font-style: italic;
-    font-size: .8em;
-}
-.dolphin-advance-peram input{
-    background-color: #D6D6D6;
-    border-radius: 4px;
-    max-width: 54px;
-    width: 100%;
-    padding: 0;
-    height: 1.4em;
-}
-.dolphin-advance-peram select{
-    max-width: 160px;
-    margin: 1% 0 0 4%;
-	width: 100%;
-}
-.reset-search{
-    display: block;
-    text-align: center;
-    background-color: #C60101;
-    padding: 1% 0;
-    margin: 1.5% 0 0;
-    border-radius: 6px;
-    border: 1px solid #D3D3D3;
-}
-.dolphin-advance-peram .reset-search > a{
-    color: #D3D3D3;
-	display: block;
-	text-decoration: none;
-}
-.reset-search:hover{
-	background-color: #D3D3D3;
-}
-.dolphin-advance-peram .reset-search > a:hover{
-	color: #C60101;
-}
-#search-error{
-    display: block;
-    float: none;
-    clear: both;
-    overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
-    background-color: #C60101;
-    color: #D3D3D3;
-    text-align: center;
-    border-radius: 6px;
-}
-#dolphin-filter-wrapper{
-    float: none;
-    display: block;
-    overflow: hidden;
-    width: 94%;
-    margin: 1% auto 1%;
-    background-color: #3B3B3B;
-    border-radius: 8px 8px 8px 8px;
-    padding: 0 1% .6%;
-}
-#dolphin-filters{
-    width: 88%;
-    display: block;
-    text-align: center;
-	margin: 0 auto;
-}
-#dolphin-filters > div {
-    display: block;
-	float: left;
-    margin: 0.8% 2% 0;
-    overflow: hidden;
-    width: 28%;
-}
-#dolphin-apply-search{
-    margin: 0 0 0 1.2%;
-    color: #FFF;
-    width: 60%;
-}
-#dolphin-apply-search span{
-    font-size: .8em;
-    line-height: 1.4em;
-    display: inline-block;
-    vertical-align: top;
-    margin: .5% 0 0;
-}
-#dolphin-apply-search input{
-    background-color: #D6D6D6;
-}
-#dolphin-total-found{
-    display: block;
-    width: 46%;
-    margin: .4% 2%;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-.dolphin-not-found{
-    display: block;
-    overflow: hidden;
-    width: 75%;
-    margin: 2% auto;
-    background-color: #3B3B3B;
-    border-radius: 8px;
-}
-.dolphin-not-found h2{
-    text-align: center;
-    color: #FFF;
-    font-size: 1.4em;
-    margin: 2% 0;
-    display: block;
-}
-.dolphin-not-found a{
-    display: block;
-    width: 32%;
-    margin: 0 auto 2%;
-    border: 4px solid #D6D6D6;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: #0453BC;
-    color: #D6D6D6;
-}
-.dolphin-not-found span{
-    background-color: #0453BC;
-    border-radius: 4px;
-    color: #FFF;
-    border: none;
-}
 .dolphin-item{
     display: block;
     overflow: hidden;
@@ -1078,8 +230,42 @@
     width: 96%;
     background-color: #161616;
 }
+#dolphin-search-info {
+    display: block;
+    clear: both;
+    float: none;
+    margin: 1% auto 0;
+    overflow: hidden;
+    padding: 0;
+    width: 96%;
+    color: #FFF;
+}
+#dolphin-total-found{
+    display: block;
+    overflow: hidden;
+    float: left;
+    width: 48%;
+    text-align: left;
+    padding: 0 0 0 2%;
+}
+#dolphin-sort-wrapper{
+    display: block;
+    overflow: hidden;
+    float: right;
+    width: 48%;
+    text-align: right;
+    padding: 0 2% 0 0;
+}
+#dolphin-sort-wrapper > div{
+    display: inline-block;
+    margin: 0 1%;
+}
+.sort-value a.asc{
+    color: #FF0000;
+}
 .dolphin-item:hover{
     border-bottom: 4px solid #0453BC;
+	background-color: #999999;
 }
 .dolphin-column-left{
     display: block;
@@ -1303,7 +489,7 @@
     border-right: 2px solid #3B3B3B;
     border-bottom: 2px solid #3B3B3B;
     border-left: 2px solid #ADADAD;
-    font-size: .9em;
+    font-size: .8em;
     line-height: 1.5em;
     font-weight:  bold;
     text-transform: uppercase;
@@ -1314,54 +500,576 @@
     background-color: #03397F;
     border-top: 2px solid #000;
     border-left: 2px solid #000;
-    color: #000;
+    color: #999999;
 }
-#dolphin-bottom{
+/***Listing End ***/
+
+/***Detail Start***/
+#dolphin-headline{
+    width: 94%;
+    float: none;
+    clear: both;
+    overflow: hidden;
+    padding: 0 3%;
+	text-align: center;
+}
+#dolphin-headline h2{
+    color: #FFF;
+    font-size: 1.7em;
+    line-height: 1.4em;
+    font-weight: bold;
+}
+#dolphin-headline-text {
+    background-color: #FF0000;
+    border-radius: 6px 6px 6px 6px;
+    clear: both;
+    color: #FFFFFF;
+    display: block;
+    float: none;
+    margin: 0.5% auto;
+    text-align: center;
+    max-width: 90%;
+    line-height: 1.4em;
+}
+#dolphin-headline .dolphin-saleclass{
+    color: #D6D6D6;
+    font-size: .7em;
+    text-transform: uppercase;
+}
+#dolphin-headline .dolphin-drive-train, #dolphin-headline .dolphin-body-style {
+    font-size: .7em;
+    color: #D6D6D6;
+}
+#dolphin-media-wrapper{
+    width: 98%;
+    display: block;
+    float: none;
+    overflow: hidden;
+    clear: both;
+    margin: 0 auto;
+	font-size: .9em;
+}
+#dolphin-contact-information{
+    width: 100%;
+    display:block;
+    overflow: hidden;
+    background-color: #161616;
+    color: #FFF;
+    margin: 1% 0;
+    padding: 0 3%;
+    text-align: center;
+    border-top: 6px solid  #3B3B3B;
+    border-bottom: 6px solid  #3B3B3B;
+    border-radius: 8px 8px 8px 8px;
+    line-height: 1.3em;
+}
+#dolphin-contact-information strong{
+    font-weight: bold
+}
+
+#dolphin-slideshow-text{
+    color: #FFF;
+    font-size: .7em;
+    line-height: .7em;
+    text-align: center;
+    margin: 0 0 2%;
+}
+#vehicle-images{
+    display: block;
+    overflow: hidden;
+    max-width: 258px;
+    max-height: 180px;
+    width: 100%;
+    clear: both;
+    float: none;
+	margin: 0 0 4%;
+}
+#vehicle-images img{
+    border-radius: 8px;
+    width: 100%;
+}
+#vehicle-thumbnails{
+	display: block;
+    width: 100%;
+    clear: both;
+    float: none;
+    overflow: hidden;
+    border-top: 4px solid #3B3B3B;
+    border-bottom: 4px solid #3B3B3B;
+    border-radius: 6px;
+	height: 112px;
+	text-align: center;
+}
+#vehicle-thumbnails.show-all{
+	height: auto;
+}
+#vehicle-thumbnails a{
+    display: inline-block;
+    margin: 1%;
+    padding: 1%;
+	border-radius: 2px;
+	transition: inherit;
+}
+#vehicle-thumbnails .cycle-pager-active{
+	background-color: #0453BC;
+}
+#vehicle-thumbnails a:hover{
+    background-color: #FF0000;
+    border-radius: 2px;
+}
+#vehicle-thumbnails img{
+	text-align: center;
+}
+#dolphin-nav-button.active{
+    display: block;
+}
+#dolphin-nav-button.hidden{
+    display: none;
+}
+#dolphin-nav-button{
+    float: none;
+    clear: both;
+    overflow: hidden;
+    width: 95%;
+    margin: 0 auto;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9em;
+    text-align: center;
+    background-color: #161616;
+    border-right: 2px solid #3B3B3B;
+    border-bottom: 3px solid #3B3B3B;
+    border-left: 2px solid #3B3B3B;
+    border-radius: 0 0 6px 6px;
+    cursor: pointer;
+}
+#dolphin-nav-button:hover{
+    color: #000;
+    background-color: #D5D5D5;
+}
+#dolphin-price-wrapper{
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: both;
+    background-color: #D6D6D6;
+    border-radius: 6px;
+    padding: 1% 0;
+}
+#dolphin-price-wrapper .dolphin-main-price{
+    display: block;
+    clear: both;
+    color: #FF0000;
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 1em;
+    font-weight: bold;
+    width: 100%;
+}
+#dolphin-price-wrapper a{
+    color: #0453BC;
+    display: block;
+    line-height: 1em;
+    text-align: right;
+}
+#dolphin-price-wrapper > div{
+    display: block;
+    overflow: hidden;
+    width: 96%;
+    clear: both;
+    font-size: .8em;
+    text-align: right;
+}
+#fuel-economy-wrapper{
+    width: 96%;
+    display: block;
+	clear: both;
+    float: none;
+    overflow: hidden;
+    border-left: 4px solid #3B3B3B;
+    border-right: 4px solid #3B3B3B;
+    text-align: center;
+    padding: 4% 0;
+    margin: 0 auto;
+    color: #D6D6D6;
+}
+#fuel-city, #fuel-image, #fuel-hwy{
+    display: block;
+	float: left;
+    vertical-align: top;
+    width: 33%;
+}
+#fuel-economy-wrapper span{
+    width: 100%;
+    display: block;
+}
+#fuel-disclaimer{
+    display: block;
+    float: none;
+    clear: both;
+    color: #D6D6D6;
+    text-align: center;
+    line-height: 1em;
+    font-size: .75em;
+    padding: 2% 0 0;
+}
+.tabs-button{
+	display: block;
+	float: right;
+	background-color: #858585;
+	color: #FFF;
+	font-size: 120%;
+	font-weight: bold;
+	line-height: 100%;
+	padding: 1% 2%;
+	margin: 1% 0 0 1%;
+	cursor: pointer;
+}
+.tabs-button.active{
+	background-color: #0453BC;
+}
+.tabs-content{
+	display: none;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.tabs-content.active{
+	display: block;
+}
+.tabs-content > div{
+    width: 98%;
+    margin: 0 auto;
+    background-color: #D3D3D3;
+    padding: 1%
+}
+.tabs-content > div ul{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    width: 100%;
+    font-size: .8em;
+    text-align: left;
+}
+.tabs-content > div ul li{
+    display: block;
+    overflow: hidden;
+    float: left;
+    width: 30%;
+    margin: 0 1.5% 1%;
+}
+#vehicle-detail-equipment h4{
+    border-bottom: 2px solid #0453BC;
+}
+#dolphin-detail-information{
+    width: 96%;
+    clear: both;
+    display: block;
+    float: none;
+    overflow: hidden;
+    border-bottom: 6px solid #3B3B3B;
+    border-radius: 8px 8px 8px 8px;
+    border-top: 6px solid #3B3B3B;
+    margin: 0 auto;
+    padding: 2% 1%;
+}
+#dolphin-column-left{
+    width: 30%;
+    float: left;
+    display: block;
+    overflow: hidden;
+    padding: 1%;
+    margin: 0 0 1%;
+    background-color: #161616;
+    border-radius: 8px;
+    border-top: 6px solid #3B3B3B;
+    border-bottom: 6px solid #3B3B3B;
+}
+#dolphin-column-middle{
+    width: 30%;
+    float: left;
+    display: block;
+    overflow: hidden;
+    padding: 1%;
+    margin: 0 2% 1%;
+    background-color: #161616;
+    border-radius: 8px;
+    border-top: 6px solid #3B3B3B;
+    border-bottom: 6px solid #3B3B3B;
+}
+#dolphin-column-right{
+    width: 30%;
+    float: left;
+    display: block;
+    overflow: hidden;
+    padding: 1%;
+    margin: 0 0 1%;
+    background-color: #161616;
+    border-radius: 8px;
+    border-top: 6px solid #3B3B3B;
+    border-bottom: 6px solid #3B3B3B;
+}
+#dolphin-detail-specs{
+    width: 98%;
+    display: block;
+    float: none;
+    clear: both;
+    overflow: hidden;
     background-color: #161616;
     border-top: 6px solid #3B3B3B;
     border-bottom: 6px solid #3B3B3B;
-    width: 96%;
-    border-radius: 8px;
-    margin: 0 auto;
     padding: 1%;
+    margin: 1% auto 1%;
+    border-radius: 8px;
 }
-.dolphin-return-to-top{
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    color: #0453BC;
-}
-.dolphin-label{
-    color: #FFF;
-}
-.dolphin-select{
-    background-color: #3B3B3B;
-    color: #FFF;
-    border-radius: 2px 2px 2px 2px;
+#dolphin-vehicle-overview{
     width: 100%;
-    max-width: 150px;
-    box-shadow: none;
-    padding: 0;
-}
-.dolphin-select option{
-    background-color: #3B3B3B;
-}
-#dolphin-search-info {
-    border-top: 3px solid #3B3B3B;
-    border-radius: 5px 5px 5px 5px;
+    display: block;
     clear: both;
     float: none;
-    margin: 1% 2% 0;
     overflow: hidden;
-    padding: 0;
-    width: 96%;
-    color: #FFF;
-    display: block;
+    margin: 4% 0;
+    padding: 2% 0;
+    border-top: 4px solid #3B3B3B;
+    border-bottom: 4px solid #3B3B3B;
+    border-radius: 6px;
 }
+.dolphin-vehicle-overview-wrap{
+    width: 90%;
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    margin: 0 auto;
+    border-bottom: 2px solid #D6D6D6;
+    line-height: 1em;
+}
+.dolphin-vehicle-overview-left{
+    width: 33%;
+    float: left;
+    margin: 0 0 0 2%;
+    padding: 0 1% 0 0;
+    text-align: right;
+    color: #D6D6D6;
+    font-size: .8em;
+    font-weight: bold;
+}
+.dolphin-vehicle-overview-right{
+    width: 56%;
+    float: left;
+    margin: 0 2% 0 0;
+    padding: 0 0 0 4%;
+    text-align: left;
+    border-left: 0px solid #D6D6D6;
+    color: #D6D6D6;
+    font-size: .8em;
+}
+#dolphin-carfax{
+    width: 100%;
+    display: block;
+    margin: 3% 0 0;
+}
+#dolphin-carfax img{
+    display: block;
+    margin: 0 auto;
+}
+#friendly-print{
+    float: right;
+    background: transparent url(http://assets.s3.dealertrend.com.s3.amazonaws.com/images/print.png) no-repeat right;
+    display: block;
+    text-decoration: none;
+    padding-right: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+	color: #000;
+}
+
+.dolphin-form{
+    width: 97%;
+    margin: 0 auto 6%;
+    border-top: 4px solid #3B3B3B;
+    border-right: 4px solid #3B3B3B;
+    border-bottom: 4px solid #3B3B3B;
+    border-left: 4px solid #3B3B3B;
+}
+.dolphin-form-headers{
+	margin: 0;
+	padding: 0;
+	max-width: 100%;
+	width: 100%;
+	background: #D3D3D3;
+	color: #000;
+	font-size: 18px;
+	text-transform: uppercase;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 5px;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 6px;
+}
+.dolphin-form-table{
+    width: 96%;
+    display: block;
+    overflow: hidden;
+    float: none;
+    clear: both;
+    padding: 2%;
+}
+.dolphin-form-table label{
+    color: #D6D6D6;
+    font-size: .8em
+}
+.dolphin-form-table input{
+    background-color: #D6D6D6;
+    border-radius: 6px;
+    width: 100%;
+    padding: 0;
+    height: 1.4em;
+}
+.dolphin-form-table textarea{
+    background-color: #D6D6D6;
+    border-radius: 6px;
+    width: 100%;
+    max-height: 60px;
+    padding: 0;
+}
+.dolphin-form-one-half{
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+}
+.dolphin-form-one-half > div{
+    width: 45%;
+    display: block;
+	float: left;
+    margin: 0 2%;
+}
+.dolphin-form-full{
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+}
+.dolphin-form-full > div{
+    width: 96%;
+    display: block;
+    margin: 0 2%;
+}
+.dolphin-form-table .submit{
+    width: 98%;
+    display: block;
+	clear: both;
+	float: none;
+    margin: 4% auto 2%;
+    padding: 1% 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #D6D6D6;
+    background-image: none;
+    background-color: #0453BC;
+    border-top: 2px solid #D6D6D6;
+    border-right: 2px solid #D6D6D6;
+    border-bottom: 2px solid #D6D6D6;
+    border-left: 2px solid #D6D6D6;
+    cursor: 2px solid #D6D6D6;
+    height: 2.5em;
+}
+.dolphin-form-table .submit:hover{
+    color: #000;
+    background-image: none;
+    background-color: #03397F;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;
+}
+.form-single-label{
+    width: 98%;
+    display: block;
+    text-align: center;
+    margin: 4% auto 0;
+    border-bottom: 2px solid #D6D6D6;
+}
+.loan-calculated-value{
+    background-color: #D6D6D6;
+    border-radius: 6px;
+    text-align:center;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #FF0000;
+}
+.dolphin-form-table input.privacy,.dolphin-form-table input#friend-notify {
+    max-width: 20px;
+	float: left;
+}
+#dolphin-detail-share{
+    width: 12%;
+    float: right;
+    display:block;
+    overflow: hidden;
+    background-color: #161616;
+    color: #FFF;
+    margin: 1% 0;
+    padding: 0 1%;
+    border-top: 6px solid  #3B3B3B;
+    border-bottom: 6px solid  #3B3B3B;
+    border-radius: 8px 8px 8px 8px;
+    min-width: 115px;
+}
+#dolphin-share-text{
+    width: 40%;
+    display: block;
+	float: left;
+}
+#dolphin-share-buttons{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 56%;
+    display: block;
+    vertical-align: top;
+	float: left;
+}
+#dolphin-share-buttons li{
+    display: block;
+    vertical-align: ;
+    max-width: 16px;
+    width: 100%;
+    margin: 2%;
+	float: left;
+}
+#dolphin-share-buttons li a{
+    display: block;
+    max-width: 16px;
+    width: 100%;
+    height: 16px;
+    text-align: -9999px;
+    font-size: 0em;
+    line-height: 0em;
+}
+#dolphin-facebook a{
+    background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/facebook_16x16.png');
+}
+#dolphin-google a{
+    background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/google_16x16.png');
+}
+#dolphin-twitter a{
+    background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/twitter_16x16.png');
+}
+/***Detail End***/
+
 /******************
     Similar Vehicle Elements
 ******************/
-#dolphin-similar-vehicles {
+#detail-similar-wrapper {
     background-color: #161616;
     border-bottom: 6px solid #3B3B3B;
     border-radius: 8px 8px 8px 8px;
@@ -1372,9 +1080,9 @@
     margin: 1% auto;
     overflow: hidden;
     padding: 1%;
-    width: 94%;
+    width: 98%;
 }
-#dolphin-similar-title {
+#similar-title {
     background-color: #D6D6D6;
     border-bottom: 4px solid #3B3B3B;
     border-radius: 6px 6px 0 0;
@@ -1389,14 +1097,14 @@
     text-transform: uppercase;
     width: 100%;
 }
-#dolphin-similar-items{
+#similar-items{
     width: 100%;
     overflow: hidden;
     display: block;
     float: none;
     clear: both;
 }
-.dolphin-similar-item{
+.similar-item{
     width: 30%;
     margin: 1% 1.5% 0;
     display: block;
@@ -1405,52 +1113,57 @@
     border-radius: 6px;
 	float: left;
 }
-.dolphin-similar-headline{
+.similar-headline{
     margin: 1%;
     text-align: center;
     border-bottom: 2px solid #000;
     overflow: hidden;
     max-height: 20px;
 }
-.dolphin-similar-headline .dolphin-similar-saleclass{
+.similar-saleclass{
     padding: 1%;
 }
-.dolphin-similar-headline a{
+.similar-headline a{
     text-decoration: none;
     color: #000;
     font-weight: bold;
     font-size: 1.2em;
     line-height: 1.2em;
 }
-.dolphin-similar-headline span{
+.similar-headline span{
     margin: 0 1%;
 }
-.dolphin-similar-column-left, .dolphin-similar-column-right{
-    width: 47%;
+.similar-content-wrap{
+    display: block;
+    float: none;
+    overflow: hidden;
+}
+.similar-column-left, .similar-column-right{
+    width: 46%;
     display: block;
     vertical-align: top;
-    margin: 0 1%;
-	height: 100px;
+    margin: 0 2%;
 	float: left;
+	overflow: hidden;
 }
-.dolphin-similar-photo a{
+.similar-photo a{
     display: block;
 }
-.dolphin-similar-photo img{
+.similar-photo img{
     width: 100%;
     border-radius: 4px;
 }
-.dolphin-similar-details{
+.similar-details{
     display: block;
 }
-.dolphin-similar-details span{
+.similar-details span{
     display: block;
     color: #000;
     font-size: .7em;
     line-height: 1em;
     margin: 4% 0;
 }
-.dolphin-similar-price{
+.similar-price{
     display: block;
     text-align: center;
     color: #FF0000;
@@ -1458,13 +1171,13 @@
     font-size: 1em;
     margin: 10% 0 0;
 }
-.dolphin-similar-button{
+.similar-button{
     display: block;
     clear: both;
     float: none;
     overflow: hidden;
 }
-.dolphin-similar-button a{
+.similar-button a{
     display: block;
     width: 50%;
     margin: 2% auto;
@@ -1485,29 +1198,254 @@
     text-transform: uppercase;
     min-width: 130px;
 }
-.dolphin-similar-button a:hover{
+.similar-button a:hover{
     text-decoration: none;
     background-color: #03397F;
     border-top: 2px solid #000;
     border-left: 2px solid #000;
     color: #000;
 }
-
-/********
-autocheck
-********/
-.autocheck-list{
-    display: block;
-    clear: both;
-    float: right;
-    margin: 1% 0 0 0;
-    cursor: pointer;
+/***
+Gravity Form
+***/
+.form-wrapper{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
+	width: 100%;
+	color: #FFF;
+	padding: 0;
+	margin: 0;
 }
-.autocheck-detail{
+.form-display-wrap .gform_wrapper{
+	padding: 0;
+	margin: 0 0 2%;
+	width: 100%;
+	max-width: 100%;
+}
+.form-display-wrap .gform_wrapper .gform_heading{
+	width: 100%;
+}
+.form-display-wrap .gform_wrapper .gform_heading h3.gform_title{
+	margin: 0;
+	padding: 0;
+	max-width: 100%;
+	width: 100%;
+	background: #D3D3D3;
+	color: #000;
+	font-size: 18px;
+	text-transform: uppercase;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 5px;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 6px;
+}
+.form-display-wrap .gform_wrapper .gform_body{
+	width: 96%;
+	padding: 0;
+	margin: 0 auto;
+}
+.form-display-wrap .gform_wrapper .gform_footer{
+	width: 96%;
+	margin: 0 auto;
+	text-align: center;
+}
+#form-data{
+	display: none;
+}
+#form-button-wrapper{
     display: block;
+    width: 100%;
+    overflow: hidden;
     clear: both;
     float: none;
-    text-align: center;
-    margin: 4% 0 0;
-    cursor: pointer;
 }
+#form-button-wrapper .form-button{
+    width: 100%;
+    margin: 0 auto 6%;
+    display: block;
+    background-color: #D6D6D6;
+    color: #161616;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.3em;
+    text-align: center;
+    border-top: 4px solid #0453BC;
+    border-bottom: 4px solid #0453BC;
+    border-radius: 6px;
+    cursor: pointer; 
+}
+#form-button-wrapper .form-button:hover{
+    color: #D6D6D6;
+    background-color: #3B3B3B;
+    border-top: 4px solid #03397F;
+    border-bottom: 4px solid #03397F;
+}
+div.gform_body input{
+    background-color: #D6D6D6;
+    border-radius: 6px;
+    width: 100%;
+    padding: 0;
+    height: 1.4em;
+}
+div.gform_body textarea{
+        background-color: #D6D6D6;
+    border-radius: 6px;
+    width: 100%;
+    max-height: 60px;
+    padding: 0;
+}
+/***
+ Loan Calc
+***/
+#loan-calculator{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #a8a8a8;
+	max-width: 480px;
+	width: 92%;
+	padding: 1%;
+	margin: 1% auto 0;
+}
+.loan-value{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	margin: 2% 0;
+}
+.loan-value label{
+	color: #000;
+	font-size: 120%;
+	line-height: 180%
+}
+.loan-value input{
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+.loan-payment{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	border-bottom: 1px solid #FFF;
+	margin: 0 0 2%;
+}
+.loan-payment label{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 110%;
+	font-weight: bold;
+}
+.loan-payment div{
+	display: block;
+	width: 90%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+	line-height: 140%;
+	color: #000;
+	margin: 0 auto;
+}
+.loan-total{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+}
+.loan-total label{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+}
+.loan-total div{
+	display: block;
+	width: 90%;
+	text-align: center;
+	font-size: 140%;
+	font-weight: bold;
+	line-height: 180%;
+	color: #9F0300;
+	margin: 0 auto;
+}
+#loan-calculator-submit{
+	display: block;
+	margin: 4% 0;
+	text-align: center;
+}
+#loan-calculator-error{
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 1%;
+    font-size: 120%;
+}
+#loan-calculator-data{
+	display: none;
+}
+#loan-calculator-data.active{
+	display: block;
+}
+#loan-calculator-button{
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    background-color: #D6D6D6;
+    color: #161616;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.3em;
+    text-align: center;
+    border-top: 4px solid #0453BC;
+    border-bottom: 4px solid #0453BC;
+    border-radius: 6px;
+    cursor: pointer; 
+}
+#loan-calculator-button:hover{
+    color: #D6D6D6;
+    background-color: #3B3B3B;
+    border-top: 4px solid #03397F;
+    border-bottom: 4px solid #03397F;
+}
+/***
+Dialog adjustments
+***/
+div.ui-widget-overlay{
+	height: 0;
+	padding-top: 100%;
+	z-index: 9999;
+}
+.ui-dialog{
+	z-index: 9999;
+	position: fixed;
+}
+.ui-dialog .ui-dialog-titlebar-close span{
+	left: 0;
+	top: 0;
+}
+div.form-wrap .gform_body .ginput_container input{
+	max-width: 98%;
+}
+div.form-wrap .gform_body .ginput_container textarea{
+	max-width: 97%;
+	max-height: 100px;
+}
+
+
+
+
+
+

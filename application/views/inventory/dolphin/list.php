@@ -1,69 +1,81 @@
 <?php
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-	global $wp_rewrite;
-
 	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
-	$total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
+	$page_total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
+
 	$args = array(
 		'base' => add_query_arg( 'page' , '%#%' ),
 		'current' => $on_page,
-		'total' => $total,
+		'total' => $page_total,
 		'next_text' => __( 'Next &raquo;' ),
 		'prev_text' => __( '< Previous' ),
 		'show_all' => false,
-		'type' => 'plain',
-		'mid_size' => 1
+		'type' => 'plain'
 	);
 
-	$vehicle_class = isset( $parameters[ 'vehiclesclass' ] ) ? ucwords( $parameters[ 'vehicleclass' ] ) : 'All';
-
 	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
+	$vehicle_total_found = $vehicle_management_system->get_inventory()->please( array_merge( $parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
+	$vehicle_total_found = ( isset($vehicle_total_found[ 'body' ]) ) ? json_decode( $vehicle_total_found[ 'body' ] ) : NULL;
+	$vehicle_total_found = is_array( $vehicle_total_found ) && count( $vehicle_total_found ) > 0 ? $vehicle_total_found[ 0 ]->pagination->total : 0;	
 
-	if ( strcasecmp( $this->parameters['saleclass'], 'new') == 0 && !empty( $new_makes_filter ) ) {
-		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $new_makes_filter ) ) );
-	} else {
-		$total_found = $vehicle_management_system->get_inventory()->please( array_merge( $this->parameters , array( 'per_page' => 1 , 'photo_view' => 1 ) ) );
-	}
-	$total_found = json_decode( $total_found[ 'body' ] );
-	$total_found = is_array( $total_found ) && count( $total_found ) > 0 ? $total_found[ 0 ]->pagination->total : 0;
-
+	
 	$do_not_carry = remove_query_arg( 'page' , $query );
-
 	$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
-	$new = ! empty( $wp_rewrite->rules ) ? '/inventory/New/' : add_query_arg( array( 'saleclass' => 'new' ) , $tmp_do_not_carry );
-	$used = ! empty( $wp_rewrite->rules ) ? '/inventory/Used/' : add_query_arg( array( 'saleclass' => 'used' ) );
+	
+	$new_link = ( isset($rules['^(inventory)']) ) ? '/inventory/New/' : add_query_arg( array('saleclass' => 'New'), $tmp_do_not_carry );
+	$used_link = ( isset($rules['^(inventory)']) ) ? '/inventory/Used/' : add_query_arg( array('saleclass' => 'Used') );
+	$cert_link = ( isset($rules['^(inventory)']) ) ? add_query_arg('certified', 'yes', '/inventory/Used/') : add_query_arg( array('saleclass' => 'Used', 'certified' => 'yes') );
+
+	$filters = array(
+		'vehicleclass' => isset( $parameters[ 'vehicleclass' ] ) ? $parameters[ 'vehicleclass' ] : NULL,
+		'price_to' => isset( $parameters[ 'price_to' ] ) ? $parameters[ 'price_to' ] : NULL,
+		'price_from' => isset( $parameters[ 'price_from' ] ) ? $parameters[ 'price_from' ] : NULL,
+		'certified' => isset( $parameters[ 'certified' ] ) ? $parameters[ 'certified' ] : NULL,
+		'search' => isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : NULL,
+		'year_to' => isset( $parameters[ 'year_to' ] ) ? $parameters[ 'year_to' ] : NULL,
+		'year_from' => isset( $parameters[ 'year_from' ] ) ? $parameters[ 'year_from' ] : NULL,
+		'mileage_to' => isset( $parameters[ 'mileage_to' ] ) ? $parameters[ 'mileage_to' ] : NULL,
+		'mileage_from' => isset( $parameters[ 'mileage_from' ] ) ? $parameters[ 'mileage_from' ] : NULL
+	);
 
 	$vehicleclass = isset( $this->parameters[ 'vehicleclass' ] ) ? $this->parameters[ 'vehicleclass' ] : NULL;
 	$certified = isset( $this->parameters[ 'certified' ] ) ? $this->parameters[ 'certified' ] : NULL;
 	$price_to = isset( $this->parameters[ 'price_to' ] ) ? $this->parameters[ 'price_to' ] : NULL;
 	$price_from = isset( $this->parameters[ 'price_from' ] ) ? $this->parameters[ 'price_from' ] : NULL;
 
-	$filters = array(
-		'vehicleclass' => $vehicleclass,
-		'price_to' => $price_to,
-		'price_from' => $price_from,
-		'certified' => $certified
-	);
 	$search_error = '';
 
 	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
-	if ( strcasecmp( $sale_class, 'new') == 0 && !empty( $new_makes_filter ) ) { //Get Makes
-		$makes = $new_makes_filter;
+	if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
+		if ( strcasecmp( $param_saleclass, 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
+			$makes = $inventory_options['make_filter'];
+		} else {
+			$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $param_saleclass ) , $filters ) );
+			$makes = json_decode( $makes[ 'body' ] );
+		}
 	} else {
-		$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $sale_class ) , $filters ) );
-		$makes = json_decode( $makes[ 'body' ] );
+		$geo_makes = $vehicle_management_system->get_geo_dealer_mmt('makes',$parameters['dealer_id'], array_merge( array( 'saleclass' => $param_saleclass ) , $filters));
+		natcasesort($geo_makes);
+		$makes = $geo_makes;
 	}
-	$make_count = count ( $makes );
+	$make_count = count($makes);
 
 	if( isset( $parameters[ 'make' ] ) && $parameters[ 'make' ] != 'all' ) { //Get Models
-		$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-		$models = $vehicle_management_system->get_models()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] ) , $filters ) );
-		$models = json_decode( $models[ 'body' ] );
-		$model_count = count( $models );
-		if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
-			$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
+			$vehicle_management_system->tracer = 'Obtaining a list of models.';
+			$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
+			$models = $vehicle_management_system->get_models()->please( array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			$models = json_decode( $models[ 'body' ] );
+			if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
+				$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+			}
+		} else {
+			$geo_models = $vehicle_management_system->get_geo_dealer_mmt('models',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			natcasesort($geo_models);
+			$models = $geo_models;
 		}
+		$model_count = count($models);
 		$model = isset( $parameters[ 'model' ] ) ? $parameters[ 'model' ] : 'all';
 		$parameters[ 'model' ] = $model;
 		$model_text = 'All Models';
@@ -72,392 +84,284 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	}
 
 	if( isset( $parameters[ 'model' ] ) && $parameters[ 'model' ] != 'all' ) { //Get Trims
-		$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
-		$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $sale_class , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
-		$trims = json_decode( $trims[ 'body' ] );
-		$trim_count = count( $trims );
-		if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
-			$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
+			$vehicle_management_system->tracer = 'Obtaining a list of trims.';
+			$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
+			$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $param_saleclass , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+			$trims = json_decode( $trims[ 'body' ] );
+			if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
+				$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
+			}
+		} else {
+			$geo_trims = $vehicle_management_system->get_geo_dealer_mmt('trims',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ],'model'=>$parameters[ 'model' ]),$filters));
+			natcasesort($geo_trims);
+			$trims = $geo_trims;
 		}
+		$trim_count = count($trims);
 		$trim = isset( $parameters[ 'trim' ] ) ? $parameters[ 'trim' ]  : 'all';
 		$parameters[ 'trim' ] = $trim;
 		$trim_text = 'All Trims';
 	} else {
 		$trim_text = 'Select a Model';
 	}
-
-	if( !empty( $wp_rewrite->rules ) ) { //
-		$clean_url = true;
-	} else {
-		$clean_url = false;
+	
+	$sort = isset( $_GET[ 'sort' ] ) ? $_GET[ 'sort' ] : NULL;
+	switch( $sort ) {
+		case 'year_asc': $sort_year_class = 'asc'; break;
+		case 'year_desc': $sort_year_class = 'desc'; break;
+		case 'price_asc': $sort_price_class = 'asc'; break;
+		case 'price_desc': $sort_price_class = 'desc'; break;
+		case 'mileage_asc': $sort_mileage_class = 'asc'; break;
+		case 'mileage_desc': $sort_mileage_class = 'desc'; break;
+		default: $sort_year_class = $sort_price_class = $sort_mileage_class = null; break;
 	}
+	$sort_year = $sort != 'year_asc' ? 'year_asc' : 'year_desc';
+	$sort_mileage = $sort != 'mileage_asc' ? 'mileage_asc' : 'mileage_desc';
+	$sort_price = $sort != 'price_asc' ? 'price_asc' : 'price_desc';
 
 ?>
 
-<div id="dolphin-wrapper" class="dolphin-list-page"> <!-- 2nd Wrapper -->
-	<div id="dolphin-top"> <!-- Listing Top -->
-		<div id="dolphin-taxonomy"> <!-- SEO/Taxonomy -->
-			<?php echo $breadcrumbs; ?> <!-- Breadcrumbs -->
-			<div class="dolphin-pager"> <!-- Pager -->
-				<?php echo paginate_links( $args ); ?>
-			</div>
-		</div>
-		<div id="dolphin-filter-wrapper"> <!-- Search Filter Wrapper -->
-
-			<div id="dolphin-filters"> <!-- Search Filter -->
-				<div id="dolphin-makes"> <!-- Makes -->
-					<label class="dolphin-label">Makes:</label>
-					<select onchange="dolphin_filter_select('make');" class="dolphin-select">
-						<option value="">All Makes</option>
-						<?php
-							$shown_makes = array();
-							foreach( $makes as $make ) {
-								$make_safe = str_replace( '/' , '%2F' , $make );
-								$make_safe = ucwords( strtolower( $make_safe ) );
-								if( ! in_array( $make_safe , $shown_makes ) ) {
-									$shown_makes[] = $make_safe;
-
-									$value = '<option value="' . $make_safe . '"';
-									if( rawurlencode( strtolower( $make_safe ) ) == strtolower( $parameters[ 'make' ] ) ) {
-										$value .= ' selected="selected" ';
-									}
-									$value .= '>' . $make . '</option>';
-									echo $value;
-								}
-							}
-						?>
-					</select>
-				</div>
-				<div id="dolphin-models"> <!-- Models -->
-					<label class="dolphin-label">Models:</label>
-					<select onchange="dolphin_filter_select('model');" class="dolphin-select"<?php if( ! isset( $model_count ) || $model_count == 0 ) { echo 'readonly'; } ?>>
-						<option value=""><?php echo $model_text; ?></option>
-						<?php
-							if( $model_count > 0 ) {
-								if( $model_count == 1 ) {
-									$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
-								}
-								foreach( $models as $model ) {
-									$model_safe = str_replace( '/' , '%2F' , $model );
-									$value = '<option value="' . $model_safe . '"';
-									if( rawurlencode( strtolower( $model_safe ) ) == strtolower( $parameters[ 'model' ] ) ) {
-										$value .= ' selected="selected" ';
-									}
-									$value .= '>' . $model . '</option>';
-									echo $value;
-								}
-							}
-						?>
-					</select>
-				</div>
-				<div id="dolphin-trims"> <!-- Trims -->
-					<label class="dolphin-label">Trims:</label>
-					<select onchange="dolphin_filter_select('trim');" class="dolphin-select"<?php if( ! isset( $trim_count ) || $trim_count == 0 ) { echo 'readonly'; } ?>>
-						<option value=""><?php echo $trim_text; ?></option>
-						<?php
-							if( isset( $trim_count ) && $trim_count != 0 ) {
-								if( $trim_count == 1 ) {
-									$parameters[ 'trim' ] = $trims[ 0 ];
-								}
-								foreach( $trims as $trim ) {
-									$trim_safe = str_replace( '/' , '%2F' , $trim );
-									
-									$value = '<option value="' . $trim_safe . '"';
-									if( rawurlencode( strtolower( $trim_safe ) ) == strtolower( $parameters[ 'trim' ] ) ) {
-										$value .= ' selected="selected" ';
-									}
-									$value .= '>' . $trim . '</option>';
-									echo $value;
-								}
-							}
-						?>
-					</select>
+<div id="dolphin-wrapper">
+	<div id="dolphin-listing">
+		<div id="dolphin-top"> <!-- Listing Top -->
+			<div class="dolphin-breadcrumb-wrapper">
+				<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $param_saleclass ); ?></div> <!-- Breadcrumbs -->
+				<div class="dolphin-pager"> <!-- Pager -->
+					<?php echo paginate_links( $args ); ?>
 				</div>
 			</div>
-		</div>
-		<div id="dolphin-search-wrapper" > <!-- Search Wrapper -->
-			<form action="#" method="POST" id="dolphin-search"> <!-- Vehicle Search -->
-				<input type="hidden" id="hidden-rewrite" value="<?php if ( !empty( $wp_rewrite->rules ) ) { echo 'true'; } ?>" name="h_taxonomy" />
-				<input type="hidden" id="hidden-saleclass" value="<?php echo ucwords( strtolower( $sale_class ) ) ?>" name="h_saleclass" />
-				<div id="dolphin-search-advance" style="display: none;">
-					<div class="dolphin-advance-peram">
-						<label class="dolphin-label" for="price-range">Price Range -</label><span>(From: 1000 To: 10000)</span><br>
-						<label class="dolphin-label" for="price_from">From:</label>
-						<input id="dolphin-price-from" name="price_from" value="<?php echo isset( $parameters[ 'price_from' ] ) ? $parameters[ 'price_from' ] : NULL; ?>" />
-						<label class="dolphin-label" for="price_to">To:</label>
-						<input id="dolphin-price-to" name="price_to" value="<?php echo isset( $parameters[ 'price_to' ] ) ? $parameters[ 'price_to' ] : NULL; ?>" />
-					</div>
-					<div class="dolphin-advance-peram">
-						<label class="dolphin-label" for="year-range">Year -</label><span>(From: 2010 To: 2013)</span><br>
-						<label class="dolphin-label" for="year_from">From:</label>
-						<input id="dolphin-year-from" name="year_from" value="<?php echo isset( $parameters[ 'year_from' ] ) ? $parameters[ 'year_from' ] : NULL; ?>" />
-						<label class="dolphin-label" for="year_to">To:</label>
-						<input id="dolphin-year-to" name="year_to" value="<?php echo isset( $parameters[ 'year_to' ] ) ? $parameters[ 'year_to' ] : NULL; ?>" />
-					</div>
-					<div class="dolphin-advance-peram">
-						<label class="dolphin-label" for="mileage-range">Odometer -</label><span>(From: 20000 To: 50000)</span><br>
-						<label class="dolphin-label" for="mileage_from">From:</label>
-						<input id="dolphin-mileage-from" name="mileage_from" value="<?php echo isset( $parameters[ 'mileage_from' ] ) ? $parameters[ 'mileage_from' ] : NULL; ?>" />
-						<label class="dolphin-label" for="mileage_to">To:</label>
-						<input id="dolphin-mileage-to" name="mileage_to" value="<?php echo isset( $parameters[ 'mileage_to' ] ) ? $parameters[ 'mileage_to' ] : NULL; ?>" />
-					</div>
-					<div class="dolphin-advance-peram">
-						<label class="dolphin-label">Body Style: </label>
-						<select id="dolphin-vehicleclass" class="dolphin-select">
-							<option value="">All</option>
-							<option value="car" <?php echo $vehicleclass == 'car' ? 'selected' : NULL; ?>>Car</option>
-							<option value="truck" <?php echo $vehicleclass == 'truck' ? 'selected' : NULL; ?>>Truck</option>
-							<option value="sport_utility" <?php echo $vehicleclass == 'sport_utility' ? 'selected' : NULL; ?>>SUV</option>
-							<option value="van,minivan" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
-						</select>
-					</div>
-					<div class="dolphin-advance-peram">
-						<label class="dolphin-label">Sale Class: </label>
-						<select id="dolphin-saleclass" class="dolphin-select">
+			<div id="mobile-show-search">Display Search Options</div>
+			<div id="dolphin-search-wrapper"> <!-- Search Filter Wrapper -->
+				<div id="search-top-wrapper">
+					<div id="saleclass-wrapper" class="dolphin-option-wrapper search-option-top">
+						<label class="dolphin-label">Sale Class</label><br/>
+						<select id="dolphin-saleclass" class="dolphin-select" onchange="document.location = this.value;">
 							<?php
-								switch( $sale_class_filter ) {
+								switch( $inventory_options['saleclass_filter'] ) {
 									case 'all':
-										echo '<option value="New" ' . (strtolower( $sale_class ) == 'new' ? 'selected' : NULL) . ' >New Vehicles</option>';
-										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										echo '<option value="'.$new_link.'" '.(strtolower( $param_saleclass ) == 'new' ? 'selected' : NULL) .' >New Vehicles</option>';
+										echo '<option value="'.$used_link.'" '.(strtolower( $param_saleclass ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="'.$cert_link.'" '.(strtolower( $param_saleclass ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
 										break;
 									case 'new':
-										echo '<option value="New" selected >New Vehicles</option>';
+										echo '<option value="'.$new_link.'" selected >New Vehicles</option>';
 										break;
 									case 'used':
-										echo '<option value="Used" ' . (strtolower( $sale_class ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="Certified" ' . (strtolower( $sale_class ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										echo '<option value="'.$used_link.'" ' . (strtolower( $param_saleclass ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="'.$cert_link.'" ' . (strtolower( $param_saleclass ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
 										break;
 									case 'certified':
-										echo '<option value="Certified" selected >Certified Pre-Owned</option>';
+										echo '<option value="'.$cert_link.'" selected >Certified Pre-Owned</option>';
 										break;
 								}
 							?>
 						</select>
 					</div>
-					<div class="dolphin-advance-peram">
-						<div class="reset-search"><a href="<?php echo !empty($sale_class) ? '/inventory/' .$sale_class. '/' : '/inventory/'; ?>">Reset Search</a></div>
+					<div id="vehicleclass-wrapper" class="dolphin-option-wrapper search-option-top">
+						<label class="dolphin-label">Vehicle Class</label><br/>
+						<select id="dolphin-vehicleclass" class="dolphin-select" onchange="document.location = this.value;">
+							<option value="<?php echo remove_query_arg('vehicleclass'); ?>">All</option>
+							<option value="<?php echo add_query_arg(array('vehicleclass'=>'car')); ?>" <?php echo $vehicleclass == 'car' ? 'selected' : NULL; ?>>Car</option>
+							<option value="<?php echo add_query_arg(array('vehicleclass'=>'truck')); ?>" <?php echo $vehicleclass == 'truck' ? 'selected' : NULL; ?>>Truck</option>
+							<option value="<?php echo add_query_arg(array('vehicleclass'=>'sport_utility')); ?>" <?php echo $vehicleclass == 'sport_utility' ? 'selected' : NULL; ?>>SUV</option>
+							<option value="<?php echo add_query_arg(array('vehicleclass'=>'van,minivan')); ?>" <?php echo $vehicleclass == 'van,minivan' ? 'selected' : NULL; ?>>Van</option>
+						</select>
 					</div>
-				</div>
-				<div id="dolphin-search-top">
-					<div id="dolphin-search-mid">
-						<input id="dolphin-search-box" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : 'Text Search'; ?>" class="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : 'invalid'; ?>" />
-						<button id="dolphin-search-submit">SEARCH</button>
+					<div id="price-range-wrapper" class="dolphin-option-wrapper search-option-top">
+						<label class="dolphin-label" for="price-range">Price Range</label><br/>
+						<select class="dolphin-select" onchange="document.location = this.value;">
+							<option value="<?php echo remove_query_arg( 'price_from', 'price_to' ) ?>"><?php echo (isset($parameters['price_from']))? 'Remove Price Range' : 'Select Price Range'; ?></option>
+							<option value="<?php echo add_query_arg( array('price_from'=>'1','price_to'=>10000) ); ?>" <?php echo $parameters['price_from'] == "1" ? 'selected' : ''; ?>>$1 - $10,000</option>
+							<option value="<?php echo add_query_arg( array('price_from'=>'10001','price_to'=>20000) ); ?>" <?php echo $parameters['price_from'] == "10001" ? 'selected' : ''; ?>>$10,001 - $20,000</option>
+							<option value="<?php echo add_query_arg( array('price_from'=>'20001','price_to'=>30000) ); ?>" <?php echo $parameters['price_from'] == "20001" ? 'selected' : ''; ?>>$20,001 - $30,000</option>
+							<option value="<?php echo add_query_arg( array('price_from'=>'30001','price_to'=>40000) ); ?>" <?php echo $parameters['price_from'] == "30001" ? 'selected' : ''; ?>>$30,001 - $40,000</option>
+							<option value="<?php echo add_query_arg( array('price_from'=>'40001','price_to'=>50000) ); ?>" <?php echo $parameters['price_from'] == "40001" ? 'selected' : ''; ?>>$40,001 - $50,000</option>
+							<option value="<?php echo remove_query_arg( 'price_to', add_query_arg( array('price_from'=>'50001') ) ); ?>" <?php echo $parameters['price_from'] == "50001" ? 'selected' : ''; ?>>$50,001 - Above</option>
+						</select>
 					</div>
+					<div id="text-search-wrapper" class="search-option-top">
+						<label for="search">Inventory Search</label><br/>
+						<input id="dolphin-search-box" class="<?php echo isset( $parameters[ 'search' ] ) ? '' : 'invalid '; ?>list-search-value" name="search" value="<?php echo isset( $parameters[ 'search' ] ) ? $parameters[ 'search' ] : 'Text Search'; ?>" />
+					</div>
+					<button onclick="return get_list_input_values(event);" id="dolphin-search-submit">Search</button>
 				</div>
-			</form>
-			<div id="dolphin-advance-show" name="hidden">
-				Advanced Search
+				<div id="search-mid-wrapper">
+					<div id="dolphin-makes" class="dolphin-option-wrapper search-option-mid"> <!-- Makes -->
+						<label class="dolphin-label">Makes</label><br/>
+						<select class="dolphin-select" onchange="document.location = this.value;">
+							<option value="<?php echo generate_inventory_link($url_rule,$parameters,'',array('make','model','trim')); ?>">All Makes</option>
+							<?php
+								$shown_makes = array();
+								foreach( $makes as $make ) {
+									$make_safe = str_replace( '/' , '%2F' , $make );
+									$make_safe = ucwords( strtolower( $make_safe ) );
+									if( ! in_array( $make_safe , $shown_makes ) ) {
+										$shown_makes[] = $make_safe;
+										$link = generate_inventory_link($url_rule,$parameters,array('make'=>$make_safe),array('model','trim'));
+										echo '<option value="'.$link.'" '.(rawurlencode(strtolower($make_safe)) == strtolower($parameters['make']) ? 'selected': '').' >'.$make.'</option>';
+									}
+								}
+							?>
+						</select>
+					</div>
+					<div id="dolphin-models" class="dolphin-option-wrapper search-option-mid"> <!-- Models -->
+						<label class="dolphin-label">Models</label><br/>
+						<select class="dolphin-select" onchange="document.location = this.value;" <?php if( !isset( $model_count ) || $model_count == 0 ) { echo 'readonly'; } ?> >
+							<option value="<?php echo generate_inventory_link($url_rule,$parameters,'',array('model','trim')); ?>"><?php echo $model_text; ?></option>
+							<?php
+								if( $model_count > 0 ) {
+									if( $model_count == 1 ) {
+										$parameters[ 'model' ] = rawurlencode( $models[ 0 ] );
+									}
+
+									foreach( $models as $model ) {
+										$model_safe = str_replace( '/' , '%2F' , $model );
+										$link = generate_inventory_link($url_rule,$parameters,array('model'=>$model_safe),array('trim'));
+										echo '<option value="'.$link.'" '.(rawurlencode(strtolower($model_safe)) == strtolower($parameters['model']) ? 'selected': '').' >'.$model.'</option>';
+									}
+								}
+							?>
+						</select>
+					</div>
+					<div id="dolphin-trims" class="dolphin-option-wrapper search-option-mid"> <!-- Trims -->
+						<label class="dolphin-label">Trims</label><br/>
+						<select class="dolphin-select" onchange="document.location = this.value;" <?php if( !isset( $trim_count ) || $trim_count == 0 ) { echo 'readonly'; } ?> >
+							<option value="<?php echo remove_query_arg( array('trim') ); ?>"><?php echo $trim_text; ?></option>
+							<?php
+								if( isset( $trim_count ) && $trim_count != 0 ) {
+									if( $trim_count == 1 ) {
+										$parameters['trim'] = $trims[ 0 ];
+									}
+									foreach( $trims as $trim ) {
+										$trim_safe = str_replace( '/' , '%2F' , $trim );
+										echo '<option value="'.add_query_arg(array('trim' => urlencode($trim_safe))).'" '.(rawurlencode(strtolower($trim_safe)) == strtolower($parameters['trim']) ? 'selected': '').'> '.$trim.'</option>';
+									}
+								}
+							?>
+						</select>
+					</div>
+					<?php if($theme_settings['display_geo']) { ?>
+						<div id="list-geo-filter" class="dolphin-option-wrapper search-option-mid">
+							<div class="dolphin-label"><span>Vehicle Location</span></div>
+							<div id="geo-wrapper">
+								<?php 
+									$geo_output = build_geo_dropdown($dealer_geo, $geo_params, $theme_settings['add_geo_zip'] ,'Clear');
+									echo !empty( $geo_output['dropdown'] ) ? $geo_output['dropdown'] : '';
+									//echo !empty( $geo_output['back_link'] ) ? $geo_output['back_link'] : '';
+								?>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
 			</div>
-		</div>
-		<div id="search-error">
-			<?php echo $search_error; ?>
-		</div>
-		<div id="dolphin-search-info"> <!-- Search Info -->
-			<div id="dolphin-total-found">
-				Vehicles Found: <?php echo $total_found; ?>
-			</div>
-			<div id="dolphin-sort">
+
+			<div id="dolphin-search-info"> <!-- Search Info -->
+				<div id="dolphin-total-found">Vehicles Found: <?php echo $vehicle_total_found; echo !empty( $geo_output['search']) ? ' in '.$geo_output['search'] : ''; echo !empty( $geo_output['back_link'] ) ? ' | '.$geo_output['back_link'].'Geo Search' : ''; ?></div>
+				<div id="dolphin-sort-wrapper">
+					<div id="sort-label">Sort by:</div>
+					<div class="sort-value"><a class="<?php echo $sort_year_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_year ) , $do_not_carry ); ?>">Year</a></div>
+					<div class="sort-value"><a class="<?php echo $sort_price_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_price ) , $do_not_carry ); ?>">Price</a></div>
+					<div class="sort-value"><a class="<?php echo $sort_mileage_class; ?>" href="<?php echo @add_query_arg( array( 'sort' => $sort_mileage ) , $do_not_carry ); ?>">Mileage</a></div>
+				</div>
 			</div>
 		</div>
 	</div>
+	
 
-	<div id="dolphin-listing"> <!-- Inventory -->
+	<div id="dolphin-content"> <!-- Inventory -->
 		<div id="dolphin-listing-items"> <!-- Inventory Listing -->
 			<?php
 				if( empty( $inventory ) ) {
 					echo '<div class="dolphin-not-found"><h2><strong>Unable to find inventory items that matched your search criteria.</strong></h2><a onClick="history.go(-1)" title="Return to Previous Search" class="jquery-ui-button">Return to Previous Search</a></div>';
 				} else {
 					foreach( $inventory as $inventory_item ):
-						$prices = $inventory_item->prices;
-						$use_was_now = $prices->{ 'use_was_now?' };
-						$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
-						$on_sale = $prices->{ 'on_sale?' };
-						$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
-						$sale_expire = isset( $prices->sale_expire ) ? $prices->sale_expire : NULL;
-						$retail_price = $prices->retail_price;
-						$default_price_text = $prices->default_price_text;
-						$asking_price = $prices->asking_price;
-						$year = $inventory_item->year;
-						$make = urldecode( $inventory_item->make );
-						$make_safe = str_replace( '/' , '%2F' ,  $make );
-						$model = urldecode( $inventory_item->model_name );
-						$model_safe = str_replace( '/' , '%2F' ,  $model );
-						$vin = $inventory_item->vin;
-						$trim = urldecode( $inventory_item->trim );
-						$trim_safe = str_replace( '/' , '%2F' ,  $trim );
-						$engine = $inventory_item->engine;
-						$transmission = $inventory_item->transmission;
-						$exterior_color = $inventory_item->exterior_color;
-						$interior_color = $inventory_item->interior_color;
-						$stock_number = $inventory_item->stock_number;
-						$odometer = $inventory_item->odometer;
-						$icons = $inventory_item->icons;
-						$tags = $inventory_item->tags;
-						$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
-						$body_style = $inventory_item->body_style;
-						$drive_train = $inventory_item->drive_train;
-						$doors = $inventory_item->doors;
-						$headline = $inventory_item->headline;
-						$saleclass = $inventory_item->saleclass;
-						$certified = (!empty($inventory_item->certified) ) ? $inventory_item->certified : 'false';
-						$autocheck = isset( $inventory_item->auto_check_url ) ? TRUE : FALSE;
-						$video_url = isset( $inventory_item->video_url ) ? $inventory_item->video_url : false;
-						$sold = isset($inventory_item->sold_on) ? TRUE : FALSE;
-
-						if( !empty( $wp_rewrite->rules ) ) {
-							$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
-						} else {
-							$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make_safe . '&amp;model=' . $model_safe . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
-						}
-						$contact_information = $inventory_item->contact_info;
-						$generic_vehicle_title = $year . ' ' . $make . ' ' . $model;
-
-						// AIS Info
-						$ais_incentive = isset( $inventory_item->ais_incentive->to_s ) ? $inventory_item->ais_incentive->to_s : NULL;
-						$incentive_price = 0;
-						if( $ais_incentive != NULL ) {
-							preg_match( '/\$\d*(\s)?/' , $ais_incentive , $incentive );
-							$incentive_price = isset( $incentive[ 0 ] ) ? str_replace( '$' , NULL, $incentive[ 0 ] ) : 0;
-						}
+						$vehicle = itemize_vehicle($inventory_item);
+						$generic_vehicle_title = $vehicle['year'] . ' ' . $vehicle['make']['clean'] . ' ' . $vehicle['model']['clean'];
+						$link_params = array( 'year' => $vehicle['year'], 'make' => $vehicle['make']['name'],  'model' => $vehicle['model']['name'], 'state' => $state, 'city' => $city, 'vin' => $vehicle['vin'] );
+						$link = generate_inventory_link($url_rule,$link_params,'','',1);
+						$price = get_price_display($vehicle['prices'], $company_information, $vehicle['saleclass'], $vehicle['vin'], 'dolphin', $price_text, array() );
 			?>
 			<div class="dolphin-item" id="<?php echo $vin; ?>"> <!-- Inventory Listing -->
 				<div class="dolphin-column-left"> <!-- dolphin column left -->
 					<div class="dolphin-photo"> <!-- dolphin photo -->
-						<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>">
-							<?php echo $sold ? '<img class="marked-sold-overlay" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/sold_overlay.png" />' : '' ?>
-							<img class="list-image" src="<?php echo $thumbnail; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
+						<a href="<?php echo $link; ?>" title="<?php echo $generic_vehicle_title; ?>">
+							<?php echo $vehicle['sold'] ? '<img class="marked-sold-overlay" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/sold_overlay.png" />' : '' ?>
+							<img class="list-image" src="<?php echo $vehicle['thumbnail']; ?>" alt="<?php echo $generic_vehicle_title; ?>" title="<?php echo $generic_vehicle_title; ?>" />
 						</a>
 					</div>
 					 <!-- dolphin icons -->
 					<?php
-						apply_special_tags( $tags, $on_sale, $certified, $video_url);
-						if( !empty( $tags ) ){
-							echo '<div class="dolphin-icons">';
-								$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $tags);
-								echo $tag_icons;
-							echo '</div>';
+						if( $theme_settings['display_tags'] ){
+							apply_special_tags( $vehicle['tags'], $vehicle['prices']['on_sale'], $vehicle['certified'], $vehicle['video']);
+							if( !empty( $vehicle['tags'] ) ){
+								echo '<div class="armadillo-listing-tags">';
+									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags']);
+									echo $tag_icons;
+								echo '</div>';
+							}
 						}
 					?>
 				</div>
 				<div class="dolphin-column-right"> <!-- dolphin column right -->
 					<div class="dolphin-headline">
 						<div class="dolphin-headline-details">
-							<span class="dolphin-saleclass"><?php echo $saleclass; ?></span>
-							<a href="<?php echo $inventory_url; ?>" title="<?php echo $generic_vehicle_title; ?>" >
-								<span class="dolphin-year"><?php echo $year; ?></span>
-								<span class="dolphin-make"><?php echo $make; ?></span>
-								<span class="dolphin-model"><?php echo $model; ?></span>
-								<span class="dolphin-trim"><?php echo $trim; ?></span>
+							<span class="dolphin-saleclass"><?php echo $vehicle['saleclass']; ?></span>
+							<a href="<?php echo $link; ?>" title="<?php echo $generic_vehicle_title; ?>" >
+								<span class="dolphin-year"><?php echo $vehicle['year']; ?></span>
+								<span class="dolphin-make"><?php echo $vehicle['make']['clean']; ?></span>
+								<span class="dolphin-model"><?php echo $vehicle['model']['clean']; ?></span>
+								<span class="dolphin-trim"><?php echo $vehicle['trim']['clean']; ?></span>
 							</a>
 						</div>
 						<?php
-							if( $retail_price > 0 && strtolower( $saleclass ) == 'new' ) {
-								echo '<div class="dolphin-headline-msrp" alt="' . $retail_price . '">MSRP: ' . '$' . number_format( $retail_price , 0 , '.' , ',' ) . '</div>';
+							if( $price['msrp_text'] > 0 && strtolower( $vehicle['saleclass'] ) == 'new' ) {
+								echo '<div class="dolphin-headline-msrp" alt="'.$price['msrp_text'].'">MSRP: '.'$'.number_format( $price['msrp_text'], 0, '.', ',').'</div>';
 							}
-
-							if( strlen( trim( $headline ) ) > 0 ) {
-								echo '<div class="dolphin-headline-text">' . $headline . '</div>';
+							if( strlen( trim( $vehicle['headline'] ) ) > 0 ) {
+								echo '<div class="dolphin-headline-text">'.$vehicle['headline'].'</div>';
 							}
 						?>
 					</div>
 					<div class="dolphin-listing-info">
 						<div class="dolphin-details-left">
-							<span class="dolphin-stock-number" alt="<?php echo $stock_number; ?>" >Stock #: <?php echo $stock_number; ?></span>
-							<span class="dolphin-vin" alt="<?php echo $vin; ?>">VIN: <?php echo $vin; ?></span>
+							<span class="dolphin-stock-number" alt="<?php echo $vehicle['stock_number']; ?>" >Stock #: <?php echo $vehicle['stock_number']; ?></span>
+							<span class="dolphin-vin" alt="<?php echo $vehicle['vin']; ?>">VIN: <?php echo $vehicle['vin']; ?></span>
 							<?php
-								if ( $odometer > 100 ) {
-									echo '<span class="dolphin-odometer">Odometer: ' . $odometer . '</span>';
+								if( $vehicle['odometer'] > 100 ){
+									echo '<span class="dolphin-odometer">Odometer: '.$vehicle['odometer'].'</span>';
 								}
-								if ( $certified == 'true') {
+								if( $vehicle['certified'] == 'true' ){
 									echo '<span class="dolphin-certified">Certified Pre-Owned</span>';
 								}
 							?>
 						</div>
 						<div class="dolphin-details-right">
 							<?php
-								echo $body_style != NULL ? '<span class="dolphin-body-style">Body Style: ' . $body_style . '</span>' : NULL;
-								echo $interior_color != NULL ? '<span class="dolphin-interior-color">Int. Color: ' . $interior_color . '</span>' : NULL;
-								echo $exterior_color != NULL ? '<span class="dolphin-exterior-color">Ext. Color: ' . $exterior_color . '</span>' : NULL;
-								echo $transmission != NULL ? '<span class="dolphin-transmission">Trans: ' . $transmission . '</span>' : NULL;
+								echo $vehicle['body_style'] != NULL ? '<span class="dolphin-body-style">Body Style: '.$vehicle['body_style'].'</span>' : NULL;
+								echo $vehicle['interior_color'] != NULL ? '<span class="dolphin-interior-color">Int. Color: '.$vehicle['interior_color'].'</span>' : NULL;
+								echo $vehicle['exterior_color'] != NULL ? '<span class="dolphin-exterior-color">Ext. Color: '.$vehicle['exterior_color'].'</span>' : NULL;
+								echo $vehicle['transmission'] != NULL ? '<span class="dolphin-transmission">Trans: '.$vehicle['transmission'].'</span>' : NULL;
 							?>
 						</div>
 						<div class="dolphin-price">
 							<?php
-								if( $on_sale && $sale_price > 0 ) {
-									$now_text = 'Price: ';
-									if( $use_was_now ) {
-										$price_class = ( $use_price_strike_through ) ? 'dolphin-strike-through dolphin-asking-price' : 'dolphin-asking-price';
-										if( $incentive_price > 0 ) {
-											echo '<div class="' . $price_class . ' dolphin-ais">Was: ' . '$' . number_format( $sale_price , 0 , '.' , ',' ) . '</div>';
-										} else {
-											echo '<div class="' . $price_class . '">Was: ' . '$' . number_format( $asking_price , 0 , '.' , ',' ) . '</div>';
-										}
-										$now_text = 'Now: ';
-									}
-									if( $incentive_price > 0 ) {
-										echo '<div class="dolphin-ais-incentive-l-text">' . $ais_incentive . '</div>';
-										echo '<div class="dolphin-sale-price dolphin-ais dolphin-main-price">' . $now_text . '$' . number_format( $sale_price - $incentive_price , 0 , '.' , ',' ) . '</div>';
-										if( $sale_expire != NULL ) {
-											echo '<div class="dolphin-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
-										}
-									} else {
-										if( $ais_incentive != NULL ) {
-											echo '<div class="dolphin-ais-incentive-l-text">' . $ais_incentive . '</div>';
-										}
-										echo '<div class="dolphin-sale-price dolphin-main-price">' . $now_text . '$' . number_format( $sale_price , 0 , '.' , ',' ) . '</div>';
-										if( $sale_expire != NULL ) {
-											echo '<div class="dolphin-sale-expires">Sale Expires: ' . $sale_expire . '</div>';
-										}
-									}
-								} else {
-									if( $asking_price > 0 ) {
-										if( $incentive_price > 0 ) {
-											echo '<div class="dolphin-asking-price dolphin-ais">Asking Price: $' . number_format( $asking_price , 0 , '.' , ',' ) . '</div>';
-											echo '<div class="dolphin-ais-incentive-l-text">' . $ais_incentive . '</div>';
-											echo '<div class="dolphin-your-price dolphin-ais dolphin-main-price">Your Price: $' . number_format( $asking_price - $incentive_price , 0 , '.' , ',' ) . '</div>';
-										} else {
-											if( $ais_incentive != NULL ) {
-												echo '<div class="dolphin-ais-incentive-l-text">' . $ais_incentive . '</div>';
-											}
-											echo '<div class="dolphin-asking-price dolphin-main-price">Price: $' . number_format( $asking_price , 0 , '.' , ',' ) . '</div>';
-										}
-									} else {
-										if( $ais_incentive != NULL ) {
-											echo '<div class="dolphin-ais-incentive-l-text">' . $ais_incentive . '</div>';
-										}
-										echo '<div class="dolphin-no-price dolphin-main-price">' . $default_price_text . '</div>';
-									}
-								}
-
-								if( $ais_incentive != NULL && isset( $company_information->api_keys ) ) {
-									$value_ais = '<div class="dolphin-ais-incentive-s-text view-available-rebates">';
-									$value_ais .= '<a href="http://onecar.aisrebates.com/dlr2/inline/IncentiveOutput.php?vID='. $vin . '&wID=' . $company_information->api_keys->ais . '&zID=' . $company_information->zip . '" target="_blank" title="VIEW AVAILABLE INCENTIVES AND REBATES" onclick="return loadIframe( this.href );">VIEW AIS</a>';
-									$value_ais .= '</div>';
-									echo $value_ais;
-								}
+								echo (!empty($price['rebate_link'])) ? $price['rebate_link'] : ( (!empty($price['ais_link'])) ? $price['ais_link'] : '' );
+								echo $price['compare_text'].( empty($price['rebate_link']) ? $price['ais_text'] : '' ).$price['primary_text'].$price['expire_text'].$price['hidden_prices'];
 							?>
 						</div>
 					</div>
 					<div class="dolphin-more-info">
 						<div class="dolphin-contact-information">
 							<?php
-								if ( strtolower( $saleclass ) == 'new' && !empty( $phone_new ) ) {
-									$phone_value = $phone_new;
-								} elseif ( strtolower( $saleclass ) == 'used' && !empty( $phone_used ) ) {
-									$phone_value = $phone_used;
-								} else {
-									$phone_value = $contact_information->phone;
-								}
-								echo $contact_information->company_id != $company_information->id ? $contact_information->dealer_name . ' - ' . $phone_value : NULL;
+								echo get_dealer_contact_info( $vehicle['contact_info'], $inventory_options, $vehicle['saleclass'] );
 							?>
 						</div>
 						<div class="dolphin-detail-button">
-							<a href="<?php echo $inventory_url; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>">More Information</a>
+							<a href="<?php echo $link; ?>" title="More Information: <?php echo $generic_vehicle_title; ?>"><?php echo ( !empty($theme_settings['list_info_button']) ) ? $theme_settings['list_info_button'] : 'More Information'; ?></a>
 						</div>
 						<?php
-							if( $autocheck ){
-								echo display_autocheck_image( $vin, $saleclass, $type );
+							if( $vehicle['autocheck'] ){
+								echo display_autocheck_image( $vehicle['vin'], $vehicle['saleclass'], $type );
 							}
 						?>
 					</div>
@@ -474,11 +378,11 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
 	</div>
 	<div id="dolphin-bottom">
-		<?php echo $breadcrumbs; ?>
+		<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $param_saleclass ); ?></div>
 		<div class="dolphin-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>
-		<a href="#dolphin-wrapper" title="Return to Top" class="dolphin-return-to-top">Return to Top</a>
+		<!-- <a href="#dolphin-wrapper" title="Return to Top" class="dolphin-return-to-top">Return to Top</a> -->
 	</div>
 	<?php
 		if ( is_active_sidebar( 'vehicle-listing-page' ) ) :

@@ -70,17 +70,17 @@
 	font-size: .8em;
 	line-height: 1.5em;
 }
-.page-numbers{
+a.page-numbers{
 	background-color: #CA204D;
 	color: #FFF;
 	font-weight: bold;
 	padding: 0 1%;
 	text-decoration: none;
 }
-.page-numbers.current{
+a.page-numbers.current{
 	background-color: #000;
 }
-.page-numbers:hover{
+a.page-numbers:hover{
 	background-color: #000;
 	color: #FFF;
 }
@@ -163,8 +163,9 @@
 	cursor: pointer;
 	padding: 6px 0;
 	border-radius: 0 0 9px 9px;
-	width: 45%;
-	box-shadow: 0px 5px 5px #888888
+	width: 60%;
+	box-shadow: 0px 5px 5px #888888;
+	margin: 0 auto 0;
 }
 #eagle-mobile-search-wrap.inactive{
 	color: #FFF;
@@ -174,14 +175,14 @@
 	width: 32px;
 	height: 16px;
 	background-repeat: no-repeat;
-	background-image: url('images/icon_menu_black.jpg');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/icon_menu_black.jpg');
 	float: left;
 	overflow: hidden;
 	display: block;
-	margin: 0 0 0 5%;
+	margin: 2% 0 0 5%;
 }
 #eagle-mobile-search-wrap.inactive #eagle-mobile-search-img{
-	background-image: url('images/icon_menu_white.jpg');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/icon_menu_white.jpg');
 }
 #eagle-mobile-search-text{
 	float: left;
@@ -212,7 +213,7 @@
 .eagle-sidebar-content h4{
 	font-size: 1em;
 	font-weight: bold;
-	background-image: url('images/arrow_down_16x16.jpg');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/arrow_down_16x16.jpg');
 	background-repeat: no-repeat;
 	background-position: 0;
 	padding: 0 0 0 12%;
@@ -220,7 +221,7 @@
 	display: block;
 }
 .eagle-sidebar-content h4.collapsed{
-	background-image: url('images/arrow_right_16x16.jpg');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/arrow_right_16x16.jpg');
 }
 .eagle-sidebar-content ul{
 	list-style: none;
@@ -428,13 +429,13 @@
 	line-height: 1.8em;
 }
 .eagle-confirm-button{
-	background-image: url('images/check-img_20x16.png');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/check-img_20x16.png');
 }
 .eagle-question-button{
-	background-image: url('images/question-img_20x16.png');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/question-img_20x16.png');
 }
 .eagle-details-button{
-	background-image: url('images/car-img_20x16.png');
+	background-image: url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/car-img_20x16.png');
 }
 .eagle-listing-button a{
 	color: #000;
@@ -591,11 +592,6 @@
 }
 #eagle-top-price .eagle-ais-incentive-l-text{
 	font-size: .8em;
-	float: left;
-}
-#eagle-top-price .eagle-ais-incentive-s-text{
-	font-size: .7em;
-	float; left;
 }
 #eagle-get-price{
 	display: block;
@@ -657,6 +653,23 @@
 	padding: 0 .8% 0 0;
 	margin: 2% 0 0;
 }
+#photo-tabs-buttons{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	width: 97%;
+	background-color: #F6F6F6;
+}
+#photo-tabs-buttons > div{
+	width: 50%;
+	float: left;
+	color: #000;
+}
+#photo-tabs-buttons > div.active{
+	background-color: #9F0300;
+	color: #FFF;
+}
 #eagle-image-wrapper{
 	display: block;
 	overflow: hidden;
@@ -664,20 +677,20 @@
 	float: none;
 	width: 100%;
 }
-#eagle-images{
+#vehicle-images{
 	display: block;
 	overflow: hidden;
-	width: 62%;
+	width: 61%;
 	float: left;
 	max-width: 400px;
 	max-height: 300px;
 	height: 300px;
 	margin: 0 1% 1% 0;
 }
-#eagle-images img{
+#vehicle-images img{
 	width: 100% !important;
 }
-#eagle-nav-wrapper{
+#vehicle-thumbnails{
 	display: block;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -688,24 +701,75 @@
 	text-align: left;
 	margin: 0 0 1%;
 }
-#eagle-nav-images{
-	clear: both;
-	float: none;
-	overflow: hidden;
-}
-#eagle-nav-images a{
+#vehicle-thumbnails a{
 	display: block;
 	float: left;
 	margin: 0 1.5% 6px 0;
+	transition: inherit;
 }
-#eagle-nav-images .activeSlide{
+#vehicle-thumbnails .cycle-pager-active{
 	border-bottom: 3px solid #000;
 	margin: 0 1.5% 3px 0;
 }
-#eagle-nav-images a:hover{
+#vehicle-thumbnails a:hover{
 	border-bottom: 3px solid #CA204D;
 	margin: 0 1.5% 3px 0;
 }
+#inventory-video-wrapper{
+	position: relative;
+	height: 0;
+	padding-bottom: 56.25%;;
+	padding-top: 25px;
+	margin: 0 auto;
+}
+#inventory-video-iframe{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+#video-overlay-wrapper{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+	text-align: center;
+}
+#video-overlay-wrapper-dm{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+}
+#video-overlay-image{
+	width: 94%;
+	margin: 0 0 1% 0;
+}
+#video-overlay-play-button{
+    position: absolute;
+    z-index: 2;
+    top: 12%;
+    left: 32%;
+    display: block;
+	width: 40%;
+}
+#video-overlay-wrapper:hover #video-overlay-play-button{
+    background-color: #000;
+    opacity: .4;
+    border-radius: 4px;
+}
+#wp-video-shortcode-wrapper, #dm-video-wrapper{
+    display: none;
+}
+.dialog-video-wrapper, .dialog-list-gform-wrapper{
+    z-index: 900;
+}
+
 #eagle-photo-extra{
 	display: block;
 	overflow: hidden;
@@ -824,7 +888,7 @@
 	margin: 2% 0;
 }
 .eagle-detail-carfax{
-	background:transparent url('images/button-carfax-192x46.jpg') no-repeat center;
+	background:transparent url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/carfax_192x46.jpg') no-repeat center;
 	width:192px;
 	height:46px;
 	margin: 0 auto;
@@ -867,51 +931,40 @@
 	font-weight: bold;
 	margin: 2% 0;
 }
-#eagle-fuel-economy{
-	width: 100%;
+#fuel-economy-wrapper{
 	display: block;
 	overflow: hidden;
-	clear: both;
 	float: none;
-	margin: 5% auto 0;
-	background-color: #F6F6F6;
-	border-radius: 4px;
+	clear: both;
+	margin: 3% auto;
+	width: 98%;
+    text-align: center
 }
-#eagle-fuel-details{
-	width: 100%;
-	display: block;
-	float:none;
+#fuel-economy-wrapper > div{
+	display: inline-block;
 	overflow: hidden;
-	text-align: center;
-	padding: 4% 0;
+	margin: 0 2% 0;
+	color: #757575;
 }
-#eagle-fuel-details > div{
+#fuel-economy-wrapper > div span{
 	display: block;
-	float: left;
-	vertical-align: top;
-	width: 32%;
-}
-.eagle-fuel-text{
-	width: 50%;
-	margin: 0 auto;
-	color: #000;
-	border-radius: 4px;
-	font-weight: bold;
-	text-transform: uppercase;
-}
-.eagle-fuel-number{
-	color: #000;
-	font-weight: bold;
-	font-size: 1.5em;
-	line-height: 1.5em;
-}
-#eagle-fuel-disclaimer{
-	display: block;
-	color: #161616;
 	text-align: center;
-	line-height: 1.2em;
-	font-size: .8em;
-	padding: 0 4% 4%;
+}
+#city-value, #highway-value{
+	font-weight: bold;
+	font-size: 150%;
+	line-height: 150%;
+	color: #000;
+}
+#fuel-disclaimer{
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
+	font-size: 75%;
+	line-height: 100%;
+	color: #757575;
+	padding: 1% 0;
 }
 #eagle-content-description{
 	line-height: 1.2em;
@@ -1068,7 +1121,7 @@
 	line-height: 1em;
 	font-size: .8em;
 	width: 96%;
-	padding: 1% 0 1% 3%;
+	padding: 1% 0 1% 1%;
 	margin: 0;
 	color: #6D6D6D;
 }
@@ -1141,14 +1194,162 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
-
 .eagle-dialog-form{
 	z-index: 100;
 }
+.tabs-button{
+	display: block;
+	color: #FFF;
+	font-size: 110%;
+	font-weight: bold;
+	line-height: 120%;
+	padding: 0%;
+	margin: 0 0 1% 0;
+	cursor: pointer;
+	text-align: center;
+}
+.tabs-button:hover{
+	text-decoration: underline;
+}
+.tabs-content{
+	display: none;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.tabs-content.active{
+	display: block;
+}
+/***
+ Loan Calc
+***/
+#loan-calculator{
+	display: block;
+	overflow: hidden;
+	clear: both;
+	float: none;
+	background-color: #a8a8a8;
+	max-width: 480px;
+	width: 92%;
+	padding: 1%;
+	margin: 1% auto 0;
+}
+.loan-value{
+	display: block;
+	float: none;
+	clear: both;
+	overflow: hidden;
+	margin: 2% 0;
+}
+.loan-value label{
+	color: #000;
+	font-size: 120%;
+	line-height: 180%
+}
+.loan-value input{
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+.loan-payment{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	border-bottom: 1px solid #FFF;
+	margin: 0 0 2%;
+}
+.loan-payment label{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 110%;
+	font-weight: bold;
+}
+.loan-payment div{
+	display: block;
+	width: 90%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+	line-height: 140%;
+	color: #000;
+	margin: 0 auto;
+}
+.loan-total{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+}
+.loan-total label{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+}
+.loan-total div{
+	display: block;
+	width: 90%;
+	text-align: center;
+	font-size: 140%;
+	font-weight: bold;
+	line-height: 180%;
+	color: #9F0300;
+	margin: 0 auto;
+}
+#loan-calculator-submit{
+	display: block;
+	margin: 4% 0;
+	text-align: center;
+}
+#loan-calculator-error{
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 1%;
+    font-size: 120%;
+}
+#loan-calculator-data{
+	display: none;
+}
+#loan-calculator-data.active{
+	display: block;
+}
+#loan-calculator-button{
+    display: block;
+    width: 96%;
+    margin: 2% auto;
+    text-align: center;
+    padding: 1%;
+    background-color: #CA204D;
+    color: #FFF;
+    border: 1px solid #E1E1E1;
+    font-weight: bold;
+    font-size: 120%;
+    cursor: pointer;
+}
+#loan-calculator-button:hover{
+    background-color: #000;
+}
+
 /******************
 	Similar Vehicle Elements
 ******************/
-#eagle-similar-vehicles {
+#detail-similar-wrapper{
+	display: block;
+	overflow: hidden;
+	float: none;
+	clear: both;
+	width: 100%;
+	margin: 1% 0 0;
+}
+#similar-vehicles-wrapper{
 	background-color: #F6F6F6;
 	clear: both;
 	display: block;
@@ -1158,7 +1359,7 @@
 	padding: 1%;
 	width: 96%;
 }
-#eagle-similar-title {
+#similar-title {
 	color: #CA204D;
 	display: block;
 	font-size: 1em;
@@ -1169,85 +1370,85 @@
 	text-transform: uppercase;
 	width: 100%;
 }
-#eagle-similar-items{
+#similar-items{
 	width: 100%;
 	overflow: hidden;
 	display: block;
 	float: none;
 	clear: both;
 }
-.eagle-similar-item{
+.similar-item{
 	width: 90%;
 	margin: 1% auto 10%;
 	display: block;
 	padding: 0 0 6%;
 	border-bottom: 2px solid #E1E1E1;
 }
-.eagle-similar-item:last-child{
+.similar-item:last-child{
 	border-bottom: none;
 }
-.eagle-similar-headline{
+.similar-headline{
 	margin: 1% 0 4%;
 	text-align: center;
 	overflow: hidden;
 	max-height: 20px;
 }
-.eagle-similar-headline .eagle-similar-saleclass{
+.similar-headline .similar-saleclass{
 	padding: 1%;
 	font-size: .7em;
 }
-.eagle-similar-headline a{
+.similar-headline a{
 	text-decoration: none;
 	color: #000;
 	font-weight: bold;
 	font-size: .8em;
 	line-height: 1em;
 }
-.eagle-similar-headline span{
+.similar-headline span{
 	margin: 0 1%;
 }
-.eagle-similar-content-wrap{
+.similar-content-wrap{
 	display: block;
 	float: none;
 	clear: both;
 	overflow: hidden;
 }
-.eagle-similar-column-left{
+.similar-column-left{
 	width: 42%;
 	display: block;
 	float: left;
 	vertical-align: top;
 	margin: 0 1%;
 }
-.eagle-similar-column-right{
+.similar-column-right{
 	width: 54%;
 	display: block;
 	float: left;
 	vertical-align: top;
 	margin: 0 0 0 1%;
 }
-.eagle-similar-photo a{
+.similar-photo a{
 	display: block;
 }
-.eagle-similar-photo img{
+.similar-photo img{
 	width: 100%;
 	border-radius: 4px;
 }
-.eagle-similar-button{
+.similar-button{
 	margin: 6% 0 0;
 	clear: both;
 }
-.eagle-similar-details{
+.similar-details{
 	display: block;
 }
-.eagle-similar-details span{
+.similar-details span{
 	display: block;
 	color: #000;
 	font-size: .7em;
 	line-height: .8em;
 	margin: 4% 0;
 }
-.eagle-similar-price{
+.similar-price{
 	display: block;
 	text-align: center;
 	color: #CA204D;
@@ -1255,7 +1456,7 @@
 	font-size: 1em;
 	margin: 5% 0 0;
 }
-.eagle-similar-button a{
+.similar-button a{
 	display: block;
 	width: 75%;
 	margin: 2% auto;
@@ -1271,7 +1472,7 @@
 	font-weight:  bold;
 	text-transform: uppercase;
 }
-.eagle-similar-button a:hover{
+.similar-button a:hover{
 	text-decoration: none;
 	background-color: #000;
 	color: #FFF;
@@ -1281,7 +1482,7 @@
 #friendly-print{
 	float: right;
 	clear: both;
-	background: transparent url(images/print.png) no-repeat right;
+	background: transparent url('http://assets.s3.dealertrend.com.s3.amazonaws.com/images/print.png') no-repeat right;
 	display: block;
 	text-decoration: none;
 	padding-right: 20px;
@@ -1334,4 +1535,91 @@ div.form-wrap .gform_body .ginput_container input{
 div.form-wrap .gform_body .ginput_container textarea{
 	max-width: 97%;
 	max-height: 100px;
+}
+/***
+Geo
+***/
+#geo-wrapper{
+    display: block;
+    width: 100%;
+    float: none;
+    clear: both;
+    text-align: center;
+}
+#inventory-geo-select{
+    width: 80%;
+	margin: 4% auto 2%;
+}
+/***
+Gravity Form
+***/
+.form-wrapper{
+	display: block;
+	clear: both;
+	float: none;
+	overflow: hidden;
+	width: 100%;
+	color: #000;
+	padding: 0;
+	margin: 0;
+}
+.form-display-wrap .gform_wrapper{
+	padding: 0;
+	margin: 0 0 2%;
+	width: 100%;
+	max-width: 100%;
+}
+.form-display-wrap .gform_wrapper .gform_heading{
+	width: 100%;
+}
+.form-display-wrap .gform_wrapper .gform_heading h3.gform_title{
+	margin: 0;
+	padding: 0;
+	max-width: 100%;
+	width: 100%;
+	background: #858585;
+	color: #FFF;
+	font-size: 18px;
+	text-transform: uppercase;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 5px;
+	text-align: center;
+	font-weight: normal;
+}
+.form-display-wrap .gform_wrapper .gform_body{
+	width: 96%;
+	padding: 0;
+	margin: 0 auto;
+}
+.form-display-wrap .gform_wrapper .gform_footer{
+	width: 96%;
+	margin: 0 auto;
+	text-align: center;
+}
+#form-data{
+	display: none;
+}
+#form-button-wrapper{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    clear: both;
+    float: none;
+}
+#form-button-wrapper .form-button{
+    display: block;
+    width: 96%;
+    margin: 2% auto;
+    text-align: center;
+    padding: 1%;
+    background-color: #CA204D;
+    color: #FFF;
+    border: 1px solid #E1E1E1;
+    font-weight: bold;
+    font-size: 120%;
+    cursor: pointer;
+}
+#form-button-wrapper .form-button:hover{
+    background-color: #000;
 }

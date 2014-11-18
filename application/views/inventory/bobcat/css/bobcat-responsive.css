@@ -1,123 +1,261 @@
-@media all and (max-width: 960px){
+/*******************************Portrait*******************************/
 
-}
 
-@media all and (max-width: 780px){
-	input#bobcat-search-box{
-		max-width: 68%;
+/*360x640 | s4*/
+@media (max-width: 360px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
 	}
-	div.vehicle-dealer-info{
-		font-size: 90%;
-	}
-	div#price-main{
-		float: none;
-		width: 100%;
-	}
-	div#price-extra{
-		float: none;
-		width: 100%;
-	}
-}
-
-@media all and (max-width: 480px){
-	div#bobcat-search-text{
-		float: none;
-		width: 100%;
-	}
-	input#bobcat-search-box{
-		width: 58%;
-	}
-	div#bobcat-advance-show{
-		float: none;
-		width: 100%;
-		margin: 1% 0 0;
-	}
-	div.search-wrapper{
-		float: none;
-		width: 94%;
-		margin: 2% auto 4%;
-		font-size: 90%;
-	}
-	div.bobcat-advance-peram{
-		margin: 0 auto;
-		text-align: center;
-		width: 96%;
-	}
-	div.reset-search{
-		margin: 2% auto 4%;
-		width: 90%;
-	}
-	div#bobcat-total-found{
-		width: 100%;
-		text-align: center;
-		padding: 0;
+	div.breadcrumbs{
+	    display: none;
 	}
 	div.bobcat-pager{
-		width: 100%;
-		text-align: center;
+	    width: 98%;
+	    float: none;
+	    text-align: center;
+		margin: 0 auto;
 		padding: 0;
 	}
-	div.middle-left, div.middle-center, div.middle-right{
-		float: none;
-		width: 100%;
+	div.quick-link-items{
+	    display: block;
+	    overflow-x: scroll;
+	    overflow-y: hidden;
+	    height: 30px;
+	    white-space: nowrap;
+		margin: 0 auto;
+		padding: 0;
+		width: 94%;
+	}
+	div#bobcat-search-text{
+	    float: none;
+	    clear: both;
+	    width: 96%;
+	    margin: 0 auto;
+	    padding: 0;
+	}
+	input#bobcat-search-box{
+	    padding: 0;
+	}
+	div#bobcat-advance-show{
+	    width: 96%;
+	    float: none;
+	    clear: both;
+	    margin: 2% auto 0;
+	}
+	div#bobcat-total-found{
+	    float: none;
+	    display: block;
+	    clear: both;
+	    width: 96%;
+	    margin: 0 auto;
+	    text-align: center;
+	    padding: 0;
+	    border-bottom: 1px solid #C9C9C9;
+	}
+	div#bobcat-inventory-wrapper{
+	    width: 94%;
+	}
+	.bobcat-vehicle-middle > div{
+	    float: none;
+	    clear: both;
+	    display: block;
+	    width: 100%;
+	    padding: 0;
+	    margin: 0;
 	}
 	div.bobcat-price-wrap{
-		height: auto;
-	}
-	.bobcat-price-wrap > div{
-		display: none;
-	}
-	.bobcat-price-wrap > div.bobcat-main-price{
-		display: block;
+	    height: auto;
+	    margin: 0 0 2%;
 	}
 	.middle-left .bobcat-more-info{
-		display: none;
-	}
-	div.vehicle-information{
-		display: none;
-	}
-	div.bobcat-vehicle-bottom > div{
-		float: none;
-		width: 100%;
+	    display: none;
 	}
 
-	div#bobcat-detail .breadcrumbs{
-		text-align: center
+	div.vehicle-information{
+	    display: none;
 	}
-	a#friendly-print{
-		display: none;
+	div.dealer-contact-wrapper{
+	    width: 100%;
+	    text-align: center;
 	}
-	div#content-inner-left{
-		float: none;
-		width: 100%;
+	
+	/*Detail Start*/
+	div#bobcat-content-wrapper > div{
+	    display: block;
+	    float: none;
+	    clear: both;
+	    width: 100%;
 	}
-	div#content-inner-right{
-		float: none;
-		width: 100%;
+	div#bobcat-price-wrap{
+	    margin: 2% 0;
+	    text-align: center;
 	}
-	div.info-divider{
-		font-size: 100%;
+	div#bobcat-price-wrap > div{
+	    float: none;
+	    clear: both;
+	    width: 100%;
 	}
-	div#vehicle-detail-options ul li{
-		float: none;
-		width: 90%;
-		margin: 2% 0 0 6%;
-		font-size: 90%;
+	div#vehicle-thumbnails{
+	    height: 60px;
 	}
-	div#vehicle-detail-description{
-		width: 96%;
-		padding: 2%;
-		font-size: 90%;
+	div#vehicle-details-tabs-buttons > div.tabs-button{
+	    width: 96%;
+	    margin: 1% auto;
+	    padding: 1% 0;
+	    float: none;
+	    clear: both;
+	    text-align: center;
 	}
-	div#similar-vehicles-wrapper{
-		width:93%;
-		margin: 1% auto;
-	}
-	div.similar-item{
-		width: 90%;
-		margin: 5% auto 0;
-		display: block;
-		border-bottom: 2px solid #000;
+	div#vehicle-detail-options > ul > li{
+	    width: 42%;
+	    margin: 0 0 0 6%;
+	    padding: 0 2% 0 0;
 	}
 }
 
+/*320x568 | i5*/
+@media (max-width: 320px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 320px !important;
+	}
+}
+
+
+
+/*******************************Landscape*******************************/
+
+/*640x360 | s4*/
+@media (max-width: 640px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
+	}
+	div.breadcrumbs{
+	    display: none;
+	}
+	div.bobcat-pager{
+	    width: 98%;
+	    float: none;
+	    text-align: center;
+		margin: 0 auto;
+		padding: 0;
+	}
+	div.quick-link-items{
+	    display: block;
+	    overflow-x: scroll;
+	    overflow-y: hidden;
+	    height: 30px;
+	    white-space: nowrap;
+		margin: 0 auto;
+		padding: 0;
+		width: 94%;
+	}
+	div#bobcat-search-text{
+	    float: none;
+	    clear: both;
+	    width: 96%;
+	    margin: 0 auto;
+	    padding: 0;
+	}
+	input#bobcat-search-box{
+	    padding: 0;
+	}
+	div#bobcat-advance-show{
+	    width: 96%;
+	    float: none;
+	    clear: both;
+	    margin: 2% auto 0;
+	}
+	div#bobcat-total-found{
+	    float: none;
+	    display: block;
+	    clear: both;
+	    width: 96%;
+	    margin: 0 auto;
+	    text-align: center;
+	    padding: 0;
+	    border-bottom: 1px solid #C9C9C9;
+	}
+	div#bobcat-inventory-wrapper{
+	    width: 94%;
+	}
+	.bobcat-vehicle-middle > div{
+	    float: none;
+	    clear: both;
+	    display: block;
+	    width: 100%;
+	    padding: 0;
+	    margin: 0;
+	}
+	div.bobcat-price-wrap{
+	    height: auto;
+	    margin: 0 0 2%;
+	}
+	.middle-left .bobcat-more-info{
+	    display: none;
+	}
+
+	div.vehicle-information{
+	    display: none;
+	}
+	div.dealer-contact-wrapper{
+	    width: 100%;
+	    text-align: center;
+	}
+	
+	/*Detail Start*/
+	div#bobcat-content-wrapper > div{
+	    display: block;
+	    float: none;
+	    clear: both;
+	    width: 100%;
+	}
+	div#bobcat-price-wrap{
+	    margin: 2% 0;
+	    text-align: center;
+	}
+	div#bobcat-price-wrap > div{
+	    float: none;
+	    clear: both;
+	    width: 100%;
+	}
+	div#vehicle-thumbnails{
+	    height: 60px;
+	}
+	div#vehicle-details-tabs-buttons > div.tabs-button{
+	    width: 96%;
+	    margin: 1% auto;
+	    padding: 1% 0;
+	    float: none;
+	    clear: both;
+	    text-align: center;
+	}
+	div#vehicle-detail-options > ul > li{
+	    width: 42%;
+	    margin: 0 0 0 6%;
+	    padding: 0 2% 0 0;
+	}
+
+}
+
+/*568x320 | i5*/
+@media (max-width: 568px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 568px !important;
+	}
+}

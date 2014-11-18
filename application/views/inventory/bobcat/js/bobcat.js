@@ -116,6 +116,8 @@
 	}
 
 	jQuery(document).ready(function(){
+		jQuery('#dealertrend-inventory-api').parent().addClass('inventory-parentClass');
+		
 		// AIS iFrame
 		var frame = jQuery('<div class="aisframe"><iframe width="785" src="about:blank" height="415" frameborder="0"></iframe></div>');
 

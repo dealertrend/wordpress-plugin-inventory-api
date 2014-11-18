@@ -1,257 +1,271 @@
-@media all and (max-width: 1066px){
-	/*******************
-		Armadillo - Detail
-	*******************/
-	#dealertrend-inventory-api #armadillo-wrapper .armadillo-breadcrumbs{
-		width: 100%;
-		height: auto;
-		background-color: #EEEEEE;
-	}
-	#armadillo-detail div.armadillo-main-line{
-		width: 100%;
-		padding: 4px 0px;
-		text-indent: 15px;
-	}
-	#armadillo-detail div.armadillo-column-left, #armadillo-detail div.armadillo-column-middle, #armadillo-detail div.armadillo-column-right{
-		margin: 0px auto;
-		width: 33% !important;
-	}
-	#armadillo-detail div.armadillo-slideshow{
-		width: 95%;
-	}
-	#armadillo-detail div.armadillo-slideshow .armadillo-navigation{
-		width: 96%;
-		margin: 0px auto;
-	}
-	div.armadillo-helpful-links{
-		display: none;
-	}
-	div#armadillo-detail .armadillo-request-form form input, div#armadillo-detail .armadillo-request-form form textarea{
-		max-width: 200px;
-		width: 82%;
-		display: block;
-		margin: 0px auto;
-	}
-	#armadillo-detail div.armadillo-header{
-		height: auto;
-		text-align: center;
-	}
-	#armadillo-detail .armadillo-request-form input.submit{
-		background-image: none;
-		background-color: #A70300;
-		border-radius: 10px;
-		text-indent: 0px;
-		color: #fff;
-		width: 82%;
-	}
+/*******************************Portrait*******************************/
 
-	/*******************
-		Armadillo - Listing
-	********************/
-	#dealertrend-inventory-api{
-		width: 100%;
-	}
-	#dealertrend-inventory-api #armadillo-wrapper{
-		width: 96%;
-		padding: 0 1%;
-	}
-	#dealertrend-inventory-api #armadillo-wrapper > .armadillo-breadcrumbs{
-		width: 100%;
-	}
-	#armadillo-wrapper #armadillo-listing > div,#armadillo-wrapper #armadillo-listing > form{
-		width: 100%;
-	}
-	#armadillo-wrapper input#armadillo-search-box{
-		width: 65%;
-	}
-	#armadillo-total-found {
-		display: none;
-	}
-	#armadillo-sorting-columns {
-		display: none;
-	}
-	#armadillo-listing #armadillo-listing-sidebar{
-		width: 100%;
-		margin-bottom: 0px;
-		max-width: 100%;
-	}
-	#armadillo-listing #armadillo-quick-links {
-		width: 100%
-	}
-	#armadillo-listing #armadillo-quick-links > h3{
-		text-align: center;
-		border-bottom: 1px solid #000;
-		margin-left: 0px;
-	}
-	#armadillo-listing #armadillo-quick-links > ul{
-		display: none;
-	}
 
-	#armadillo-listing #armadillo-quick-links .armadillo-expanded{
-		display: block;
-		clear: both;
-		height: auto;
+/*360x640 | S4 */
+@media (max-width: 360px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
 	}
-	#armadillo-listing #armadillo-quick-links .armadillo-expanded > span{
-		text-align: center;
-		width: 100%;
-		background-position: right;
-		padding: 0px;
-	}
-	#armadillo-listing #armadillo-quick-links .armadillo-expanded ul{
-		padding: 5px 0px;
-		width: 100%;
-		text-align: center;
-	}
-	#armadillo-listing #armadillo-quick-links .armadillo-expanded li{
-		display: inline-block;
-		margin: 0px 5px;
-	}
-	#armadillo-listing #armadillo-quick-links .armadillo-expanded li span{
-		display: inline;
-	}
-	#armadillo-listing #armadillo-quick-links .armadillo-collapsed > span{
-		text-align: center;
-		width: 100%;
-		background-position: right;
-		padding: 0px;
-	}
-	#armadillo-listing #armadillo-listing-items{
-		width: 100%;
-		margin: 0px;
-		padding: 0px;
-		float: none;
-		max-width: 100%;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item {
-		width: 95%;
-		margin: auto;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-left{
-		width: 25%;
-		float: left;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-left img{
-		width: 100%;
-		height: auto;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-right{
-		width: 70%;
-		float: left;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-right .armadillo-price{
-		width: 100%;
-		padding: 0px;
-		margin: 0px;
-	}
-}
-@media all and (max-width: 650px){
-	/*******************
-		Armadillo - Detail
-	*******************/
-	#armadillo-detail div.armadillo-main-line{
-		border: 1px solid #A8A8A8;
-		text-align: center;
-	}
-	#armadillo-detail div.armadillo-column-left, #armadillo-detail div.armadillo-column-middle, #armadillo-detail div.armadillo-column-right{
-		float: right;
-		width: 95% !important;
-	}
-	#armadillo-detail div.armadillo-slideshow img{
-		margin: 0px auto;
-		position: relative !important;
-	}
-	#armadillo-detail div.armadillo-slideshow .armadillo-images{
-		overflow: hidden;
-	}
-	div.armadillo-helpful-links{
-		display: none;
-	}
-	#armadillo-detail a.armadillo-carfax{
-		display: none;
-	}
-	#armadillo-detail #friendly-print{
-		display: none;
-	}
-	div#armadillo-detail a.armadillo-video-button{
-		display:none;
-	}
-
-	/*******************
-		Armadillo - Listing
-	********************/
-	#dealertrend-inventory-api #armadillo-listing > .armadillo-pager{
-		width: 100%;
-		float: none;
-		clear: both;
-		border: 1px solid #A8A8A8;
-		text-align: center;
-		background-color: #EEEEEE;
-		font-size: 16px;
-	}
-	#armadillo-listing #armadillo-search label{
-		margin-left: 5%;
-	}
-	#armadillo-total-found {
-		display: none;
-	}
-	#armadillo-sorting-columns {
-		display: none;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-left{
-		width: 35%;
-		float: left;
-	}
-	#armadillo-listing #armadillo-listing-items .armadillo-item .armadillo-column-right{
-		width: 60%;
-		float: left;
-	}
-	#armadillo-listing .armadillo-item .armadillo-main-line{
-		font-size: 11px;
-		line-height: 13px;
-	}
-	#armadillo-listing .armadillo-price{
-		font-size: 12px;
-		line-height: 14px;
-	}
-	#armadillo-listing .armadillo-price .armadillo-asking-price{
-		font-size: 12px !important;
-		line-height: 14px;
-	}
-	#armadillo-listing .armadillo-price .armadillo-sale-price{
-		font-size: 14px !important;
-		line-height: 14px;
-	}
-	#armadillo-listing .armadillo-price  .armadillo-ais-incentive{
-		font-size: 12px !important;
-	}
-	div.armadillo-icons{
-		display: none;
-	}
-	div.armadillo-item .armadillo-price a{
-		display:none;
-	}
-	#armadillo-wrapper input#armadillo-search-box{
-		width: 50%;
-	}
-	.armadillo-item div.armadillo-details-left{
-		display: none;
-	}
-	div.armadillo-ais-incentive{
-		display: none;
-	}
-	.armadillo-item div.armadillo-contact-information{
-		font-size: 10px;
-	}
-}
-@media all and (max-width: 480px){
-
-	#dealertrend-inventory-api #armadillo-wrapper div.armadillo-breadcrumbs{
+	div.breadcrumbs{
 	    display: none;
 	}
-	#armadillo-detail div.armadillo-slideshow .armadillo-images{
-		overflow: hidden;
+	.breadcrumb-wrapper .armadillo-pager{
+	    width: 100%;
 	}
-	#armadillo-detail div.armadillo-fuel-economy{
-		margin-bottom: 5px;
+	#armadillo-listing #armadillo-search label{
+	    float: none;
+	    width: 100%;
+	    text-align: center;
+	    margin: 2% 0 0;
+	    padding: 0;
+	    line-height: 100%;
 	}
+	#armadillo-listing input#armadillo-search-box{
+	    width: 90%;
+	    float: none;
+	    margin: 0 auto 2%;
+	}
+	#armadillo-listing div#armadillo-total-found{
+	    float: none;
+	    width: 100%;
+	    text-align: center;
+	    max-width: 100%;
+	}
+	#armadillo-listing div#armadillo-sort-wrapper{
+	    display: none;
+	}
+	#armadillo-listing div#armadillo-list-sidebar{
+	    display: block;
+	    float: none;
+	    width: 100%
+	}
+	h3#list-sidebar-label{
+		display: none;
+	}
+	h3#list-sidebar-label-mobile{
+		display: block;
+	}
+	div#armadillo-list-sidebar > ul{
+	    display: none;
+	}
+	div#armadillo-list-sidebar > ul.active{
+	    display: block;
+	}
+	div#armadillo-listing-content{
+	    display: block;
+	    float: none;
+	    width: 98%;
+	    margin: 0 auto;
+	}
+	div.armadillo-column-left{
+	    display: block;
+	    float: none;
+	    width: 60%;
+	    margin: 0 auto;
+	    padding: 0;
+	    text-align: center;
+	}
+	div.armadillo-column-left .list-image{
+	    max-width: inherit;
+	    max-height: inherit;
+	}
+	div.armadillo-column-right{
+	    display: block;
+	    width: 95%;
+	    margin: 0 auto;
+	    text-align: center;
+	    font-size: 70%
+	}
+	div.armadillo-details-left, div.armadillo-details-right{
+	    display: none;
+	}
+	div.armadillo-vehicle{
+	    border-left: none;
+	}
+	div.armadillo-price-wrapper > div{
+	    display: none;
+	}
+	div.armadillo-price-wrapper > div.armadillo-main-price{
+	    display: block;
+	    padding: 4% 0 0;
+	}
+	div.list-detail-button{
+	    padding: 1%;
+	    margin: 0 auto;
+	}
+	a.armadillo-return-to-top{
+	    display: block;
+	    margin: 4% 0;
+	    text-align: center;
+	}
+	/*List End*/
+	
+	/*Detail Start*/
+	#armadillo-detail div.armadillo-main-line{
+	    text-align: center;
+	}
+	a#friendly-print{
+	    display: none;
+	}
+	#armadillo-detail .armadillo-column{
+	    display: block;
+	    float: none;
+	    clear: both;
+	    width: 98%;
+	    padding: 0;
+	    margin: 2% auto;
+	}
+	div#vehicle-thumbnails{
+	    height: 115px;
+	    overflow-x: hidden;
+	    overflow-y: auto;
+	}
+	div#similar-title{
+	    width: 96%;
+	}
+	div.similar-item{
+	    display: block;
+	    float: none;
+	    clear: both;
+	    width: 96%;
+	    margin: 4% auto;
+	    border-bottom: 2px solid #000;
+	    padding: 0 0 2%;
+	}
+	div.similar-item:last-child{
+	    border-bottom: none;
+	}
+}
+/*320x568 | i5*/
+@media (max-width: 320px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 320px !important;
+	}
+}
+
+
+/*******************************Landscape*******************************/
+
+
+
+/*640x360 | S4*/
+@media (max-width: 640px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 640px !important;
+	}
+	div.breadcrumbs{
+	    display: none;
+	}
+	.breadcrumb-wrapper .armadillo-pager{
+	    width: 100%;
+	}
+	#armadillo-listing #armadillo-search label{
+	    float: none;
+	    width: 100%;
+	    text-align: center;
+	    margin: 2% 0 0;
+	    padding: 0;
+	    line-height: 100%;
+	}
+	#armadillo-listing input#armadillo-search-box{
+	    width: 90%;
+	    float: none;
+	    margin: 0 auto 2%;
+	}
+	#armadillo-listing div#armadillo-total-found{
+	    float: none;
+	    width: 100%;
+	    text-align: center;
+	    max-width: 100%;
+	}
+	#armadillo-listing div#armadillo-sort-wrapper{
+	    display: none;
+	}
+	#armadillo-listing div#armadillo-list-sidebar{
+	    display: block;
+	    float: none;
+	    width: 100%
+	}
+	h3#list-sidebar-label{
+		display: none;
+	}
+	h3#list-sidebar-label-mobile{
+		display: block;
+	}
+	div#armadillo-list-sidebar > ul{
+	    display: none;
+	}
+	div#armadillo-list-sidebar > ul.active{
+	    display: block;
+	}
+	div#armadillo-listing-content{
+	    display: block;
+	    float: none;
+	    width: 98%;
+	    margin: 0 auto;
+	}
+	div.armadillo-column-left{
+	    display: block;
+	    float: none;
+	    width: 60%;
+	    margin: 0 auto;
+	    padding: 0;
+	    text-align: center;
+	}
+	div.armadillo-column-left .list-image{
+	    max-width: inherit;
+	    max-height: inherit;
+	}
+	div.armadillo-column-right{
+	    display: block;
+	    width: 95%;
+	    margin: 0 auto;
+	    text-align: center;
+	    font-size: 70%
+	}
+	div.armadillo-details-left, div.armadillo-details-right{
+	    display: none;
+	}
+	div.armadillo-vehicle{
+	    border-left: none;
+	}
+	div.armadillo-price-wrapper > div{
+	    display: none;
+	}
+	div.armadillo-price-wrapper > div.armadillo-main-price{
+	    display: block;
+	    padding: 4% 0 0;
+	}
+	div.list-detail-button{
+	    padding: 1%;
+	    margin: 0 auto;
+	}
+	a.armadillo-return-to-top{
+	    display: block;
+	    margin: 4% 0;
+	    text-align: center;
+	}
+}
+
+/*568x320 | i5*/
+@media (max-width: 568px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 568px !important;
+	}
+}
