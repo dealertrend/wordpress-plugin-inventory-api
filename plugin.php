@@ -21,7 +21,7 @@ class Plugin {
 			'company_information' => array(
 				'id' => 0
 			),
-			'host' => '',
+			'host' => 'http://api.dealertrend.com',
 			'theme' => array(
 				'name' => 'armadillo',
 				'per_page' => 10,
@@ -89,6 +89,7 @@ class Plugin {
 		$this->add_menu_link();
 		$this->add_shortcode();
 		$this->register_ajax();
+		$this->wp_header_add();
 	}
 
 	function load_plugin_information() {
@@ -252,6 +253,7 @@ class Plugin {
 	function load_admin_assets() {
 		add_action( 'admin_menu' , array( &$this , 'admin_styles' ) );
 		add_action( 'admin_menu' , array( &$this , 'admin_scripts' ) );
+		add_action( 'admin_menu' , array( &$this , 'admin_vms_redirect' ) );
 	}
 
 	function setup_routing() {
@@ -280,10 +282,16 @@ class Plugin {
 			array( &$this , 'create_options_page' ),
 			$this->plugin_information[ 'PluginURL' ] . '/application/views/options/img/icon-dealertrend.png'
 		);
+		add_submenu_page( 'dealertrend_inventory_api', 'Plugin Settings', 'Plugin Settings', 'manage_options', 'dealertrend_inventory_api', array( &$this , 'create_options_page' ) );
 
 		if( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'dealertrend_inventory_api' ) {
 			wp_enqueue_style( 'cardealerpress-admin' );
 		}
+	}
+	
+	function admin_vms_redirect(){
+		global $submenu;
+		$submenu['dealertrend_inventory_api'][] = array( '<div id="cdp_menu_001">Manage Inventory</div>', 'manage_options' , 'http://manager.dealertrend.com' );
 	}
 
 	function add_plugin_links( $links ) {
@@ -450,10 +458,16 @@ class Plugin {
 				if( $this->options[ 'vehicle_management_system' ][ 'host' ] ) {
 					$this->fix_bad_wordpress_assumption();
 
-					$current_theme = $this->is_mobile != true ? $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] : $this->options[ 'vehicle_management_system' ][ 'mobile_theme' ][ 'name' ];
-					$theme_folder = $this->is_mobile != true ? 'inventory' : 'mobile';
+					$current_theme = $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ];
+					//Temp
+					if( $current_theme == 'armadillo_v2' ){
+						$this->options[ 'vehicle_management_system' ][ 'theme' ][ 'name' ] = 'armadillo';
+						$this->save_options();
+						$current_theme = 'armadillo';
+					}
+					$theme_folder = 'inventory';
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
-					$inventory_functions = dirname( __FILE__ ) . '/application/views/inventory/functions.php';
+					
 					include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 
@@ -895,6 +909,14 @@ class Plugin {
 		$ajax_widget = new \ajax_widgets();
 		add_action('wp_ajax_nopriv_ajax_widget_request', array(&$ajax_widget, 'ajax_widgets_handle_request') );
 		add_action('wp_ajax_ajax_widget_request', array(&$ajax_widget, 'ajax_widgets_handle_request') );
+	}
+	
+	function wp_header_add(){
+		add_action('wp_head', array($this, 'add_meta_viewport') );
+	}
+	
+	function add_meta_viewport(){
+		echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
 	}
 
 }

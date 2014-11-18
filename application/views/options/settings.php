@@ -17,14 +17,16 @@
             <h3 class="title">API Settings</h3>
           </td>
         </tr>
+		<!--
         <tr>
           <td width="200"><label for="vehicle-management-system">Vehicle Management System:</label></td>
-          <td><input type="text" id="vehicle-management-system" name="vehicle_management_system[host]" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'host' ] ?>" class="long_input" /></td>
+          <td><input type="text" id="vehicle-management-system" name="vehicle_management_system[host]" value="<?php //echo $this->instance->options[ 'vehicle_management_system' ][ 'host' ] ?>" class="long_input" /></td>
         </tr>
         <tr>
           <td width="200"></td>
-          <td><small>Inventory will not be available without providing a valid VMS from <?php echo $site_link; ?></small></td>
+          <td><small>Inventory will not be available without providing a valid VMS from <?php //echo $site_link; ?></small></td>
         </tr>
+		-->
         <tr>
           <td width="200"><label for="vehicle-reference-system">Vehicle Reference System:</label></td>
           <td><input type="text" id="vehicle-reference-system" name="vehicle_reference_system[host]" value="<?php echo $this->instance->options[ 'vehicle_reference_system' ][ 'host' ] ?>" class="long_input" /></td>
@@ -55,12 +57,6 @@
 				<br />
 			</td>
 		</tr>
-        <tr>
-          <td width="125" style="vertical-align:top; padding: 2% 0 0 0"><label for="company-name-override">Company Name Override:</a></td>
-          <td>
-            <input type="text" name="vehicle_management_system[company_information][name_override]" id="company-name-override" value="<?php echo $this->instance->options[ 'vehicle_management_system' ][ 'company_information' ][ 'name_override' ]; ?>" /><br><small>Overrides name displayed in breadcrumbs for inventory themes.</small>
-          </td>
-        </tr>
       </table>
 		<table>
 			<tr>
