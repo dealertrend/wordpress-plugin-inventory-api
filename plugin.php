@@ -14,6 +14,8 @@ require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_manageme
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vehicle_reference_system.php' );
 require_once( dirname( __FILE__ ) . '/application/views/widgets/vms_search_box.php' );
 
+require_once( dirname( __FILE__ ) . '/application/functions/fn_inventory.php' );
+
 class Plugin {
 
 	public $options = array(
@@ -469,6 +471,7 @@ class Plugin {
 					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 					
 					include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
+					//include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 
 					$vehicle_management_system = new vehicle_management_system(
