@@ -1,10 +1,11 @@
 <?php
 
-	namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
+namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$parameters = $this->parameters;
+	$parameters[ 'saleclass' ] = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'All';
 	$inventory_options = get_inventory_options( $this->options[ 'vehicle_management_system' ] );
-	$theme_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'Dolphin');
+	$theme_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], ucfirst($current_theme) );
 	$loan_settings = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'loan');
 	$price_text = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'price');
 	$rules = get_option( 'rewrite_rules' );
@@ -35,7 +36,7 @@
 
 	$site_url = site_url();
 	$type = isset( $inventory->vin ) ? 'detail' : 'list';
-	$param_saleclass = isset( $parameters[ 'saleclass' ] ) ? ucwords( $parameters[ 'saleclass' ] ) : 'new';
+	
 	$default_tag_names = get_default_tag_names();
 	$custom_tag_icons = $this->options[ 'vehicle_management_system' ][ 'tags' ][ 'data' ];
 
@@ -53,16 +54,16 @@
 
 	if ( ! $inventory_options['disable_responsive'] ) {
 		wp_enqueue_style(
-			'bobcat-responsive' ,
-			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/dolphin/css/dolphin-responsive.css' ,
+			$current_theme.'-responsive' ,
+			$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/'.$current_theme.'/css/'.$current_theme.'-responsive.css' ,
 			false ,
 			'1.0'
 		);
 	}
 
 	wp_enqueue_script(
-		'armadillo-theme-js',
-		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/dolphin/js/dolphin.js',
+		$current_theme.'-theme-js',
+		$this->plugin_information[ 'PluginURL' ] . '/application/views/inventory/'.$current_theme.'/js/'.$current_theme.'.js',
 		array( 'jquery' ),
 		$this->plugin_information[ 'Version' ],
 		true
@@ -100,21 +101,23 @@
 			break;
 	}
 
-	//echo "\n" . '<!--' . "\n";
-	//echo '##################################################' . "\n";
+	echo "\n" . '<!--' . "\n";
+	echo '########' . "\n";
 	//echo print_r( $this , true ) . "\n";
 	//echo print_r( $company_information , true ) . "\n";
 	//echo print_r( $vehicle_management_system , true ) . "\n";
 	if( isset( $dynamic_site_headers ) ) {
 		//echo print_r( $dynamic_site_headers , true ) . "\n";
+		echo '[SEO Helper] => ' . $dynamic_site_headers->request_stack[0];
 	}
-	//echo '##################################################' . "\n";
-	//echo '-->' . "\n";
+	echo "\n" . '########' . "\n";
+	echo '-->' . "\n";
 
 	echo '<div id="dealertrend-inventory-api">';
-		include( dirname( __FILE__ ) . '/' . $type . '.php' );
+		include( $theme_path . '/' . $type . '.php' );
 	echo '</div>';
 
 	flush();
 	get_footer();
+
 ?>

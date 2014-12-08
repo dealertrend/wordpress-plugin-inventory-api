@@ -467,10 +467,8 @@ class Plugin {
 						$this->save_options();
 						$current_theme = 'armadillo';
 					}
-					$theme_folder = 'inventory';
-					$theme_path = dirname( __FILE__ ) . '/application/views/' . $theme_folder . '/' . $current_theme;
 					
-					include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
+					$theme_path = dirname( __FILE__ ) . '/application/views/inventory/' . $current_theme;
 					//include_once( dirname( __FILE__ ) . '/application/views/inventory/functions.php' );	//Global Inventory Functions
 					add_action( 'wp_print_styles' , array( &$this , 'inventory_styles' ) , 1 );
 
@@ -507,10 +505,10 @@ class Plugin {
 					} else if( $this->print_page){
 						include_once( dirname( __FILE__ ) . '/application/views/inventory/print.php' );
 					} else {
-						if( $handle = opendir( $theme_path ) ) {
+						if( $handle = opendir( dirname( __FILE__ ) . '/application/views/inventory' ) ) {
 							while( false != ( $file = readdir( $handle ) ) ) {
-								if( $file == 'index.php' ) {
-									include_once( $theme_path . '/index.php' );
+								if( $file == 'inv_index.php' ) {
+									include_once( dirname( __FILE__ ) . '/application/views/inventory/inv_index.php' );
 								}
 							}
 							closedir( $handle );
