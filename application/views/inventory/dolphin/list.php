@@ -23,6 +23,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$do_not_carry = remove_query_arg( 'page' , $query );
 	$tmp_do_not_carry = remove_query_arg( 'certified' , $do_not_carry );
 	
+	$all_link = ( isset($rules['^(inventory)']) ) ? '/inventory/' : add_query_arg( array('taxonomy' => 'inventory'), $tmp_do_not_carry );
 	$new_link = ( isset($rules['^(inventory)']) ) ? '/inventory/New/' : add_query_arg( array('saleclass' => 'New'), $tmp_do_not_carry );
 	$used_link = ( isset($rules['^(inventory)']) ) ? '/inventory/Used/' : add_query_arg( array('saleclass' => 'Used') );
 	$cert_link = ( isset($rules['^(inventory)']) ) ? add_query_arg('certified', 'yes', '/inventory/Used/') : add_query_arg( array('saleclass' => 'Used', 'certified' => 'yes') );
@@ -48,14 +49,14 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
 	if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
-		if ( strcasecmp( $param_saleclass, 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
+		if ( strcasecmp( $parameters[ 'saleclass' ], 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
 			$makes = $inventory_options['make_filter'];
 		} else {
-			$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $param_saleclass ) , $filters ) );
+			$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] ) , $filters ) );
 			$makes = json_decode( $makes[ 'body' ] );
 		}
 	} else {
-		$geo_makes = $vehicle_management_system->get_geo_dealer_mmt('makes',$parameters['dealer_id'], array_merge( array( 'saleclass' => $param_saleclass ) , $filters));
+		$geo_makes = $vehicle_management_system->get_geo_dealer_mmt('makes',$parameters['dealer_id'], array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] ) , $filters));
 		natcasesort($geo_makes);
 		$makes = $geo_makes;
 	}
@@ -65,13 +66,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
 			$vehicle_management_system->tracer = 'Obtaining a list of models.';
 			$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-			$models = $vehicle_management_system->get_models()->please( array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			$models = $vehicle_management_system->get_models()->please( array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ]),$filters));
 			$models = json_decode( $models[ 'body' ] );
 			if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
 				$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
 			}
 		} else {
-			$geo_models = $vehicle_management_system->get_geo_dealer_mmt('models',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			$geo_models = $vehicle_management_system->get_geo_dealer_mmt('models',$parameters['dealer_id'], array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ]),$filters));
 			natcasesort($geo_models);
 			$models = $geo_models;
 		}
@@ -87,13 +88,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
 			$vehicle_management_system->tracer = 'Obtaining a list of trims.';
 			$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
-			$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $param_saleclass , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+			$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
 			$trims = json_decode( $trims[ 'body' ] );
 			if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
 				$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
 			}
 		} else {
-			$geo_trims = $vehicle_management_system->get_geo_dealer_mmt('trims',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ],'model'=>$parameters[ 'model' ]),$filters));
+			$geo_trims = $vehicle_management_system->get_geo_dealer_mmt('trims',$parameters['dealer_id'], array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ],'model'=>$parameters[ 'model' ]),$filters));
 			natcasesort($geo_trims);
 			$trims = $geo_trims;
 		}
@@ -125,7 +126,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	<div id="dolphin-listing">
 		<div id="dolphin-top"> <!-- Listing Top -->
 			<div class="dolphin-breadcrumb-wrapper">
-				<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $param_saleclass ); ?></div> <!-- Breadcrumbs -->
+				<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $parameters[ 'saleclass' ] ); ?></div> <!-- Breadcrumbs -->
 				<div class="dolphin-pager"> <!-- Pager -->
 					<?php echo paginate_links( $args ); ?>
 				</div>
@@ -139,16 +140,17 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							<?php
 								switch( $inventory_options['saleclass_filter'] ) {
 									case 'all':
-										echo '<option value="'.$new_link.'" '.(strtolower( $param_saleclass ) == 'new' ? 'selected' : NULL) .' >New Vehicles</option>';
-										echo '<option value="'.$used_link.'" '.(strtolower( $param_saleclass ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="'.$cert_link.'" '.(strtolower( $param_saleclass ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										echo '<option value="'.$all_link.'" '.(strtolower( $parameters[ 'saleclass' ] ) == 'all' ? 'selected' : NULL) .' >All Vehicles</option>';
+										echo '<option value="'.$new_link.'" '.(strtolower( $parameters[ 'saleclass' ] ) == 'new' ? 'selected' : NULL) .' >New Vehicles</option>';
+										echo '<option value="'.$used_link.'" '.(strtolower( $parameters[ 'saleclass' ] ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="'.$cert_link.'" '.(strtolower( $parameters[ 'saleclass' ] ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
 										break;
 									case 'new':
 										echo '<option value="'.$new_link.'" selected >New Vehicles</option>';
 										break;
 									case 'used':
-										echo '<option value="'.$used_link.'" ' . (strtolower( $param_saleclass ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
-										echo '<option value="'.$cert_link.'" ' . (strtolower( $param_saleclass ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
+										echo '<option value="'.$used_link.'" ' . (strtolower( $parameters[ 'saleclass' ] ) == 'used' && empty( $certified ) ? 'selected' : NULL) . ' >Pre-Owned Vehicles</option>';
+										echo '<option value="'.$cert_link.'" ' . (strtolower( $parameters[ 'saleclass' ] ) == 'used' && !empty( $certified ) ? 'selected' : NULL) . ' >Certified Pre-Owned</option>';
 										break;
 									case 'certified':
 										echo '<option value="'.$cert_link.'" selected >Certified Pre-Owned</option>';
@@ -378,7 +380,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		<?php echo !empty( $inventory ) ? '<p>' . $inventory[ 0 ]->disclaimer . '</p>' : NULL; ?>
 	</div>
 	<div id="dolphin-bottom">
-		<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $param_saleclass ); ?></div>
+		<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $parameters[ 'saleclass' ] ); ?></div>
 		<div class="dolphin-pager">
 			<?php echo paginate_links( $args ); ?>
 		</div>

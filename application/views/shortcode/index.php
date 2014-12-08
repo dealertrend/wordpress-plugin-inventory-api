@@ -1,6 +1,9 @@
 <?php
 
-	global $wp_rewrite;
+	$rules = get_option( 'rewrite_rules' );
+	$url_rule = ( isset($rules['^(inventory)']) ) ? TRUE : FALSE;
+	$price_text = get_custom_theme_settings( $this->options[ 'vehicle_management_system' ][ 'theme' ][ 'custom_settings' ], 'price');
+	/* echo '<pre>'; var_dump($sc_atts); echo '</pre>'; */
 
 	$vehicle_management_system->tracer = 'Obtaining requested sc inventory.';
 	$inventory_information = $vehicle_management_system->get_inventory()->please( $sc_atts );
@@ -30,78 +33,30 @@
 		$sc_content .= '<div class="sc-not-found"><h2><strong>Shortcode criteria did not return any results.</strong></h2></div>';
 	} else {
 		foreach( $inventory as $inventory_item ){
-			$prices = $inventory_item->prices;
-			$use_was_now = $prices->{ 'use_was_now?' };
-			$use_price_strike_through = $prices->{ 'use_price_strike_through?' };
-			$on_sale = $prices->{ 'on_sale?' };
-			$sale_price = isset( $prices->sale_price ) ? $prices->sale_price : NULL;
-			$sale_expire = isset( $prices->sale_expire ) ? $prices->sale_expire : NULL;
-			$retail_price = $prices->retail_price;
-			$default_price_text = $prices->default_price_text;
-			$asking_price = $prices->asking_price;
-			$year = $inventory_item->year;
-			$make = urldecode( $inventory_item->make );
-			$make_safe = str_replace( '/' , '%2F' ,  $make );
-			$model = urldecode( $inventory_item->model_name );
-			$model_safe = str_replace( '/' , '%2F' ,  $model );
-			$vin = $inventory_item->vin;
-			$trim = urldecode( $inventory_item->trim );
-			$trim_safe = str_replace( '/' , '%2F' ,  $trim );
-			$engine = $inventory_item->engine;
-			$transmission = $inventory_item->transmission;
-			$exterior_color = $inventory_item->exterior_color;
-			$interior_color = $inventory_item->interior_color;
-			$stock_number = $inventory_item->stock_number;
-			$odometer = $inventory_item->odometer;
-			$icons = $inventory_item->icons;
-			$thumbnail = urldecode( $inventory_item->photos[ 0 ]->small );
-			$body_style = $inventory_item->body_style;
-			$drive_train = $inventory_item->drive_train;
-			$doors = $inventory_item->doors;
-			$headline = $inventory_item->headline;
-			$saleclass = $inventory_item->saleclass;
-			$certified = $inventory_item->certified;
-
-			if( !empty( $wp_rewrite->rules ) ) {
-				$inventory_url = $site_url . '/inventory/' . $year . '/' . $make_safe . '/' . $model_safe . '/' . $state . '/' . $city . '/'. $vin . '/';
-			} else {
-				$inventory_url = '?taxonomy=inventory&amp;saleclass=' . $sale_class . '&amp;make=' . $make_safe . '&amp;model=' . $model_safe . '&amp;state=' . $state . '&amp;city=' . $city . '&amp;vin='. $vin;
-			}
+			$vehicle = itemize_vehicle($inventory_item);
+			$link_params = array( 'year' => $vehicle['year'], 'make' => $vehicle['make']['name'],  'model' => $vehicle['model']['name'], 'state' => $state, 'city' => $city, 'vin' => $vehicle['vin'] );
+			$link = generate_inventory_link($url_rule,$link_params,'','',1);
 
 			//wrapper -s
-			$sc_content .= '<div class="sc-item-wrapper"><a href="'.$inventory_url.'">';
+			$sc_content .= '<div class="sc-item-wrapper"><a href="'.$link.'">';
 			//title
 			$sc_content .= '<div class="sc-title-wrapper">';
-			$sc_content .= '<span class="sc-year">' . $year . '</span>';
-			$sc_content .= '<span class="sc-make">' . $make_safe . '</span>';
-			$sc_content .= '<span class="sc-model">' . $model_safe . '</span>';
+			$sc_content .= '<span class="sc-year">' . $vehicle['year'] . '</span>';
+			$sc_content .= '<span class="sc-make">' . $vehicle['make']['name'] . '</span>';
+			$sc_content .= '<span class="sc-model">' . $vehicle['model']['name'] . '</span>';
 			$sc_content .= '</div>';
 			//image
 			$sc_content .= '<div class="sc-img-wrapper">';
-			$sc_content .= '<img src="'.$thumbnail.'" />';
+			$sc_content .= '<img src="'.$vehicle['thumbnail'].'" />';
 			$sc_content .= '</div>';
 			//price
-			$primary_price = 0;
-			if( $on_sale && $sale_price > 0 ) {
-				if( $incentive_price > 0 ) {
-					$primary_price = $sale_price - $incentive_price;
-				} else {
-					$primary_price = $sale_price;
-				}
-			} else {
-				if( $asking_price > 0 ) {
-					if( $incentive_price > 0 ) {
-						$primary_price = $asking_price - $incentive_price;
-					} else {
-						$primary_price = $asking_price;
-					}
-				}
-			}
+			$price = get_price_display($vehicle['prices'], $company_information, $vehicle['saleclass'], $vehicle['vin'], 'short-code', $price_text, array() );
+			
 			$sc_content .= '<div class="sc-price-wrapper">';
-			if ( $primary_price > 0 ) {
-				$sc_content .= '<div class="sc-price-value"><span class="sc-price-symbol">$</span>' .  number_format( $primary_price , 0 , '.' , ',' ) . '</div>';
+			if ( $price['primary_price'] > 0 ) {
+				$sc_content .= '<div class="sc-price-value"><span class="sc-price-symbol">$</span>' .  number_format( $price['primary_price'] , 0 , '.' , ',' ) . '</div>';
 			} else {
-				$sc_content .= '<div class="sc-price-value-text">Call for Price</div>';
+				$sc_content .= '<div class="sc-price-value-text">'.$price['primary_text'].'</div>';
 			}
 			$sc_content .= '</div>';
 			//wrapper -e

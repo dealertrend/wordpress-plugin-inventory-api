@@ -446,12 +446,8 @@ class Plugin {
 	function show_theme() {
 		global $wp_query;
 
-		$this->check_mobile();
-
 		$this->taxonomy = ( isset( $wp_query->query_vars[ 'taxonomy' ] ) ) ? $wp_query->query_vars[ 'taxonomy' ] : NULL;
-
 		$this->parameters = $this->get_parameters();
-
 		wp_enqueue_script( 'dealertrend_inventory_api_traffic_source' );
 
 		switch( $this->taxonomy ) {
@@ -637,11 +633,6 @@ class Plugin {
 		}
 	}
 
-	function check_mobile() {
-		global $wp_query;
-		$this->is_mobile = isset( $wp_query->query_vars[ 'is_mobile' ] ) ? $wp_query->query_vars[ 'is_mobile' ] : false;
-	}
-
 	function stop_wordpress() {
 		exit;
 	}
@@ -823,9 +814,7 @@ class Plugin {
 	}
 
 	function add_menu_link() {
-		/**
-		 * Adds a link to the admin bar for VMS
-		 **/
+		// Adds a link to the admin bar for VMS
 		add_action( 'wp_before_admin_bar_render', array( $this, "add_vms_link" ) );
 	}
 
@@ -837,7 +826,7 @@ class Plugin {
 		$wp_admin_bar->add_menu( array(
 			'id'   => 'vms_link',
 			'meta' => array( 'target' => '_blank'),
-			'title' => 'VMS',
+			'title' => 'Manage Inventory',
 			'href' => 'http://manager.dealertrend.com'
 			)
 		);

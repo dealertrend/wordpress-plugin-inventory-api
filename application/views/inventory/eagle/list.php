@@ -42,14 +42,14 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	$vehicle_management_system->tracer = 'Obtaining a list of makes.';
 	if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
-		if ( strcasecmp( $param_saleclass, 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
+		if ( strcasecmp( $parameters[ 'saleclass' ], 'new') == 0 && !empty( $inventory_options['make_filter'] ) ) { //Get Makes
 			$makes = $inventory_options['make_filter'];
 		} else {
-			$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $param_saleclass ) , $filters ) );
+			$makes = $vehicle_management_system->get_makes()->please( array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] ) , $filters ) );
 			$makes = json_decode( $makes[ 'body' ] );
 		}
 	} else {
-		$geo_makes = $vehicle_management_system->get_geo_dealer_mmt('makes',$parameters['dealer_id'], array_merge( array( 'saleclass' => $param_saleclass ) , $filters));
+		$geo_makes = $vehicle_management_system->get_geo_dealer_mmt('makes',$parameters['dealer_id'], array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] ) , $filters));
 		natcasesort($geo_makes);
 		$makes = $geo_makes;
 	}
@@ -59,13 +59,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
 			$vehicle_management_system->tracer = 'Obtaining a list of models.';
 			$tmp_do_not_carry = remove_query_arg( 'make' , $do_not_carry );
-			$models = $vehicle_management_system->get_models()->please( array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			$models = $vehicle_management_system->get_models()->please( array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ]),$filters));
 			$models = json_decode( $models[ 'body' ] );
 			if( !in_array( rawurldecode($parameters[ 'model' ]), $models ) && !empty($parameters[ 'model' ]) ){
 				$search_error = 'The current model('.$parameters[ 'model' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
 			}
 		} else {
-			$geo_models = $vehicle_management_system->get_geo_dealer_mmt('models',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ]),$filters));
+			$geo_models = $vehicle_management_system->get_geo_dealer_mmt('models',$parameters['dealer_id'], array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ]),$filters));
 			natcasesort($geo_models);
 			$models = $geo_models;
 		}
@@ -81,13 +81,13 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 		if( empty($geo_params) || (count($dealer_geo) == 1 && $geo_params['key'] == 'state') ){
 			$vehicle_management_system->tracer = 'Obtaining a list of trims.';
 			$tmp_do_not_carry = remove_query_arg( array( 'make' , 'model' ) , $do_not_carry );
-			$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $param_saleclass , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
+			$trims = $vehicle_management_system->get_trims()->please( array_merge( array( 'saleclass' => $parameters[ 'saleclass' ] , 'make' => $parameters[ 'make' ] , 'model' => $parameters[ 'model' ] ) , $filters ) );
 			$trims = json_decode( $trims[ 'body' ] );
 			if( !in_array( rawurldecode($parameters[ 'trim' ]), $trims ) && !empty( $parameters[ 'trim' ] ) ){
 				$search_error = 'The current trim('.$parameters[ 'trim' ].') could not be found with current search parameters. Reset search or adjust search parameters. ';
 			}
 		} else {
-			$geo_trims = $vehicle_management_system->get_geo_dealer_mmt('trims',$parameters['dealer_id'], array_merge( array('saleclass'=>$param_saleclass,'make'=>$parameters[ 'make' ],'model'=>$parameters[ 'model' ]),$filters));
+			$geo_trims = $vehicle_management_system->get_geo_dealer_mmt('trims',$parameters['dealer_id'], array_merge( array('saleclass'=>$parameters[ 'saleclass' ],'make'=>$parameters[ 'make' ],'model'=>$parameters[ 'model' ]),$filters));
 			natcasesort($geo_trims);
 			$trims = $geo_trims;
 		}
@@ -124,7 +124,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	<div id="eagle-listing">
 		<div id="eagle-top"> <!-- Eagle Top -->
 			<div class="eagle-breadcrumbs">
-			<?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $param_saleclass ); ?>
+			<?php echo display_breadcrumb( $parameters, $company_information, $inventory_options ); ?>
 			</div>
 			<div id="eagle-top-search">
 				<div class="eagle-search">
@@ -161,19 +161,19 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 								<ul>
 								<?php switch( $inventory_options['saleclass_filter'] ) {
 									case 'all':
-										echo '<li><a href="'.$new_link.'" title="View New Inventory" class="'.(strtolower($param_saleclass) == 'new'?'disabled': NULL).'">New</a></li>';
-										echo '<li><a href="'.$used_link.'" title="View Used Inventory" class="'.(strtolower($param_saleclass) == 'used'?'disabled': NULL).'">Used</a></li>';
-										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($param_saleclass) == 'used'?'disabled':NULL).'">Certified</a></li>';
+										echo '<li><a href="'.$new_link.'" title="View New Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'new'?'disabled': NULL).'">New</a></li>';
+										echo '<li><a href="'.$used_link.'" title="View Used Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'used'?'disabled': NULL).'">Used</a></li>';
+										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'used'?'disabled':NULL).'">Certified</a></li>';
 										break;
 									case 'new':
-										echo '<li><a href="'.$new_link.'" title="View New Inventory" class="'.(strtolower($param_saleclass) == 'new'?'disabled':NULL).'">New</a></li>';
+										echo '<li><a href="'.$new_link.'" title="View New Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'new'?'disabled':NULL).'">New</a></li>';
 										break;
 									case 'used':
-										echo '<li><a href="'.$used_link.'" title="View Used Inventory" class="'.(strtolower($param_saleclass) == 'used'?'disabled':NULL).'">Used</a></li>';
-										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($param_saleclass) == 'used'?'disabled':NULL).'">Certified</a></li>';
+										echo '<li><a href="'.$used_link.'" title="View Used Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'used'?'disabled':NULL).'">Used</a></li>';
+										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'used'?'disabled':NULL).'">Certified</a></li>';
 										break;
 									case 'certified':
-										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($param_saleclass) == 'used'?'disabled': NULL).'">Certified</a></li>';
+										echo '<li><a href="'.$cert_link.'" title="View Certified Used Inventory" class="'.(strtolower($parameters[ 'saleclass' ]) == 'used'?'disabled': NULL).'">Certified</a></li>';
 										break;
 								}
 								?>
@@ -230,7 +230,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 											$sidebar_content .= '<li><a href="'.$link.'">'.$model.'</a></li>';
 										}
 										$back_link = generate_inventory_link($url_rule,$parameters,'',array('make'));
-										$sidebar_content .= '<li><span class="no-style"><a href="'.$back_link.'" class="eagle-filter-prev" title="View '.$param_saleclass.' Vehicles">&#60; All '.$param_saleclass.' Vehicles</a></span></li>';
+										$sidebar_content .= '<li><span class="no-style"><a href="'.$back_link.'" class="eagle-filter-prev" title="View '.$parameters[ 'saleclass' ].' Vehicles">&#60; All '.$parameters[ 'saleclass' ].' Vehicles</a></span></li>';
 										$sidebar_content .= '</ul>';
 									} else if ( $make_count != 0) {
 										$sidebar_content = '<h4 class="" name="vehicles">Makes</h4>';

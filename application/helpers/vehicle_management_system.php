@@ -136,7 +136,7 @@ class vehicle_management_system {
 			$api_url = $this->url;
 		}
 
-		if( empty( $parameters['search_sim'] ) ) {
+		if( !empty($parameters) && empty( $parameters['search_sim'] ) ) {
 			$parameters = array_merge( $this->parameters , $parameters );
 		} else {
 			unset( $parameters['search_sim'] );
