@@ -86,13 +86,11 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 			$page_total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
 
 			$args = array(
-				//'base' => add_query_arg( 'page' , '%#%' ),
-				'base' => '%_%',
-				'format' => '?page=%#%',
+				'base' => add_query_arg( 'page' , '%#%' ),
 				'current' => $on_page,
 				'total' => $page_total,
 				'next_text' => __( 'Next &raquo;' ),
-				'prev_text' => __( '< Previous' ),
+				'prev_text' => __( '&laquo; Previous' ),
 				'show_all' => false,
 				'type' => 'plain',
 				'add_args' => false
@@ -123,6 +121,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	//echo print_r( $this , true ) . "\n";
 	//echo print_r( $company_information , true ) . "\n";
 	//echo print_r( $vehicle_management_system , true ) . "\n";
+	echo '[CDP Version] => ' . $this->plugin_information['Version'] . "\n"; 
 	if( isset( $dynamic_site_headers ) ) {
 		//echo print_r( $dynamic_site_headers , true ) . "\n";
 		echo '[SEO Helper] => ' . $dynamic_site_headers->request_stack[0];
