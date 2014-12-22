@@ -2,19 +2,6 @@
 
 namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
-	$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
-	$page_total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
-
-	$args = array(
-		'base' => add_query_arg( 'page' , '%#%' ),
-		'current' => $on_page,
-		'total' => $page_total,
-		'next_text' => __( 'Next &raquo;' ),
-		'prev_text' => __( '< Previous' ),
-		'show_all' => false,
-		'type' => 'plain'
-	);
-
 	$vehicle_management_system->tracer = 'Calculating how many items were returned with the given parameters.';
 	$vehicle_total_found = $vehicle_management_system->get_inventory()->please( array_merge( $parameters , array( 'per_page' => 1 , 'photo_view' => 1 , 'make_filters' =>  $inventory_options['make_filter'] ) ) );
 	$vehicle_total_found = ( isset($vehicle_total_found[ 'body' ]) ) ? json_decode( $vehicle_total_found[ 'body' ] ) : NULL;

@@ -80,14 +80,31 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				'jquery',
 				$this->plugin_information[ 'Version' ]
 			);
-		break;
+			break;
+		case 'list':
+			$on_page = isset( $inventory[ 0 ]->pagination->on_page ) ? $inventory[ 0 ]->pagination->on_page : 0;
+			$page_total = isset( $inventory[ 0 ]->pagination->total ) ? $inventory[ 0 ]->pagination->total : 0;
+
+			$args = array(
+				//'base' => add_query_arg( 'page' , '%#%' ),
+				'base' => '%_%',
+				'format' => '?page=%#%',
+				'current' => $on_page,
+				'total' => $page_total,
+				'next_text' => __( 'Next &raquo;' ),
+				'prev_text' => __( '< Previous' ),
+				'show_all' => false,
+				'type' => 'plain',
+				'add_args' => false
+			);
+			break;
 	}
 	
 	get_header();
 	flush();
 
 	$generic_error_message = '<h2 style="font-family:Helvetica,Arial; color:red;">Unable to display inventory. Please contact technical support.</h2><br class="clear" />';
-
+	
 	switch( $status ) {
 		case 200:
 		case 404:
