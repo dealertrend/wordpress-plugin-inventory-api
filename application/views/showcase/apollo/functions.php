@@ -118,7 +118,7 @@
 		}
 	}
 
-	function get_similar_vehicles( $object, $variables ){
+	function get_similar_vehicles_showcase( $object, $variables ){
 
 		$data = array();
 		if( empty($variables[ 'code' ]) ){
@@ -359,10 +359,6 @@
 			return 1;
 		}
 		return 0;
-	}
-
-	function sort_equipment( $a , $b ) {
-		return ( $a->group > $b->group ) ? +1 : -1;
 	}
 
 	function sort_photos( $a , $b ) {

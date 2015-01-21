@@ -574,6 +574,64 @@ a#geo-back-link{
     text-align: center;
     margin: 0 0 2%;
 }
+#inventory-video-wrapper{
+	position: relative;
+	height: 0;
+	padding-bottom: 56.25%;;
+	padding-top: 25px;
+	margin: 0 auto;
+}
+#inventory-video-iframe{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+#video-overlay-wrapper{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+	text-align: center;
+}
+#video-overlay-wrapper-dm{
+    display: block;
+    overflow: hidden;
+    clear: both;
+    float: none;
+    position: relative;
+    cursor: pointer;
+}
+#video-overlay-image{
+	width: 98%;
+	margin: 0 0 1% 0;
+}
+#video-overlay-play-button{
+    position: absolute;
+    z-index: 2;
+    top: 12%;
+    left: 32%;
+    display: block;
+	width: 40%;
+}
+#video-overlay-wrapper:hover #video-overlay-play-button{
+    background-color: #000;
+    opacity: .4;
+    border-radius: 4px;
+}
+#wp-video-shortcode-wrapper, #dm-video-wrapper{
+    display: none;
+}
+div.wp-video-shortcode{
+    height: 360px !important;
+    width: 640px !important
+}
+.dialog-video-wrapper, .dialog-list-gform-wrapper{
+    z-index: 900;
+}
 #vehicle-images{
     display: block;
     overflow: hidden;

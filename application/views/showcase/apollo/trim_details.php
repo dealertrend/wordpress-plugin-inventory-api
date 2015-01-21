@@ -268,7 +268,7 @@
 					$sub_class = 'trim-variation-sub-' . $i . '-'. $i_s;
 					$variable = array( 'code' => $code['model_code'] );
 
-					$inventory = get_similar_vehicles( $vehicle_management_system, $variable );
+					$inventory = get_similar_vehicles_showcase( $vehicle_management_system, $variable );
 					if( !empty( $inventory ) ){
 						$added_param = '?saleclass=New&model_code=' . $code['model_code'];
 						echo '<div class="showcase-trim-similar-wrapper ' . $sub_class . ' ' . $class . '">';

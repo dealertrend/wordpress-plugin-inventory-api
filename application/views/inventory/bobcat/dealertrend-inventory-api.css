@@ -530,6 +530,10 @@ div.ui-slider-horizontal .ui-slider-handle{
 #wp-video-shortcode-wrapper, #dm-video-wrapper{
     display: none;
 }
+div.wp-video-shortcode{
+    height: 360px !important;
+    width: 640px !important
+}
 .dialog-video-wrapper, .dialog-list-gform-wrapper{
     z-index: 900;
 }
@@ -799,6 +803,19 @@ div.ui-slider-horizontal .ui-slider-handle{
 #bobcat-detail .bobcat-no-price.bobcat-main-price{
     font-size: 150%;
     line-height: 120%;
+}
+
+#bobcat-disclaimer{
+    display: block;
+    float: none;
+    clear: both;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #3F3F3F;
+    color: #FFF;
+    padding: 1%;
+    font-size: 75%;
 }
 /***
 Similar Vehicles

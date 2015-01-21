@@ -122,6 +122,9 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 					?>
 				</div>
+				<div id="bobcat-disclaimer">
+					<?php echo $vehicle['disclaimer']; ?>
+				</div>
 			</div>
 			<?php
 				if ( is_active_sidebar( 'vehicle-detail-page' ) ) :

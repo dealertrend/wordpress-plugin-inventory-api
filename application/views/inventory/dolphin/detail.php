@@ -29,9 +29,9 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				<h2>
 					<span class="dolphin-saleclass"><?php echo $vehicle['saleclass']; ?></span>
 					<span class="dolphin-year"><?php echo $vehicle['year']; ?></span>
-					<span class="dolphin-make"><?php echo $vehicle['make']['clean']; ?></span>
-					<span class="dolphin-model"><?php echo $vehicle['model']['clean']; ?></span>
-					<span class="dolphin-trim"><?php echo $vehicle['trim']['clean']; ?></span>
+					<span class="dolphin-make"><?php echo $vehicle['make']['name']; ?></span>
+					<span class="dolphin-model"><?php echo $vehicle['model']['name']; ?></span>
+					<span class="dolphin-trim"><?php echo $vehicle['trim']['name']; ?></span>
 					<span class="dolphin-drive-train"><?php echo $vehicle['drive_train']; ?></span>
 					<span class="dolphin-body-style"><?php echo $vehicle['body_style']; ?></span>
 

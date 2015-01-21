@@ -137,7 +137,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 			<div class="breadcrumbs"><?php echo display_breadcrumb( $parameters, $company_information, $inventory_options, $vehicle['saleclass'] ); ?></div>
 		</div>
 		<div class="armadillo-main-line">
-			<h2><?php echo $vehicle['year'] . ' ' . $vehicle['make']['clean'] . ' ' . $vehicle['model']['clean'] . ' ' . $vehicle['trim']['clean'] . ' ' . $vehicle['drive_train'] ?></h2>
+			<h2><?php echo $vehicle['year'] . ' ' . $vehicle['make']['name'] . ' ' . $vehicle['model']['name'] . ' ' . $vehicle['trim']['name'] . ' ' . $vehicle['drive_train'] ?></h2>
 			<p><?php echo $vehicle['headline']; ?></p>
 		</div>
 		<div id="detail-content-wrapper">

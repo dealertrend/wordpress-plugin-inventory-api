@@ -57,7 +57,7 @@ if( jQuery('#armadillo-detail').length ){
 				modal: true,
 				resizable: false,
 				width: 640,
-				height: 480,
+				height: 520,
 				title: video_title
 			})
 		});
@@ -85,7 +85,7 @@ if( jQuery('#armadillo-detail').length ){
 
 		function get_video_width(){
 			results = jQuery('#wp-video-shortcode-wrapper > div').width();
-			console.log(results);
+			//console.log(results);
 			return results;
 		}
 

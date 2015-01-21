@@ -69,7 +69,7 @@
 	//Trim Bottom
 	echo '<div id="showcase-trims-bottom">';
 	if( !empty( $display_vms ) ) {
-			$inventory = get_similar_vehicles( $vehicle_management_system, $vms_variables );
+			$inventory = get_similar_vehicles_showcase( $vehicle_management_system, $vms_variables );
 			if( !empty( $inventory ) ){
 				$added_param = '';
 				echo '<div class="trim-headline">' . $model . '&#39;s In-Stock</div>';

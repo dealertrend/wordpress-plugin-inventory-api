@@ -447,10 +447,6 @@ console.log('/dealertrend-ajax/showcase/<?php echo $make; ?>/<?php echo $model; 
 				$photos = $vehicle_reference_system->get_photos( $trim->acode )->please( array( 'type' => 'oem_exterior_standard' ) );
 				$photos = isset( $photos[ 'body' ] ) ? json_decode( $photos[ 'body' ] ) : NULL;
 
-			function sort_equipment( $a , $b ) {
-				return ( $a->group > $b->group ) ? +1 : -1;
-			}
-
 			function sort_photos( $a , $b ) {
 				if( $a->filename > $b->filename ) {
 					return -1;

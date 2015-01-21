@@ -763,6 +763,10 @@
 #wp-video-shortcode-wrapper, #dm-video-wrapper{
     display: none;
 }
+div.wp-video-shortcode{
+    height: 360px !important;
+    width: 640px !important
+}
 .dialog-video-wrapper{
     z-index: 900;
 }

@@ -41,9 +41,9 @@ Default Colors:
 .armadillo-pager{
 	display: block;
 	float: right;
-	width: 25%;
+	width: 26%;
 	text-align: center;
-	font-size: 90%;
+	font-size: 88%;
 }
 
 /***
@@ -756,6 +756,10 @@ div.armadillo-column{
 }
 #wp-video-shortcode-wrapper, #dm-video-wrapper{
     display: none;
+}
+div.wp-video-shortcode{
+    height: 360px !important;
+    width: 640px !important
 }
 .dialog-video-wrapper, .dialog-list-gform-wrapper{
     z-index: 900;

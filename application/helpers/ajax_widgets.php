@@ -78,7 +78,8 @@ class ajax_widgets {
 			$makes = ( !empty($makes[ 'body' ]) ? json_decode( $makes[ 'body' ] ) : array() );
 
 			foreach( $makes as $make ){
-				$clean = str_replace( '/' , '%2F' , $make );
+				//$clean = str_replace( '/' , '%2F' , $make );
+				$clean = $make;
 				$data[] = $clean;
 			}
 
@@ -99,7 +100,8 @@ class ajax_widgets {
 		$models = ( !empty($models[ 'body' ]) ? json_decode( $models[ 'body' ] ) : array() );
 
 		foreach( $models as $model ){
-			$clean = str_replace( '/', '%2F', $model);
+			//$clean = str_replace( '/', '%2F', $model);
+			$clean = $model;
 			$data[] = $clean;
 		}
 
@@ -117,7 +119,8 @@ class ajax_widgets {
 		$trims = ( !empty($trims[ 'body' ]) ? json_decode( $trims[ 'body' ] ) : array() );
 
 		foreach( $trims as $trim ){
-			$clean = str_replace( '/', '%2f', $trim);
+			//$clean = str_replace( '/', '%2f', $trim);
+			$clean = $trim;
 			$data[] = $clean;
 		}
 

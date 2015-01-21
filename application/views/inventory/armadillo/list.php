@@ -252,9 +252,9 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 										<div class="armadillo-main-line" title="<?php echo $generic_vehicle_title; ?>">
 											<a class="vehicle-link" href="<?php echo $link;?>">
 												<span class="armadillo-year"><?php echo $vehicle['year']; ?></span>
-												<span class="armadillo-make"><?php echo $vehicle['make']['clean']; ?></span>
-												<span class="armadillo-model"><?php echo $vehicle['model']['clean']; ?></span>
-												<span class="armadillo-trim"><?php echo $vehicle['trim']['clean']; ?></span>
+												<span class="armadillo-make"><?php echo $vehicle['make']['name']; ?></span>
+												<span class="armadillo-model"><?php echo $vehicle['model']['name']; ?></span>
+												<span class="armadillo-trim"><?php echo $vehicle['trim']['name']; ?></span>
 												<span class="armadillo-drive-train"><?php echo $vehicle['drive_train']; ?></span>
 												<span class="armadillo-body-style"><?php echo $vehicle['body_style']; ?></span>
 											</a>

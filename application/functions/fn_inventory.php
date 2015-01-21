@@ -223,9 +223,9 @@
 		if( $video ){
 			$buttons = '<div class="tabs-button tabs-button-img-photo '.$class[1].'" name="img-photo">Photos</div><div class="tabs-button tabs-button-img-video '.$class[0].'" name="img-video">Video</div>';
 			$content_video = '<div class="tabs-content tabs-content-img-video '.$class[0].'">';
-				$type = wp_check_filetype( $video, wp_get_mime_types() );
-				if( empty( $type['ext'] ) ){
-					if (strpos($video,'dmotorworks') !== false || strpos($video,'vehicledata') !== false ) {
+				$mime = wp_check_filetype( $video, wp_get_mime_types() );
+				if( empty($mime['ext']) || strpos($mime['type'],'video') === false ){
+					if ( strpos($video,'vehicledata') !== false ) {
 						$content_video .= '<div id="video-overlay-wrapper-dm">';
 						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
 						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
@@ -233,8 +233,8 @@
 						$content_video .= '<div id="dm-video-wrapper">';
 						$content_video .= '<iframe id="inventory-video-iframe" src="'.$video.'" frameborder="0" allowfullscreen></iframe>';
 						$content_video .= '</div>';
-					} else if (strpos($video,'idostream') !== false){
-						$content_video .= '<div id="video-overlay-wrapper-dm" onclick=\'window.open("'.$video.'","popup","width=640,height=500,scrollbars=no,resizable=no,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=50,top=125"); return false\'>';
+					} else if (strpos($video,'dmotorworks') !== false || strpos($video,'idostream') !== false || strpos($video,'liveVideo') !== false){
+						$content_video .= '<div id="video-overlay-wrapper-dm" onclick=\'window.open("'.$video.'","popup","width=640,height=500,scrollbars=no,resizable=yes,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=50,top=125"); return false\'>';
 						//$content_video .= '<a href="'.$video.'">';
 						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
 						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
@@ -253,7 +253,7 @@
 					$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
 					$content_video .= '</div>';
 					$content_video .= '<div id="wp-video-shortcode-wrapper">';
-					$content_video .= wp_video_shortcode( array( 'src' => $video ) );
+					$content_video .= wp_video_shortcode( array( 'src' => $video, 'height' => 360, 'width' => 640 ) );
 					$content_video .= '</div>';
 				}
 			$content_video .= '</div>';
@@ -531,7 +531,7 @@
 				echo '<div class="tabs-content tabs-content-details-form-'.$id.'"><div id="vehicle-detail-form-'.$id.'">';
 				echo '<div id="form-id-'.$id.'" class="form-wrapper">';
 				echo gravity_form($id, true, false, false, '', true);
-				echo '</div></div>';
+				echo '</div></div></div>';
 			}
 		}
 		echo '</div>';
@@ -886,7 +886,7 @@
 	}
 
 	function get_similar_vehicles( $vms, $detail_vin, $sale_class, $vehicle_class, $price, $make, $make_filter, $location ){
-
+		
 		if ( !empty( $vehicle_class ) ) {
 			$price_from = $price - 3000;
 			$price_to = $price + 1000;
@@ -911,7 +911,7 @@
 			$sim_value = '';
 
 			if ( !empty( $inventory_sims ) && count($inventory_sims) > 1 ) {
-				$sim_value = similar_vehicle_view( $inventory_sims );
+				$sim_value = similar_vehicle_view( $inventory_sims, $location );
 			} else if ( isset( $sim_array['price_from'] ) ) {
 				unset( $sim_array['price_from'] );
 				unset( $sim_array['price_to'] );
@@ -920,14 +920,14 @@
 				$inventory_sims_info = $vms->get_inventory()->please( $sim_array );
 				$inventory_sims = isset( $inventory_sims_info[ 'body' ] ) ? json_decode( $inventory_sims_info[ 'body' ] ) : false;
 				if ( !empty( $inventory_sims ) && count($inventory_sims) > 1 ) {
-					$sim_value = similar_vehicle_view( $inventory_sims );
+					$sim_value = similar_vehicle_view( $inventory_sims, $location );
 				}
 			}
 			return $sim_value;
 		}
 	}
 	
-	function similar_vehicle_view( $inventory_sims ){
+	function similar_vehicle_view( $inventory_sims, $location ){
 		if ( !empty( $inventory_sims ) ) {
 			$rules = get_option( 'rewrite_rules' );
 

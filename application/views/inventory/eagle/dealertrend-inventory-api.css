@@ -766,6 +766,10 @@ a.page-numbers:hover{
 #wp-video-shortcode-wrapper, #dm-video-wrapper{
     display: none;
 }
+div.wp-video-shortcode{
+    height: 360px !important;
+    width: 640px !important
+}
 .dialog-video-wrapper, .dialog-list-gform-wrapper{
     z-index: 900;
 }
@@ -1528,6 +1532,9 @@ div.ui-widget-overlay{
 .ui-dialog .ui-dialog-titlebar-close span{
 	left: 0;
 	top: 0;
+}
+div.form-wrap{
+	z-index: 200;
 }
 div.form-wrap .gform_body .ginput_container input{
 	max-width: 98%;

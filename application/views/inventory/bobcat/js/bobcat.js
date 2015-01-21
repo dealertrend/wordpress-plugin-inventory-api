@@ -35,7 +35,10 @@
 				resizable: false,
 				width: 420,
 				height: 600,
-				title: title
+				title: title,
+				beforeClose: function( event, ui ){
+					
+				}
 			})
 		});
 
@@ -82,7 +85,7 @@
 				modal: true,
 				resizable: false,
 				width: 640,
-				height: 480,
+				height: 520,
 				title: video_title
 			})
 		});

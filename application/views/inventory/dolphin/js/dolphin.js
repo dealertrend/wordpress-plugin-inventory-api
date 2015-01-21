@@ -45,6 +45,48 @@ if ( jQuery('#dolphin-listing').length ) {
 // Dolphin Detail JS
 if ( jQuery('#dolphin-detail').length ) {
 	
+	// Video Dialog
+	var video_title = jQuery('#title-year').text() + ' ' + jQuery('#title-make').text() + ' ' + jQuery('#title-model').text();
+	jQuery('#video-overlay-wrapper-dm').click(function(e) {
+		jQuery('#dm-video-wrapper').dialog({
+			autoOpen: true,
+			dialogClass: "dialog-video-wrapper",
+			modal: true,
+			resizable: false,
+			width: 640,
+			height: 520,
+			title: video_title
+		})
+	});
+
+	jQuery('#video-overlay-wrapper').click(function(e) {
+		var video_width;
+		if( !video_width ){
+			video_width = get_video_width();
+			video_width = video_width + 35;//Added for dialog padding
+		}
+		jQuery('#wp-video-shortcode-wrapper').dialog({
+			autoOpen: true,
+			dialogClass: "dialog-video-wrapper",
+			modal: true,
+			resizable: false,
+			width: video_width,
+			title: video_title,
+			beforeClose: function( event, ui ){
+				jQuery('.mejs-pause > button').click();
+			}
+		})
+
+		jQuery('.mejs-play > button').click();
+	});
+
+	function get_video_width(){
+		results = jQuery('#wp-video-shortcode-wrapper > div').width();
+		//console.log(results);
+		return results;
+	}
+	
+	
 	// Loan Calc
 	jQuery('#loan-calculator-button').click(function() {
 		if( jQuery(this).siblings('#loan-calculator-data').hasClass('active') ){
@@ -66,6 +108,9 @@ if ( jQuery('#dolphin-detail').length ) {
 			jQuery(this).text('Hide Images');
 		}
 	});
+	
+	//Move Photo Button
+	jQuery('.tabs-content.tabs-content-img-photo').append( jQuery('#dolphin-nav-button') );
 	
 	// Tab Control
 	jQuery('.tabs-button').click(function() {

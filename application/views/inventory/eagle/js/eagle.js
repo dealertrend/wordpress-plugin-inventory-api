@@ -266,7 +266,7 @@ if ( jQuery('#eagle-detail').length ) {
 			modal: true,
 			resizable: false,
 			width: 640,
-			height: 480,
+			height: 520,
 			title: video_title
 		})
 	});
