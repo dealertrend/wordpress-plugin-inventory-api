@@ -50,6 +50,7 @@ class vms_search_box_widget extends WP_Widget {
 		$title = apply_filters('widget_title', $instance['title']);
 		$trims = $instance['show_trims'];
 		$text = $instance['show_text_search'];
+		$hide_labels = $instance['hide_labels'];
 		$display = $instance['salesclass_display'];
 		$default = $instance['salesclass_default'];
 		$colors = $instance['custom_colors'];
@@ -79,7 +80,7 @@ class vms_search_box_widget extends WP_Widget {
 
 		//Display Salesclass/Condition
 		$widget_content .= '<div class="vms-sb-salesclass-wrap">';
-		$widget_content .= '<label class="vms-sb-salesclass-label" style="'.$label_style.'">Condition: </label>';
+		$widget_content .= empty($hide_labels) ? '<label class="vms-sb-salesclass-label" style="'.$label_style.'">Condition: </label>' : '';
 		$widget_content .= '<select class="vms-sb-salesclass" name="sc" style="'.$select_style.'">';
 		if( $display == 'both' ){
 			$widget_content .= '<option value="New" '. ($default == 'new' ? 'selected': '') .'>New</option>';
@@ -92,30 +93,30 @@ class vms_search_box_widget extends WP_Widget {
 
 		//Display Makes
 		$widget_content .= '<div class="vms-sb-makes-wrap">';
-		$widget_content .= '<label class="vms-sb-makes-label" style="'.$label_style.'">Makes: </label>';
+		$widget_content .= empty($hide_labels) ? '<label class="vms-sb-makes-label" style="'.$label_style.'">Makes: </label>' : '';
 		$widget_content .= '<select class="vms-sb-makes" name="makes" style="'.$select_style.'">';
 			$makes = $ajax_widget->ajax_widgets_get_makes( $salesclass );
 			$selected = ( count($makes) == 1 ? 'selected': '' );
 			$widget_content .= ( count($makes) > 1 ? '<option value="all" selected >All</option>' : '' );
 			foreach( $makes as $make ){
-				$widget_content .= '<option value="'. $make .'" '. $selected .'>'. ucfirst($make) .'</option>';
+				$widget_content .= '<option value="'. rawurlencode($make) .'" '. $selected .'>'. ucfirst($make) .'</option>';
 			}
 		$widget_content .= '</select>';
 		$widget_content .= '</div>';
 
 		//Display Models
 		$widget_content .= '<div class="vms-sb-models-wrap">';
-		$widget_content .= '<label class="vms-sb-models-label" style="'.$label_style.'">Models: </label>';
+		$widget_content .= empty($hide_labels) ? '<label class="vms-sb-models-label" style="'.$label_style.'">Models: </label>': '';
 		$widget_content .= '<select class="vms-sb-models" name="models" style="'.$select_style.'">';
 			if( count($makes) == 1 ){
 				$models = $ajax_widget->ajax_widgets_get_models( $salesclass, $makes[0] );
 				$selected = ( count($models) == 1 ? 'selected' : '' );
 				$widget_content .= ( count($models) > 1 ? '<option value="all" selected >ALL</option>' : '' );
 				foreach( $models as $model ){
-					$widget_content .= '<option value="'. $model .'" '. $selected .'>'. ucfirst($model) .'</option>';
+					$widget_content .= '<option value="'. rawurlencode($model) .'" '. $selected .'>'. ucfirst($model) .'</option>';
 				}
 			} else {
-				$widget_content .= '<option value="all">Select a Make</option>';
+				$widget_content .= '<option value="all" disabled>Models</option>';
 			}
 		$widget_content .= '</select>';
 		$widget_content .= '</div>';
@@ -123,17 +124,17 @@ class vms_search_box_widget extends WP_Widget {
 		//Display Trims
 		if( !empty($trims) ){
 			$widget_content .= '<div class="vms-sb-trims-wrap">';
-			$widget_content .= '<label class="vms-sb-trims-label" style="'.$label_style.'">Trims: </label>';
+			$widget_content .= empty($hide_labels) ? '<label class="vms-sb-trims-label" style="'.$label_style.'">Trims: </label>': '';
 			$widget_content .= '<select class="vms-sb-trims" name="trims" style="'.$select_style.'">';
 				if( count($models) == 1 ){
 					$trims = $ajax_widget->ajax_widgets_get_trims( $salesclass, $makes[0], $models[0] );
 					$selected = ( count($trims) == 1 ? 'selected' : '' );
 					$widget_content .= ( count($trims) > 1 ? '<option value="all" selected >All</option>' : '' );
 					foreach( $models as $model ){
-						$widget_content .= '<option value="'. $trim .'" '. $selected .'>'. ucfirst($trim) .'</option>';
+						$widget_content .= '<option value="'. rawurlencode($trim) .'" '. $selected .'>'. ucfirst($trim) .'</option>';
 					}
 				} else {
-					$widget_content .= '<option value="all">Select a Model</option>';
+					$widget_content .= '<option value="all" disabled>Trims</option>';
 				}
 			$widget_content .= '</select>';
 			$widget_content .= '</div>';
@@ -142,7 +143,7 @@ class vms_search_box_widget extends WP_Widget {
 		//Display Text Search
 		if( !empty($text) ){
 			$widget_content .= '<div class="vms-sb-text-wrap">';
-			$widget_content .= '<label class="vms-sb-text-label" style="'.$label_style.'">Text Search: </label>';
+			$widget_content .= empty($hide_labels) ? '<label class="vms-sb-text-label" style="'.$label_style.'">Text Search: </label>' : '';
 			$widget_content .= '<input type="text" class="vms-sb-text-input" value="" style="'.$input_style.'" />';
 			$widget_content .= '</div>';
 
@@ -167,6 +168,7 @@ class vms_search_box_widget extends WP_Widget {
 		$instance['show_trims'] = isset( $new_instance['show_trims'] ) ? $new_instance['show_trims'] : 0;
 		$instance['show_text_search'] = isset( $new_instance['show_text_search'] ) ? $new_instance['show_text_search'] : 0;
 		$instance['custom_colors'] = isset( $new_instance['custom_colors'] ) ? $new_instance['custom_colors'] : array();
+		$instance['hide_labels'] = isset( $new_instance['hide_labels'] ) ? $new_instance['hide_labels'] : 0;
 
 	    return $instance;
     }
@@ -180,6 +182,7 @@ class vms_search_box_widget extends WP_Widget {
 		$trims = $instance['show_trims'];
 		$text = $instance['show_text_search'];
 		$colors = $instance['custom_colors'];
+		$labels = $instance['hide_labels'];
     	?>
 
 		<p>
@@ -228,6 +231,12 @@ class vms_search_box_widget extends WP_Widget {
 		<label for="<?php echo $this->get_field_id( 'show_text_search' ); ?>"><?php _e( 'Show Text Search:' ); ?></label>
 		<?php $checked = ( $text == true ) ? 'checked="checked"' : NULL; ?>
 		<input id="<?php echo $this->get_field_id( 'show_text_search' ); ?>" name="<?php echo $this->get_field_name( 'show_text_search' ); ?>" type="checkbox" <?php echo $checked; ?>	value="true" />
+		</p>
+		
+		<p>
+		<label for="<?php echo $this->get_field_id( 'hide_labels' ); ?>"><?php _e( 'Hide Labels:' ); ?></label>
+		<?php $labels = ( $labels == true ) ? 'checked="checked"' : NULL; ?>
+		<input id="<?php echo $this->get_field_id( 'hide_labels' ); ?>" name="<?php echo $this->get_field_name( 'hide_labels' ); ?>" type="checkbox" <?php echo $labels; ?>	value="true" />
 		</p>
 
 		<hr class="div" />

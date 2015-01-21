@@ -1,7 +1,7 @@
 	function vms_clear_dd( widget, value, text ){
 		if( widget.find('.vms-sb-'+value).length ){
 			widget.find('.vms-sb-'+value).children().remove();
-			widget.find('.vms-sb-'+value).append('<option value="all" selected>Select a '+text+'</option>');
+			widget.find('.vms-sb-'+value).append('<option value="all" selected>'+text+'</option>');
 		}
 	}
 
@@ -19,14 +19,14 @@
 			if( data[key] ){
 				jQuery.each( data[key], function(index, value) {
 					if( data[key].length == 1 ){
-						dd_value.append('<option value="'+value+'" selected>'+value+'</option>');
+						dd_value.append('<option value="'+encodeURIComponent(value)+'" selected>'+value+'</option>');
 					} else if( !add_all ) {
 						add_all = true;
 						dd_value.append('<option value="all" selected>All</option>');
 					}
 
 					if( add_all ){
-						dd_value.append('<option value="'+value+'">'+value+'</option>');
+						dd_value.append('<option value="'+encodeURIComponent(value)+'">'+value+'</option>');
 					}
 
 				});
@@ -113,10 +113,10 @@
 				},
 				success: function(data) {
 					if( p_data['id'] == 'makes' || p_data['id'] == 'sc'  ){
-						vms_clear_dd(parent_wrap, 'models', 'Make');
-						vms_clear_dd(parent_wrap, 'trims', 'Model');
+						vms_clear_dd(parent_wrap, 'models', 'Models');
+						vms_clear_dd(parent_wrap, 'trims', 'Trims');
 					} else if( p_data['id'] == 'models' ){
-						vms_clear_dd(parent_wrap, 'trims', 'Model');
+						vms_clear_dd(parent_wrap, 'trims', 'Trims');
 					}
 					if( p_data['sc'] == 'Used'){
 						parent_wrap.find('.vms-sb-certified').addClass('active');
