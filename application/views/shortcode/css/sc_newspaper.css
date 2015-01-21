@@ -1,24 +1,28 @@
 #sc-inventory-wrapper{
-    display: block;
-    overflow: hidden;
-    float: none;
-    clear: both;
+    display: flex;
+	flex-flow: row wrap;
+    justify-content: space-around;
     background-color: #E6E6E6;
     border-radius: 4px;
-	max-width: 1000px;
 	margin: 0 auto;
+	font-size: 12px;
 }
 .sc-item-wrapper{
-    display: block;
-    width: 20%;
+    flex: 1 1 auto;
     border: 4px solid #FFFFFF;
     border-radius: 4px;
-    float: left;
     padding: 1%;
     margin: 1%;
     box-shadow: 6px 6px 4px #888888;
-    font-size: 11px;
+    font-size: 100%;
     font-weight: bold;
+	width: 130px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+	max-width: 168px;
 }
 .sc-item-wrapper:hover{
     border: 4px solid #888888;
@@ -38,14 +42,14 @@
 }
 .sc-title-wrapper{
     border-radius: 4px 4px 0 0;
-    max-height: 23px;
     overflow: hidden;
 }
 .sc-title-wrapper span{
     margin: 0 1%;
+	display: inline-block;
 }
 .sc-title-wrapper .sc-model{
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-style: italic;
 }
 .sc-img-wrapper{
@@ -59,7 +63,6 @@
     border-radius: 0 0 4px 4px;
     font-size: 1.8em;
     line-height: 1.4em;
-    text-shadow: 3px 3px #333333;
 }
 .sc-price-wrapper .sc-price-symbol{
     font-size: .7em;
@@ -69,19 +72,6 @@
     margin: 0 0 0 5%;
     color: #FE0000;
 }
-
-@media all and (max-width: 960px){
-	.sc-item-wrapper{
-		width: 28%;
-	}
-}
-@media all and (max-width: 720px){
-	.sc-item-wrapper{
-		width: 44%;
-	}
-}
-@media all and (max-width: 480px){
-	.sc-item-wrapper{
-		width: 92%;
-	}
+.sc-item-wrapper a:visited {
+    color: #d1d1d1;
 }
