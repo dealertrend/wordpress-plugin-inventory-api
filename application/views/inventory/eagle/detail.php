@@ -202,7 +202,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 											echo $vehicle_info;
 
 											if( $vehicle['autocheck'] ){
-												echo display_autocheck_image( $vehicle['vin'], $vehicle['saleclass'], $vehicle['type'] );
+												echo display_autocheck_image( $vehicle['vin'], $vehicle['saleclass'], $type );
 											}
 
 										?>
