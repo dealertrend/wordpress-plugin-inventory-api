@@ -204,7 +204,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 											$link = generate_inventory_link($url_rule,$parameters,array('trim'=>$trim_safe));
 											$sidebar_content .= '<li><a href="'.$link.'">'.$trim.'</a></li>';
 										}
-										$back_link = generate_inventory_link($url_rule,$parameters,'',array('model'));
+										$back_link = generate_inventory_link($url_rule,$parameters,'',array('model','trim'));
 										$sidebar_content .= '<li><span class="no-style"><a href="'.$back_link.'" class="eagle-filter-prev" title="View '.$parameters['make'].' Models">&#60; View '. $parameters[ 'make' ].'</a></span></li>';
 										$sidebar_content .= '</ul>';
 
@@ -216,7 +216,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 											$link = generate_inventory_link($url_rule,$parameters,array('model'=>$model_safe));
 											$sidebar_content .= '<li><a href="'.$link.'">'.$model.'</a></li>';
 										}
-										$back_link = generate_inventory_link($url_rule,$parameters,'',array('make'));
+										$back_link = generate_inventory_link($url_rule,$parameters,'',array('make','model'));
 										$sidebar_content .= '<li><span class="no-style"><a href="'.$back_link.'" class="eagle-filter-prev" title="View '.$parameters[ 'saleclass' ].' Vehicles">&#60; All '.$parameters[ 'saleclass' ].' Vehicles</a></span></li>';
 										$sidebar_content .= '</ul>';
 									} else if ( $make_count != 0) {

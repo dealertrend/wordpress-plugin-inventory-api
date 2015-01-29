@@ -195,7 +195,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							$link = generate_inventory_link($url_rule,$parameters,array('model'=>$model_safe));
 							$sidebar_content .= '<li><a href="'.$link.'">'.$model.'</a></li>';
 						}
-						$back_link = generate_inventory_link($url_rule,$parameters,'',array('make'));
+						$back_link = generate_inventory_link($url_rule,$parameters,'',array('make', 'model'));
 						$sidebar_content .= '<li><span class="no-style"><a href="'.$back_link.'" class="armadillo-filter-prev" title="View ' . $parameters[ 'saleclass' ] . ' Vehicles">&#60; All ' . $parameters[ 'saleclass' ] . ' Vehicles</a></span></li>';
 						$sidebar_content .= '</ul></li></ul>';
 					} else if ( $make_count != 0) {
