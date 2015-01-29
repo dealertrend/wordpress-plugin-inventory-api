@@ -10,7 +10,6 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$traffic_source = $this->sanitize_inputs( $traffic_source );
 
 	usort($vehicle['dealer_options'], 'sort_length' );
-
 ?>
 
 
@@ -288,7 +287,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 			</div> <!-- Column Right End -->
 			<div id="dolphin-detail-specs"> <!-- Detail Specs -->
 				<?php
-				echo get_vehicle_detail_display( $vehicle['dealer_options'], $vehicle['description'], TRUE, $vehicle['standard_equipment'], $theme_settings['default_info']);
+				echo get_vehicle_detail_display( $vehicle['dealer_options'], $vehicle['description'], $inventory_options['standard_equipment'], $vehicle['standard_equipment'], $theme_settings['default_info']);
 				?>
 			</div>  <!-- Detail Specs End -->
 
