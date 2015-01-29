@@ -225,20 +225,10 @@
 			$content_video = '<div class="tabs-content tabs-content-img-video '.$class[0].'">';
 				$mime = wp_check_filetype( $video, wp_get_mime_types() );
 				if( empty($mime['ext']) || strpos($mime['type'],'video') === false ){
-					if ( strpos($video,'vehicledata') !== false ) {
-						$content_video .= '<div id="video-overlay-wrapper-dm">';
-						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
-						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
-						$content_video .= '</div>';
-						$content_video .= '<div id="dm-video-wrapper">';
-						$content_video .= '<iframe id="inventory-video-iframe" src="'.$video.'" frameborder="0" allowfullscreen></iframe>';
-						$content_video .= '</div>';
-					} else if (strpos($video,'dmotorworks') !== false || strpos($video,'idostream') !== false || strpos($video,'liveVideo') !== false){
+					if (strpos($video,'dmotorworks') !== false || strpos($video,'idostream') !== false || strpos($video,'liveVideo') !== false || strpos($video,'vehicledata') !== false ){
 						$content_video .= '<div id="video-overlay-wrapper-dm" onclick=\'window.open("'.$video.'","popup","width=640,height=500,scrollbars=no,resizable=yes,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=50,top=125"); return false\'>';
-						//$content_video .= '<a href="'.$video.'">';
 						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
 						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
-						//$content_video .= '</a>';
 						$content_video .= '</div>';
 					} else {
 						$content_video .= '<div id="inventory-video-wrapper">';
