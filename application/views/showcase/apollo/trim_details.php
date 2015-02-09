@@ -163,7 +163,7 @@
 							}
 						}
 						//Photos
-						$photos = $vehicle_reference_system->get_photos( $code['acode'] )->please( array( 'type' => 'standard' ) );
+						$photos = $vehicle_reference_system->get_photos( $code['acode'] )->please( array( 'type' => 'all' ) );
 						$photos = isset( $photos[ 'body' ] ) ? json_decode( $photos[ 'body' ] ) : array();
 						usort( $photos , 'sort_photos' );
 						echo '<div class="trim-detail-tabs">';
