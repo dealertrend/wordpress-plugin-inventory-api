@@ -284,7 +284,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 							apply_special_tags( $vehicle['tags'], $vehicle['prices']['on_sale'], $vehicle['certified'], $vehicle['video']);
 							if( !empty( $vehicle['tags'] ) ){
 								echo '<div class="armadillo-listing-tags">';
-									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags']);
+									$tag_icons = build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags'], $vehicle['vin']);
 									echo $tag_icons;
 								echo '</div>';
 							}

@@ -651,7 +651,7 @@
 
 	}
 
-	function build_tag_icons( $default, $custom, $tags ){
+	function build_tag_icons( $default, $custom, $tags, $vin = '' ){
 
 		$icons = '';
 		$temp = array();
@@ -662,7 +662,9 @@
 			//Get Custom Icons
 			foreach( $custom as $value ){
 				if( in_array($value['name'], $tags) ){
+					$icons .= !empty($value['link']) ? '<a href="'.str_replace( '{vin}', $vin, $value['link'] ).'">' : '';
 					$icons .= '<img title="'.$value['name'].'" class="icon-custom icon-emb-'.$value['name'].'" src="'.$value['url'].'" />';
+					$icons .= !empty($value['link']) ? '</a>' : '';
 					$temp[] = $value['name'];
 				}
 			}

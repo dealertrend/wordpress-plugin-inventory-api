@@ -36,7 +36,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	if( $theme_settings['display_tags'] ){
 		apply_special_tags( $vehicle['tags'], $vehicle['prices']['on_sale'], $vehicle['certified'], $vehicle['video']);
 		if( !empty( $vehicle['tags'] ) ){
-			$tag_display = '<div class="armadillo-detail-tags">'.build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags']).'</div>';
+			$tag_display = '<div class="armadillo-detail-tags">'.build_tag_icons( $default_tag_names, $custom_tag_icons, $vehicle['tags'], $vehicle['vin']).'</div>';
 		}
 	}
 	// Options/Description Display
