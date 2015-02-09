@@ -60,7 +60,7 @@
 		$data['icons'] = $vehicle->icons;
 		$data['tags'] = $vehicle->tags;
 		$data['thumbnail'] = urldecode( $vehicle->photos[ 0 ]->small );
-		$data['photos'] = $vehicle->photos;
+		$data['photos_raw'] = $vehicle->photos;
 		$data['body_style'] = $vehicle->body_style;
 		$data['vehicle_class'] = $vehicle->vehicleclass;
 		$data['drive_train'] = $vehicle->drive_train;
@@ -86,6 +86,19 @@
 		$data['contact_info']['manager'] = $contact->internet_manager;
 		$data['contact_info']['phone'] = $contact->phone;
 		$data['contact_info']['location'] = $vehicle->vehicle_location;
+		
+		//Photo Check
+		if ( is_Empty_check( $data['thumbnail'] ) ){
+			$data['thumbnail'] = 'http://assets.s3.dealertrend.com.s3.amazonaws.com/images/list_no_photo.png';
+		}
+		if ( is_Empty_check( $data['photos_raw'] ) ){
+			$data['photos'][] = 'http://assets.s3.dealertrend.com.s3.amazonaws.com/images/detail_no_photo.png';
+		} else {
+			foreach( $data['photos_raw'] as $photo ){
+				$temp[] = $photo->large;
+			}
+			$data['photos'] = $temp;
+		}
 
 		return $data;
 	}
@@ -228,7 +241,7 @@
 					if (strpos($video,'dmotorworks') !== false || strpos($video,'idostream') !== false || strpos($video,'liveVideo') !== false || strpos($video,'vehicledata') !== false ){
 						$content_video .= '<div id="video-overlay-wrapper-dm" onclick=\'window.open("'.$video.'","popup","width=640,height=500,scrollbars=no,resizable=yes,toolbar=no,directories=no,location=no,menubar=yes,status=no,left=50,top=125"); return false\'>';
 						$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
-						$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
+						$content_video .= '<img id="video-overlay-image" src="'.$photos[0].'" />';
 						$content_video .= '</div>';
 					} else {
 						$content_video .= '<div id="inventory-video-wrapper">';
@@ -240,7 +253,7 @@
 				} else {
 					$content_video .= '<div id="video-overlay-wrapper">';
 					$content_video .= '<img id="video-overlay-play-button" src="http://assets.s3.dealertrend.com.s3.amazonaws.com/images/video_play_button.png" />';
-					$content_video .= '<img id="video-overlay-image" src="'.$photos[0]->large.'" />';
+					$content_video .= '<img id="video-overlay-image" src="'.$photos[0].'" />';
 					$content_video .= '</div>';
 					$content_video .= '<div id="wp-video-shortcode-wrapper">';
 					$content_video .= wp_video_shortcode( array( 'src' => $video, 'height' => 360, 'width' => 640 ) );
@@ -254,7 +267,7 @@
 
 		$content_photos = '<div class="tabs-content tabs-content-img-photo '.$class[1].'"><div id="vehicle-images">';
 			foreach( $photos as $photo ) {
-				$content_photos .= '<a class="lightbox" rel="slides" href="'.str_replace('&', '&amp;', $photo->large).'"><img src="'.str_replace('&', '&amp;', $photo->large).'" /></a>';
+				$content_photos .= '<a class="lightbox" rel="slides" href="'.str_replace('&', '&amp;', $photo).'"><img src="'.str_replace('&', '&amp;', $photo).'" /></a>';
 			}
 		$content_photos .= '</div><div id="vehicle-thumbnails"></div></div>';
 
