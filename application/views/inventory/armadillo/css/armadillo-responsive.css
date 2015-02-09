@@ -1,14 +1,14 @@
 /*******************************Portrait*******************************/
 
 
-/*360x640 | S4 */
-@media (max-width: 360px) and (orientation: portrait){
+/* 414x736 - i6+ */
+@media (max-width: 414px) and (orientation: portrait){
 	/*List Start*/
 	.inventory-parentClass{
 		margin: 0 !important;
 		padding: 0 !important;
 		width: 100% !important;
-		max-width: 360px !important;
+		max-width: 414px !important;
 	}
 	div.breadcrumbs{
 	    display: none;
@@ -140,6 +140,29 @@
 	    border-bottom: none;
 	}
 }
+
+/*375x667 - i6*/
+@media (max-width: 375px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 375px !important;
+	}
+}
+
+/*360x640 - s4*/
+@media (max-width: 360px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
+	}
+}
+
 /*320x568 | i5*/
 @media (max-width: 320px) and (orientation: portrait){
 	/*List Start*/
@@ -156,14 +179,14 @@
 
 
 
-/*640x360 | S4*/
-@media (max-width: 640px) and (orientation: landscape){
+/* 414x736 - i6+  */
+@media (max-width: 736px) and (orientation: landscape){
 	/*List Start*/
 	.inventory-parentClass{
 		margin: 0 !important;
 		padding: 0 !important;
 		width: 100% !important;
-		max-width: 640px !important;
+		max-width: 736px !important;
 	}
 	div.breadcrumbs{
 	    display: none;
@@ -256,6 +279,28 @@
 	    display: block;
 	    margin: 4% 0;
 	    text-align: center;
+	}
+}
+
+/* 375x667 - i6 */
+@media (max-width: 667px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 667px !important;
+	}
+}
+
+/* 360x640 - s4 */
+@media (max-width: 640px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 640px !important;
 	}
 }
 

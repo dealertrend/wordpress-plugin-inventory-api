@@ -1,14 +1,14 @@
 /*******************************Portrait*******************************/
 
 
-/*360x640 | s4*/
-@media (max-width: 360px) and (orientation: portrait){
+/* 414x736 - i6+ */
+@media (max-width: 414px) and (orientation: portrait){
 	/*List Start*/
 	.inventory-parentClass{
 		margin: 0 !important;
 		padding: 0 !important;
 		width: 100% !important;
-		max-width: 360px !important;
+		max-width: 414px !important;
 	}
 	div.breadcrumbs{
 	    display: none;
@@ -114,6 +114,28 @@
 	    width: 42%;
 	    margin: 0 0 0 6%;
 	    padding: 0 2% 0 0;
+	}
+}
+
+/*375x667 - i6*/
+@media (max-width: 375px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 375px !important;
+	}
+}
+
+/*360x640 - s4*/
+@media (max-width: 360px) and (orientation: portrait){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 360px !important;
 	}
 }
 
@@ -132,14 +154,14 @@
 
 /*******************************Landscape*******************************/
 
-/*640x360 | s4*/
-@media (max-width: 640px) and (orientation: landscape){
+/* 414x736 - i6+  */
+@media (max-width: 736px) and (orientation: landscape){
 	/*List Start*/
 	.inventory-parentClass{
 		margin: 0 !important;
 		padding: 0 !important;
 		width: 100% !important;
-		max-width: 360px !important;
+		max-width: 736px !important;
 	}
 	div.breadcrumbs{
 	    display: none;
@@ -247,6 +269,28 @@
 	    padding: 0 2% 0 0;
 	}
 
+}
+
+/* 375x667 - i6 */
+@media (max-width: 667px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 667px !important;
+	}
+}
+
+/* 360x640 - s4 */
+@media (max-width: 640px) and (orientation: landscape){
+	/*List Start*/
+	.inventory-parentClass{
+		margin: 0 !important;
+		padding: 0 !important;
+		width: 100% !important;
+		max-width: 640px !important;
+	}
 }
 
 /*568x320 | i5*/
