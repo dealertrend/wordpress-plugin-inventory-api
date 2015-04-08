@@ -291,18 +291,26 @@
 
 		$city = !empty( $fuel ) && !empty( $fuel->city ) ? $fuel->city : 0;
 		$highway = !empty( $fuel ) && !empty( $fuel->highway ) ? $fuel->highway : 0;
+		
+		if( $country == 'CA' || ( empty($city) || empty($highway) ) ) {
+			if( !empty($acode) ){
+				$fuel_call = NULL;
+				$request = 'http://vrs.dealertrend.com/fuel_economies.json?acode='.$acode.'&api=2';
+				$response = wp_remote_get( $request );
+				if ( !is_wp_error($response)) {
+					if( isset( $response['body'] ) ){
+						$fuel_call = json_decode( $response['body'], true );
+						$fuel_call = $fuel_call[ 0 ];
+					}
+				} 
 
-		if( $country == 'CA' ) {
-			$fuel_ca = $vrs->get_fuel_economy( $acode )->please();
-			if( isset( $fuel_ca[ 'body' ] ) ) {
-				$fuel_ca = json_decode( $fuel_ca[ 'body' ] );
-				$fuel_ca = $fuel_ca[ 0 ];
-			} else {
-				$fuel_ca = NULL;
-			}
-			if( !empty($fuel_ca) ){
-				$city = !empty($fuel_ca->city_lp_100km) ? $fuel_ca->city_lp_100km : 0;
-				$highway = !empty($fuel_ca->highway_lp_100km) ? $fuel_ca->highway_lp_100km : 0;
+				if( !empty($fuel_call) && $country == 'CA' ){
+					$city = !empty($fuel_call['city_lp_100km']) ? $fuel_call['city_lp_100km'] : 0;
+					$highway = !empty($fuel_call['highway_lp_100km']) ? $fuel_call['highway_lp_100km']: 0;
+				} else {
+					$city = !empty($fuel_call['city']) ? $fuel_call['city'] : 0;
+					$highway = !empty($fuel_call['highway']) ? $fuel_call['highway'] : 0;
+				}
 			}
 		}
 
