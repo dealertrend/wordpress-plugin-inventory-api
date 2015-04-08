@@ -10,6 +10,9 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 	$traffic_source = $this->sanitize_inputs( $traffic_source );
 
 	usort($vehicle['dealer_options'], 'sort_length' );
+	
+	$form_subject = $vehicle['year'] . ' ' . $vehicle['make']['name'] . ' ' . $vehicle['model']['name'] . ' ' . $vehicle['stock_number'];
+	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 ?>
 
 
@@ -214,17 +217,17 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 						<form action="#" method="post" name="vehicle-inquiry" id="vehicle-inquiry">
 							<input type="hidden" name="traffic_source" value="<?php echo $traffic_source; ?>"/>
 							<input name="required_fields" type="hidden" value="name,email,privacy" />
-							<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $headline; ?>" />
-							<input name="saleclass" type="hidden" value="<?php echo $sale_class; ?>" />
-							<input name="vehicle" type="hidden" value="<?php echo $year_make_model; ?>" />
-							<input name="year" type="hidden" value="<?php echo $year; ?>" />
-							<input name="make" type="hidden" value="<?php echo $make; ?>" />
-							<input name="model_name" type="hidden" value="<?php echo $model; ?>" />
-							<input name="trim" type="hidden" value="<?php echo $trim; ?>" />
-							<input name="stock" type="hidden" value="<?php echo $stock_number; ?>" />
-							<input name="vin" type="hidden" value="<?php echo $vin; ?>" />
-							<input name="inventory" type="hidden" value="<?php echo $inventory->id; ?>" />
-							<input name="price" type="hidden" value="<?php echo $primary_price; ?>" />
+							<input name="subject" type="hidden" value="Vehicle Inquiry - <?php echo $vehicle['headline']; ?>" />
+							<input name="saleclass" type="hidden" value="<?php echo $vehicle['saleclass']; ?>" />
+							<input name="vehicle" type="hidden" value="<?php echo $form_subject; ?>" />
+							<input name="year" type="hidden" value="<?php echo $vehicle['year']; ?>" />
+							<input name="make" type="hidden" value="<?php echo $vehicle['make']['name']; ?>" />
+							<input name="model_name" type="hidden" value="<?php echo $vehicle['model']['name']; ?>" />
+							<input name="trim" type="hidden" value="<?php echo $vehicle['trim']['name']; ?>" />
+							<input name="stock" type="hidden" value="<?php echo $vehicle['stock_number']; ?>" />
+							<input name="vin" type="hidden" value="<?php echo $vehicle['vin']; ?>" />
+							<input name="inventory" type="hidden" value="<?php echo $vehicle['id']; ?>" />
+							<input name="price" type="hidden" value="<?php echo $vehicle['primary_price']; ?>" />
 							<input name="name" type="hidden" id="vehicle-inquiry-name" value="" />
 							<div class="dolphin-form-table">
 								<div class="dolphin-form-one-half">
@@ -263,7 +266,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 										<input class="privacy" name="privacy" id="vehicle-inquiry-privacy" tabindex="15" type="checkbox" checked />
 									</div>
 									<div>
-										<input onclick="dolphin_detail_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $sale_class ) . '_vehicle_inquiry&#39;'; ?> , '0' )" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
+										<input onclick="dolphin_detail_forms(<?php echo '&#39;' . $form_submit_url . strtolower( $vehicle['saleclass'] ) . '_vehicle_inquiry&#39;'; ?> , '0' )" type="submit" value="Send Inquiry" class="submit" tabindex="16" />
 									</div>
 								</div>
 								<div class="dolphin-form-full">
