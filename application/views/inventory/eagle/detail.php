@@ -14,7 +14,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 
 	usort($vehicle['dealer_options'], 'sort_length' );
 
-	$form_subject = $year . ' ' . $make . ' ' . $model . ' ' . $stock_number;
+	$form_subject = $vehicle['year'] . ' ' . $vehicle['make']['name'] . ' ' . $vehicle['model']['name'] . ' ' . $vehicle['stock_number'];
 	$form_submit_url = $temp_host . '/' . $this->options[ 'vehicle_management_system' ][ 'company_information' ][ 'id' ] . '/forms/create/';
 
 ?>
@@ -318,7 +318,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 									<input name="stock" type="hidden" value="<?php echo $vehicle['stock_number']; ?>" />
 									<input name="vin" type="hidden" value="<?php echo $vehicle['vin']; ?>" />
 									<input name="inventory" type="hidden" value="<?php echo $vehicle['id']; ?>" />
-									<input name="price" type="hidden" value="<?php echo $primary_price; ?>" />
+									<input name="price" type="hidden" value="<?php echo $vehicle['primary_price']; ?>" />
 									<input name="name" type="hidden" id="vehicle-inquiry-name" value="" />
 									<input name="comments" type="hidden" id="vehicle-inquiry-comments" value="" />
 									<div class="eagle-form-table">
@@ -476,7 +476,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 					<input name="stock" type="hidden" value="<?php echo $vehicle['stock_number']; ?>" />
 					<input name="vin" type="hidden" value="<?php echo $vehicle['vin']; ?>" />
 					<input name="inventory" type="hidden" value="<?php echo $vehicle['id']; ?>" />
-					<input name="price" type="hidden" value="<?php echo $primary_price; ?>" />
+					<input name="price" type="hidden" value="<?php echo $vehicle['primary_price']; ?>" />
 					<input name="name" type="hidden" id="vehicle-inquiry-name-hidden" value="" />
 					<input name="subject-pre" type="hidden" id="vehicle-inquiry-subpre-hidden" value="" />
 					<input name="subject-post" type="hidden" id="vehicle-inquiry-subpost-hidden" value="<?php echo $form_subject; ?>" />
