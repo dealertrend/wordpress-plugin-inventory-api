@@ -146,9 +146,9 @@ class vehicle_management_system {
 			$makes_string = '';
 			foreach ( $parameters['make_filters'] as $new_make ) {
 				if (  empty( $makes_string ) ) {
-					$makes_string = 'makes[]=' . $new_make;
+					$makes_string = 'makes[]=' . rawurlencode($new_make);
 				} else {
-					$makes_string .=  '&makes[]=' . $new_make;
+					$makes_string .=  '&makes[]=' . rawurlencode($new_make);
 				}
 			}
 		}
@@ -166,7 +166,6 @@ class vehicle_management_system {
 		}
 
 		$request = $api_url . $parameter_string;
-		//error_log($request);
 		$request_handler = new http_request( $request , 'vehicle_management_system' );
 
 		if( $this->tracer !== NULL ) {
