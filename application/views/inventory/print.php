@@ -76,13 +76,9 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 				<div class="print-header-phone"><?php echo $vehicle['contact_info']['phone'] ?></div>
 			</div>
 			<div class="print-top">
-				<?php if( count( $vehicle['photos'] ) ){ ?>
 				<div class="print-image">
 				<?php
-					foreach( array_slice($vehicle['photos'],0,1) as $photo ) {
-						echo '<img src="' . str_replace( '&' , '&amp;' , $photo->medium ) . '" width="300" alt="" title="' . $vehicle['contact_info']['dealer'] . '" />';
-					}
-				}
+					echo '<img src="' . str_replace( '&' , '&amp;' , $vehicle['photos'][0] ) . '" width="300" alt="" title="' . $vehicle['contact_info']['dealer'] . '" />';
 				?>
 				</div>
 
