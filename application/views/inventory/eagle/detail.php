@@ -91,7 +91,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 					?>
 				</div>
 				<?php
-					if( !empty($custom_settings['display_headlines']) ){
+					if( !empty($theme_settings['display_headlines']) ){
 						if ( !empty( $vehicle['headline'] ) ){
 							$eagle_value = '<div id="eagle-custom-headline">'.$vehicle['headline'].'</div>';
 							echo $eagle_value;

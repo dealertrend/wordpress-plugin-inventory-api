@@ -269,7 +269,7 @@ namespace Wordpress\Plugins\Dealertrend\Inventory\Api;
 									<div class="eagle-vehicle" id="<?php echo $vehicle['vin']; ?>">
 										<div class="eagle-listing-top"> <!-- Eagle Listing Top -->
 											<?php
-												if( !empty($custom_settings['display_headlines']) ){
+												if( !empty($theme_settings['display_headlines']) ){
 													echo '<div class="eagle-listing-vehicle-headline">' . $vehicle['headline'] . '</div>';
 												}
 											?>
