@@ -1,6 +1,6 @@
 <?php
 
-	$plugin_url = $this->plugin_information[ 'PluginURL' ];
+	$plugin_url = plugins_url('/dealertrend-inventory-api');
 
 	$sitemap_information = $sitemap_handler->cached() ? $sitemap_handler->cached() : $sitemap_handler->get_file();
 	$sitemap_data = isset( $sitemap_information[ 'body' ] ) ? json_decode( $sitemap_information[ 'body' ] ) : false;
@@ -169,6 +169,7 @@
 		// Prevent the search engines from indexing the XML Sitemap.
 		header( 'X-Robots-Tag: noindex, follow', true );
 		header( 'Content-Type: text/xml' );
+		header('Access-Control-Allow-Origin: *');
 		echo '<?xml version="1.0" encoding="' . get_bloginfo( 'charset' ) . '"?>';
 		$stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $style_url . '/application/views/sitemap/inc/xml-sitemap-xsl.php"?>';
 		echo $stylesheet . "\n";
