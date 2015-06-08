@@ -1101,11 +1101,11 @@
 		}
 		if($rule){
 			if( $type ){
-				$link = '/inventory/'.$params['year'].'/'.rawurlencode($params['make']).'/'.rawurlencode($params['model']).'/'.rawurlencode($params['state']).'/'.rawurlencode($params['city']).'/'.$params['vin'].'/';
+				$link = '/inventory/'.$params['year'].'/'.rawurlencode(rawurldecode($params['make'])).'/'.rawurlencode(rawurldecode($params['model'])).'/'.rawurlencode(rawurldecode($params['state'])).'/'.rawurlencode(rawurldecode(strip_tags($params['city']))).'/'.$params['vin'].'/';
 			} else {
 				$link = '/inventory/'.$params['saleclass'].'/';
-				$link .= isset($params['make']) && strtolower($params['make']) != 'all' ? rawurlencode($params['make']) . '/' : '';
-				$link .= isset($params['model']) && strtolower($params['model']) != 'all' ? rawurlencode($params['model']) . '/' : '';
+				$link .= isset($params['make']) && strtolower($params['make']) != 'all' ? rawurlencode(rawurldecode($params['make'])) . '/' : '';
+				$link .= isset($params['model']) && strtolower($params['model']) != 'all' ? rawurlencode(rawurldecode($params['model'])) . '/' : '';
 				foreach($params as $key => $param){
 					if( !in_array($key, $exclude) && strtolower($param) != 'all'){
 						$link = add_query_arg( array($key => $param), $link );
