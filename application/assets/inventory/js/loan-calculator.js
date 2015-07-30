@@ -60,8 +60,13 @@ function calculateLoan() {
     total_price += ( total_price * ( sales_tax / 100 ) );
 
     var total_cost = total_price;
-    interest_rate /= 1200
-    var monthly_payment = interest_rate * total_price / ( 1 - Math.pow( 1 + interest_rate , -term ) );
+	if( interest_rate ){
+		interest_rate /= 1200;
+		var monthly_payment = interest_rate * total_price / ( 1 - Math.pow( 1 + interest_rate , -term ) );
+	} else {
+		var monthly_payment = total_price / term;
+	}
+    
     total_cost = monthly_payment * term + down_payment + trade_in;
 
     // ...?
